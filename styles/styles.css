@@ -211,7 +211,7 @@ a:hover {
 a.button:any-link,
 button {
   display: inline-block;
-  max-width: 100%;
+  max-width: 50%;
   cursor: pointer;
   text-align: center;
   justify-content: center;
