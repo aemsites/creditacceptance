@@ -1,3 +1,7 @@
+.quick-links-container {
+    padding: 0 12px; 
+}
+
 .quick-links nav ul {
     display: flex;
     flex-wrap: wrap;
