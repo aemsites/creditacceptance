@@ -391,7 +391,11 @@ function wrapTextNodes(block) {
  * @param {Element} element container element
  */
 function decorateButtons(element) {
+  const selfDecoratingBlocks = ['marquee'];
   element.querySelectorAll('a').forEach((a) => {
+    // check if a is in a block that decorates itself
+    const isInBlock = selfDecoratingBlocks.some((block) => a.closest(`.${block}`));
+    if (isInBlock) return;
     a.title = a.title || a.textContent;
     if (a.href !== a.textContent) {
       const up = a.parentElement;
