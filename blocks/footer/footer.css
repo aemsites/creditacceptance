@@ -1,20 +1,126 @@
 footer {
-  background-color: var(--light-color);
+  background-color: var(--background-color);
   font-size: var(--body-font-size-xs);
 }
 
 footer .footer > div {
   margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+  padding: 40px 12px 12px;
 }
 
 footer .footer p {
   margin: 0;
 }
 
-@media (width >= 900px) {
+.footer .default-content-wrapper ul{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-inline: -12px;
+    margin-block: 0 16px;
+}
+
+.footer .default-content-wrapper ul li {
+    padding-inline: 12px;
+    list-style-type: none;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 24px;
+    color: #3d5470;
+    width: 100%;
+}
+
+.footer .default-content-wrapper ul li:not(:last-child){
+        border-right: 1px solid #1b1b1b;
+}
+
+.footer .default-content-wrapper p ,
+.footer .default-content-wrapper ul li a {
+    font-size: 12px;
+    font-weight: 500;
+    color: #3d5470;
+}
+
+.footer .default-content-wrapper p {
+    margin-block-end: 16px;
+}
+
+.footer .default-content-wrapper .footer-images-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    margin-block-start: 24px;
+    padding-block: 48px;
+
+}
+
+.footer .default-content-wrapper .footer-images-container a {
+    flex-shrink: 0;
+}
+
+.footer .footer-images-container .icon {
+    width: unset;
+    height: unset;
+}
+
+.footer .accordion.sitemap {
+    padding-block-end: 48px;
+}
+
+.footer .accordion.sitemap details {
+    border: none;
+}
+
+.footer .accordion.sitemap details+details {
+    margin-top: 0;
+}
+
+.footer .accordion.sitemap details summary {
+    border-bottom: 5px dotted #2B4361;
+    font-family: var(--ff-acceptance-extra-bold);
+    font-weight: 700;
+    padding-block: 16px;
+    color: #2b4361;
+}
+
+.footer .accordion.sitemap details summary p {
+    margin: 0;
+}
+
+.footer .accordion.sitemap .accordion-item-body {
+    margin-block-start: 16px;
+}
+
+.footer .accordion.sitemap .accordion-item-body ul {
+    padding: 0;
+    margin: 0 0 16px;
+}
+
+.footer .accordion.sitemap .accordion-item-body ul li {
+    list-style-type: none;
+    padding-block-end: 8px;
+}
+
+.footer .accordion.sitemap .accordion-item-body a {
+    font-size: 14px;
+    color: #1b1b1b;
+}
+
+@media screen and (width >= 768px) {
+    .footer .default-content-wrapper ul li {
+        width: auto;
+    } 
+}
+
+@media (width >= 992px) {
   footer .footer > div {
     padding: 40px 32px 24px;
   }
+
+
+    footer .footer .accordion.sitemap {
+        padding-inline: 72px;
+    }
 }
