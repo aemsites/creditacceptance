@@ -54,6 +54,13 @@
   --secondary-btn-border: #2b4361;
   --secondary-btn-border-hover: #0A293B;
   --very-light-gray: #fcfcfc;
+  --black-olive: #171714;
+  --pure-white: #fff;
+  --pure-black: #000;
+  --primary-black: #171714;
+  --secondary-brown: #e8e8e0;
+  --credit-violet: #14A1C8;
+  --credit-indigo: #2b4361;
 
   /* fonts */
   --body-font-family: 'Visibly Regular', visby-regular-fallback, sans-serif;
