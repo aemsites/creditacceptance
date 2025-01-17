@@ -44,7 +44,7 @@
 }
 
 .quick-links a.quick-links-item:hover .icon-masked {
-    background-color: var(--background-color);
+    background-color: var(--pure-white);
 }
 
 @media (width >=992px) {
