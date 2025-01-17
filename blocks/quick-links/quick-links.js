@@ -1,3 +1,4 @@
+import { addStyles } from "../../libs/utils/utils";
 export default function decorate(block) {
   const nav = document.createElement('nav');
   const ul = document.createElement('ul');
@@ -27,13 +28,6 @@ export default function decorate(block) {
 
   block.innerHTML = '';
   block.append(nav);
-}
-
-function addStyles(path) {
-  const link = document.createElement('link');
-  link.setAttribute('rel', 'stylesheet');
-  link.href = path;
-  return link;
 }
 
 // expose as a web component
