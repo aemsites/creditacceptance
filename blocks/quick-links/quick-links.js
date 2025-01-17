@@ -1,4 +1,5 @@
-import { addStyles } from "../../libs/utils/utils";
+import { addStyles } from '../../libs/utils/utils.js';
+
 export default function decorate(block) {
   const nav = document.createElement('nav');
   const ul = document.createElement('ul');
