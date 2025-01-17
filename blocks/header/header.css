@@ -196,7 +196,7 @@ header nav .nav-sections ul > li:hover{
 
 header nav .nav-sections ul > li > span, 
 header .nav-tools li > a,
-a.link{
+header nav a.link {
   font-weight: 600;
   color: var(--black-olive);
   font-size: 12px;
