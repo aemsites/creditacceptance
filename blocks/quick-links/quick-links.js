@@ -28,3 +28,25 @@ export default function decorate(block) {
   block.innerHTML = '';
   block.append(nav);
 }
+
+function addStyles(path) {
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.href = path;
+  return link;
+}
+
+// expose as a web component
+class AEMQuickLinksWebComponent extends HTMLElement {
+  // connect component
+  async connectedCallback() {
+    const shadow = this.attachShadow({ mode: 'open' });
+    await decorate(shadow);
+    shadow.prepend(addStyles('/blocks/quick-links/quick-links.css'));
+    shadow.prepend(addStyles('/styles/styles.css'));
+    shadow.prepend(addStyles('/styles/fonts.css'));
+  }
+}
+
+// register component
+customElements.define('aem-quick-links', AEMQuickLinksWebComponent);
