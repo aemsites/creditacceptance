@@ -194,7 +194,9 @@ header nav .nav-sections ul > li:hover{
   color: var(--black-olive);
 }
 
-header nav .nav-sections ul > li > span, header .nav-tools li > a {
+header nav .nav-sections ul > li > span, 
+header .nav-tools li > a,
+a.link{
   font-weight: 600;
   color: var(--black-olive);
   font-size: 12px;
@@ -259,7 +261,7 @@ header .nav-tools li > a {
             padding: 0 16px;
             }
 
-            >li:hover {
+            > li:hover {
                 background-color: rgba(0, 0, 0, 10%);
                 box-shadow: 0 4px #ffb800;
                 border-radius: 4px;
@@ -375,7 +377,8 @@ header .nav-tools li > a {
       margin: 0 !important;
     }
     
-    a.button:any-link{
+    a.link:any-link {
+      display: block;
       padding: .5rem 0;
       font-family: var(--ff-acceptance-demi-bold);
       font-weight: var(--font-weight-bold);
@@ -387,7 +390,7 @@ header .nav-tools li > a {
       text-decoration: none;
     }
 
-    a.button:hover:hover {
+    a.link:hover:hover {
       background-color: var(--light-gray) !important;
     }
 
