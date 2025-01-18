@@ -54,6 +54,7 @@
 @media (width >=960px) {
     .quick-links-container:has(.nav-header) {
         display: block;
+        margin: 0 auto;
     }
 }
 
