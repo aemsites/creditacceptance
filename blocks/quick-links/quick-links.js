@@ -27,8 +27,7 @@ export default function decorate(block) {
     ul.append(li);
   });
 
-  block.innerHTML = '';
-  block.append(nav);
+  block.innerHTML = '<h1>Quick Links</h1>';
 }
 
 // expose as a web component
