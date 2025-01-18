@@ -37,9 +37,9 @@ class AEMQuickLinksWebComponent extends HTMLElement {
   async connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
     await decorate(shadow);
-    shadow.prepend(addStyles('/blocks/quick-links/quick-links.css'));
-    shadow.prepend(addStyles('/styles/styles.css'));
-    shadow.prepend(addStyles('/styles/fonts.css'));
+    shadow.prepend(addStyles('https://web-component--creditacceptance--aemsites.aem.page/blocks/quick-links/quick-links.css'));
+    shadow.prepend(addStyles('https://web-component--creditacceptance--aemsites.aem.page/styles/styles.css'));
+    shadow.prepend(addStyles('https://web-component--creditacceptance--aemsites.aem.page/styles/fonts.css'));
   }
 }
 
