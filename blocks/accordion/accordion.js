@@ -11,6 +11,16 @@ export default function decorate(block) {
     const summary = document.createElement('summary');
     summary.className = 'accordion-item-label';
     summary.append(...label.childNodes);
+
+    const plus = document.createElement('span');
+    plus.className = 'accordion-item-plus';
+    plus.textContent = '+';
+
+    const minus = document.createElement('span');
+    minus.className = 'accordion-item-minus';
+    minus.textContent = '-';
+    summary.prepend(plus, minus);
+
     // decorate accordion item body
     const body = row.children[1];
     body.className = 'accordion-item-body';
