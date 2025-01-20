@@ -47,6 +47,17 @@
     background-color: var(--pure-white);
 }
 
+.quick-links-container:has(.nav-header) {
+    display: none;
+}
+
+@media (width >=960px) {
+    .section.quick-links-container:has(.nav-header) {
+        display: block;
+        margin: 5px auto;
+    }
+}
+
 @media (width >=992px) {
     .quick-links nav ul {
         gap: 16px;

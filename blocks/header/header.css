@@ -6,7 +6,6 @@ header .nav-wrapper {
   background-color: var(--light-gray);
   width: 100%;
   z-index: 2;
-  position: fixed;
 }
 
 header nav {
@@ -18,9 +17,8 @@ header nav {
   align-items: center;
   gap: 0 24px;
   margin: auto;
-  max-width: 1248px;
   height: var(--nav-height);
-  padding: 0 24px;
+  padding: 0 12px;
   font-family: var(--body-font-family);
 }
 
@@ -166,7 +164,7 @@ header .nav-brand {
 }
 
 header nav .nav-brand img {
-  width: 128px;
+  width: auto;
   height: auto;
 }
 
@@ -223,8 +221,6 @@ header .nav-tools li > a {
     display: flex;
     justify-content: space-between;
     gap: 0 32px;
-    max-width: 1264px;
-    padding: 0 32px;
   }
 
   header nav[aria-expanded='true'] {
@@ -366,6 +362,7 @@ header .nav-tools li > a {
     min-width: fit-content;
     padding-bottom: 20px;
     box-shadow: 0 5px 5px -3px #0003,0 8px 10px 1px #00000024,0 3px 14px 2px #0000001f;
+    z-index: 100;
 
     :has(.columns){
       min-width: 600px;

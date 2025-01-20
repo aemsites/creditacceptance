@@ -25,3 +25,10 @@ export function createTag(tag, attributes, html, options = {}) {
   options.parent?.append(el);
   return el;
 }
+
+export function addStyles(path) {
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.href = path;
+  return link;
+}

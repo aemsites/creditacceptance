@@ -34,6 +34,7 @@
   --ff-acceptance-demi-bold: 'Acceptance DemiBold', acceptance-demi-bold-fallback, sans-serif;
   --ff-acceptance-extra-bold: 'Acceptance ExtraBold', acceptance-extrabold-fallback, sans-serif;
   --ff-acceptance-medium: 'Acceptance Medium', acceptance-medium-normal-400-fallback, sans-serif;
+  --ff-acceptance-regular: 'Acceptance Regular', acceptance-regular-fallback, sans-serif;
   --ff-arial: 'Arial', sans-serif;
 
   /* body sizes */
@@ -45,6 +46,7 @@
   --heading-font-size-xl: 44px;
   --heading-font-size-l: 32px;
   --heading-font-size-m: 22px;
+  --heading-font-size-s: 20px;
 
   /* font weights */
    --font-weight-light: 300;
@@ -128,16 +130,19 @@ h2 {
 }
 
 h3 { 
-  font-size: var(--heading-font-size-medium); 
+  font-size: var(--heading-font-size-m); 
   line-height: 24px;
   margin-bottom: 0.75rem;
 }
 
 h4 { 
-  font-size: var(--heading-font-size-m);
+  font-size: var(--heading-font-size-s);
 }
 
-h5 { font-size: var(--heading-font-size-s); }
+h5 { 
+  font-family: var(--ff-acceptance-regular);
+  font-size: var(--heading-font-size-s); 
+}
 h6 { font-size: var(--heading-font-size-xs); }
 
 p,
@@ -314,6 +319,7 @@ main > .section-outer > .section.width-75 > div {
 @media screen and (width >= 992px) {
     main > .section-outer > .section,
     footer .section-outer > .section,
+    header nav,
     .block .container {
         max-width: 960px;
     }
@@ -334,6 +340,7 @@ main > .section-outer > .section.width-75 > div {
 @media screen and (width >= 1200px) {
     main > .section-outer > .section,
     footer .section-outer > .section,
+    header nav,
     .block .container {
         max-width: 1140px;
     }
@@ -342,6 +349,7 @@ main > .section-outer > .section.width-75 > div {
 @media screen and (width >= 1400px) {
     main > .section-outer > .section,
     footer .section-outer > .section,
+    header nav,
     .block .container {
         max-width: 1320px;
     }
