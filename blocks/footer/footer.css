@@ -71,6 +71,7 @@ footer .footer p {
 
 .footer .accordion.sitemap details {
     border: none;
+    background: none;
 }
 
 .footer .accordion.sitemap details+details {

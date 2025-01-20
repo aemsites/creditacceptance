@@ -1,7 +1,12 @@
 
+.accordion {
+    padding-inline: 16px;
+}
+
 .accordion details {
     border: 1px solid #dadada;
     border-radius: 6px;
+    background-color: var(--very-light-gray);
 }
 
 .accordion details+details {
@@ -12,6 +17,7 @@
     border: none;
     border-bottom: 1px solid var(--secondary-brown);
     margin-block: 20px;
+    background: none;
 }
 
 .accordion details p {
