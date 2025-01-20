@@ -25,7 +25,7 @@ const fixUrl = (a) => {
 };
 
 const transformButtons = (main) => {
-  const buttons = main.querySelectorAll('.rect-btn');
+  const buttons = main.querySelectorAll('.btn-primary');
   buttons.forEach((button) => {
     const p = document.createElement('p');
     const strong = document.createElement('strong');
@@ -62,33 +62,6 @@ const createMetadataBlock = (main, document) => {
   return meta;
 };
 
-const createColumnBlock = (authorContainer) => {
-  const img = authorContainer.querySelector('img');
-  const imgEl = document.createElement('img');
-  if (!img) {
-    imgEl.src = 'http://localhost:3000/icons/author-placeholder.png';
-    imgEl.alt = 'author placeholder';
-  } else {
-    const dataMsrc = img.getAttribute('data-msrc');
-    imgEl.src = dataMsrc;
-    imgEl.alt = img.alt;
-    img.remove();
-  }
-
-  const firstChild = authorContainer.children[0];
-
-  // get second child div of authorContainer
-  const secondChild = authorContainer.children[1];
-  const authorDescription = (secondChild ? secondChild.querySelector('p') : undefined) ? secondChild.querySelector('p') : ' ';
-
-  const cells = [
-    ['Columns'],
-    [imgEl, firstChild, authorDescription],
-  ];
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  return table;
-};
-
 export default {
   /**
          * Apply DOM operations to the provided document and return
@@ -103,24 +76,19 @@ export default {
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
-    const main = document.querySelector('.main-content');
-    // get sibling of .main-content with class .row
-    const authorContainer = main.previousElementSibling;
-    if (!authorContainer.classList.contains('row')) return undefined;
-
-    console.log('authorContainer', authorContainer);
-    const authorTitle = authorContainer.querySelector('h1');
-    authorContainer.querySelector('h1').remove();
-    authorContainer.querySelectorAll('a').forEach(fixUrl);
-    transformButtons(authorContainer);
-    const columnsTable = createColumnBlock(authorContainer);
-    authorContainer.replaceChildren(authorTitle);
-    authorContainer.appendChild(columnsTable);
-    createMetadataBlock(authorContainer, document);
-    WebImporter.DOMUtils.remove(authorContainer, [
+    const main = document.querySelector('legacy-blog-article');
+    //remove app-header, .container having cac-acceptance-card, app-footer
+    WebImporter.DOMUtils.remove(main, [
+      'app-header',
+      '.container:has(cac-acceptance-card)',
+      'app-footer',
+    ]);
+    transformButtons(main);
+    createMetadataBlock(main, document);
+    WebImporter.DOMUtils.remove(main, [
       'noscript',
     ]);
-    return authorContainer;
+    return main;
   },
 
   /**
