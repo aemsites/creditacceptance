@@ -98,6 +98,7 @@ footer .accordion.sitemap details summary .accordion-item-minus {
 
 .footer .accordion.sitemap .accordion-item-body {
     margin-block-start: 16px;
+    padding-inline: 42px 16px;
 }
 
 .footer .accordion.sitemap .accordion-item-body ul {

@@ -96,7 +96,12 @@
 }
 
 .accordion details .accordion-item-body {
-    padding: 0 16px;
+    padding-block: 0;
+    padding-inline: 52px 16px;
+}
+
+.accordion.arrow details .accordion-item-body {
+    padding-inline: 16px;
 }
  
 .accordion details .accordion-item-body > *:first-child {
