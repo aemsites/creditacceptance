@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /*
  * Copyright 2023 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -9,6 +10,24 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import { blogs } from './expressBlogs.mjs';
+
+/**
+ * Returns the relative path from a given path.
+ * If the path is a URL, it extracts the pathname.
+ * @param {string} path - The path to get the relative path from.
+ * @returns {string} - The relative path.
+ */
+export function getRelativePath(path) {
+  let relPath = path;
+  try {
+    const url = new URL(path);
+    relPath = url.pathname;
+  } catch (error) {
+    // do nothing
+  }
+  return relPath;
+}
 
 const fixUrl = (a) => {
   let href = a.getAttribute('href');
@@ -35,7 +54,16 @@ const transformButtons = (main) => {
   });
 };
 
-const createMetadataBlock = (main, document) => {
+const createMetadataBlock = (main, document, url) => {
+  const relativePath = getRelativePath(url);
+  console.log('url ================= ', url);
+  console.log('relativePath ================= ', relativePath);
+
+  const pathArray = relativePath.split('/');
+  console.log('pathArray ================= ', pathArray);
+  const pathArrayLength = pathArray.length;
+  const pathArrayLastElement = pathArray[pathArrayLength - 2];
+  console.log('pathArrayLastElement ================= ', pathArrayLastElement);
   const meta = {};
 
   // find the <title> element
@@ -49,8 +77,40 @@ const createMetadataBlock = (main, document) => {
   if (desc) {
     meta.description = desc.content;
   }
+  console.log('expressLaneBlogs ================= ', blogs);
+  const imgElement = main.querySelector('img');
+  if (imgElement) {
+    const dtImage = imgElement.getAttribute('src');
+    if (dtImage) {
+      const desktopImage = document.createElement('img');
+      desktopImage.src = dtImage;
+      meta.image = desktopImage;
+    }
+  }
+  blogs.forEach((blog) => {
+    blog.tabContent.cardData.forEach((card) => {
+      if (card.cardButton.url.includes(pathArrayLastElement)) {
+        console.log(url, 'blog url: ', card.cardButton.url);
+        meta.category = blog.tabTitle;
+        if (card.imgURL) {
+          const mobileImageUrl = card.imgURL.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
+          const mobileImage = document.createElement('img');
+          mobileImage.src = mobileImageUrl;
+          meta.mobileImage = mobileImage;
+        }
+        if (card.tabletImgUrl) {
+          const tabletImageUrl = card.tabletImgUrl.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
+          const tabletImage = document.createElement('img');
+          tabletImage.src = tabletImageUrl;
+          meta.tabletImage = tabletImage;
+        }
+        meta.imageAlt = card.imgAlt;
+      }
+    });
+  });
 
-  meta.date = getPubDate(document);
+  meta.date = '';
+  meta.tags = [];
 
   // helper to create the metadata block
   const block = WebImporter.Blocks.getMetadataBlock(document, meta);
@@ -58,8 +118,55 @@ const createMetadataBlock = (main, document) => {
   // append the block to the main element
   main.append(block);
 
-  // returning the meta object might be usefull to other rules
+  // returning the meta object might be useful to other rules
   return meta;
+};
+
+const importNewDesing = (document, url, html, params) => {
+  const main = document.querySelector('blog-article');
+  const heroSection = main.querySelector('cac-hero-image');
+  let desktopImage; let mobileImage; let
+    tabletImage;
+  if (heroSection) {
+    const dtImage = heroSection.querySelector('img').getAttribute('src');
+    if (dtImage) {
+      desktopImage = document.createElement('img');
+      desktopImage.src = dtImage;
+      if (dtImage.includes('DesktopHero')) {
+        mobileImage = document.createElement('img');
+        mobileImage.src = dtImage.replace('DesktopHero', 'MobileHero');
+        tabletImage = document.createElement('img');
+        tabletImage.src = dtImage.replace('DesktopHero', 'TabletHero');
+      }
+    }
+  }
+  const marqueeCells = [['Marquee']];
+  const row2 = [];
+  if (desktopImage) row2.push(desktopImage);
+  if (mobileImage) row2.push(mobileImage);
+  if (tabletImage) row2.push(tabletImage);
+  marqueeCells.push(row2);
+
+  const blogContent = document.createElement('div');
+  blogContent.append(main.querySelector('h1'));
+  blogContent.append(main.querySelector('.body-description'));
+  transformButtons(blogContent);
+  const a = document.createElement('a');
+  a.href = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+  a.textContent = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+  const cells = [
+    ['Fragment'],
+    [a],
+  ];
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+  blogContent.append(table);
+  createMetadataBlock(blogContent, document, url);
+  blogContent.querySelectorAll('a').forEach(fixUrl);
+  WebImporter.DOMUtils.remove(blogContent, [
+    'noscript',
+  ]);
+
+  return blogContent;
 };
 
 export default {
@@ -77,18 +184,35 @@ export default {
     document, url, html, params,
   }) => {
     const main = document.querySelector('legacy-blog-article');
-    //remove app-header, .container having cac-acceptance-card, app-footer
-    WebImporter.DOMUtils.remove(main, [
-      'app-header',
-      '.container:has(cac-acceptance-card)',
-      'app-footer',
-    ]);
-    transformButtons(main);
-    createMetadataBlock(main, document);
-    WebImporter.DOMUtils.remove(main, [
+    // if (!main && document.querySelector('blog-article')) {
+    //   return importNewDesing(document, url, html, params);
+    // }
+    if (!main) {
+      return null;
+    }
+    const blogContent = document.createElement('div');
+    // append h1 .body-description of main to blogContent
+    blogContent.append(main.querySelector('h1'));
+    blogContent.append(main.querySelector('.body-description'));
+    transformButtons(blogContent);
+    // append a fragment block table
+    const a = document.createElement('a');
+    a.href = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+    a.textContent = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+    const cells = [
+      ['Fragment'],
+      [a],
+    ];
+    const table = WebImporter.DOMUtils.createTable(cells, document);
+    blogContent.append(table);
+    createMetadataBlock(blogContent, document, url);
+    // Fix URLs
+    blogContent.querySelectorAll('a').forEach(fixUrl);
+    WebImporter.DOMUtils.remove(blogContent, [
       'noscript',
     ]);
-    return main;
+
+    return blogContent;
   },
 
   /**

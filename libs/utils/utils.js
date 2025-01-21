@@ -25,3 +25,20 @@ export function createTag(tag, attributes, html, options = {}) {
   options.parent?.append(el);
   return el;
 }
+
+/**
+ * Returns the relative path from a given path.
+ * If the path is a URL, it extracts the pathname.
+ * @param {string} path - The path to get the relative path from.
+ * @returns {string} - The relative path.
+ */
+export function getRelativePath(path) {
+  let relPath = path;
+  try {
+    const url = new URL(path);
+    relPath = url.pathname;
+  } catch (error) {
+    // do nothing
+  }
+  return relPath;
+}
