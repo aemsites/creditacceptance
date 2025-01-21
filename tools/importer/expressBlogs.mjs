@@ -1395,7 +1395,7 @@ export const blogs = [
           imgAlt: '6 Road Trip Routes For The Summer',
           cardButton: {
             target: '',
-            url: '/blog/consumer/6-road-trip-routes-for-the-summ-1',
+            url: '/blog/consumer/6-road-trip-routes-for-the-summer',
             label: 'Read >',
           },
         },

@@ -32,8 +32,8 @@ export function getRelativePath(path) {
 const fixUrl = (a) => {
   let href = a.getAttribute('href');
   const text = a.textContent;
-
-  if (href.startsWith('/')) {
+  console.log(a, 'href ================= ', href);
+  if (href?.startsWith('/')) {
     href = `https://main--creditacceptance--aemsites.hlx.page/${href}`;
   }
   if (a.href === text) {
@@ -41,6 +41,15 @@ const fixUrl = (a) => {
   }
   a.href = href;
   return a;
+};
+
+const formatLists = (main) => {
+  const lists = main.querySelectorAll('ul, ol');
+  lists.forEach((list) => {
+    list.querySelectorAll('br').forEach((br) => {
+      br.remove();
+    });
+  });
 };
 
 const transformButtons = (main) => {
@@ -195,6 +204,7 @@ export default {
     blogContent.append(main.querySelector('h1'));
     blogContent.append(main.querySelector('.body-description'));
     transformButtons(blogContent);
+    formatLists(blogContent);
     // append a fragment block table
     const a = document.createElement('a');
     a.href = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
