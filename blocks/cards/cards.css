@@ -41,6 +41,10 @@
   transition: .3s transform cubic-bezier(.155,1.105,.295,1.12), .3s box-shadow;
 }
 
+.cards.animation > ul > li:hover {
+  box-shadow: 0 8px 54px #0003, 0 4px 8px #0000003b;
+}
+
 .cards.cards.resources > ul > li .icon {
   display: inline-block;
   height: 100%;
