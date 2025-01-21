@@ -1,7 +1,6 @@
 import {
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -11,6 +10,8 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+
+import { decorateButtons } from '../libs/utils/decorate.js';
 
 /**
  * load fonts.css and set a session storage flag
@@ -102,7 +103,6 @@ export function createOptimizedPicture(
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
-  // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
   decorateSections(main);
