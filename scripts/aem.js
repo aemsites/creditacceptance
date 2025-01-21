@@ -387,46 +387,39 @@ function wrapTextNodes(block) {
 }
 
 /**
- * Decorates paragraphs containing a single link as buttons.
- * @param {Element} element container element
+ * Decorates buttons within a given element by adding
+ * appropriate classes based on their parent elements.
+ *
+ * The function searches for buttons within the provided element that
+ * match the selectors 'em a', 'strong a', and 'p > a strong'.
+ * It then assigns classes to these buttons based on their parent elements
+ * and any custom classes found in the button text.
+ *
+ * @param {HTMLElement} el - container element
  */
-function decorateButtons(element) {
-  const selfDecoratingBlocks = ['marquee'];
-  element.querySelectorAll('a').forEach((a) => {
-    // check if a is in a block that decorates itself
-    const isInBlock = selfDecoratingBlocks.some((block) => a.closest(`.${block}`));
-    if (isInBlock) return;
-    a.title = a.title || a.textContent;
-    if (a.href !== a.textContent) {
-      const up = a.parentElement;
-      const twoup = a.parentElement.parentElement;
-      if (!a.querySelector('img')) {
-        if (up.childNodes.length === 1 && (up.tagName === 'P' || up.tagName === 'DIV')) {
-          a.className = 'button'; // default
-          up.classList.add('button-container');
-        }
-        if (
-          up.childNodes.length === 1
-          && up.tagName === 'STRONG'
-          && twoup.childNodes.length === 1
-          && twoup.tagName === 'P'
-        ) {
-          a.className = 'button primary';
-          twoup.classList.add('button-container');
-          up.replaceWith(...up.childNodes);
-        }
-        if (
-          up.childNodes.length === 1
-          && up.tagName === 'EM'
-          && twoup.childNodes.length === 1
-          && twoup.tagName === 'P'
-        ) {
-          a.className = 'button secondary';
-          twoup.classList.add('button-container');
-          up.replaceWith(...up.childNodes);
-        }
-      }
+function decorateButtons(el) {
+  const buttons = el.querySelectorAll('em a, strong a, p > a strong');
+  if (buttons.length === 0) return;
+  const buttonTypeMap = { STRONG: 'primary', EM: 'secondary', A: 'link' };
+  buttons.forEach((button) => {
+    let target = button;
+    const parent = button.parentElement;
+    const buttonType = buttonTypeMap[parent.nodeName] || 'primary';
+    if (button.nodeName === 'STRONG') {
+      target = parent;
+    } else {
+      parent.insertAdjacentElement('afterend', button);
+      parent.remove();
     }
+    target.classList.add('button', buttonType);
+    const customClasses = target.textContent && [...target.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
+    if (customClasses) {
+      customClasses.forEach((match) => {
+        target.textContent = target.textContent.replace(match[0], '');
+        target.classList.add(match[1]);
+      });
+    }
+    button.parentElement?.classList.add('button-container');
   });
 }
 

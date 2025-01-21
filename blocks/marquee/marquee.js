@@ -1,5 +1,5 @@
 import { createTag } from '../../libs/utils/utils.js';
-import { decorateBlockBg, decorateButtons } from '../../libs/utils/decorate.js';
+import { decorateBlockBg } from '../../libs/utils/decorate.js';
 
 const palette = {
   'brand-blue-light': 'rgb(15, 125, 156)',
@@ -37,7 +37,6 @@ export default function decorate(block) {
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
-  decorateButtons(foreground);
   const buttons = foreground.querySelectorAll('.button');
   buttons.forEach((button) => {
     const actionArea = button.closest('p, div');

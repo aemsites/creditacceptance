@@ -102,7 +102,6 @@ export function createOptimizedPicture(
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
-  // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
   decorateSections(main);

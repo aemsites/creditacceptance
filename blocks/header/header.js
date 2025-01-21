@@ -103,10 +103,19 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
+function decorateSubNav(navSection) {
+  const allSubNavLinks = navSection.querySelectorAll('a');
+  allSubNavLinks.forEach((link) => {
+    link.classList.add('link');
+    link.parentElement?.classList.add('button-container');
+  });
+}
+
 function loadSecondaryNavFragment(navChildFragmentLink, secondaryNav) {
   const navChildFragmentPath = navChildFragmentLink.getAttribute('href');
   loadFragment(navChildFragmentPath).then((fragment) => {
     secondaryNav.append(fragment);
+    decorateSubNav(fragment);
   });
 }
 
@@ -167,6 +176,7 @@ export default async function decorate(block) {
         navSection.append(secondaryNav);
       }
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
+
       navSection.addEventListener('mouseenter', () => {
         if (isDesktop.matches) {
           toggleAllNavSections(navSections);
