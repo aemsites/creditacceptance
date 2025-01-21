@@ -62,6 +62,20 @@ main > .section-outer > .section.tabs-container {
     margin: 0;
 }
 
+.tabs-panel ul, 
+.tabs-panel ol {
+    padding: 0 0 0 1rem;
+    margin: 1rem 0;
+}
+
+.tabs-panel li {
+    margin: .5rem 0;
+}
+
+.tabs-panel .button-container {
+    padding-top: .5rem;
+}
+
 @media screen and (width >= 576px) {
     .tabs .tabs-list .container,
     .tabs-panel-copy {
