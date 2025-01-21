@@ -14,6 +14,9 @@
   /* colors */
   --light-color: #f8f8f8;
   --light-gray: #f8f9fa;
+  --soft-gray: #DBDBD6;
+  --soft-white: #FCFCFA;
+  --medium-gray: #DADADA;
   --gold: #ffb800;
   --mustard: #cf9400;
   --secondary-btn-border: #2b4361;
@@ -353,6 +356,17 @@ main > .section-outer > .section.width-75 > div {
     .block .container {
         max-width: 1320px;
     }
+}
+
+.animation-scale {
+  transform: scale(1);
+  transition: transform 0.15s ease-in-out;
+}
+
+@media (width >= 960px ) {
+  .animation-scale:hover {
+    transform: scale(1.05);
+  }
 }
 
 /* section metadata */
