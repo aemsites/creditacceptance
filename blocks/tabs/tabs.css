@@ -1,58 +1,94 @@
-.tabs .tabs-list {
-    display: flex;
-    gap: 0.5ch;
+main > .section-outer > .section.tabs-container {
     max-width: 100%;
-    font-size: var(--body-font-size-xs);
-    overflow-x: auto;
-  }
-  
-  @media (width >= 600px) {
-    .tabs .tabs-list {
-      font-size: var(--body-font-size-s);
-    }
-  }
-  
-  @media (width >= 900px) {
-    .tabs .tabs-list {
-      font-size: var(--body-font-size-m);
-    }
-  }
-  
-  .tabs .tabs-list button {
+    padding: 0;
+    margin: 0;
+}
+
+.tabs .tabs-list {
+    background: linear-gradient(to bottom, rgba(230 230 230 / 0%), rgba(230 230 230 / 100%));
+}
+
+.tabs .tabs-list .container {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 0;
+}
+
+.tabs .tabs-list .container,
+.tabs-panel-copy {
+    padding-inline: 1rem;
+}
+
+.tabs .tabs-list .container button {
     flex: 0 0 max-content;
     margin: 0;
     border: 1px solid #dadada;
     border-radius: 0;
-    padding: 0.5em;
-    background-color: var(--light-color);
-    color: initial;
+    padding: 12px 8px 8px;
+    background-color: #e8e8e0;
+    color: var(--primary-black);
     font-weight: bold;
     line-height: unset;
+    font-size: 12px;
+    font-family: var(--heading-font-family);
     text-align: initial;
     text-overflow: unset;
     overflow: unset;
     white-space: unset;
     transition: background-color 0.2s;
-  }
+}
   
-  .tabs .tabs-list button p {
-    margin: 0;
-  }
-  
-  
-  .tabs .tabs-list button[aria-selected='true'] {
-    border-bottom: 1px solid var(--background-color);
-    background-color: var(--background-color);
+.tabs .tabs-list .container button[aria-selected='true'] {
+    border-bottom: 1px solid transparent;
+    background-color: white;
     cursor: initial;
-  }
-  
-  .tabs .tabs-panel {
-    margin-top: -1px;
-    padding: 24px;
-    border: 1px solid #dadada;
+}
+
+.tabs .tabs-panel {
     overflow: auto;
-  }
-  
-  .tabs .tabs-panel[aria-hidden='true'] {
+}
+
+.tabs .tabs-panel[aria-hidden='true'] {
     display: none;
-  }
+}
+
+.tabs-panel-flex .tabs-panel-container {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 1rem;
+}
+
+.tabs-panel-flex .tabs-panel-container .tabs-panel-image p {
+    margin: 0;
+}
+
+@media screen and (width >= 576px) {
+    .tabs .tabs-list .container,
+    .tabs-panel-copy {
+        padding-inline: unset;
+    }
+}
+
+/* TODO: This MQ is unconventional */
+@media screen and (width >= 960px) {
+    .tabs .tabs-list {
+        font-size: var(--body-font-size-m);
+    }
+    
+    .tabs .tabs-list .container {
+        gap: 1rem;
+    }
+
+    .tabs .tabs-list .container button {
+        padding: 16px 24px 8px;
+    }
+
+    .tabs-panel-flex .tabs-panel-container {
+        flex-direction: row;
+    }
+
+    .tabs-panel-flex .tabs-panel-container .tabs-panel-copy,
+    .tabs-panel-flex .tabs-panel-container .tabs-panel-image {
+        flex: 50%;
+    }
+}

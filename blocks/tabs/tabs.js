@@ -1,17 +1,15 @@
 // eslint-disable-next-line import/no-unresolved
 import { toClassName } from '../../scripts/aem.js';
+import { createTag } from '../../libs/utils/utils.js';
 
 export default async function decorate(block) {
   // build tablist
-  const tablist = document.createElement('div');
-  tablist.className = 'tabs-list';
-  tablist.setAttribute('role', 'tablist');
-
+  const tabsListContainer = createTag('div', { class: 'container' });
+  const tabsList = createTag('div', { class: 'tabs-list', role: 'tablist' }, tabsListContainer);
   // decorate tabs and tabpanels
   const tabs = [...block.children].map((child) => child.firstElementChild);
   tabs.forEach((tab, i) => {
     const id = toClassName(tab.textContent);
-
     // decorate tabpanel
     const tabpanel = block.children[i];
     tabpanel.className = 'tabs-panel';
@@ -20,28 +18,53 @@ export default async function decorate(block) {
     tabpanel.setAttribute('aria-labelledby', `tab-${id}`);
     tabpanel.setAttribute('role', 'tabpanel');
 
+    const tabPanelContent = tabpanel.children[1];
+    tabPanelContent.classList.add('container');
+    const allChildren = [...tabPanelContent.children];
+    const isLastChildImage = allChildren[allChildren.length - 1].querySelector('img');
+    if (isLastChildImage) {
+      tabPanelContent.classList.add('tabs-panel-flex');
+      const lastChild = allChildren.pop();
+      const copyContainer = createTag('div', { class: 'tabs-panel-copy' }, allChildren);
+      const lastChildContainer = createTag('div', { class: 'tabs-panel-image' }, lastChild);
+      const flexConatiner = createTag('div', { class: 'tabs-panel-container' });
+      flexConatiner.append(copyContainer);
+      flexConatiner.append(lastChildContainer);
+      tabPanelContent.append(flexConatiner);
+    } else {
+      tabPanelContent.classList.add('tabs-panel-copy');
+    }
+
     // build tab button
-    const button = document.createElement('button');
-    button.className = 'tabs-tab';
-    button.id = `tab-${id}`;
-    button.innerHTML = tab.innerHTML;
-    button.setAttribute('aria-controls', `tabpanel-${id}`);
-    button.setAttribute('aria-selected', !i);
-    button.setAttribute('role', 'tab');
-    button.setAttribute('type', 'button');
+    const btnAttrs = {
+      class: 'tabs-tab',
+      id: `tab-${id}`,
+      'aria-controls': `tabpanel-${id}`,
+      'aria-selected': !i,
+      role: 'tab',
+      type: 'button',
+    };
+    const button = createTag('button', btnAttrs, tab.innerText);
     button.addEventListener('click', () => {
-      block.querySelectorAll('[role=tabpanel]').forEach((panel) => {
-        panel.setAttribute('aria-hidden', true);
-      });
-      tablist.querySelectorAll('button').forEach((btn) => {
-        btn.setAttribute('aria-selected', false);
-      });
-      tabpanel.setAttribute('aria-hidden', false);
-      button.setAttribute('aria-selected', true);
+      const currentSelectedButton = tabsList.querySelector('[aria-selected="true"]');
+      if (currentSelectedButton) {
+        currentSelectedButton.setAttribute('aria-selected', 'false');
+        const currentPanelId = currentSelectedButton.getAttribute('aria-controls');
+        if (currentPanelId) {
+          const currentPanel = document.getElementById(currentPanelId);
+          if (currentPanel) currentPanel.setAttribute('aria-hidden', 'true');
+        }
+      }
+      button.setAttribute('aria-selected', 'true');
+      const newPanelId = button.getAttribute('aria-controls');
+      if (newPanelId) {
+        const newPanel = document.getElementById(newPanelId);
+        if (newPanel) newPanel.setAttribute('aria-hidden', 'false');
+      }
     });
-    tablist.append(button);
+    tabsListContainer.append(button);
     tab.remove();
   });
 
-  block.prepend(tablist);
+  block.prepend(tabsList);
 }
