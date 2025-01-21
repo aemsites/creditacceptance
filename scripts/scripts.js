@@ -1,7 +1,6 @@
 import {
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -11,6 +10,8 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+
+import { decorateButtons } from '../libs/utils/decorate.js';
 
 /**
  * load fonts.css and set a session storage flag
