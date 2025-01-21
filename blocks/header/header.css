@@ -46,6 +46,7 @@ header .nav-brand .icon {
 
 /* tools */
 header nav .nav-tools {
+  display: none;
   grid-area: tools;
 
   > .section > .default-content-wrapper{
@@ -211,6 +212,10 @@ header .nav-tools li > a {
   font-family: var(--heading-font-family);
 }
 
+.nav-secondary {
+  display: none;
+}
+
 @media (width >= 960px) {
   header nav .nav-hamburger {
     display: none;
@@ -221,6 +226,10 @@ header .nav-tools li > a {
     display: flex;
     justify-content: space-between;
     gap: 0 32px;
+  }
+
+  header nav .nav-tools {
+    display: block;
   }
 
   header nav[aria-expanded='true'] {
