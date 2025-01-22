@@ -362,7 +362,7 @@ export const blogs = [
           id: 'Article26',
           heading: '',
           title: '5 Things to Know About Car Dealerships',
-          description: 'Car dealerships have solid information on credit scores, trade-in values and financing. Before you visit, here are 5 things to know about car dealerships.',
+          description: 'Car dealerships have solid information on credit scores, trade-in values and financing. Before you visit, here are 5 things to know about car dealerships.',
           imgURL: 'AWS_BUCKET_URL/www/customer-blogs/images/5-things-to-know-about-car-dealership-sm.webp',
           tabletImgUrl: 'AWS_BUCKET_URL/www/customer-blogs/images/5-things-to-know-about-car-dealership-tab.webp',
           imgAlt: '5 Things to Know About Car Dealerships',
@@ -1395,7 +1395,7 @@ export const blogs = [
           imgAlt: '6 Road Trip Routes For The Summer',
           cardButton: {
             target: '',
-            url: '/blog/consumer/6-road-trip-routes-for-the-summer',
+            url: '/blog/consumer/6-road-trip-routes-for-the-summ-1',
             label: 'Read >',
           },
         },
@@ -1552,5 +1552,748 @@ export const blogs = [
         },
       ],
     },
+  },
+];
+
+export const oldNewUrls = [
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-it-works-getting-financed-through-a-dealer-enrolled-with-credit-acceptance',
+    new: 'https://www.creditacceptance.com/blog/consumer/how-it-works-getting-financed-through-a-dealer-enrolled-with-credit-acceptance',
+    Date: '45166',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/car-buying-trends-for-recent-college-grads-and-students',
+    new: 'https://www.creditacceptance.com/blog/dealer/car-buying-trends-for-recent-college-grads-and-students',
+    Date: '45167',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-car-dealers-can-approve-customers-with-bad-credit-or-no-credit',
+    new: 'https://www.creditacceptance.com/blog/dealer/how-car-dealers-can-approve-customers-with-bad-credit-or-no-credit',
+    Date: '45168',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-car-dealerships-can-approve-car-buyers-with-multiple-open-autos-or-repossessions',
+    new: 'https://www.creditacceptance.com/blog/dealer/how-car-dealerships-can-approve-car-buyers-with-multiple-open-autos-or-repossessions',
+    Date: '45169',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-dealerships-can-approve-car-buyers-with-bankruptcy-or-foreclosure',
+    new: 'https://www.creditacceptance.com/blog/dealer/how-dealerships-can-approve-car-buyers-with-bankruptcy-or-foreclosure',
+    Date: '45170',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-dealerships-can-approve-car-buyers-with-unemployment-or-fixed-income',
+    new: 'https://www.creditacceptance.com/blog/dealer/how-dealerships-can-approve-car-buyers-with-unemployment-or-fixed-income',
+    Date: '45171',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-offering-subprime-auto-financing-can-benefit-buy-here-pay-here-dealers',
+    new: 'https://www.creditacceptance.com/blog/dealer/how-offering-subprime-auto-financing-can-benefit-buy-here-pay-here-dealers',
+    Date: '45172',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/working-with-self-employed-car-buyers',
+    new: 'https://www.creditacceptance.com/blog/dealer/working-with-self-employed-car-buyers',
+    Date: '45173',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-things-to-know-when-visiting-the-dealership',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/5-things-to-know-when-visiting-the-dealership',
+    Date: '45174',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-ways-to-build-or-reestablish-your-credit-history',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/5-ways-to-build-or-reestablish-your-credit-history',
+    Date: '45175',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/6-road-trip-routes-for-the-summ-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/6-road-trip-routes-for-the-summer',
+    Date: '45176',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-s-the-better-buy-all-wheel-or-front-wheel-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/all-wheel-or-front-wheel-drive',
+    Date: '45177',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/benefits-of-gas-hybrid-and-electric-vehicles',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/benefits-of-gas-hybrid-and-electric-vehicles',
+    Date: '45178',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/best-times-of-the-year-to-purchase-a-vehicle',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/best-times-of-the-year-to-purchase-a-vehicle',
+    Date: '45179',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-improve-your-credit-budgeting',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/budgeting-and-credit-score',
+    Date: '45180',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/can-i-buy-a-car-after-bankruptcy-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/buying-a-car-after-bankruptcy',
+    Date: '45181',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/buying-a-car-out-of-state-what-to-know',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/buying-a-car-out-of-state-what-to-know',
+    Date: '45182',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/buying-a-car-with-bad-credit-or-no-credit',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/buying-a-car-with-bad-credit-or-no-credit',
+    Date: '45183',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/can-i-buy-a-car-with-no-down-payment-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/buying-car-no-down-payment',
+    Date: '45184',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/can-i-buy-a-car-with-multiple-repossessions-in-my-credit-history-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/buying-car-with-multiple-repossessions',
+    Date: '45185',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-auto-financing-can-impact-your-credit-history',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/can-you-finance-vehicle-with-no-hard-inquiry',
+    Date: '45186',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/car-buying-dos-and-don-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/car-buying-dos-and-donts',
+    Date: '45187',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/used-car-buying-resources',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/car-buying-resources',
+    Date: '45188',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/a-complete-auto-financing-guide-for-first-time-car-buyers',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/car-financing-tips',
+    Date: '45189',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-car-gift-ideas-for-the-holidays',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/car-gift-ideas',
+    Date: '45190',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/getting-car-insurance-5-things-to-consider',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/car-insurance',
+    Date: '45191',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/does-my-employment-status-impact-my-ability-to-buy-a-car-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/car-loan-proof-of-income',
+    Date: '45192',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/checking-the-vehicle-history-report-on-a-used-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/checking-history-report-on-a-used-car',
+    Date: '45193',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/cosigner',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/cosigner',
+    Date: '45194',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-protecting-yourself-against-fraud-can-protect-your-credit',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/credit-fraud-detection',
+    Date: '45195',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/why-you-should-know-your-credit-history-before-buying-a-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/credit-history',
+    Date: '45196',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-common-credit-myths-debunk-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/credit-myths-debunked',
+    Date: '45197',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-should-i-do-if-i-keep-getting-turned-down-for-auto-financing-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/denied-auto-financing-what-to-do',
+    Date: '45198',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-s-the-difference-between-a-car-loan-and-auto-financing-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/difference-between-car-loan-and-financing',
+    Date: '45199',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-is-the-difference-between-my-credit-report-and-credit-score-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/difference-between-credit-report-and-credit-score',
+    Date: '45200',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-getting-into-a-car-accident-can-affect-your-auto-insurance',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/does-car-insurance-go-up-after-accident',
+    Date: '45201',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/top-dog-friendly-cars-of-2021',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/dog-friendly-cars',
+    Date: '45202',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/do-taxes-affect-your-credit-score-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/do-taxes-affect-your-credit-score',
+    Date: '45203',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-estimate-your-car-insurance-costs-before-purchasing-a-vehicle',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/estimating-car-insurance',
+    Date: '45204',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/3-factors-to-consider-when-choosing-a-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/factors-when-choosing-a-car',
+    Date: '45205',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-financing-a-car-through-a-dealer-on-the-credit-acceptance-program-can-help-rebuild-your-credit',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/financing-car-can-help-rebuild-credit',
+    Date: '45206',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-common-mistakes-to-avoid-as-a-first-time-car-buyer',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/first-time-car-buyer-mistakes',
+    Date: '45207',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/4-things-first-time-car-drivers-should-kn-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/first-time-car-buyer-what-you-should-know',
+    Date: '45208',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-foods-you-can-eat-in-your-car-without-making-a-mess',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/foods-in-car-without-mess',
+    Date: '45209',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/gas-vs-electric-car-facts',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/gas-vs-electric-car-facts',
+    Date: '45210',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/3-simple-steps-to-start-your-approval-for-your-next-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/get-approved-for-next-car',
+    Date: '45211',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/good-vs-bad-ways-to-use-credit',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/good-credit-habits',
+    Date: '45212',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/used-cars-under-10k-for-first-time-car-buyers-on-a-budget',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/good-first-time-carss',
+    Date: '45213',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/the-basics-of-how-credit-works',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-credit-works',
+    Date: '45214',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-much-time-do-you-spend-in-your-car-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-much-to-spend-on-a-car',
+    Date: '45215',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-often-should-you-change-your-oil-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-often-should-you-change-your-oil',
+    Date: '45216',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-often-should-you-get-a-car-wash-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-often-should-you-get-a-car-wash',
+    Date: '45217',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-often-should-you-get-your-car-detailed-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-often-should-you-get-your-car-detailed',
+    Date: '45218',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-often-should-you-get-your-tires-rotated-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-often-should-you-get-your-tires-rotated',
+    Date: '45219',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-build-your-credit-history-after-college',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-build-your-credit-history-after-college',
+    Date: '45220',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-calculate-the-gas-cost-of-a-road-trip',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-calculate-mpg',
+    Date: '45221',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-change-a-flat-tire',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-change-a-flat-tire',
+    Date: '45222',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-do-i-know-if-i-have-bad-credit-or-no-credit-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-check-credit-score',
+    Date: '45223',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/why-it-s-important-to-check-the-odometer-before-purchasing-a-used-c-2',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-check-mileage-of-a-car',
+    Date: '45224',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-clean-your-car-s-engine',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-clean-engine-bay',
+    Date: '45225',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-determine-your-car-budget',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-determine-your-car-budget',
+    Date: '45226',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-can-i-fix-the-rust-on-my-used-car-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-fix-rust-on-car',
+    Date: '45227',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-improve-your-credit-establishing-credit-history',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-improve-your-credit-establishing-credit-history',
+    Date: '45228',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-improve-your-credit-fixing-errors-on-your-credit-report',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-improve-your-credit-fixing-errors-on-your-credit-report',
+    Date: '45229',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-improve-your-credit-paying-down-debt',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-improve-your-credit-paying-down-debt',
+    Date: '45230',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-increase-your-chances-of-getting-approved-for-auto-financing',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-increase-your-chances-of-getting-approved-for-auto-financing',
+    Date: '45231',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-reduce-your-vehicle-wear-and-tear-with-car-maintenance',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-maintain-a-car',
+    Date: '45232',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-narrow-down-your-options-when-shopping-for-a-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-narrow-down-car-choices',
+    Date: '45233',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-parallel-park-your-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-parallel-park',
+    Date: '45234',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-pay-off-your-car-financing-faster',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-pay-off-your-car-faster',
+    Date: '45235',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-protect-your-car-from-getting-stolen',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-protect-your-car-from-getting-stolen',
+    Date: '45236',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-rebuild-your-credit-after-bankruptcy',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-rebuild-your-credit-after-bankruptcy',
+    Date: '45237',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-rebuild-your-credit-after-repossession',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-rebuild-your-credit-after-repossession',
+    Date: '45238',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-register-your-vehicle',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-register-your-vehicle',
+    Date: '45239',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-set-realistic-financial-goals-that-may-help-improve-your-credit',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-set-realistic-financial-goals-that-may-help-improve-your-credit',
+    Date: '45240',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-trade-in-your-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/how-to-trade-in-your-car',
+    Date: '45241',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/is-now-the-right-time-for-you-to-buy-a-car-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/is-now-the-right-time-for-you-to-buy-a-car',
+    Date: '45242',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/key-information-you-ll-find-in-your-car-manual',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/key-information-you-ll-find-in-your-car-manual',
+    Date: '45243',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-is-the-minimum-employment-length-for-credit-approval-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/length-of-employment-for-car-financing',
+    Date: '45244',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/long-lasting-vehicles-of-2021',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/longest-lasting-vehicles',
+    Date: '45245',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/maintain-or-trade-evaluating-the-cost-of-repairing-vs-trading-in-your-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/maintain-or-trade-evaluating-the-cost-of-repairing-vs-trading-in-your-car',
+    Date: '45246',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/pros-and-cons-of-online-car-shopping',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/online-car-shopping',
+    Date: '45247',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-prep-your-car-for-the-fall-and-winter-weather',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/preparing-cars-for-winter',
+    Date: '45248',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-keep-your-windshield-from-freezing-during-the-winter',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/preventing-frost-on-windshield',
+    Date: '45249',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-keep-your-parked-car-cool-during-the-summer',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/protecting-your-car-from-sun',
+    Date: '45250',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/5-key-questions-to-ask-the-dealer-during-the-car-buying-proce-2',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/questions-for-car-dealers',
+    Date: '45251',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/rebuilding-your-credit-with-bad-credit-history',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/rebuilding-your-credit-with-bad-credit-history',
+    Date: '45252',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-remove-dings-dents-from-your-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/remove-dent-from-car',
+    Date: '45253',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/will-self-driving-cars-replace-human-operated-cars-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/self-driving-cars',
+    Date: '45254',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/should-i-buy-a-new-or-used-car-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/should-i-buy-a-new-or-used-car',
+    Date: '45255',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/should-you-check-your-credit-score-before-purchasing-a-vehicle-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/should-you-check-your-credit-score-before-purchasing-a-vehicle-',
+    Date: '45256',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/signs-you-re-falling-into-a-bad-credit-cycle',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/signs-you-re-falling-into-a-bad-credit-cycle',
+    Date: '45257',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/auto-financing-101-how-does-interest-work-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/simple-interest-financing',
+    Date: '45258',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/the-difference-between-direct-and-indirect-auto-financing',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/the-difference-between-direct-and-indirect-auto-financing',
+    Date: '45259',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/the-difference-between-leasing-and-auto-financi-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/the-difference-between-leasing-and-auto-financi-1',
+    Date: '45260',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/the-right-car-for-your-lifesty-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/the-right-car-for-your-lifesty',
+    Date: '45261',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/the-ultimate-guide-to-buy-a-car-and-improve-your-credit',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/the-ultimate-guide-to-buy-a-car-and-improve-your-credit',
+    Date: '45262',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/thinking-of-buying-a-new-or-used-car-let-s-weigh-your-options-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/thinking-of-buying-a-new-or-used-car-let-s-weigh-your-options',
+    Date: '45263',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/top-car-safety-features-for-teen-drivers',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/top-car-safety-features-for-teen-drivers',
+    Date: '45264',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/top-eco-friendly-cars-that-won-t-break-the-bank',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/top-eco-friendly-cars',
+    Date: '45265',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/top-family-cars-suvs-to-consider-when-car-buying',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/top-family-cars-and-suvs',
+    Date: '45266',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/trunk-or-treat-decorating-ideas-for-your-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/trunk-or-treat-ideas',
+    Date: '45267',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/understanding-your-car-payment-interest-bearing-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/understanding-your-car-payment-interest-bearing',
+    Date: '45268',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/understanding-your-car-payment-precomputed-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/understanding-your-car-payment-precomputed',
+    Date: '45269',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-get-used-car-financing',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/used-car-financing',
+    Date: '45270',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/strangest-looking-cars-of-all-time',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/weird-cars',
+    Date: '45271',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-determine-your-monthly-car-payment-when-purchasing-a-vehic-2',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-cars-can-I-afford',
+    Date: '45272',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-documents-do-i-need-to-purchase-a-vehicle-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-documents-do-i-need-to-purchase-a-vehicle',
+    Date: '45273',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-factors-affect-my-car-payments-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-factors-affect-my-car-payments',
+    Date: '45274',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-happens-if-you-crash-a-car-during-a-test-drive-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-happens-if-you-crash-a-car-during-a-test-drive',
+    Date: '45275',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/why-is-a-car-title-important-',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-is-a-car-title',
+    Date: '45276',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/how-to-make-the-perfect-tailgating-kit-for-your-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-to-bring-when-tailgating',
+    Date: '45277',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-to-know-when-applying-for-auto-financing',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-to-know',
+    Date: '45278',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/what-to-know-before-buying-a-car',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/what-to-know-before-buying-a-car',
+    Date: '45279',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/3-simple-steps-to-start-your-approval-for-your-next-c-1',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/why-choose-an-enrolled-dealer',
+    Date: '45280',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/consumer/the-price-you-pay-for-free-winning-a-car-on-a-gameshow',
+    new: 'https://www.creditacceptance.com/car-buyers/express-lane/winning-a-car-and-taxes',
+    Date: '45281',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/3-effective-ways-to-improve-your-car-sales',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/3-effective-ways-to-improve-your-car-sales',
+    Date: '45282',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/3-ways-to-improve-your-car-dealership-s-cash-flow',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/3-ways-to-improve-your-car-dealership-s-cash-flow',
+    Date: '45283',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/4-keys-to-having-a-successful-inventory-reconditioning-process',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/5-keys-to-having-a-successful-inventory-reconditioning-process',
+    Date: '45284',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/2020-auto-industry-trends-for-new-and-used-cars',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/auto-industry-trends-for-new-and-used-cars',
+    Date: '45285',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/benefits-of-having-an-automotive-crm-system-at-your-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/benefits-of-having-an-automotive-crm-system-at-your-dealership',
+    Date: '45286',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/benefits-of-working-with-a-subprime-finance-company',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/benefits-of-working-with-a-subprime-finance-company',
+    Date: '45287',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/car-buying-trends-for-gen-z',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/car-buying-trends-for-gen-z',
+    Date: '45288',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/car-buying-trends-for-millennials-1',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/car-buying-trends-for-millennials-1',
+    Date: '45289',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/car-selling-101-how-to-maintain-repeat-and-referral-business-for-your-dealersh-1',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/car-selling-101-how-to-maintain-repeat-and-referral-business-for-your-dealersh-1',
+    Date: '45290',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/creative-ways-to-build-brand-awareness-for-your-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/creative-ways-to-build-brand-awareness-for-your-dealership',
+    Date: '45291',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/different-trends-of-male-and-female-car-buyers',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/different-trends-of-male-and-female-car-buyers',
+    Date: '45292',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-does-the-credit-acceptance-program-work-',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-does-the-credit-acceptance-program-work-',
+    Date: '45293',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-the-credit-acceptance-portfolio-program-can-help-your-bhph-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-the-credit-acceptance-portfolio-program-can-help-your-bhph-dealership',
+    Date: '45294',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-the-credit-acceptance-portfolio-program-can-help-your-franchise-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-the-credit-acceptance-portfolio-program-can-help-your-franchise-dealership',
+    Date: '45295',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-the-credit-acceptance-portfolio-program-can-help-your-independent-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-the-credit-acceptance-portfolio-program-can-help-your-independent-dealership',
+    Date: '45296',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-to-equip-your-car-dealership-to-maintain-compliance',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-to-equip-your-car-dealership-to-maintain-compliance',
+    Date: '45297',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-to-help-car-buyers-with-auto-financing',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-to-help-car-buyers-with-auto-financing',
+    Date: '45298',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-to-secure-financing-options-for-your-car-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/how-to-secure-financing-options-for-your-car-dealership',
+    Date: '45299',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/improving-customer-retention-at-your-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/improving-customer-retention-at-your-dealership',
+    Date: '45300',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/increasing-used-car-sales-at-your-franchise-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/increasing-used-car-sales-at-your-franchise-dealership',
+    Date: '45301',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/listening-to-understand-your-customers-vs-listening-to-sell',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/listening-to-understand-your-customers-vs-listening-to-sell',
+    Date: '45302',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/how-to-create-a-positive-team-atmosphere-in-your-car-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/positive-team-atmosphere',
+    Date: '45303',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/preparing-your-car-dealership-for-tax-season-in-3-simple-ste-1',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/preparing-your-car-dealership-for-tax-season-in-3-simple-ste-1',
+    Date: '45304',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/preparing-your-car-dealership-for-tax-season-in-3-simple-steps',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/preparing-your-car-dealership-for-tax-season-in-3-simple-steps',
+    Date: '45305',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/questions-to-ask-customers-looking-to-buy-a-car',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/questions-to-ask-customers-looking-to-buy-a-car',
+    Date: '45306',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/subprime-car-financing-can-help-your-dealership-and-your-customers',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/subprime-car-financing',
+    Date: '45307',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/top-5-ways-your-car-dealership-can-generate-leads',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/top-5-ways-your-car-dealership-can-generate-leads',
+    Date: '45308',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/ways-to-train-your-car-dealership-staff-effectively',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/train-car-dealership-staff',
+    Date: '45309',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/what-bhph-dealers-should-know-about-subprime-financing',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/what-bhph-dealers-should-know-about-subprime-financing',
+    Date: '45310',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/why-lead-generation-is-important-for-your-car-dealership',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/why-lead-generation-is-important-for-your-car-dealership',
+    Date: '45311',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/why-your-dealership-website-should-be-mobile-friendly',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/why-your-dealership-website-should-be-mobile-friendly',
+    Date: '45312',
+  },
+  {
+    old: 'https://www.creditacceptance.com/blog/dealer/working-with-first-time-car-buyers-with-no-credit',
+    new: 'https://www.creditacceptance.com/dealers/the-lot/working-with-first-time-car-buyers-with-no-credit',
+    Date: '45313',
   },
 ];

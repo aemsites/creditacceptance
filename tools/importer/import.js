@@ -10,7 +10,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { blogs } from './expressBlogs.mjs';
+import { blogs, oldNewUrls } from './expressBlogs.mjs';
 
 /**
  * Returns the relative path from a given path.
@@ -32,7 +32,6 @@ export function getRelativePath(path) {
 const fixUrl = (a) => {
   let href = a.getAttribute('href');
   const text = a.textContent;
-  console.log(a, 'href ================= ', href);
   if (href?.startsWith('/')) {
     href = `https://main--creditacceptance--aemsites.hlx.page/${href}`;
   }
@@ -65,14 +64,18 @@ const transformButtons = (main) => {
 
 const createMetadataBlock = (main, document, url) => {
   const relativePath = getRelativePath(url);
-  console.log('url ================= ', url);
-  console.log('relativePath ================= ', relativePath);
+  // format of oldNewUrls is: [
+  //   {
+  //     old: 'https://www.creditacceptance.com/blog/consumer/how-it-works-getting-financed-through-a-dealer-enrolled-with-credit-acceptance',
+  //     new: 'https://www.creditacceptance.com/blog/consumer/how-it-works-getting-financed-through-a-dealer-enrolled-with-credit-acceptance',
+  //     Date: '45166',
+  //   },
+  // ]
 
+  // match relativePath with new url and get the corresponding old url
   const pathArray = relativePath.split('/');
-  console.log('pathArray ================= ', pathArray);
-  const pathArrayLength = pathArray.length;
-  const pathArrayLastElement = pathArray[pathArrayLength - 2];
-  console.log('pathArrayLastElement ================= ', pathArrayLastElement);
+  const pathArrayLastElement = pathArray[pathArray.length - 2];
+  const oldUrlObject = oldNewUrls.find((oldNewUrl) => oldNewUrl.new.includes(pathArrayLastElement));
   const meta = {};
 
   // find the <title> element
@@ -86,7 +89,6 @@ const createMetadataBlock = (main, document, url) => {
   if (desc) {
     meta.description = desc.content;
   }
-  console.log('expressLaneBlogs ================= ', blogs);
   const imgElement = main.querySelector('img');
   if (imgElement) {
     const dtImage = imgElement.getAttribute('src');
@@ -96,29 +98,42 @@ const createMetadataBlock = (main, document, url) => {
       meta.image = desktopImage;
     }
   }
-  blogs.forEach((blog) => {
-    blog.tabContent.cardData.forEach((card) => {
-      if (card.cardButton.url.includes(pathArrayLastElement)) {
-        console.log(url, 'blog url: ', card.cardButton.url);
-        meta.category = blog.tabTitle;
-        if (card.imgURL) {
-          const mobileImageUrl = card.imgURL.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
-          const mobileImage = document.createElement('img');
-          mobileImage.src = mobileImageUrl;
-          meta.mobileImage = mobileImage;
+  if (oldUrlObject) {
+    const oldUrl = oldUrlObject.old;
+    const date = oldUrlObject.Date;
+    console.log('date: ', date);
+    // convert above excel date to format 'MM/DD/YYYY'
+    const dateObj = new Date((date - 25567) * 86400 * 1000);
+    dateObj.setUTCDate(dateObj.getUTCDate() - 2); // Adjust for the discrepancy
+    const month = dateObj.getUTCMonth() + 1;
+    const day = dateObj.getUTCDate();
+    const year = dateObj.getUTCFullYear();
+    const newdate = `${month}/${day}/${year}`;
+    console.log('new date: ', newdate);
+    blogs.forEach((blog) => {
+      blog.tabContent.cardData.forEach((card) => {
+        if (oldUrl.includes(card.cardButton.url)) {
+          console.log(url, 'blog url: ', card.cardButton.url);
+          meta.category = blog.tabTitle;
+          if (card.imgURL) {
+            const mobileImageUrl = card.imgURL.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
+            const mobileImage = document.createElement('img');
+            mobileImage.src = mobileImageUrl;
+            meta.mobileImage = mobileImage;
+          }
+          if (card.tabletImgUrl) {
+            const tabletImageUrl = card.tabletImgUrl.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
+            const tabletImage = document.createElement('img');
+            tabletImage.src = tabletImageUrl;
+            meta.tabletImage = tabletImage;
+          }
+          meta.date = newdate;
+          meta.imageAlt = card.imgAlt;
         }
-        if (card.tabletImgUrl) {
-          const tabletImageUrl = card.tabletImgUrl.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
-          const tabletImage = document.createElement('img');
-          tabletImage.src = tabletImageUrl;
-          meta.tabletImage = tabletImage;
-        }
-        meta.imageAlt = card.imgAlt;
-      }
+      });
     });
-  });
+  }
 
-  meta.date = '';
   meta.tags = [];
 
   // helper to create the metadata block
