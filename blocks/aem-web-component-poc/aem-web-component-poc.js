@@ -40,6 +40,7 @@ class CustomBlockModifier extends HTMLElement {
     this.shadow.appendChild(css);
 
     const rawHTML = this.innerHTML;
+    const dataAttribute = this.getAttribute('data-aem-test');
 
     // remove undecoated HTML
     this.innerHTML = '';
@@ -48,6 +49,12 @@ class CustomBlockModifier extends HTMLElement {
     const block = createTag('div', null, rawHTML);
     block.classList.add('aem-web-component-poc');
     decorate(block);
+
+    // adding data attribute/prop value separately in the block
+    const dataAttr = createTag('div', { class: 'aem-web-component-poc-data-attribute' });
+    dataAttr.textContent = dataAttribute;
+    block.append(dataAttr);
+
     this.shadow.append(block);
   }
 }
