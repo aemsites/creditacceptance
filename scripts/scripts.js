@@ -36,6 +36,20 @@ export function getOrigin() {
 }
 
 /**
+ * Retrieves the content of metadata tags.
+ * @param {string} name The metadata name (or property)
+ * @param {Document} doc Document object to query for metadata. Defaults to the window's document
+ * @returns {string} The metadata value(s)
+ */
+function getMetadata(name, doc = document) {
+  const attr = name && name.includes(':') ? 'property' : 'name';
+  const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)]
+    .map((m) => m.content)
+    .join(', ');
+  return meta || '';
+}
+
+/**
  * Returns the true of the current page in the browser.mac
  * If the page is running in a iframe with srcdoc,
  * the ancestor origin + the path query param is returned.
@@ -110,15 +124,57 @@ export function decorateMain(main) {
 }
 
 /**
+ * Sanitizes a string for use as class name.
+ * @param {string} name The unsanitized string
+ * @returns {string} The class name
+ */
+function toClassName(name) {
+  return typeof name === 'string'
+    ? name
+      .toLowerCase()
+      .replace(/[^0-9a-z]/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+    : '';
+}
+
+/**
+ * Loads the template module.
+ * @param {string} templateName The template name
+ * Need to add the template name to the validTemplates array.
+ */
+const validTemplates = [
+  'blog-page',
+];
+async function loadTemplate() {
+  const templateName = toClassName(getMetadata('template'));
+  if (templateName && validTemplates.includes(templateName)) {
+    try {
+      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/templates/${templateName}/${templateName}.css`);
+      const mod = await import(
+        `${window.hlx.codeBasePath}/templates/${templateName}/${templateName}.js`
+      );
+      await cssLoaded;
+      return mod;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(`failed to load template ${templateName}`, error);
+    }
+  }
+  return undefined;
+}
+
+/**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  const templateModule = await loadTemplate();
   const main = doc.querySelector('main');
   if (main) {
-    decorateMain(main);
+    decorateMain(main, templateModule);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }

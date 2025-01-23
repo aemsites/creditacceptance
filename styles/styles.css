@@ -32,6 +32,9 @@
   --credit-indigo: #2b4361;
   --credit-iconography-blue: #40ABDE;
   --button-bg-blue: #c4eefa;
+  --orange: #fa6400;
+  --aqua: #0f7d9c;
+  --dark-gray: #666663;
 
   /* fonts */
   --body-font-family: 'Visibly Regular', visby-regular-fallback, sans-serif;
@@ -160,6 +163,21 @@ blockquote {
   margin-bottom: 0.25em;
 }
 
+a:any-link {
+  color: var(--aqua);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+a:any-link:visited {
+  color: var(--dark-gray);
+}
+
+a:any-link:hover {
+  color: var(--credit-indigo);
+  text-decoration: underline;
+}
+
 p {
   font-size: var(--body-font-size-m);
   line-height: 26px;
@@ -191,16 +209,6 @@ button {
 }
 
 /* links */
-a:any-link {
-  color: var(--link-color);
-  text-decoration: none;
-  word-break: break-word;
-}
-
-a:hover {
-  color: var(--link-hover-color);
-  text-decoration: underline;
-}
 
 /* buttons */
 a.button:any-link,
@@ -291,6 +299,7 @@ footer .section-outer > .section,
 .block .container {
   max-width: 100%;
   margin: 40px auto;
+  padding: 0 1rem;
 }
 
 main > .section-outer > .section.width-100 {
@@ -327,6 +336,7 @@ main > .section-outer > .section.width-75 > div {
     header nav,
     .block .container {
         max-width: 960px;
+        padding: 0;
     }
 }
 
