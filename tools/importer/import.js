@@ -33,7 +33,7 @@ const fixUrl = (a) => {
   let href = a.getAttribute('href');
   const text = a.textContent;
   if (href?.startsWith('/')) {
-    href = `https://main--creditacceptance--aemsites.hlx.page/${href}`;
+    href = `https://main--creditacceptance--aemsites.hlx.page${href}`;
   }
   if (a.href === text) {
     a.textContent = href;
