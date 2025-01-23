@@ -262,8 +262,6 @@ button:disabled:hover {
   cursor: unset;
 }
 
-
-
 a.button.primary {
   background-color: var(--btn-primary-bg);
   color: var(--text-color);
@@ -271,6 +269,14 @@ a.button.primary {
   padding: .5rem 1.5rem;
   border-radius: .375rem;
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+a.button.primary:focus,
+button.primary:focus,
+a.button.primary:hover,
+button.primary:hover {
+  background-color: var(--btn-primary-bg-hover);
+  color: var(--pure-black);
 }
 
 a.button.primary.blue {
