@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+import { palette, isImagePath } from '../libs/utils/decorate.js';
+
 /* eslint-env browser */
 function sampleRUM(checkpoint, data) {
   // eslint-disable-next-line max-len
@@ -501,7 +503,15 @@ function decorateSections(main) {
           // style name is appended to div.section
           styles.forEach((style) => section.classList.add(style));
         } else if (key === 'background') {
-          sectionOuter.dataset[toCamelCase(key)] = meta[key];
+          const urlIsImg = isImagePath(meta[key]);
+          if (urlIsImg) {
+            const style = `background-image: url(${meta[key]}); background-repeat: no-repeat; background-size: cover;`;
+            sectionOuter.style = style;
+          } else {
+            let colorStr = meta[key];
+            if (palette[meta[key]]) colorStr = palette[colorStr];
+            sectionOuter.style.backgroundColor = colorStr;
+          }
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
         }
