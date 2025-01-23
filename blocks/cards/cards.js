@@ -7,19 +7,19 @@ export default function decorate(block) {
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
     if (isAnimated) {
-      li.classList.add('animation-scale')
+      li.classList.add('animation-scale');
     }
     while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((div) => {
       if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
       else div.className = 'cards-card-body';
-      const icon = div.querySelector('.icon img') 
+      const icon = div.querySelector('.icon img');
       if (icon) {
         const { src: iconSrc } = icon;
         const maskedDiv = document.createElement('div');
         maskedDiv.className = 'icon-masked';
         maskedDiv.style.mask = `url(${iconSrc}) no-repeat center`;
-        icon.replaceWith(maskedDiv)
+        icon.replaceWith(maskedDiv);
       }
     });
     ul.append(li);
