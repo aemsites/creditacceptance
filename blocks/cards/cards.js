@@ -1,13 +1,13 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createTag } from '../../libs/utils/utils.js';
 
 export default function decorate(block) {
   const isAnimated = block.classList.contains('animation');
-  const ul = document.createElement('ul');
+  const ul = createTag('ul');
   [...block.children].forEach((row) => {
-    const li = document.createElement('li');
+    const li = createTag('li');
     if (isAnimated) li.classList.add('animation-scale');
-    const cardWrapper = document.createElement('div');
-    cardWrapper.className = 'card-wrapper';
+    const cardWrapper = createTag('div', { class: 'card-wrapper' });
     while (row.firstElementChild) cardWrapper.append(row.firstElementChild);
     let heading = null;
     [...cardWrapper.children].forEach((div) => {
@@ -23,9 +23,7 @@ export default function decorate(block) {
       }
       const icon = div.querySelector('.icon img');
       if (icon) {
-        const maskedDiv = document.createElement('div');
-        maskedDiv.className = 'icon-masked';
-        maskedDiv.style.mask = `url(${icon.src}) no-repeat center`;
+        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask:url(${icon.src}) no-repeat center` });
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
