@@ -99,9 +99,10 @@ const createMetadataBlock = (main, document, url) => {
     }
   }
   if (oldUrlObject) {
+    console.log('oldUrlObject ==========>>>>', oldUrlObject);
     const oldUrl = oldUrlObject.old;
     const date = oldUrlObject.Date;
-    console.log('date: ', date);
+    console.log('olddate ==========>>>>', date);
     // convert above excel date to format 'MM/DD/YYYY'
     const dateObj = new Date((date - 25567) * 86400 * 1000);
     dateObj.setUTCDate(dateObj.getUTCDate() - 2); // Adjust for the discrepancy
@@ -109,11 +110,10 @@ const createMetadataBlock = (main, document, url) => {
     const day = dateObj.getUTCDate();
     const year = dateObj.getUTCFullYear();
     const newdate = `${month}/${day}/${year}`;
-    console.log('new date: ', newdate);
+    console.log('newdate ==========>>>>', newdate);
     blogs.forEach((blog) => {
       blog.tabContent.cardData.forEach((card) => {
         if (oldUrl.includes(card.cardButton.url)) {
-          console.log(url, 'blog url: ', card.cardButton.url);
           meta.category = blog.tabTitle;
           if (card.imgURL) {
             const mobileImageUrl = card.imgURL.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
@@ -212,7 +212,7 @@ export default {
     //   return importNewDesing(document, url, html, params);
     // }
     if (!main) {
-      return null;
+      console.log(url);
     }
     const blogContent = document.createElement('div');
     // append h1 .body-description of main to blogContent
@@ -222,8 +222,13 @@ export default {
     formatLists(blogContent);
     // append a fragment block table
     const a = document.createElement('a');
-    a.href = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
-    a.textContent = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+    if (url.includes('/blog/consumer/') || url.includes('/car-buyers/express-lane/')) {
+      a.href = 'https://main--creditacceptance--aemsites.hlx.page/car-buyers/express-lane/fragments/consumer-blog-cards';
+      a.textContent = 'https://main--creditacceptance--aemsites.hlx.page/car-buyers/express-lane/fragments/consumer-blog-cards';
+    } else {
+      a.href = 'https://main--creditacceptance--aemsites.hlx.page/dealers/the-lot/fragments/dealer-blogs-cards';
+      a.textContent = 'https://main--creditacceptance--aemsites.hlx.page/dealers/the-lot/fragments/dealer-blogs-cards';
+    }
     const cells = [
       ['Fragment'],
       [a],
