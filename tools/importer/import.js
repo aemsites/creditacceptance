@@ -193,6 +193,14 @@ const importNewDesing = (document, url, html, params) => {
   return blogContent;
 };
 
+function createSectionMetadata(document, style) {
+  const cells = [
+    ['Section Metadata'],
+    ['Style', style],
+  ];
+  return WebImporter.DOMUtils.createTable(cells, document);
+}
+
 export default {
   /**
          * Apply DOM operations to the provided document and return
@@ -229,6 +237,9 @@ export default {
       a.href = 'https://main--creditacceptance--aemsites.hlx.page/dealers/the-lot/fragments/dealer-blogs-cards';
       a.textContent = 'https://main--creditacceptance--aemsites.hlx.page/dealers/the-lot/fragments/dealer-blogs-cards';
     }
+    // add a hr and a table with 'Section Metadata' in the first cell and the  in the second cell
+    blogContent.append(document.createElement('hr'));
+    blogContent.append(createSectionMetadata(document, 'Spacing 3'));
     const cells = [
       ['Fragment'],
       [a],
