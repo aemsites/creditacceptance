@@ -1,15 +1,14 @@
-.cards > ul {
+ .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  grid-gap: 24px;
+  gap: 32px;
 }
 
 .cards > ul > li {
-  border: 1px solid #dadada;
-  background-color: var(--background-color);
+  background: var(--background-color);
 }
 
 .cards .cards-card-body {
@@ -24,4 +23,94 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+/* Resources Variant */
+.cards.resources > ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cards.resources > ul > li {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cards.resources > ul > li h3 {
+  padding: 48px 0;
+  font-size: 32px;
+}
+
+.cards.resources > ul > li .card-wrapper {
+  padding: 1rem 1.5rem;
+  background: var(--very-light-gray);
+  box-shadow: 0 2px 6px #0000001f, 0 4px 25px #00000024;
+  transition: 0.3s transform cubic-bezier(.155, 1.105, .295, 1.12), 0.3s box-shadow;
+  flex-grow: 1;
+}
+
+.cards.animation > ul > li .card-wrapper:hover {
+  box-shadow: 0 8px 54px #0003, 0 4px 8px #0000003b;
+}
+
+.cards.resources > ul > li .icon {
+  display: inline-block;
+  height: 100%;
+  width: auto;
+}
+
+.cards.resources .cards-card-body .icon-masked {
+  height: 80px;
+  width: 80px;
+  background: var(--credit-iconography-blue);
+}
+
+.cards.resources > ul > li img {
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.cards.resources .cards-card-body ol {
+  padding-left: 0;
+}
+
+.cards.resources .cards-card-body ol li {
+  display: flex;
+  align-items: flex-start;
+  list-style: none;
+  counter-increment: item;
+  padding: 8px 0;
+}
+
+.cards.resources .cards-card-body ol li::before { 
+  content: counter(item);
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--credit-indigo);
+  color: var(--soft-white);
+  font-size: 14px;
+  line-height: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cards.resources.center .cards-card-body h4,
+.cards.resources.center .cards-card-body p:not(.button-container) {
+  text-align: left;
+}
+
+.cards.resources.center .cards-card-body .icon-masked {
+  margin: 0 auto;
+}
+
+@media (width >= 960px) {
+  .cards.resources > ul > li {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
+  }
 }

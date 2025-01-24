@@ -1,12 +1,5 @@
 import { createTag } from '../../libs/utils/utils.js';
-import { decorateBlockBg } from '../../libs/utils/decorate.js';
-
-const palette = {
-  'brand-blue-light': 'rgb(15, 125, 156)',
-  'brand-blue': 'rgb(13, 93, 115)',
-  'brand-blue-dark': 'rgb(43, 67, 97)',
-  'brand-red': 'rgb(179, 71, 0)',
-};
+import { decorateBlockBg, palette } from '../../libs/utils/decorate.js';
 
 function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');

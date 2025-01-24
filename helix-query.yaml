@@ -41,9 +41,10 @@ indices:
       category:
         select: head > meta[name="category"]
         value: attribute(el, "content")
-  express-lane-blogs:
+  consumer-blogs:
     include:
       - /car-buyers/express-lane/**
+      - /blog/consumer/**
     exclude: *excludes
     target: /car-buyers/express-lane/query-index.json
     properties:
@@ -80,3 +81,43 @@ indices:
       tags:
         select: head > meta[name="article:tag"]
         value: attribute(el, "content")
+  dealer-blogs:
+    include:
+      - /dealers/the-lot/**
+      - /blog/dealer/**
+    exclude: *excludes
+    target: /dealers/the-lot/query-index.json
+    properties:
+      title:
+        select: head > meta[property="og:title"]
+        value: attribute(el, "content")
+      heading:
+        select: main h1:first-of-type
+        value: textContent(el)
+      description:
+        select: head > meta[name="description"]
+        value: attribute(el, "content")
+      image:
+        select: head > meta[property="og:image"]
+        value: match(attribute(el, "content"), "https:\/\/[^/]+(/.*)")
+      mobileImage:
+        select: head > meta[name="mobileimage"]
+        value: attribute(el, "content")
+      tabletImage:
+        select: head > meta[name="tabletimage"]
+        value: attribute(el, "content")
+      imageAlt:
+        select: head > meta[name="imagealt"]
+        value: attribute(el, "content")
+      category:
+        select: head > meta[name="category"]
+        value: attribute(el, "content")
+      date:
+        select: head > meta[name="date"]
+        value: attribute(el, "content")
+      lastModified:
+        select: none
+        value: parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")
+      tags:
+        select: head > meta[name="article:tag"]
+        value: attribute(el, "content")  
