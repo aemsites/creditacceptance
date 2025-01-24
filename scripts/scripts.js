@@ -144,6 +144,7 @@ function toClassName(name) {
  * Need to add the template name to the validTemplates array.
  */
 const validTemplates = [
+  'home-page',
   'blog-page',
 ];
 async function loadTemplate() {

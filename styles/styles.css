@@ -142,9 +142,10 @@ h1 {
 }
 
 h2 { 
-  font-size: var(--heading-font-size-l);
-  font-family: var(--ff-acceptance-medium);
+  font-size: var(--heading-font-size-xl);
+  font-family: var(--heading-font-family);
   margin-bottom: 0.75rem;
+  font-weight: 700;
 }
 
 h3 { 
@@ -163,6 +164,16 @@ h5 {
 }
 
 h6 { font-size: var(--heading-font-size-xs); }
+
+ul, ol {
+  li{
+      margin-bottom: 1rem;
+  }
+}
+
+b, strong {
+  font-weight: bolder;
+}
 
 p,
 dl,
