@@ -15,6 +15,7 @@ body.blog-page {
         footer .section-outer>.section,
         .block .container {
             max-width: 100%;
+            padding: 1.5rem 1rem;
         }
     }
 }
