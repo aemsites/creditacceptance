@@ -1,4 +1,4 @@
-.body.homepage {
+body.home-page {
     h2 { 
         font-size: var(--heading-font-size-l);
         font-family: var(--ff-acceptance-medium);
