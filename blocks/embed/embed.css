@@ -7,7 +7,7 @@
 
 
  */
- .embed {
+.embed {
   width: unset;
   text-align: center;
   margin: 32px auto;
@@ -142,7 +142,7 @@ lite-vimeo, lite-youtube {
 }
 
 .lyt-visually-hidden {
-clip: rect(0 0 0 0);
+  clip: rect(0 0 0 0);
 clip-path: inset(50%);
 height: 1px;
 overflow: hidden;
