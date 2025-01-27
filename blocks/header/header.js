@@ -8,6 +8,29 @@ const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
 
+function createRipple(event) {
+  const button = event.currentTarget;
+
+  const circle = document.createElement('span');
+  const buttonRect = button.getBoundingClientRect();
+  const diameter = Math.max(buttonRect.width, buttonRect.height);
+  const radius = diameter / 2;
+
+  // Calculate relative coordinates within the button
+  const relativeX = event.clientX - buttonRect.left;
+  const relativeY = event.clientY - buttonRect.top;
+
+  circle.style.width = `${diameter}px`;
+  circle.style.height = `${diameter}px`;
+  circle.style.left = `${relativeX - radius}px`;
+  circle.style.top = `${relativeY - radius}px`;
+  circle.classList.add('ripple');
+
+  const ripple = button.getElementsByClassName('ripple')[0];
+  if (ripple) ripple.remove();
+  button.prepend(circle);
+}
+
 function decorateMainMenu(section) {
   const navHeaders = section.querySelectorAll('h3');
   if (!navHeaders) return;
@@ -16,6 +39,7 @@ function decorateMainMenu(section) {
     const details = createTag('details', { class: `nav-detail detail-${i}` }, summaryTag);
     navHeader.replaceWith(details);
     const list = details.nextElementSibling;
+    const listLinks = list.querySelectorAll('li');
     if (!list) return;
     details.append(list);
 
@@ -27,6 +51,12 @@ function decorateMainMenu(section) {
       details.addEventListener('mouseout', () => {
         details.removeAttribute('open');
       });
+      summaryTag.addEventListener('mousedown', createRipple);
+      if (listLinks.length) {
+        listLinks.forEach((l) => {
+          l.addEventListener('mousedown', createRipple);
+        });
+      }
     }
   });
 }
@@ -41,10 +71,11 @@ function formatHeaderElements(fragments) {
     section.classList.remove('section-outer');
     section.removeAttribute('data-section-status');
     section.removeAttribute('style');
+    const contentWrapper = section.querySelector('.default-content-wrapper');
     if (i === 0) {
       const userIcon = createTag('img', { src: icons.user, alt: 'Login' });
       const userBtn = createTag('a', { class: 'btn-mobile btn-user', href: 'https://customer.creditacceptance.com/login', target: '_blank' }, userIcon);
-      section.prepend(userBtn);
+      contentWrapper.prepend(userBtn);
       const hamAttr = {
         class: 'btn-mobile btn-ham',
         'aria-label': 'Open navigation',
@@ -54,7 +85,7 @@ function formatHeaderElements(fragments) {
       };
       const hamIcon = createTag('div', { class: 'icon-ham' }, '<span></span><span></span><span></span><span></span>');
       const hamBtn = createTag('button', hamAttr, hamIcon);
-      section.append(hamBtn);
+      contentWrapper.append(hamBtn);
     } else {
       section.classList.add('nav-section');
       section.setAttribute('aria-expanded', 'false');
