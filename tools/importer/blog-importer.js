@@ -101,7 +101,6 @@ const createMetadataBlock = (main, document, url) => {
   if (oldUrlObject) {
     console.log('oldUrlObject ==========>>>>', oldUrlObject);
     const oldUrl = oldUrlObject.old;
-    const newUrl = oldUrlObject.new;
     const date = oldUrlObject.Date;
     console.log('olddate ==========>>>>', date);
     // convert above excel date to format 'MM/DD/YYYY'
@@ -114,7 +113,7 @@ const createMetadataBlock = (main, document, url) => {
     console.log('newdate ==========>>>>', newdate);
     blogs.forEach((blog) => {
       blog.tabContent.cardData.forEach((card) => {
-        if (oldUrl.includes(card.cardButton.url) || newUrl.includes(card.cardButton.url)) {
+        if (oldUrl.includes(card.cardButton.url)) {
           meta.category = blog.tabTitle;
           if (card.imgURL) {
             const mobileImageUrl = card.imgURL.replace('AWS_BUCKET_URL', 'https://wwwbucket.static.creditacceptance.com');
@@ -147,10 +146,57 @@ const createMetadataBlock = (main, document, url) => {
   return meta;
 };
 
-function createSectionMetadata(document, key, value) {
+const importNewDesing = (document, url, html, params) => {
+  const main = document.querySelector('blog-article');
+  const heroSection = main.querySelector('cac-hero-image');
+  let desktopImage; let mobileImage; let
+    tabletImage;
+  if (heroSection) {
+    const dtImage = heroSection.querySelector('img').getAttribute('src');
+    if (dtImage) {
+      desktopImage = document.createElement('img');
+      desktopImage.src = dtImage;
+      if (dtImage.includes('DesktopHero')) {
+        mobileImage = document.createElement('img');
+        mobileImage.src = dtImage.replace('DesktopHero', 'MobileHero');
+        tabletImage = document.createElement('img');
+        tabletImage.src = dtImage.replace('DesktopHero', 'TabletHero');
+      }
+    }
+  }
+  const marqueeCells = [['Marquee']];
+  const row2 = [];
+  if (desktopImage) row2.push(desktopImage);
+  if (mobileImage) row2.push(mobileImage);
+  if (tabletImage) row2.push(tabletImage);
+  marqueeCells.push(row2);
+
+  const blogContent = document.createElement('div');
+  blogContent.append(main.querySelector('h1'));
+  blogContent.append(main.querySelector('.body-description'));
+  transformButtons(blogContent);
+  const a = document.createElement('a');
+  a.href = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+  a.textContent = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
+  const cells = [
+    ['Fragment'],
+    [a],
+  ];
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+  blogContent.append(table);
+  createMetadataBlock(blogContent, document, url);
+  blogContent.querySelectorAll('a').forEach(fixUrl);
+  WebImporter.DOMUtils.remove(blogContent, [
+    'noscript',
+  ]);
+
+  return blogContent;
+};
+
+function createSectionMetadata(document, style) {
   const cells = [
     ['Section Metadata'],
-    [key, value],
+    ['Style', style],
   ];
   return WebImporter.DOMUtils.createTable(cells, document);
 }
@@ -169,7 +215,7 @@ export default {
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
-    const main = document.querySelector('blog-article');
+    const main = document.querySelector('legacy-blog-article');
     // if (!main && document.querySelector('blog-article')) {
     //   return importNewDesing(document, url, html, params);
     // }
@@ -177,66 +223,9 @@ export default {
       console.log(url);
     }
     const blogContent = document.createElement('div');
-
-    const heroSection = main.querySelector('cac-hero-image');
-    let desktopImage; let mobileImage; let
-      tabletImage;
-    if (heroSection) {
-      const mobImage = heroSection.querySelector('img').getAttribute('src');
-      if (mobImage) {
-        mobileImage = document.createElement('img');
-        mobileImage.src = mobImage;
-        console.log('mobileImage ==========>>>>', mobImage);
-        if (mobImage.includes('MobileHero')) {
-          desktopImage = document.createElement('img');
-          desktopImage.src = mobImage.replace('MobileHero', 'DesktopHero');
-          console.log(desktopImage);
-          tabletImage = document.createElement('img');
-          tabletImage.src = mobImage.replace('MobileHero', 'TabletHero');
-        } else
-          if (mobImage.includes('DesktopHero')) {
-            desktopImage = document.createElement('img');
-            desktopImage.src = mobImage;
-            mobileImage = document.createElement('img');
-            mobileImage.src = mobImage.replace('DesktopHero', 'MobileHero');
-            console.log(desktopImage);
-            tabletImage = document.createElement('img');
-            tabletImage.src = mobImage.replace('DesktopHero', 'TabletHero');
-          }
-      }
-    }
-    const marqueeCells = [['Marquee']];
-    const row2 = [];
-    if (mobileImage) row2.push(mobileImage);
-    if (tabletImage) row2.push(tabletImage);
-    if (desktopImage) row2.push(desktopImage);
-    marqueeCells.push(row2);
-    const rows3 = [];
-    const heroSubtitle = main.querySelector('.bgc-credit-white');
-    if (heroSubtitle) {
-      const div = document.createElement('div');
-      const p = document.createElement('p');
-      p.textContent = heroSubtitle.textContent;
-      div.append(p);
-      div.append(main.querySelector('h1'));
-      rows3.push(div);
-    }
-    marqueeCells.push(rows3);
-    const marqueeTable = WebImporter.DOMUtils.createTable(marqueeCells, document);
     // append h1 .body-description of main to blogContent
-    blogContent.append(marqueeTable);
-
-    const blueSection = main.querySelector('.background-skyblue');
-    // get the next .container element after blueSection
-    const nextContainer = blueSection.nextElementSibling;
-    if (blueSection) {
-      // add a hr befor and after the blue section
-      blogContent.append(document.createElement('hr'));
-      blogContent.append(createSectionMetadata(document, 'background', '#f1fbfd'));
-      blogContent.append(blueSection);
-      blogContent.append(document.createElement('hr'));
-    }
-    blogContent.append(nextContainer);
+    blogContent.append(main.querySelector('h1'));
+    blogContent.append(main.querySelector('.body-description'));
     transformButtons(blogContent);
     formatLists(blogContent);
     // append a fragment block table
@@ -250,7 +239,7 @@ export default {
     }
     // add a hr and a table with 'Section Metadata' in the first cell and the  in the second cell
     blogContent.append(document.createElement('hr'));
-    blogContent.append(createSectionMetadata(document, 'Style', 'Spacing 3'));
+    blogContent.append(createSectionMetadata(document, 'Spacing 3'));
     const cells = [
       ['Fragment'],
       [a],
