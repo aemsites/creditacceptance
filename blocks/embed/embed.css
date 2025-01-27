@@ -120,7 +120,7 @@ lite-vimeo, lite-youtube {
 
   &:hover {
     > .ltv-playbtn, > .lty-playbtn {
-      background-image: url('/icons/circle-play-red.svg');
+      background-image: url('/icons/circle-play-white.svg');
     }
   }
 
