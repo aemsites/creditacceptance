@@ -1,5 +1,5 @@
 body.blog-page {
-    h1 {
+    :not('.marquee.block') h1 {
         color: var(--orange);
         text-transform: uppercase;
         margin: 10px auto 0;
