@@ -216,7 +216,7 @@ export default {
     if (heroSubtitle) {
       const div = document.createElement('div');
       const p = document.createElement('p');
-      p.textContent = heroSubtitle.textContent;
+      p.textContent = `${heroSubtitle.textContent}{brand-blue}`;
       div.append(p);
       div.append(main.querySelector('h1'));
       rows3.push(div);
