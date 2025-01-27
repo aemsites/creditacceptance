@@ -11,7 +11,6 @@
   width: unset;
   text-align: center;
   margin: 32px auto;
-  height: 600px;
   max-width: 1000px;
   background-color: #fff;
  
@@ -179,15 +178,6 @@ width: 1px;
   .embed {
     &.youtube, &.vimeo {
       min-height: 420px;
-    }
-  }
-}
-
-
-@container (width <= 576px) {
-  .embed {
-    &.youtube, &.vimeo {
-    min-height: auto;
     }
   }
 }
