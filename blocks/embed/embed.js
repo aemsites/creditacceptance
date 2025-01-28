@@ -72,11 +72,11 @@ const embedVimeo = async (url) => {
   wrapper.setAttribute('itemtype', 'https://schema.org/VideoObject');
 
   try {
-    const response = await fetch(`https://vimeo.com/api/oembed.json?url=https://player.vimeo.com/video/${videoId}h=4dd8d22e5b`);
+    const response = await fetch(`https://vimeo.com/api/oembed.json?url=https://player.vimeo.com/video/${videoId}`);
     const json = await response.json();
     wrapper.innerHTML = `
       <meta itemprop="name" content="${json.title}"/>
-      <link itemprop="embedUrl" href="https://player.vimeo.com/video/${videoId}h=4dd8d22e5b"/>
+      <link itemprop="embedUrl" href="https://player.vimeo.com/video/${videoId}"/>
       <link itemprop="thumbnailUrl" href="${json.thumbnail_url}"/>
       ${wrapper.innerHTML}
     `;
