@@ -63,7 +63,7 @@ async function decorateSearch(block) {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    const searchString = inputElement.value.trim();
+    const searchString = inputElement.value.trim().toLowerCase();
 
     if (!searchString) return;
 
