@@ -108,7 +108,7 @@ const loadEmbed = async (block, service, url, height) => {
   block.classList.toggle('skeleton', true);
 
   const embed = EMBEDS_CONFIG[service];
-  if (!embed) {
+  if (!embed || (service === 'vimeo' && url.pathname.includes('showcase'))) {
     block.classList.toggle('generic', true);
     block.innerHTML = getDefaultEmbed(url, height);
     return;
