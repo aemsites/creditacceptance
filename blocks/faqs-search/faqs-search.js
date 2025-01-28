@@ -17,7 +17,10 @@ function fetchResults(section, searchString) {
 }
 
 function clearSearchResults(block) {
-  block.querySelector('.search-form + .accordion-wrapper').remove();
+  const wrapper = block.querySelector('.search-form + .accordion-wrapper');
+  if (wrapper) {
+    wrapper.remove();
+  }
 }
 
 function buildSearchResults(results, block) {
@@ -60,7 +63,9 @@ async function decorateSearch(block) {
 
   function handleFormSubmit(event) {
     event.preventDefault();
-    const searchString = inputElement.value;
+    const searchString = inputElement.value.trim();
+
+    if (!searchString) return;
 
     section.dataset.searched = true;
     const results = fetchResults(section, searchString);
