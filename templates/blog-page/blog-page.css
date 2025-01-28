@@ -1,5 +1,5 @@
 body.blog-page {
-    h1 {
+    :not('.marquee.block') h1 {
         color: var(--orange);
         text-transform: uppercase;
         margin: 10px auto 0;
@@ -15,6 +15,7 @@ body.blog-page {
         footer .section-outer>.section,
         .block .container {
             max-width: 100%;
+            padding: 1.5rem 1rem;
         }
     }
 }
