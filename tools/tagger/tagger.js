@@ -1,4 +1,5 @@
 import ffetch from '../../scripts/ffetch.js';
+import { createTag } from '../../libs/utils/utils.js';
 
 // export async function getIndexDataByPath(name) {
 function titleToName(name) {
@@ -7,12 +8,12 @@ function titleToName(name) {
 
 const taxonomyEndpoint = '/tools/taxonomy.json';
 let taxonomyPromise;
-function fetchTaxonomy() {
+function fetchTaxonomy(sheet) {
   if (!taxonomyPromise) {
     taxonomyPromise = new Promise((resolve, reject) => {
       (async () => {
         try {
-          const taxonomyJson = await ffetch(taxonomyEndpoint).all();
+          const taxonomyJson = await ffetch(taxonomyEndpoint, sheet).all();
           const taxonomy = {};
           let curType;
           let l1;
@@ -66,7 +67,7 @@ const getDeepNestedObject = (obj, filter) => Object.entries(obj)
  * @returns {Promise} the taxonomy
  */
 export function getTaxonomy() {
-  return fetchTaxonomy();
+  return fetchTaxonomy('tags');
 }
 
 /**
@@ -197,11 +198,71 @@ function displaySelected() {
   copyBuffer.value = toCopyBuffer.join(', ');
 }
 
+let palettePromise;
+function fetchPalette(sheet) {
+  if (!palettePromise) {
+    palettePromise = new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const paletteJson = await ffetch(taxonomyEndpoint, sheet).all();
+          resolve(paletteJson);
+        } catch (e) {
+          reject(e);
+        }
+      })();
+    });
+  }
+  return palettePromise;
+}
+
+async function getPalette() {
+  return fetchPalette('palette');
+}
+
+function clickToCopyList(items) {
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      // Get the attribute you want to copy (e.g., 'data-id')
+      const attribute = 'data-name';
+      const value = item.getAttribute(attribute);
+      const string = `{${value}}`;
+      // Copy the attribute value to the clipboard
+      navigator.clipboard.writeText(string)
+        .then(() => {
+          item.classList.add('copied');
+          setTimeout(() => {
+            item.classList.remove('copied');
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error('Failed to copy attribute:', err);
+        });
+    });
+  });
+}
+
+async function initPalette() {
+  const palette = await getPalette();
+  if (!palette) return;
+  const palletList = document.querySelector('#palette > ul');
+  palette.forEach((color) => {
+    const brandName = color['Brand Name'];
+    const fullName = color['Full Name'];
+    const hexValue = color['Hex Value'];
+    const swatch = createTag('div', { class: 'swatch', style: `background: #${hexValue};` });
+    const label = createTag('div', { class: 'label' }, `<p>${fullName}</p><p>#${hexValue}</p>`);
+    const colorElem = createTag('li', { class: brandName, 'data-hex': hexValue, 'data-name': brandName }, label);
+    colorElem.prepend(swatch);
+    palletList.append(colorElem);
+  });
+  const items = palletList.querySelectorAll('li');
+  if (items) clickToCopyList(items);
+}
+
 async function init() {
   const tax = await getTaxonomy();
-
   initTaxonomy(tax);
-
+  initPalette();
   const selEl = document.getElementById('selected');
   const copyButton = selEl.querySelector('button.copy');
   copyButton.addEventListener('click', () => {
