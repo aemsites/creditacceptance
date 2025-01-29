@@ -1,5 +1,5 @@
 import ffetch from '../../scripts/ffetch.js';
-import { createTag } from '../../libs/utils/utils.js';
+import { createTag, getPalette } from '../../libs/utils/utils.js';
 
 // export async function getIndexDataByPath(name) {
 function titleToName(name) {
@@ -198,36 +198,14 @@ function displaySelected() {
   copyBuffer.value = toCopyBuffer.join(', ');
 }
 
-let palettePromise;
-function fetchPalette(sheet) {
-  if (!palettePromise) {
-    palettePromise = new Promise((resolve, reject) => {
-      (async () => {
-        try {
-          const paletteJson = await ffetch(taxonomyEndpoint, sheet).all();
-          resolve(paletteJson);
-        } catch (e) {
-          reject(e);
-        }
-      })();
-    });
-  }
-  return palettePromise;
-}
-
-async function getPalette() {
-  return fetchPalette('palette');
-}
-
 function clickToCopyList(items) {
   items.forEach((item) => {
     item.addEventListener('click', () => {
       // Get the attribute you want to copy (e.g., 'data-id')
       const attribute = 'data-name';
       const value = item.getAttribute(attribute);
-      const string = `{${value}}`;
       // Copy the attribute value to the clipboard
-      navigator.clipboard.writeText(string)
+      navigator.clipboard.writeText(value)
         .then(() => {
           item.classList.add('copied');
           setTimeout(() => {
@@ -235,6 +213,7 @@ function clickToCopyList(items) {
           }, 2000);
         })
         .catch((err) => {
+          // eslint-disable-next-line no-console
           console.error('Failed to copy attribute:', err);
         });
     });
@@ -246,12 +225,12 @@ async function initPalette() {
   if (!palette) return;
   const palletList = document.querySelector('#palette > ul');
   palette.forEach((color) => {
-    const brandName = color['Brand Name'];
-    const fullName = color['Full Name'];
-    const hexValue = color['Hex Value'];
-    const swatch = createTag('div', { class: 'swatch', style: `background: #${hexValue};` });
-    const label = createTag('div', { class: 'label' }, `<p>${fullName}</p><p>#${hexValue}</p>`);
-    const colorElem = createTag('li', { class: brandName, 'data-hex': hexValue, 'data-name': brandName }, label);
+    const brandName = color['brand-name'];
+    // const fullName = color['full-name'];
+    const colorValue = color['color-value'];
+    const swatch = createTag('div', { class: 'swatch', style: `background: ${colorValue};` });
+    const label = createTag('div', { class: 'label' }, `<p>${brandName}</p><p>${colorValue}</p>`);
+    const colorElem = createTag('li', { class: brandName, 'data-color': colorValue, 'data-name': brandName }, label);
     colorElem.prepend(swatch);
     palletList.append(colorElem);
   });

@@ -192,7 +192,7 @@ body {
             background-color: #cccccc;
             &::after {
                 position: absolute;
-                content: '{'attr(data-name) '} copied';
+                content: attr(data-name) ' copied';
                 top: 8px;
                 right: 6px;
                 display: block;
