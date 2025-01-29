@@ -71,8 +71,10 @@ async function decorateFAQs(block) {
   if (!fragment) return;
 
   const path = fragment.getAttribute('href');
+  // loadFragment returns an element or a null
   const content = await loadFragment(path);
-  const fragmentSection = content.querySelector('.section');
+  // this will probably throw for a null content
+  const fragmentSection = content && content.querySelector('.section');
 
   if (!fragmentSection) return;
 
@@ -83,7 +85,6 @@ async function decorateFAQs(block) {
 
   const blockSection = block.closest('.section');
   blockSection.classList.add(...fragmentSection.classList);
-
   block.closest('.accordion-wrapper').replaceWith(...fragmentSection.childNodes);
   fragmentSection.remove();
 }
@@ -93,6 +94,5 @@ export default async function init(block) {
     await decorateFAQs(block);
     return;
   }
-
   decorate(block);
 }
