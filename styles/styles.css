@@ -30,6 +30,7 @@
   --credit-iconography-blue: #40ABDE;
   --button-bg-blue: #c4eefa;
   --orange: #fa6400;
+  --tertiary-indigo: #3d5470;
 
   /* link text color */
   --link-text-color: hsl(193deg 82% 34%);
@@ -78,6 +79,13 @@
     
   /* containers */
   --container-width: 100%;
+
+  /* gaps */
+  --gap-xs: 12px;
+  --gap-sm: 16px;
+  --gap-md: 24px;
+  --gap-lg: 32px;
+  --gap-xl: 48px;
 }
 
 *, ::before, ::after {
