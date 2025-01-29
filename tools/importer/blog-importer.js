@@ -146,53 +146,6 @@ const createMetadataBlock = (main, document, url) => {
   return meta;
 };
 
-const importNewDesing = (document, url, html, params) => {
-  const main = document.querySelector('blog-article');
-  const heroSection = main.querySelector('cac-hero-image');
-  let desktopImage; let mobileImage; let
-    tabletImage;
-  if (heroSection) {
-    const dtImage = heroSection.querySelector('img').getAttribute('src');
-    if (dtImage) {
-      desktopImage = document.createElement('img');
-      desktopImage.src = dtImage;
-      if (dtImage.includes('DesktopHero')) {
-        mobileImage = document.createElement('img');
-        mobileImage.src = dtImage.replace('DesktopHero', 'MobileHero');
-        tabletImage = document.createElement('img');
-        tabletImage.src = dtImage.replace('DesktopHero', 'TabletHero');
-      }
-    }
-  }
-  const marqueeCells = [['Marquee']];
-  const row2 = [];
-  if (desktopImage) row2.push(desktopImage);
-  if (mobileImage) row2.push(mobileImage);
-  if (tabletImage) row2.push(tabletImage);
-  marqueeCells.push(row2);
-
-  const blogContent = document.createElement('div');
-  blogContent.append(main.querySelector('h1'));
-  blogContent.append(main.querySelector('.body-description'));
-  transformButtons(blogContent);
-  const a = document.createElement('a');
-  a.href = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
-  a.textContent = 'https://main--creditacceptance--aemsites.aem.page/car-buyers/express-lane/fragments/express-lane-cards';
-  const cells = [
-    ['Fragment'],
-    [a],
-  ];
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  blogContent.append(table);
-  createMetadataBlock(blogContent, document, url);
-  blogContent.querySelectorAll('a').forEach(fixUrl);
-  WebImporter.DOMUtils.remove(blogContent, [
-    'noscript',
-  ]);
-
-  return blogContent;
-};
-
 function createSectionMetadata(document, style) {
   const cells = [
     ['Section Metadata'],
