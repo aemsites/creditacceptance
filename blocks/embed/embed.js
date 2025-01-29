@@ -128,7 +128,7 @@ const loadEmbed = async (block, service, url, height) => {
   }
 
   const embed = EMBEDS_CONFIG[embedService];
-  if (!embed || (service === 'vimeo')) {
+  if (!embed) {
     block.classList.toggle('generic', true);
     block.innerHTML = getDefaultEmbed(url, height);
     return;
