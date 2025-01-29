@@ -122,11 +122,12 @@ function getPlatform(url) {
 
 const loadEmbed = async (block, service, url, height) => {
   block.classList.toggle('skeleton', true);
-  if(service === 'vimeo' && url.pathname.includes('showcase')) {
-    service = 'vimeoShowcase';
+  let embedService = service;
+  if (service === 'vimeo' && url.pathname.includes('showcase')) {
+    embedService = 'vimeoShowcase';
   }
 
-  const embed = EMBEDS_CONFIG[service];
+  const embed = EMBEDS_CONFIG[embedService];
   if (!embed || (service === 'vimeo')) {
     block.classList.toggle('generic', true);
     block.innerHTML = getDefaultEmbed(url, height);
