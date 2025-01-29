@@ -24,8 +24,18 @@ class LiteVimeoShowcase extends HTMLElement {
   }
 
   connectedCallback() {
+    /**
+     * Lo, the vimeo placeholder image!  (aka the thumbnail, poster image, etc)
+     * We have to use the Vimeo API.
+     */
+    let { width, height } = getThumbnailDimensions(this.getBoundingClientRect());
+    let devicePixelRatio = window.devicePixelRatio || 1;
+    if (devicePixelRatio >= 2) devicePixelRatio *= .75;
+    width = Math.round(width * devicePixelRatio);
+    height = Math.round(height * devicePixelRatio);
+
     const showcaseUrl = this.getAttribute('showcase-url');
-    this.style.backgroundImage = `url("https://i.vimeocdn.com/video/890210899-6233116ba7d36ab8ec2f147081aaf6e315c622e3fe012df7e2e7289b45d6bb4d-d_1000x574")`;
+    this.style.backgroundImage = `url("https://i.vimeocdn.com/video/890210899-6233116ba7d36ab8ec2f147081aaf6e315c622e3fe012df7e2e7289b45d6bb4d-d_${width}x${height}")`;
     if (showcaseUrl) {
       let playBtnEl = this.querySelector('.ltv-playbtn');
       // A label for the button takes priority over a [playlabel] attribute on the custom-element
@@ -57,13 +67,12 @@ class LiteVimeoShowcase extends HTMLElement {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
     const iframeEl = document.createElement('iframe');
-    iframeEl.width = 640;
-    iframeEl.height = 360;
+    iframeEl.width = "100%";
+    iframeEl.height = "100%";
     iframeEl.title = this.playLabel;
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-    iframeEl.src = `${showcaseUrl}`;
+    iframeEl.src = `${showcaseUrl}?autoplay=1`;
     iframeEl.allowFullscreen = true;
-    iframeEl.frameBorder = "0";
     this.shadowRoot.append(iframeEl);
     iframeEl.addEventListener('load', iframeEl.focus, { once: true });
 
@@ -106,4 +115,36 @@ function addPrefetch(kind, url, as) {
   }
   linkElem.crossorigin = true;
   document.head.append(linkElem);
+}
+
+/**
+ * Get the thumbnail dimensions to use for a given player size.
+ *
+ * @param {Object} options
+ * @param {number} options.width The width of the player
+ * @param {number} options.height The height of the player
+ * @return {Object} The width and height
+ */
+function getThumbnailDimensions({ width, height }) {
+  let roundedWidth = width;
+  let roundedHeight = height;
+
+  // If the original width is a multiple of 320 then we should
+  // not round up. This is to keep the native image dimensions
+  // so that they match up with the actual frames from the video.
+  //
+  // For example 640x360, 960x540, 1280x720, 1920x1080
+  //
+  // Round up to nearest 100 px to improve cacheability at the
+  // CDN. For example, any width between 601 pixels and 699
+  // pixels will render the thumbnail at 700 pixels width.
+  if (roundedWidth % 320 !== 0) {
+    roundedWidth = Math.ceil(width / 100) * 100;
+    roundedHeight = Math.round((roundedWidth / width) * height);
+  }
+
+  return {
+    width: roundedWidth,
+    height: roundedHeight
+  };
 }
