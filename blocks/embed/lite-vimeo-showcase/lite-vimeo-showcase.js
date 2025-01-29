@@ -56,21 +56,17 @@ class LiteVimeoShowcase extends HTMLElement {
   loadIframe(showcaseUrl) {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
-    console.log('showcaseUrl:', showcaseUrl);
-    this.shadowRoot.innerHTML = `
-      <style>
-        iframe {
-          width: 100%;
-          height: 574px;
-          border: 0;
-        }
-      </style>
-      <iframe src="${showcaseUrl}" allowfullscreen frameborder="0" title="Vimeo Showcase"></iframe>
-    `;
-    const iframeEl = this.shadowRoot.querySelector('iframe');
+    const iframeEl = document.createElement('iframe');
+    iframeEl.width = 640;
+    iframeEl.height = 360;
+    iframeEl.title = this.playLabel;
+    iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+    iframeEl.src = `${showcaseUrl}`;
+    iframeEl.allowFullscreen = true;
+    iframeEl.frameBorder = "0";
+    this.shadowRoot.append(iframeEl);
     iframeEl.addEventListener('load', iframeEl.focus, { once: true });
 
-    // Load the Vimeo Player API script
     const script = document.createElement('script');
     script.src = 'https://player.vimeo.com/api/player.js';
     script.onload = () => this.initializePlayer();
