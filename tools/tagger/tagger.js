@@ -201,7 +201,7 @@ function displaySelected() {
 function clickToCopyList(items) {
   items.forEach((item) => {
     item.addEventListener('click', () => {
-      // Get the attribute you want to copy (e.g., 'data-id')
+      // Get the attribute you want to copy
       const attribute = 'data-name';
       const value = item.getAttribute(attribute);
       // Copy the attribute value to the clipboard
@@ -226,7 +226,6 @@ async function initPalette() {
   const palletList = document.querySelector('#palette > ul');
   palette.forEach((color) => {
     const brandName = color['brand-name'];
-    // const fullName = color['full-name'];
     const colorValue = color['color-value'];
     const swatch = createTag('div', { class: 'swatch', style: `background: ${colorValue};` });
     const label = createTag('div', { class: 'label' }, `<p>${brandName}</p><p class="value">${colorValue}</p>`);
