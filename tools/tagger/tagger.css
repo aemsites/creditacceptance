@@ -180,6 +180,7 @@ body {
         margin: 0;
         padding: 0;
         background: #eaeaea;
+        font-size: 14px;
         li {
             position: relative;
             padding: .5rem;
@@ -206,6 +207,10 @@ body {
         .label p { 
             margin: .5rem 0 0;
             padding: 0;
+        }
+        .label p.value {
+            font-size: 16px;
+            margin: 0;
         }
         .swatch {
             margin: 0;

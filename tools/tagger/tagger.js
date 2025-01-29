@@ -229,7 +229,7 @@ async function initPalette() {
     // const fullName = color['full-name'];
     const colorValue = color['color-value'];
     const swatch = createTag('div', { class: 'swatch', style: `background: ${colorValue};` });
-    const label = createTag('div', { class: 'label' }, `<p>${brandName}</p><p>${colorValue}</p>`);
+    const label = createTag('div', { class: 'label' }, `<p>${brandName}</p><p class="value">${colorValue}</p>`);
     const colorElem = createTag('li', { class: brandName, 'data-color': colorValue, 'data-name': brandName }, label);
     colorElem.prepend(swatch);
     palletList.append(colorElem);
