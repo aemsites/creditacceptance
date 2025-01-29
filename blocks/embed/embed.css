@@ -57,7 +57,7 @@
   left: 7px;
 }
 
-lite-vimeo, lite-youtube {
+lite-vimeo, lite-youtube, lite-vimeo-showcase {
   container: playbutton / inline-size;
   background-color: var(--laz-black);
   position: relative;

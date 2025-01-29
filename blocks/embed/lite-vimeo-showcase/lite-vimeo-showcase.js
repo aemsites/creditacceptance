@@ -25,6 +25,7 @@ class LiteVimeoShowcase extends HTMLElement {
 
   connectedCallback() {
     const showcaseUrl = this.getAttribute('showcase-url');
+    this.style.backgroundImage = `url("https://i.vimeocdn.com/video/890210899-6233116ba7d36ab8ec2f147081aaf6e315c622e3fe012df7e2e7289b45d6bb4d-d_1000x574")`;
     if (showcaseUrl) {
       let playBtnEl = this.querySelector('.ltv-playbtn');
       // A label for the button takes priority over a [playlabel] attribute on the custom-element
@@ -43,15 +44,18 @@ class LiteVimeoShowcase extends HTMLElement {
       this.addEventListener('pointerover', LiteVimeoShowcase._warmConnections, {
         once: true,
       });
+      //this.loadIframe(showcaseUrl);
 
       // Once the user clicks, add the real iframe and drop our play button
       // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
       //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-      this.loadIframe(showcaseUrl);
+      this.addEventListener('click', () => this.loadIframe(showcaseUrl));
     }
   }
 
   loadIframe(showcaseUrl) {
+    if (this.classList.contains('ltv-activated')) return;
+    this.classList.add('ltv-activated');
     console.log('showcaseUrl:', showcaseUrl);
     this.shadowRoot.innerHTML = `
       <style>
@@ -63,6 +67,8 @@ class LiteVimeoShowcase extends HTMLElement {
       </style>
       <iframe src="${showcaseUrl}" allowfullscreen frameborder="0" title="Vimeo Showcase"></iframe>
     `;
+    const iframeEl = this.shadowRoot.querySelector('iframe');
+    iframeEl.addEventListener('load', iframeEl.focus, { once: true });
 
     // Load the Vimeo Player API script
     const script = document.createElement('script');
