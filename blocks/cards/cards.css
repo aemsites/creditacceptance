@@ -8,7 +8,7 @@
      padding: 0;
      display: grid;
      grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-     gap: 32px;
+     gap: var(--gap-lg);
  }
 
  .cards>ul>li {
@@ -25,6 +25,7 @@
 
  .cards .cards-card-body p.date {
     font-size: 18px;
+    color: var(--tertiary-indigo);
     margin-block: 1rem;
  }
 
@@ -78,6 +79,27 @@
  .cards.rounded .cards-card-body {
      margin: 0;
  }
+
+ /* Gap Variant */
+.cards.gap-xs > ul {
+    gap: var(--gap-xs);
+  }
+  
+ .cards.gap-sm > ul {
+    gap: var(--gap-sm);
+  }
+  
+ .cards.gap-md > ul {
+    gap: var(--gap-md);
+  }
+  
+ .cards.gap-lg > ul {
+    gap: var(--gap-lg);
+  }
+  
+ .cards.gap-xl > ul {
+    gap: var(--gap-xl);
+  }
 
  /* Resources Variant */
  .cards.resources>ul {
