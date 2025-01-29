@@ -1,4 +1,19 @@
+/* eslint-disable  */
 class LiteVimeoShowcase extends HTMLElement {
+  static _warmConnections() {
+    if (LiteVimeoShowcase.preconnected) return;
+    LiteVimeoShowcase.preconnected = true;
+
+    // The iframe document and most of its subresources come right off player.vimeo.com
+    addPrefetch('preconnect', 'https://player.vimeo.com');
+    // Images
+    addPrefetch('preconnect', 'https://i.vimeocdn.com');
+    // Files .js, .css
+    addPrefetch('preconnect', 'https://f.vimeocdn.com');
+    // Metrics
+    // addPrefetch('preconnect', 'https://fresnel.vimeocdn.com');
+  }
+
   static get observedAttributes() {
     return ['showcase-url'];
   }
@@ -8,25 +23,41 @@ class LiteVimeoShowcase extends HTMLElement {
     this.attachShadow({ mode: 'open' });
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'showcase-url' && oldValue !== newValue) {
-      this.loadIframe(newValue);
-    }
-  }
-
   connectedCallback() {
     const showcaseUrl = this.getAttribute('showcase-url');
     if (showcaseUrl) {
+      let playBtnEl = this.querySelector('.ltv-playbtn');
+      // A label for the button takes priority over a [playlabel] attribute on the custom-element
+      this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
+
+      if (!playBtnEl) {
+        playBtnEl = document.createElement('button');
+        playBtnEl.type = 'button';
+        playBtnEl.setAttribute('aria-label', this.playLabel);
+        playBtnEl.classList.add('ltv-playbtn');
+        this.append(playBtnEl);
+      }
+      playBtnEl.removeAttribute('href');
+
+      // On hover (or tap), warm up the TCP connections we're (likely) about to use.
+      this.addEventListener('pointerover', LiteVimeoShowcase._warmConnections, {
+        once: true,
+      });
+
+      // Once the user clicks, add the real iframe and drop our play button
+      // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
+      //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
       this.loadIframe(showcaseUrl);
     }
   }
 
   loadIframe(showcaseUrl) {
+    console.log('showcaseUrl:', showcaseUrl);
     this.shadowRoot.innerHTML = `
       <style>
         iframe {
           width: 100%;
-          height: 100%;
+          height: 574px;
           border: 0;
         }
       </style>
@@ -46,10 +77,10 @@ class LiteVimeoShowcase extends HTMLElement {
       const player = new Vimeo.Player(iframe);
 
       player.on('loaded', () => {
-        player.getVideoId().then(videoId => {
+        player.getVideoId().then((videoId) => {
           fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
-            .then(response => response.json())
-            .then(data => {
+            .then((response) => response.json())
+            .then((data) => {
               console.log('Video Metadata:', data);
               // You can use the metadata as needed
             });
@@ -60,3 +91,17 @@ class LiteVimeoShowcase extends HTMLElement {
 }
 
 customElements.define('lite-vimeo-showcase', LiteVimeoShowcase);
+
+/**
+ * Add a <link rel={preload | preconnect} ...> to the head
+ */
+function addPrefetch(kind, url, as) {
+  const linkElem = document.createElement('link');
+  linkElem.rel = kind;
+  linkElem.href = url;
+  if (as) {
+    linkElem.as = as;
+  }
+  linkElem.crossorigin = true;
+  document.head.append(linkElem);
+}
