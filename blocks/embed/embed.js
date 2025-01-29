@@ -91,9 +91,25 @@ const embedVimeo = async (url) => {
   return wrapper.outerHTML;
 };
 
+const embedShowcase = async (url) => {
+  await loadScript('/blocks/embed/lite-vimeo-showcase/lite-vimeo-showcase.js');
+  const showcaseUrl = url.href;
+  const wrapper = document.createElement('div');
+  wrapper.setAttribute('itemscope', '');
+  wrapper.setAttribute('itemtype', 'https://schema.org/VideoObject');
+
+  const litePlayer = document.createElement('lite-vimeo-showcase');
+  litePlayer.setAttribute('showcase-url', showcaseUrl);
+  const playBtnEl = document.createElement('button');
+  playBtnEl.setAttribute(('class', 'ltv-playbtn'), ('aria-label', 'Video play button'));
+  wrapper.append(litePlayer);
+  return wrapper.outerHTML;
+};
+
 const EMBEDS_CONFIG = {
   vimeo: embedVimeo,
   youtube: embedYoutube,
+  vimeoShowcase: embedShowcase,
 };
 
 function getPlatform(url) {
@@ -106,9 +122,12 @@ function getPlatform(url) {
 
 const loadEmbed = async (block, service, url, height) => {
   block.classList.toggle('skeleton', true);
+  if(service === 'vimeo' && url.pathname.includes('showcase')) {
+    service = 'vimeoShowcase';
+  }
 
   const embed = EMBEDS_CONFIG[service];
-  if (!embed || (service === 'vimeo' && url.pathname.includes('showcase'))) {
+  if (!embed || (service === 'vimeo')) {
     block.classList.toggle('generic', true);
     block.innerHTML = getDefaultEmbed(url, height);
     return;
