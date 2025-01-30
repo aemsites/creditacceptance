@@ -1,4 +1,5 @@
 import {
+  buildBlock,
   loadHeader,
   loadFooter,
   decorateIcons,
@@ -8,10 +9,12 @@ import {
   waitForFirstImage,
   loadSection,
   loadSections,
+  decorateBlock,
   loadCSS,
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
+import { loadPalette } from '../libs/utils/utils.js';
 
 /**
  * load fonts.css and set a session storage flag
@@ -112,6 +115,31 @@ export function createOptimizedPicture(
 }
 
 /**
+ * check if link text is same as the href
+ * @param {Element} link the link element
+ * @returns {boolean} true or false
+ */
+export function linkTextIncludesHref(link) {
+  const href = link.getAttribute('href');
+  const textcontent = link.textContent;
+  return textcontent.includes(href);
+}
+
+/**
+ * Builds video blocks when encounter video links.
+ * @param {Element} main The container element
+ */
+export function buildEmbedBlocks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    if ((a.href.includes('youtu') || a.href.includes('vimeo')) && linkTextIncludesHref(a) && !a.closest('.block.embed')) {
+      const embedBlock = buildBlock('embed', a.cloneNode(true));
+      a.replaceWith(embedBlock);
+      decorateBlock(embedBlock);
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -121,6 +149,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   decorateSections(main);
   decorateBlocks(main);
+  buildEmbedBlocks(main);
 }
 
 /**
@@ -205,6 +234,7 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
+  await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
 }

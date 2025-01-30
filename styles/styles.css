@@ -16,6 +16,7 @@
   --light-gray: #f8f9fa;
   --dark-gray: #666663;
   --text-color: #171714;
+  --text-color-light: #fff;
   --soft-gray: #DBDBD6;
   --soft-white: #FCFCFA;
   --medium-gray: #DADADA;
@@ -30,13 +31,15 @@
   --credit-iconography-blue: #40ABDE;
   --button-bg-blue: #c4eefa;
   --orange: #fa6400;
+  --tertiary-indigo: #3d5470;
 
   /* link text color */
   --link-text-color: hsl(193deg 82% 34%);
   --link-text-color-hover: hsl(193deg 82% 20%);
   --link-text-color-visited: hsl(193deg 82% 20%);
-  --link-text-color-dark: hsl(193deg 82% 65%);
-  --link-text-color-hover-dark: hsl(193deg 82% 75%);
+  --link-text-color-light: hsl(193deg 82% 65%);
+  --link-text-color-light-hover: hsl(193deg 82% 75%);
+  --link-text-color-light-visited: hsl(193deg 82% 75%);
 
   /* buttons */
   --btn-primary-bg: hsl(43deg 100% 50%);
@@ -78,6 +81,13 @@
     
   /* containers */
   --container-width: 100%;
+
+  /* gaps */
+  --gap-xs: 12px;
+  --gap-sm: 16px;
+  --gap-md: 24px;
+  --gap-lg: 32px;
+  --gap-xl: 48px;
 }
 
 *, ::before, ::after {
@@ -164,6 +174,7 @@ h4 {
 h5 { 
   font-family: var(--ff-acceptance-regular);
   font-size: var(--heading-font-size-s); 
+  color: var(--credit-indigo);
 }
 
 h6 { font-size: var(--heading-font-size-xs); }
@@ -191,7 +202,6 @@ blockquote {
 p {
   font-size: var(--body-font-size-m);
   line-height: 26px;
-  color: var(--text-color);
 }
 
 .center {
@@ -232,19 +242,27 @@ a:active {
   text-decoration: underline;
 }
 
-a:visited,
-a:visited:hover {
+a:visited {
   color: var(--link-text-color-visited);
 }
 
-.light-text,
-.light-text p {
-  color: var(--light-color);
-}
+/* Light Text */
+.light-text {
+  --text-color: var(--text-color-light);
 
-:root .light-text a {
-  --link-text-color: var(--link-text-color-dark);
-  --link-text-color-hover: var(--link-text-color-hover-dark);
+  color: var(--text-color);
+
+  a { color: var(--link-text-color-light); }
+
+  a:hover,
+  a:focus,
+  a:active {
+      color: var(--link-text-color-light-hover);
+  }
+
+  a:visited {
+      color: var(--link-text-color-light-visited);
+  }
 }
 
 /* buttons */
@@ -339,6 +357,12 @@ main img {
 .icon img {
   height: 100%;
   width: 100%;
+}
+
+.section > .default-content-wrapper {
+  h3,h4 {
+    margin-top: 3rem;
+  }
 }
 
 .marquee .background .tablet-only,

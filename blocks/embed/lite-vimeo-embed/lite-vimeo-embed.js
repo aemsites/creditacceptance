@@ -21,8 +21,8 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
   connectedCallback() {
 
     this.videoId = this.getAttribute('videoid');
-    const fullUrl = // Oembed requires Learninga-z's private account key appended to the URL
-        new URL( `https://player.vimeo.com/video/${this.videoId}?h=4dd8d22e5b`);
+    const fullUrl = 
+        new URL( `https://player.vimeo.com/video/${this.videoId}`);
     /**
      * Lo, the vimeo placeholder image!  (aka the thumbnail, poster image, etc)
      * We have to use the Vimeo API.
