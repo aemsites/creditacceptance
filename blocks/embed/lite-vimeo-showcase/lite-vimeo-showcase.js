@@ -37,6 +37,10 @@ class LiteVimeoShowcase extends HTMLElement {
     }
     this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
     if (showcaseUrl) {
+      const h5 = document.createElement('h5');
+      const p = document.createElement('p');
+      this.parentElement.append(h5);
+      this.parentElement.append(p);
       let playBtnEl = this.querySelector('.ltv-playbtn');
       // A label for the button takes priority over a [playlabel] attribute on the custom-element
       this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
@@ -75,7 +79,7 @@ class LiteVimeoShowcase extends HTMLElement {
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
     iframeEl.src = `${showcaseUrl}?autoplay=${autoplay}`;
     iframeEl.allowFullscreen = true;
-    this.append(iframeEl);
+    this.prepend(iframeEl);
     iframeEl.addEventListener('load', iframeEl.focus, { once: true });
 
     const script = document.createElement('script');
@@ -95,15 +99,15 @@ class LiteVimeoShowcase extends HTMLElement {
             .then((response) => response.json())
             .then((data) => {
                 // Remove any existing h4 and p elements
-                const existingH4 = this.parentElement.querySelector('h4');
+                const existingH5 = this.parentElement.querySelector('h5');
                 const existingP = this.parentElement.querySelector('p');
-                if (existingH4) existingH4.remove();
+                if (existingH5) existingH5.remove();
                 if (existingP) existingP.remove();
 
                 // Create and append new h4 and p elements
-                const h4 = document.createElement('h4');
-                h4.innerHTML = data.title;
-                this.parentElement.append(h4);
+                const h5 = document.createElement('h5');
+                h5.innerHTML = data.title;
+                this.parentElement.append(h5);
                 const p = document.createElement('p');
                 p.innerHTML = data.description;
                 this.parentElement.append(p);
