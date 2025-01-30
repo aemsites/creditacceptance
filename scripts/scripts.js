@@ -14,6 +14,7 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
+import { loadPalette } from '../libs/utils/utils.js';
 
 /**
  * load fonts.css and set a session storage flag
@@ -130,7 +131,7 @@ export function linkTextIncludesHref(link) {
  */
 export function buildEmbedBlocks(main) {
   main.querySelectorAll('a[href]').forEach((a) => {
-    if ((a.href.includes('youtu') || a.href.includes('vimeo')) && linkTextIncludesHref(a)) {
+    if ((a.href.includes('youtu') || a.href.includes('vimeo')) && linkTextIncludesHref(a) && !a.closest('.block.embed')) {
       const embedBlock = buildBlock('embed', a.cloneNode(true));
       a.replaceWith(embedBlock);
       decorateBlock(embedBlock);
@@ -233,6 +234,7 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
+  await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
 }

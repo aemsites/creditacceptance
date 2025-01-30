@@ -57,7 +57,7 @@
   left: 7px;
 }
 
-lite-vimeo, lite-youtube {
+lite-vimeo, lite-youtube, lite-vimeo-showcase {
   container: playbutton / inline-size;
   background-color: var(--laz-black);
   position: relative;
@@ -140,6 +140,32 @@ overflow: hidden;
 position: absolute;
 white-space: nowrap;
 width: 1px;
+}
+
+.embed.showcase {
+  padding: 40px 15px 0;
+  max-width: 1050px;
+  border-radius: 16.7px;
+  background-color: #fff;
+  box-shadow: 0 9px 82px #0000001a,0 3px 12px #00000021;
+  margin-bottom: 4rem;
+  text-align: left;
+
+  h5 {
+    margin-top: 2rem;
+    padding-bottom: 1px;
+    margin-left: 10px;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    padding-bottom: 2rem;
+    margin-left: 10px;
+  }
+
+  lite-vimeo-showcase {
+    border-radius: 20px;
+  }
 }
 
 @media (width >= 600px) {
