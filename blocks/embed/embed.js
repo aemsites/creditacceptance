@@ -170,7 +170,6 @@ export default async function decorate(block) {
   } else {
     service = getPlatform(url);
   }
-  console.log('service', service);
   // Both YouTube and TikTok use an optimized lib that already leverages the intersection observer
   if (service !== 'youtube') {
     const observer = new IntersectionObserver((entries) => {
