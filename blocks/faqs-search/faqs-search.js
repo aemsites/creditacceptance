@@ -25,8 +25,10 @@ function clearSearchResults(block) {
 
 function buildSearchResults(results, block) {
   let accordion = block.querySelector('.accordion');
+  const mainAccordion = block.closest('.section').querySelector('.accordion-wrapper > .accordion');
   if (!accordion) {
-    accordion = createTag('div', { class: 'accordion faqs block', 'data-block-name': 'accordion' });
+    accordion = createTag('div', { class: 'accordion block', 'data-block-name': 'accordion' });
+    if (mainAccordion) { accordion.classList.add(...mainAccordion.classList); }
     accordion.append(...results);
     const accordionWrapper = createTag('div', { class: 'accordion-wrapper' }, accordion);
     block.append(accordionWrapper);
