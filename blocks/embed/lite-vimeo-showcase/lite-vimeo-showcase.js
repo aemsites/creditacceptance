@@ -70,7 +70,7 @@ class LiteVimeoShowcase extends HTMLElement {
       // Load the iframe after 3 seconds if not clicked
       setTimeout(() => {
         if (!this.classList.contains('ltv-activated')) {
-          this.loadIframe(showcaseUrl, 1);
+          this.loadIframe(showcaseUrl, 0);
         }
       }, 3000);
     }
