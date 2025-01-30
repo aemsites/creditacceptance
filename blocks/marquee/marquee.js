@@ -1,5 +1,10 @@
 import { createTag } from '../../libs/utils/utils.js';
-import { decorateBlockBg, palette } from '../../libs/utils/decorate.js';
+import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
+
+function isDarkColor(colors, colorStr) {
+  const colorObject = colors.find((c) => c['brand-name'] === colorStr);
+  return colorObject.dark === 'true';
+}
 
 function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');
@@ -14,11 +19,20 @@ function decorateIntro(el) {
   intro.appendChild(label);
   intro.appendChild(border);
   if (color) {
-    let colorStr = color.replace('}', '');
-    if (colorStr === 'black' || palette[colorStr]) label.style.color = '#ffffff';
-    if (palette[colorStr]) colorStr = palette[colorStr];
-    label.style.backgroundColor = colorStr;
-    border.style.backgroundColor = colorStr;
+    const colorStr = color.replace('}', '');
+    const isColorPalette = colorStr.startsWith('ca-');
+    const usedColor = isColorPalette ? `var(--${colorStr})` : colorStr;
+    const dark = isDarkHexColor(usedColor);
+    if (colorStr === 'black' || dark) label.style.color = '#ffffff';
+    label.style.backgroundColor = usedColor;
+    border.style.backgroundColor = usedColor;
+    // Check if colorStr is dark
+    if (isColorPalette) {
+      document.addEventListener('paletteLoaded', (event) => {
+        const isDark = isDarkColor(event.detail.palette, colorStr);
+        if (isDark) label.style.color = '#ffffff';
+      });
+    }
   }
 }
 

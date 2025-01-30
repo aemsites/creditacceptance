@@ -14,6 +14,7 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
+import { loadPalette } from '../libs/utils/utils.js';
 
 /**
  * load fonts.css and set a session storage flag
@@ -233,6 +234,7 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
+  await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
 }
