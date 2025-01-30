@@ -58,7 +58,12 @@ async function decorateSearch(block) {
   const inputElementWrapper = createTag('div', { class: 'search-input-wrapper' }, [inputElement, buttonElement]);
 
   const resultElementTextContent = result.lastElementChild?.firstElementChild?.textContent;
-  const resultElement = createTag('div', { class: 'search-result' }, resultElementTextContent);
+  const resultElementTextContentWithPlaceholders = resultElementTextContent
+    && resultElementTextContent
+      .replace(/{search-string}/, '<span class="search-string"></span>')
+      .replace(/{count}/, '<span class="count"></span>');
+  const resultElement = createTag('div', { class: 'search-result' }, resultElementTextContentWithPlaceholders);
+
   const form = createTag('form', { class: 'search-form' }, [labelElement, inputElementWrapper, resultElement]);
 
   function handleFormSubmit(event) {
@@ -73,7 +78,8 @@ async function decorateSearch(block) {
 
     buildSearchResults(results, block);
     if (resultElementTextContent) {
-      resultElement.textContent = resultElement.textContent.replace(/{search-string}/, `"${searchString}"`).replace(/{count}/, count);
+      resultElement.querySelector('.search-string').textContent = searchString;
+      resultElement.querySelector('.count').textContent = count;
     }
   }
 
@@ -81,9 +87,6 @@ async function decorateSearch(block) {
     if (event.target.value === '') {
       section.dataset.searched = false;
       clearSearchResults(block);
-      if (resultElementTextContent) {
-        resultElement.textContent = resultElementTextContent;
-      }
     }
   }
 
