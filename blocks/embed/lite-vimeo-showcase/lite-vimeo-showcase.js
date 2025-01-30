@@ -18,11 +18,6 @@ class LiteVimeoShowcase extends HTMLElement {
     return ['showcase-url'];
   }
 
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-  }
-
   connectedCallback() {
     /**
      * Lo, the vimeo placeholder image!  (aka the thumbnail, poster image, etc)
@@ -59,7 +54,9 @@ class LiteVimeoShowcase extends HTMLElement {
       // Once the user clicks, add the real iframe and drop our play button
       // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
       //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-      this.addEventListener('click', () => this.loadIframe(showcaseUrl));
+      this.addEventListener('click', () => {
+        this.loadIframe(showcaseUrl);
+      });
     }
   }
 
@@ -73,7 +70,7 @@ class LiteVimeoShowcase extends HTMLElement {
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
     iframeEl.src = `${showcaseUrl}?autoplay=1`;
     iframeEl.allowFullscreen = true;
-    this.shadowRoot.append(iframeEl);
+    this.append(iframeEl);
     iframeEl.addEventListener('load', iframeEl.focus, { once: true });
 
     const script = document.createElement('script');
@@ -83,7 +80,7 @@ class LiteVimeoShowcase extends HTMLElement {
   }
 
   initializePlayer() {
-    const iframe = this.shadowRoot.querySelector('iframe');
+    const iframe = this.querySelector('iframe');
     if (iframe) {
       const player = new Vimeo.Player(iframe);
 
@@ -93,7 +90,19 @@ class LiteVimeoShowcase extends HTMLElement {
             .then((response) => response.json())
             .then((data) => {
               console.log('Video Metadata:', data);
-              // You can use the metadata as needed
+                // Remove any existing h4 and p elements
+                const existingH4 = this.parentElement.querySelector('h4');
+                const existingP = this.parentElement.querySelector('p');
+                if (existingH4) existingH4.remove();
+                if (existingP) existingP.remove();
+
+                // Create and append new h4 and p elements
+                const h4 = document.createElement('h4');
+                h4.innerHTML = data.title;
+                this.parentElement.append(h4);
+                const p = document.createElement('p');
+                p.innerHTML = data.description;
+                this.parentElement.append(p);
             });
         });
       });
