@@ -91,7 +91,8 @@ const embedVimeo = async (url) => {
   return wrapper.outerHTML;
 };
 
-const embedShowcase = async (url) => {
+// Vimeo Showcase embed with lite-vimeo-showcase
+const embedShowcase = async (url, imageUrl) => {
   await loadScript('/blocks/embed/lite-vimeo-showcase/lite-vimeo-showcase.js');
   const showcaseUrl = url.href;
   const wrapper = document.createElement('div');
@@ -100,6 +101,7 @@ const embedShowcase = async (url) => {
 
   const litePlayer = document.createElement('lite-vimeo-showcase');
   litePlayer.setAttribute('showcase-url', showcaseUrl);
+  litePlayer.setAttribute('image-url', imageUrl);
   const playBtnEl = document.createElement('button');
   playBtnEl.setAttribute(('class', 'ltv-playbtn'), ('aria-label', 'Video play button'));
   wrapper.append(litePlayer);
@@ -137,7 +139,12 @@ const loadEmbed = async (block, service, url, height) => {
   try {
     block.classList.toggle(service, true);
     try {
-      block.innerHTML = await embed(url);
+      if(embedService === 'vimeoShowcase') {
+        const imageUrl = block.querySelectorAll('a')[1].href;
+        block.innerHTML = await embed(url, imageUrl);
+      } else {
+        block.innerHTML = await embed(url);
+      }
     } catch (err) {
       block.style.display = 'none';
     } finally {
@@ -157,7 +164,6 @@ export default async function decorate(block) {
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
 
-  block.textContent = '';
   const service = getPlatform(url);
   // Both YouTube and TikTok use an optimized lib that already leverages the intersection observer
   if (service !== 'youtube') {

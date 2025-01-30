@@ -30,7 +30,12 @@ class LiteVimeoShowcase extends HTMLElement {
     height = Math.round(height * devicePixelRatio);
 
     const showcaseUrl = this.getAttribute('showcase-url');
-    this.style.backgroundImage = `url("https://i.vimeocdn.com/video/890210899-6233116ba7d36ab8ec2f147081aaf6e315c622e3fe012df7e2e7289b45d6bb4d-d_${width}x${height}")`;
+    const imageUrl = this.getAttribute('image-url');
+    if (!imageUrl || imageUrl === 'undefined') {
+      this.loadIframe(showcaseUrl, 0);
+      return;
+    }
+    this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
     if (showcaseUrl) {
       let playBtnEl = this.querySelector('.ltv-playbtn');
       // A label for the button takes priority over a [playlabel] attribute on the custom-element
@@ -55,12 +60,12 @@ class LiteVimeoShowcase extends HTMLElement {
       // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
       //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
       this.addEventListener('click', () => {
-        this.loadIframe(showcaseUrl);
+        this.loadIframe(showcaseUrl, 1);
       });
     }
   }
 
-  loadIframe(showcaseUrl) {
+  loadIframe(showcaseUrl, autoplay) {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
     const iframeEl = document.createElement('iframe');
@@ -68,7 +73,7 @@ class LiteVimeoShowcase extends HTMLElement {
     iframeEl.height = "100%";
     iframeEl.title = this.playLabel;
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
-    iframeEl.src = `${showcaseUrl}?autoplay=1`;
+    iframeEl.src = `${showcaseUrl}?autoplay=${autoplay}`;
     iframeEl.allowFullscreen = true;
     this.append(iframeEl);
     iframeEl.addEventListener('load', iframeEl.focus, { once: true });
@@ -89,7 +94,6 @@ class LiteVimeoShowcase extends HTMLElement {
           fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
             .then((response) => response.json())
             .then((data) => {
-              console.log('Video Metadata:', data);
                 // Remove any existing h4 and p elements
                 const existingH4 = this.parentElement.querySelector('h4');
                 const existingP = this.parentElement.querySelector('p');
