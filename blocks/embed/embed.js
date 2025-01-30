@@ -139,7 +139,7 @@ const loadEmbed = async (block, service, url, height) => {
   try {
     block.classList.toggle(service, true);
     try {
-      if(embedService === 'vimeoShowcase') {
+      if (embedService === 'vimeoShowcase') {
         const imageUrl = block.querySelectorAll('a')[1].href;
         block.innerHTML = await embed(url, imageUrl);
       } else {
@@ -165,7 +165,7 @@ export default async function decorate(block) {
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
 
   let service;
-  if(block.classList.contains('showcase')) {
+  if (block.classList.contains('showcase')) {
     service = 'vimeoShowcase';
   } else {
     service = getPlatform(url);
