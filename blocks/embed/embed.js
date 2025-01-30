@@ -164,7 +164,13 @@ export default async function decorate(block) {
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
 
-  const service = getPlatform(url);
+  let service;
+  if(block.classList.contains('showcase')) {
+    service = 'vimeoShowcase';
+  } else {
+    service = getPlatform(url);
+  }
+  console.log('service', service);
   // Both YouTube and TikTok use an optimized lib that already leverages the intersection observer
   if (service !== 'youtube') {
     const observer = new IntersectionObserver((entries) => {
