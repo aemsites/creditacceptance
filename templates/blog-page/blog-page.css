@@ -10,6 +10,12 @@ body.blog-page {
         width: 100%;
     }
 
+    .section > .default-content-wrapper {
+        h2 {
+          margin-top: 3rem;
+        }
+      }
+
     @media screen and (width < 992px) {
         main>.section-outer>.section,
         footer .section-outer>.section,
