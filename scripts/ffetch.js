@@ -167,7 +167,7 @@ function assignOperations(generator, context) {
   return Object.assign(generator, operations, functions);
 }
 
-export default function ffetch(url, sheet) {
+export default function ffetch(url) {
   let chunks = 255;
   const fetch = (...rest) => window.fetch.apply(null, rest);
   const parseHtml = (html) => new window.DOMParser().parseFromString(html, 'text/html');
@@ -179,12 +179,7 @@ export default function ffetch(url, sheet) {
     }
   } catch (e) { /* ignore */ }
 
-  const context = {
-    chunks,
-    sheet,
-    fetch,
-    parseHtml,
-  };
+  const context = { chunks, fetch, parseHtml };
   const generator = request(url, context);
 
   return assignOperations(generator, context);

@@ -8,12 +8,12 @@ function titleToName(name) {
 
 const taxonomyEndpoint = '/tools/taxonomy.json';
 let taxonomyPromise;
-function fetchTaxonomy(sheet) {
+function fetchTaxonomy() {
   if (!taxonomyPromise) {
     taxonomyPromise = new Promise((resolve, reject) => {
       (async () => {
         try {
-          const taxonomyJson = await ffetch(taxonomyEndpoint, sheet).all();
+          const taxonomyJson = await ffetch(taxonomyEndpoint).sheet('tags').all();
           const taxonomy = {};
           let curType;
           let l1;
@@ -67,7 +67,7 @@ const getDeepNestedObject = (obj, filter) => Object.entries(obj)
  * @returns {Promise} the taxonomy
  */
 export function getTaxonomy() {
-  return fetchTaxonomy('tags');
+  return fetchTaxonomy();
 }
 
 /**

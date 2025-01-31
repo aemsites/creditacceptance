@@ -3,12 +3,12 @@
 import ffetch from '../../scripts/ffetch.js';
 
 let palettePromise;
-function fetchPalette(sheet) {
+function fetchPalette() {
   if (!palettePromise) {
     palettePromise = new Promise((resolve, reject) => {
       (async () => {
         try {
-          const paletteJson = await ffetch('/tools/taxonomy.json', sheet).all();
+          const paletteJson = await ffetch('/tools/taxonomy.json').sheet('palette').all();
           resolve(paletteJson);
         } catch (e) {
           reject(e);
@@ -20,7 +20,7 @@ function fetchPalette(sheet) {
 }
 
 export async function getPalette() {
-  return fetchPalette('palette');
+  return fetchPalette();
 }
 
 export async function loadPalette() {
