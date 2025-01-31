@@ -1,4 +1,5 @@
 // Shared block decorate functions
+import { loadFragment } from '../../blocks/fragment/fragment.js';
 
 /**
  * Checks if a hex color value is dark or light
@@ -119,4 +120,18 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
     block.style.background = node.textContent;
     node.remove();
   }
+}
+
+export async function decorateFragmentInBlock(block) {
+  const link = block.querySelector('a');
+  if (!link) return;
+  const linkHref = link.getAttribute('href');
+  const pathIsFragment = linkHref.includes('/fragments/');
+  if (!pathIsFragment) return;
+  const content = await loadFragment(linkHref);
+  if (!content) return;
+  const fragmentSection = content.querySelector('.section');
+  fragmentSection.classList.replace('section', 'block-fragment');
+  link.closest('div').appendChild(fragmentSection);
+  link.closest('p').remove();
 }

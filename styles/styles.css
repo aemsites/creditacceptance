@@ -359,7 +359,8 @@ main img {
 }
 
 .section > .default-content-wrapper {
-  h3,h4 {
+  padding: 1.5rem 1rem;
+  h3, h4 {
     margin-top: 3rem;
   }
 }
@@ -426,28 +427,28 @@ main > .section-outer > .section.spacing-4 {
   main > .section-outer > .section,
   footer .section-outer > .section,
   .block .container {
-    max-width: 540px;
+    max-width: var(--container-width);
     padding-left: 0;
     padding-right: 0;
   }
+  
+  .section > .default-content-wrapper {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   :root {  --container-width: 540px; }
 }
 
 @media screen and (width >= 768px) {
-    main > .section-outer > .section,
-    footer .section-outer > .section,
-    .block .container {
-        max-width: 720px;
-    }
     :root { --container-width: 720px; }
 }
 
 @media screen and (width >= 992px) {
-    main > .section-outer > .section,
-    footer .section-outer > .section,
-    header nav,
-    .block .container {
-        max-width: 960px;
+    header nav {
+        max-width: var(--container-width);
     }
     :root { --container-width: 960px; }
 }
@@ -469,21 +470,9 @@ main > .section-outer > .section.spacing-4 {
 }
 
 @media screen and (width >= 1200px) {
-    main > .section-outer > .section,
-    footer .section-outer > .section,
-    header nav,
-    .block .container {
-        max-width: 1140px;
-    }
     :root { --container-width: 1140px; }
 }
 
 @media screen and (width >= 1400px) {
-    main > .section-outer > .section,
-    footer .section-outer > .section,
-    header nav,
-    .block .container {
-        max-width: 1320px;
-    }
     :root { --container-width: 1320px; }
 }

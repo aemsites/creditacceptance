@@ -1,3 +1,7 @@
+import { decorateFragmentInBlock } from '../../libs/utils/decorate.js';
+
+// import decorateFragment from '../fragment/fragment.js';
+
 function getMediaHeightValue(e) {
   const match = [...e.classList].find((cls) => cls.startsWith('media-height-'))?.match(/^media-height-(\d+)$/);
   return match ? parseInt(match[1], 10) : null;
@@ -25,12 +29,17 @@ export default function decorate(block) {
   block.classList.add(`columns-${cols.length}-cols`);
 
   // setup media columns
-  cols.forEach((col) => {
+  cols.forEach((col, i) => {
     if (cols.length === 2) {
-      col.classList.add(col.querySelector('picture') ? 'media' : 'copy');
-    } else if (col.querySelector('picture')) {
-      col.classList.add('media');
+      const hasImg = col.querySelector('picture');
+      if (hasImg) {
+        col.classList.add('media');
+        if (i === 0) col.classList.add('media-left');
+      } else {
+        col.classList.add('copy');
+      }
     }
   });
   if (block.classList.contains('media-unbound')) applyMediaHeight(block);
+  decorateFragmentInBlock(block);
 }
