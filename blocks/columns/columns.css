@@ -1,6 +1,7 @@
 .columns > div {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .columns img {
@@ -11,23 +12,83 @@
   order: 1;
 }
 
-.columns > div > .columns-img-col {
+.columns > div > .media {
   order: 0;
 }
 
-.columns > div > .columns-img-col img {
+.columns > div > .media img {
   display: block;
 }
 
-@media (width >= 900px) {
+.section.columns-container:has(.columns.media-unbound) {
+    max-width: 100%;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.columns.media-unbound > div {
+  position: relative;
+
+  .copy { 
+      margin: 0 1.5rem;
+  }
+}
+
+.columns .button-container > p:last-child {
+    margin-top: 0;
+}
+
+@media screen and (width >= 576px) {
+	.columns.media-unbound > div {
+		div:not(.media) { 
+			margin: 0 auto;
+			width: var(--container-width);
+			max-width: var(--container-width);
+		}
+	}
+}
+
+@media screen and (width >= 960px) {
   .columns > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: 24px;
+	  flex-direction: unset;
   }
 
   .columns > div > div {
     flex: 1;
     order: unset;
+  }
+	
+  .section.columns-container:has(.columns.media-unbound) {
+    margin: 0 auto;
+    max-width: var(--container-width);
+  }
+
+  .columns.media-unbound .media {
+    position: relative;
+
+    picture {
+      position: absolute;
+      width: 50vw;
+      height: 100%;
+      overflow: visible;
+    }
+
+    img {
+      object-fit: cover;
+      object-position: bottom left;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px 0 0;
+    }
+  }
+
+  .columns.media-unbound .media-left picture {
+    right: 0;
+  }
+
+  .columns.media-unbound .media-left img {
+    object-position: bottom right;
+    border-radius: 0 8px;
   }
 }
