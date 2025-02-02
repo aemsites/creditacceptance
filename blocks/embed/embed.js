@@ -140,7 +140,7 @@ const loadEmbed = async (block, service, url, height) => {
     block.classList.toggle(service, true);
     try {
       if (embedService === 'vimeoShowcase') {
-        const imageUrl = block.querySelectorAll('a')[1].href;
+        const imageUrl = block.querySelector('img').src;
         block.innerHTML = await embed(url, imageUrl);
       } else {
         block.innerHTML = await embed(url);
