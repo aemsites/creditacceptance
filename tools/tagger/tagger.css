@@ -28,7 +28,8 @@ body {
     box-sizing: border-box;
     left: 0;
     display: grid;
-    gap: 1rem
+    gap: 1rem;
+    z-index: 1;
   }
 
   main #selected {
@@ -167,4 +168,57 @@ body {
   .offscreen {
     position: absolute;
     top: -1000px;
+  }
+
+  #palette {
+    margin: 0 0 1rem;
+    ul {
+        list-style-type: none;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: masonry;
+        margin: 0;
+        padding: 0;
+        background: #eaeaea;
+        font-size: 14px;
+        li {
+            position: relative;
+            padding: .5rem;
+        }
+        li:hover {
+            background-color: white;
+            cursor: pointer;
+        }
+        li.copied {
+            background-color: #cccccc;
+            &::after {
+                position: absolute;
+                content: attr(data-name) ' copied';
+                top: 8px;
+                right: 6px;
+                display: block;
+                padding: 4px 4px;
+                background-color: rgb(234, 255, 234);
+                font-size: 12px;
+                border: 1px solid rgb(95, 176, 95);
+                line-height: 12px;
+            }
+        }
+        .label p { 
+            margin: .5rem 0 0;
+            padding: 0;
+        }
+        .label p.value {
+            font-size: 16px;
+            margin: 0;
+        }
+        .swatch {
+            margin: 0;
+            padding: 0;
+            height: 50px;
+            width: 100%;
+            display: block;
+            border: 1px solid black;
+        }
+      }
   }
