@@ -187,9 +187,11 @@ h2 {
 }
 
 h3 { 
-  font-size: var(--heading-font-size-m); 
-  line-height: 24px;
-  margin-bottom: 0.75rem;
+  line-height: 34px;
+  font-family: var(--ff-acceptance-medium);
+  font-size: var(--heading-font-size-l);
+  font-weight: 500;
+  margin-bottom: .75rem;
 }
 
 h4 { 
