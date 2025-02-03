@@ -136,14 +136,24 @@ header .nav-brand {
   .icon { height: 100%; }
 }
 
+.nav-brand[data-nav-expanded="true"] {
+    .btn-user, 
+    .btn-brand {
+        visibility: hidden;
+    }
+}
+
 .nav-main,
 .nav-tools {
-  color: var(--black-olive);
+  color: var(--primary-black);
   font-size: 12px;
   font-family: var(--ff-acceptance-demi-bold);
   text-transform: uppercase;
   letter-spacing: 0.7px;
   line-height: 20px;
+  a{
+    color: var(--primary-black);
+  }
 }
 
 .nav-main {

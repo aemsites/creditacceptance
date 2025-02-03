@@ -83,6 +83,9 @@ function formatHeaderElements(fragments) {
         'aria-expanded': 'false',
         type: 'button',
       };
+      const brandLink = section.querySelector('.icon-CA_Logo');
+      if (brandLink) brandLink.parentNode.classList.add('btn-brand');
+      section.setAttribute('data-nav-expanded', 'false');
       const hamIcon = createTag('div', { class: 'icon-ham' }, '<span></span><span></span><span></span><span></span>');
       const hamBtn = createTag('button', hamAttr, hamIcon);
       contentWrapper.append(hamBtn);
@@ -102,9 +105,11 @@ function decorateFragment(block, fragment) {
   block.append(nav);
 
   const hamburger = document.querySelector('.btn-ham');
+  const navBrand = document.querySelector('.nav-brand');
   const navSections = document.querySelectorAll('.nav-section');
   hamburger.addEventListener('click', () => {
     const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    navBrand.setAttribute('data-nav-expanded', !isExpanded);
     hamburger.setAttribute('aria-expanded', !isExpanded);
     navSections.forEach((s) => {
       s.setAttribute('aria-expanded', !isExpanded);
