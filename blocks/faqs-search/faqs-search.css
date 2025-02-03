@@ -1,4 +1,4 @@
-.faqs-search-container[data-searched="true"]>div:not(:first-child) {
+.faqs-search-container[data-searched="true"]>.faqs-search-wrapper~* {
     display: none;
 }
 
