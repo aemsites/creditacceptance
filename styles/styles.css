@@ -49,6 +49,9 @@
   --btn-secondary-border: #2b4361;
   --btn-secondary-border-hover: #0A293B;
 
+  /* borders */
+  --bs-border-color: #dee2e6;
+
   /* fonts */
   --body-font-family: 'Visibly Regular', visby-regular-fallback, sans-serif;
   --heading-font-family: 'Acceptance Bold', acceptance-bold-fallback, sans-serif;

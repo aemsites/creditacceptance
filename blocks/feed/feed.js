@@ -1,27 +1,52 @@
-import ffetch from '../../scripts/ffetch.js';
-import { buildBlock, createOptimizedPicture, loadBlock } from '../../scripts/aem.js';
+import {
+  buildBlock, createOptimizedPicture, loadBlock, decorateIcons, decorateButtons,
+} from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
+import { formatCardLocaleDate } from './feed-helper.js';
 
 let queryIndexEndpoint;
-const placeholderCategory = 'Credit and Financing';
 let pager = 1;
-let limit = 20;
+let limit = 8;
 let feedItems = [];
 
-async function setFeedItems() {
-  const items = await ffetch(queryIndexEndpoint)
-    .filter((entry) => entry.category === placeholderCategory)
-    .limit(pager * limit).all();
+let selectedCategory;
+const categoryMap = {};
+let categories = [];
 
-  feedItems.push(...items);
+async function fetchData() {
+  const response = await fetch(queryIndexEndpoint);
+  if (!response.ok) return;
+  const data = await response.json();
+
+  data.data.forEach((dataItem) => {
+    if (dataItem.category) {
+      if (!categoryMap[dataItem.category]) {
+        categoryMap[dataItem.category] = [];
+      }
+      categoryMap[dataItem.category].push(dataItem);
+    }
+  });
+}
+
+function updateFeedItems(block) {
+  feedItems = categoryMap[selectedCategory].slice(0, pager * limit);
+
+  const loadMoreButtonElement = block.closest('.section').querySelector('.load-more');
+  if (!loadMoreButtonElement) return;
+
+  if (feedItems.length >= categoryMap[selectedCategory].length) {
+    loadMoreButtonElement.style.display = 'none';
+  } else {
+    loadMoreButtonElement.style.display = 'block';
+  }
+}
+
+async function loadMoreFeedItems(block) {
+  pager += 1;
+  updateFeedItems(block);
 }
 
 async function buildCards(block) {
-  const a = buildBlock('card', [
-    [`col-left`, 'col-right'],
-    [`col-left`, 'col-right'],
-  ])
-
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
@@ -36,34 +61,102 @@ async function buildCards(block) {
 
     const firstCol = createTag('div', null, [image]);
 
-    const heading = createTag('p', null, item.heading);
-    const description = createTag('p', null, item.description);
-    const link = createTag('a', { href: item.path }, 'Read >');
+    const date = item.date ?? item.lastModified;
+    const dateElement = createTag('p', { class: 'card-date' }, formatCardLocaleDate(date));
 
-    const secondCol = createTag('div', null, [heading, description, link]);
+    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.title}</strong>`);
+    const description = createTag('p', { class: 'card-description' }, item.description);
+
+    const link = createTag('a', { href: item.path }, 'Read >');
+    const secondaryLink = createTag('em', { class: 'button-container' }, link);
+    const linkWrapper = createTag('p', null, secondaryLink);
+
+    const secondCol = createTag('div', null, [dateElement, heading, description, linkWrapper]);
     cardBlock[index] = [firstCol, secondCol];
   });
-  block.innerHTML = '';
+
   const card = buildBlock('cards', cardBlock);
   card.dataset.blockName = 'cards';
-  console.log('card', card.cloneNode(true))
+  decorateButtons(card);
+  decorateIcons(card);
   const loadedCard = await loadBlock(card);
-  loadedCard.classList.add('rounded');
-  block.replaceWith(loadedCard);
-  console.log(cardBlock);
+  loadedCard.classList.add('rounded', 'block');
+  loadedCard.classList.add()
+  block.innerHTML = loadedCard.innerHTML;
+  block.classList.add(...loadedCard.classList);
+}
+
+function buildPager(block) {
+  const loadMoreButton = createTag('button', { class: 'load-more' }, 'Load More');
+  loadMoreButton.addEventListener('click', async () => {
+    await loadMoreFeedItems(block);
+    await buildCards(block);
+  });
+  const loadMoreButtonWrapper = createTag('div', { class: 'load-more-wrapper' }, loadMoreButton);
+  block.insertAdjacentElement('afterend', loadMoreButtonWrapper);
+}
+
+async function buildCategory(block) {
+  categories = Object.keys(categoryMap);
+
+  [selectedCategory] = categories;
+
+  const listItems = categories.map((category) => {
+    const button = createTag('button', { class: 'feed-tab' }, category);
+    const listItem = createTag('li', { class: 'feed-tab-item', role: 'tab' }, button);
+    button.addEventListener('click', async () => {
+      pager = 1;
+      limit = 8;
+      selectedCategory = category;
+      updateFeedItems(block);
+      await buildCards(block);
+
+      // when clicked add active class to the selected tab and remove from the rest
+      listItem.classList.add('active');
+      listItem.parentElement.childNodes.forEach((item) => {
+        if (item !== listItem) {
+          item.classList.remove('active');
+        }
+      });
+    });
+    return listItem;
+  });
+
+  // add active class to the first tab at first load
+  listItems[0].classList.add('active');
+  const ul = createTag('ul', { class: 'feed-tabs-list-desktop', role: 'tablist' }, listItems);
+
+  // mobile tabs as select
+  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, categories.map((category) => {
+    const option = createTag('option', { value: category.title }, category.title);
+    return option;
+  }));
+
+  select.addEventListener('change', async (event) => {
+    pager = 1;
+    limit = 8;
+    selectedCategory = categoryMap.find((category) => category.title === event.target.value);
+    updateFeedItems(block);
+    await buildCards(block);
+  });
+
+  const tabs = createTag('div', { class: 'feed-tabs' }, [ul, select]);
+
+  const section = createTag('div', { class: 'section feed-tabs-wrapper', 'data-section-status': 'loaded' }, tabs);
+  const sectionOuter = createTag('div', { class: 'section-outer feed-tabs', 'data-section-status': 'loaded' }, section);
+  block.closest('.section-outer').insertAdjacentElement('beforebegin', sectionOuter);
 }
 
 export default async function init(block) {
-  Array.from(block.children).forEach((row) => {
-    if (row.firstElementChild?.textContent === 'feed') {
-      const link = row.lastElementChild?.querySelector('a');
-      if (!link) return;
-      queryIndexEndpoint = link.href;
-    }
-  });
+  const link = block.querySelector('a');
+  if (!link) return;
+  queryIndexEndpoint = link.href;
 
   if (!queryIndexEndpoint) return;
 
-  await setFeedItems();
-  buildCards(block);
+  await fetchData();
+  await buildCategory(block);
+  updateFeedItems(block);
+  await buildCards(block);
+  buildPager(block);
 }

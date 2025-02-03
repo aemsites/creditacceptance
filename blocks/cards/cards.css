@@ -31,11 +31,12 @@
 
  .cards .cards-card-body .card-title {
     margin-block-start: 1rem;
+    min-height: 35px;
  }
 
  .cards .cards-card-body.ellipsed p {
      display: -webkit-box;
-     max-height: 130px !important;
+     max-height: 130px;
      overflow: hidden;
      text-overflow: ellipsis;
      white-space: break-spaces;

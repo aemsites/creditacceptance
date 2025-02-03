@@ -1,7 +1,7 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 
-function isDateValid(dateStr) {
+export function isDateValid(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return false;
 
   // eslint-disable-next-line no-restricted-globals
@@ -21,11 +21,9 @@ function decorateDate(data) {
 }
 
 export default function decorate(block) {
-  console.log('decorating cards', block.cloneNode(true));
   const isAnimated = block.classList.contains('animation');
   const ul = createTag('ul');
   [...block.children].forEach((row) => {
-    console.log('row', row.cloneNode(true));
     const li = createTag('li');
     if (isAnimated) li.classList.add('animation-scale');
     const cardWrapper = createTag('div', { class: 'card-wrapper' });
