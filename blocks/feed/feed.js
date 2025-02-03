@@ -6,12 +6,14 @@ import { formatCardLocaleDate } from './feed-helper.js';
 
 let queryIndexEndpoint;
 let pager = 1;
-let limit = 8;
+let limit = 7;
 let feedItems = [];
 
 let selectedCategory;
 const categoryMap = {};
 let categories = [];
+
+let featuredCard = 2;
 
 async function fetchData() {
   const response = await fetch(queryIndexEndpoint);
@@ -28,8 +30,8 @@ async function fetchData() {
   });
 }
 
-function updateFeedItems(block) {
-  feedItems = categoryMap[selectedCategory].slice(0, pager * limit);
+function updateFeedItems(block, end = pager * limit) {
+  feedItems = categoryMap[selectedCategory].slice(0, end);
 
   const loadMoreButtonElement = block.closest('.section').querySelector('.load-more');
   if (!loadMoreButtonElement) return;
@@ -43,23 +45,25 @@ function updateFeedItems(block) {
 
 async function loadMoreFeedItems(block) {
   pager += 1;
-  updateFeedItems(block);
+  const end = featuredCard ? (pager * (limit + 1)) - 1 : pager * limit;
+  updateFeedItems(block, end);
+}
+
+function setFeaturedCard(block) {
+  if (featuredCard === 0) return;
+  block.querySelector(`:scope > ul > li:nth-child(${featuredCard})`).classList.add('featured-card');
 }
 
 async function buildCards(block) {
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
-    // const mobileImage = createOptimizedPicture(item.mobileImage, item.imageAlt);
-    // const tabletImage = createOptimizedPicture(item.tabletImage, item.imageAlt);
-    // const desktopImage = createOptimizedPicture(item.image, item.imageAlt);
+    const imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
+    const tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
+    imageElement.className = 'card-image-all';
+    tabletImageElement.className = 'card-image-tablet';
 
-    // mobileImage.className = 'card-image-mobile';
-    // tabletImage.className = 'card-image-tablet';
-    // desktopImage.className = 'card-image-desktop';
-    const image = createOptimizedPicture(item.image, item.imageAlt);
-
-    const firstCol = createTag('div', null, [image]);
+    const firstCol = createTag('div', null, [imageElement, tabletImageElement]);
 
     const date = item.date ?? item.lastModified;
     const dateElement = createTag('p', { class: 'card-date' }, formatCardLocaleDate(date));
@@ -80,10 +84,11 @@ async function buildCards(block) {
   decorateButtons(card);
   decorateIcons(card);
   const loadedCard = await loadBlock(card);
-  loadedCard.classList.add('rounded', 'block');
-  loadedCard.classList.add()
+  loadedCard.classList.add('rounded', 'block', 'gap-xs');
   block.innerHTML = loadedCard.innerHTML;
   block.classList.add(...loadedCard.classList);
+
+  setFeaturedCard(block);
 }
 
 function buildPager(block) {
@@ -106,12 +111,10 @@ async function buildCategory(block) {
     const listItem = createTag('li', { class: 'feed-tab-item', role: 'tab' }, button);
     button.addEventListener('click', async () => {
       pager = 1;
-      limit = 8;
       selectedCategory = category;
       updateFeedItems(block);
       await buildCards(block);
 
-      // when clicked add active class to the selected tab and remove from the rest
       listItem.classList.add('active');
       listItem.parentElement.childNodes.forEach((item) => {
         if (item !== listItem) {
@@ -122,20 +125,17 @@ async function buildCategory(block) {
     return listItem;
   });
 
-  // add active class to the first tab at first load
   listItems[0].classList.add('active');
   const ul = createTag('ul', { class: 'feed-tabs-list-desktop', role: 'tablist' }, listItems);
 
-  // mobile tabs as select
   const select = createTag('select', { class: 'feed-tabs-select-mobile' }, categories.map((category) => {
-    const option = createTag('option', { value: category.title }, category.title);
+    const option = createTag('option', { value: category }, category);
     return option;
   }));
 
   select.addEventListener('change', async (event) => {
     pager = 1;
-    limit = 8;
-    selectedCategory = categoryMap.find((category) => category.title === event.target.value);
+    selectedCategory = event.target.value;
     updateFeedItems(block);
     await buildCards(block);
   });
@@ -143,14 +143,31 @@ async function buildCategory(block) {
   const tabs = createTag('div', { class: 'feed-tabs' }, [ul, select]);
 
   const section = createTag('div', { class: 'section feed-tabs-wrapper', 'data-section-status': 'loaded' }, tabs);
-  const sectionOuter = createTag('div', { class: 'section-outer feed-tabs', 'data-section-status': 'loaded' }, section);
-  block.closest('.section-outer').insertAdjacentElement('beforebegin', sectionOuter);
+  const newSectionOuter = createTag('div', { class: 'section-outer feed-tabs', 'data-section-status': 'loaded' }, section);
+  const sectionOuter = block.closest('.section-outer');
+  sectionOuter.insertAdjacentElement('beforebegin', newSectionOuter);
 }
 
 export default async function init(block) {
-  const link = block.querySelector('a');
-  if (!link) return;
-  queryIndexEndpoint = link.href;
+  const { children } = block;
+  Array.from(children).forEach((child) => {
+    const key = child.children[0].textContent?.toLowerCase();
+    const value = child.children[1].textContent?.toLowerCase();
+
+    switch (key) {
+      case 'path':
+        queryIndexEndpoint = new URL(value)?.pathname;
+        break;
+      case 'limit':
+        limit = parseInt(value, 10);
+        break;
+      case 'featured-card':
+        featuredCard = parseInt(value, 10);
+        break;
+      default:
+        break;
+    }
+  });
 
   if (!queryIndexEndpoint) return;
 
