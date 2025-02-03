@@ -105,13 +105,11 @@ class LiteVimeoShowcase extends HTMLElement {
           fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
             .then((response) => response.json())
             .then((data) => {
-                // Remove any existing h4 and p elements
                 const existingH5 = this.parentElement.querySelector('h5');
                 const existingP = this.parentElement.querySelector('p');
                 if (existingH5) existingH5.remove();
                 if (existingP) existingP.remove();
 
-                // Create and append new h4 and p elements
                 const h5 = document.createElement('h5');
                 h5.innerHTML = data.title;
                 this.parentElement.append(h5);

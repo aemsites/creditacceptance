@@ -40,6 +40,16 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
         let thumbnailUrl = data.thumbnail_url;
         thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
         this.style.backgroundImage = `url("${thumbnailUrl}")`;
+        // if one of the super parent has class .showcase-video, add the title and description
+        let showcase = this.closest('.showcase-video');
+        if (showcase) {
+          let h5 = document.createElement('h5');
+          h5.textContent = data.title;
+          this.parentElement.append(h5);
+          let p = document.createElement('p');
+          p.textContent = data.description;
+          this.parentElement.append(p);
+        }
       });
 
     let playBtnEl = this.querySelector('.ltv-playbtn');
