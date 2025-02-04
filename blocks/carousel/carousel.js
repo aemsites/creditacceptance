@@ -2,16 +2,24 @@ const isDesktop = window.matchMedia('(min-width: 960px)');
 let carouselId = 0;
 let step = 0;
 
+function observeElementWidth(element, callback) {
+  if (!element || typeof callback !== 'function') return;
+  const resizeObserver = new ResizeObserver((entries) => {
+    entries.forEach((entry) => {
+      const newWidth = entry.contentRect.width;
+      callback(newWidth);
+    });
+  });
+  resizeObserver.observe(element);
+}
+
 function getSlidesPerView(block) {
   if (!isDesktop.matches) return 1;
-
   const slidesPerViewRegex = /slides-per-view-(\d+)/;
   const slidePerViewClass = block.classList.value.match(slidesPerViewRegex);
-
   if (slidePerViewClass) {
     return parseInt(slidePerViewClass[1], 10);
   }
-
   return 1;
 }
 
@@ -176,6 +184,12 @@ export default async function decorate(block) {
       createSlideIndicators(slideIndicators, rows, block);
       showSlide(block, 0);
       bindIndicators(block);
+    });
+
+    observeElementWidth(block, () => {
+      const slides = block.querySelectorAll('.carousel-slide');
+      step = slides[0].getBoundingClientRect().width;
+      slidesWrapper.style.left = `${-block.dataset.activeSlide * step}px`;
     });
   }
 }
