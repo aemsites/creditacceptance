@@ -84,6 +84,32 @@ const createMetadataBlock = (main, document, url) => {
     meta.title = title.innerHTML.replace(/[\n\t]/gm, '');
   }
 
+  function convertWebPToJPEG(webpUrl, callback) {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous'; // This is important for cross-origin images
+
+    img.onload = function () {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      // Convert the canvas content to a JPEG data URL
+      const jpegUrl = canvas.toDataURL('image/jpeg');
+
+      // Call the callback function with the JPEG URL
+      callback(jpegUrl);
+    };
+
+    img.onerror = function () {
+      console.error('Failed to load the WebP image.');
+    };
+
+    img.src = webpUrl;
+  }
+
   // find the <meta property="og:description"> element
   const desc = document.querySelector('[property="og:description"]');
   if (desc) {
