@@ -14,6 +14,7 @@ const categoryMap = {};
 let categories = [];
 
 let featuredCard = 2;
+let dateAllowed = true;
 
 async function fetchData() {
   const response = await fetch(queryIndexEndpoint);
@@ -65,9 +66,6 @@ async function buildCards(block) {
 
     const firstCol = createTag('div', null, [imageElement, tabletImageElement]);
 
-    const date = item.date ?? item.lastModified;
-    const dateElement = createTag('p', { class: 'card-date' }, formatCardLocaleDate(date));
-
     const heading = createTag('p', { class: 'card-title' }, `<strong>${item.title}</strong>`);
     const description = createTag('p', { class: 'card-description' }, item.description);
 
@@ -75,7 +73,14 @@ async function buildCards(block) {
     const secondaryLink = createTag('em', { class: 'button-container' }, link);
     const linkWrapper = createTag('p', null, secondaryLink);
 
-    const secondCol = createTag('div', null, [dateElement, heading, description, linkWrapper]);
+    const secondCol = createTag('div', null, [heading, description, linkWrapper]);
+
+    if (dateAllowed) {
+      const date = item.date ?? item.lastModified;
+      const dateElement = createTag('p', { class: 'card-date' }, formatCardLocaleDate(date));
+      secondCol.prepend(dateElement);
+    }
+
     cardBlock[index] = [firstCol, secondCol];
   });
 
@@ -163,6 +168,9 @@ export default async function init(block) {
         break;
       case 'featured-card':
         featuredCard = parseInt(value, 10);
+        break;
+      case 'date':
+        dateAllowed = value === 'true' || value === 'yes';
         break;
       default:
         break;
