@@ -71,6 +71,7 @@ footer .footer p {
 
 .footer .accordion.sitemap details {
     border: none;
+    background: none;
 }
 
 .footer .accordion.sitemap details+details {
@@ -89,8 +90,15 @@ footer .footer p {
     margin: 0;
 }
 
+footer .accordion.sitemap details summary .accordion-item-plus,
+footer .accordion.sitemap details summary .accordion-item-minus {
+    font-size: 45px;
+    padding-bottom: 10px;
+}
+
 .footer .accordion.sitemap .accordion-item-body {
     margin-block-start: 16px;
+    padding-inline: 42px 16px;
 }
 
 .footer .accordion.sitemap .accordion-item-body ul {

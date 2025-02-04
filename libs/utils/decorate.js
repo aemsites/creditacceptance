@@ -1,6 +1,31 @@
 // Shared block decorate functions
 
 /**
+ * Checks if a hex color value is dark or light
+ *
+ * @param {string} color - Hex color value
+ */
+export function isDarkHexColor(color) {
+  const hexColor = (color.charAt(0) === '#') ? color.substring(1, 7) : color;
+  const r = parseInt(hexColor.substring(0, 2), 16); // hexToR
+  const g = parseInt(hexColor.substring(2, 4), 16); // hexToG
+  const b = parseInt(hexColor.substring(4, 6), 16); // hexToB
+  return ((r * 0.299) + (g * 0.587) + (b * 0.114)) <= 186;
+}
+
+/**
+ * Checks if a given URL points to an image file.
+ *
+ * @param {string} url - The URL to check.
+ * @returns {boolean} - Returns `true` if the URL points to an image file, otherwise `false`.
+ */
+export function isImagePath(url) {
+  if (!url) return false;
+  const urlWithoutParams = url.split('?')[0];
+  return /\.(jpg|jpeg|png|gif|bmp|svg|webp)$/i.test(urlWithoutParams);
+}
+
+/**
  * Decorates buttons within a given element by adding
  * appropriate classes based on their parent elements.
  *
@@ -9,7 +34,7 @@
  * It then assigns classes to these buttons based on their parent elements
  * and any custom classes found in the button text.
  *
- * @param {HTMLElement} el - The element within which to search for and decorate buttons.
+ * @param {HTMLElement} el - container element
  */
 export function decorateButtons(el) {
   const buttons = el.querySelectorAll('em a, strong a, p > a strong');
@@ -33,6 +58,7 @@ export function decorateButtons(el) {
         target.classList.add(match[1]);
       });
     }
+    button.parentElement?.classList.add('button-container');
   });
 }
 

@@ -1,5 +1,42 @@
 // Common Utils
 
+import ffetch from '../../scripts/ffetch.js';
+
+let palettePromise;
+function fetchPalette() {
+  if (!palettePromise) {
+    palettePromise = new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const paletteJson = await ffetch('/tools/taxonomy.json').sheet('palette').all();
+          resolve(paletteJson);
+        } catch (e) {
+          reject(e);
+        }
+      })();
+    });
+  }
+  return palettePromise;
+}
+
+export async function getPalette() {
+  return fetchPalette();
+}
+
+export async function loadPalette() {
+  const palette = await getPalette();
+  if (!palette) return;
+  palette.forEach((color) => {
+    window.CSS.registerProperty({
+      name: `--${color['brand-name']}`,
+      syntax: '<color> | <image>', // Any valid color or image(URL or a color gradient) value.
+      inherits: true,
+      initialValue: `${color['color-value']}`,
+    });
+  });
+  document.dispatchEvent(new CustomEvent('paletteLoaded', { detail: { palette } }));
+}
+
 export function isInTextNode(node) {
   return node.parentElement.firstChild.nodeType === Node.TEXT_NODE;
 }
@@ -26,19 +63,9 @@ export function createTag(tag, attributes, html, options = {}) {
   return el;
 }
 
-/**
- * Returns the relative path from a given path.
- * If the path is a URL, it extracts the pathname.
- * @param {string} path - The path to get the relative path from.
- * @returns {string} - The relative path.
- */
-export function getRelativePath(path) {
-  let relPath = path;
-  try {
-    const url = new URL(path);
-    relPath = url.pathname;
-  } catch (error) {
-    // do nothing
-  }
-  return relPath;
+export function addStyles(path) {
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.href = path;
+  return link;
 }

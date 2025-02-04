@@ -1,12 +1,10 @@
 import { createTag } from '../../libs/utils/utils.js';
-import { decorateBlockBg, decorateButtons } from '../../libs/utils/decorate.js';
+import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
 
-const palette = {
-  'brand-blue-light': 'rgb(15, 125, 156)',
-  'brand-blue': 'rgb(13, 93, 115)',
-  'brand-blue-dark': 'rgb(43, 67, 97)',
-  'brand-red': 'rgb(179, 71, 0)',
-};
+function isDarkColor(colors, colorStr) {
+  const colorObject = colors.find((c) => c['brand-name'] === colorStr);
+  return colorObject.dark === 'true';
+}
 
 function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');
@@ -21,11 +19,20 @@ function decorateIntro(el) {
   intro.appendChild(label);
   intro.appendChild(border);
   if (color) {
-    let colorStr = color.replace('}', '');
-    if (colorStr === 'black' || palette[colorStr]) label.style.color = '#ffffff';
-    if (palette[colorStr]) colorStr = palette[colorStr];
-    label.style.backgroundColor = colorStr;
-    border.style.backgroundColor = colorStr;
+    const colorStr = color.replace('}', '');
+    const isColorPalette = colorStr.startsWith('ca-');
+    const usedColor = isColorPalette ? `var(--${colorStr})` : colorStr;
+    const dark = isDarkHexColor(usedColor);
+    if (colorStr === 'black' || dark) label.style.color = '#ffffff';
+    label.style.backgroundColor = usedColor;
+    border.style.backgroundColor = usedColor;
+    // Check if colorStr is dark
+    if (isColorPalette) {
+      document.addEventListener('paletteLoaded', (event) => {
+        const isDark = isDarkColor(event.detail.palette, colorStr);
+        if (isDark) label.style.color = '#ffffff';
+      });
+    }
   }
 }
 
@@ -37,7 +44,6 @@ export default function decorate(block) {
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
-  decorateButtons(foreground);
   const buttons = foreground.querySelectorAll('.button');
   buttons.forEach((button) => {
     const actionArea = button.closest('p, div');
