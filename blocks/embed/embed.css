@@ -163,7 +163,7 @@ width: 1px;
     margin-left: 10px;
   }
 
-  lite-vimeo-showcase {
+  lite-vimeo-showcase, lite-vimeo {
     border-radius: 20px;
   }
 }
