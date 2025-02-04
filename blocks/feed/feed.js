@@ -84,7 +84,7 @@ async function buildCards(block) {
   decorateButtons(card);
   decorateIcons(card);
   const loadedCard = await loadBlock(card);
-  loadedCard.classList.add('rounded', 'block', 'gap-xs');
+  loadedCard.classList.add('rounded', 'block', 'gap-sm');
   block.innerHTML = loadedCard.innerHTML;
   block.classList.add(...loadedCard.classList);
 

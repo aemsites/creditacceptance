@@ -17,6 +17,7 @@
 
  .cards>ul>li>.card-wrapper {
      padding: 1rem 1.5rem;
+     overflow: hidden;
  }
 
  .cards .cards-card-body {
@@ -34,7 +35,7 @@
     min-height: 35px;
  }
 
- .cards .cards-card-body.ellipsed p {
+ .cards .cards-card-body.ellipsed p:first-of-type {
      display: -webkit-box;
      max-height: 130px;
      overflow: hidden;
