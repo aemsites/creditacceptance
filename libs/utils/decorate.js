@@ -1,11 +1,17 @@
 // Shared block decorate functions
 
-export const palette = {
-  'brand-blue-light': 'rgb(15, 125, 156)',
-  'brand-blue': 'rgb(13, 93, 115)',
-  'brand-blue-dark': 'rgb(43, 67, 97)',
-  'brand-red': 'rgb(179, 71, 0)',
-};
+/**
+ * Checks if a hex color value is dark or light
+ *
+ * @param {string} color - Hex color value
+ */
+export function isDarkHexColor(color) {
+  const hexColor = (color.charAt(0) === '#') ? color.substring(1, 7) : color;
+  const r = parseInt(hexColor.substring(0, 2), 16); // hexToR
+  const g = parseInt(hexColor.substring(2, 4), 16); // hexToG
+  const b = parseInt(hexColor.substring(4, 6), 16); // hexToB
+  return ((r * 0.299) + (g * 0.587) + (b * 0.114)) <= 186;
+}
 
 /**
  * Checks if a given URL points to an image file.

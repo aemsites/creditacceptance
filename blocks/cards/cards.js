@@ -1,6 +1,25 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 
+function isDateValid(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return false;
+
+  // eslint-disable-next-line no-restricted-globals
+  return !isNaN(new Date(dateStr));
+}
+
+function decorateDate(data) {
+  if (!data) return;
+
+  if (Array.from(data)) {
+    data.forEach((p) => {
+      if (isDateValid(p.textContent)) {
+        p.classList.add('date');
+      }
+    });
+  }
+}
+
 export default function decorate(block) {
   const isAnimated = block.classList.contains('animation');
   const ul = createTag('ul');
@@ -19,6 +38,17 @@ export default function decorate(block) {
         if (h3) {
           heading = h3;
           div.removeChild(h3);
+        }
+
+        const cardTitle = div.querySelector('h4, h5, h6');
+        cardTitle?.classList.add('card-title');
+
+        const paragraphs = div.querySelectorAll('p');
+        decorateDate(paragraphs);
+
+        const link = div.querySelector('a');
+        if (link) {
+          div.classList.add('ellipsed');
         }
       }
       const icon = div.querySelector('.icon img');
