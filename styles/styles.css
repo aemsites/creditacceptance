@@ -373,6 +373,7 @@ button.primary:hover {
 
 a.button.primary.blue {
   background-color: var(--btn-primary-blue-bg);
+  border-color: var(--btn-primary-blue-bg);
 }
 
 a.button.primary.blue:focus,
@@ -380,6 +381,7 @@ button.primary.blue:focus,
 a.button.primary.blue:hover,
 button.primary.blue:hover {
   background-color: var(--btn-primary-blue-bg-hover);
+  border-color: var(--btn-primary-blue-bg-hover);
 }
 
 a.button.secondary,
