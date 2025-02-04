@@ -142,7 +142,7 @@ white-space: nowrap;
 width: 1px;
 }
 
-.embed.showcase {
+.embed.showcase, .block.showcase-video .embed.block {
   padding: 40px 15px 0;
   max-width: 1050px;
   border-radius: 16.7px;
@@ -163,7 +163,7 @@ width: 1px;
     margin-left: 10px;
   }
 
-  lite-vimeo-showcase {
+  lite-vimeo-showcase, lite-vimeo {
     border-radius: 20px;
   }
 }
