@@ -130,10 +130,6 @@ main > .section-outer > .section.marquee-container {
     .marquee.max-width-100-desktop .foreground > div {
         max-width: 100%;
     }
-    
-    .marquee.height-auto-desktop .background {
-        height: unset;
-    }
 
     .marquee .action-area {
         gap: 1rem;
