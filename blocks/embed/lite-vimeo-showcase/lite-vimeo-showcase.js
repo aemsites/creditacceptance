@@ -38,7 +38,9 @@ class LiteVimeoShowcase extends HTMLElement {
     this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
     if (showcaseUrl) {
       const h5 = document.createElement('h5');
+      h5.classList.add('video-title');
       const p = document.createElement('p');
+      p.classList.add('video-description');
       this.parentElement.append(h5);
       this.parentElement.append(p);
       let playBtnEl = this.querySelector('.ltv-playbtn');
@@ -109,12 +111,13 @@ class LiteVimeoShowcase extends HTMLElement {
                 const existingP = this.parentElement.querySelector('p');
                 if (existingH5) existingH5.remove();
                 if (existingP) existingP.remove();
-
                 const h5 = document.createElement('h5');
                 h5.innerHTML = data.title;
                 this.parentElement.append(h5);
+                h5.classList.add('video-title');
                 const p = document.createElement('p');
                 p.innerHTML = data.description;
+                p.classList.add('video-description');
                 this.parentElement.append(p);
             });
         });

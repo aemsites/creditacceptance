@@ -45,9 +45,11 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
         if (showcase) {
           let h5 = document.createElement('h5');
           h5.textContent = data.title;
+          h5.classList.add('video-title');
           this.parentElement.append(h5);
           let p = document.createElement('p');
           p.textContent = data.description;
+          p.classList.add('video-description');
           this.parentElement.append(p);
         }
       });
