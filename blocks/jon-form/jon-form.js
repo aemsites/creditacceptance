@@ -1,7 +1,12 @@
 import { loadScript } from '../../scripts/aem.js';
 
 export default async function decorate(block) {
-  window.jonEnv = 'test';
+  if (window.location.host.endsWith('.live') || window.location.host.endsWith('creditacceptance.com')) {
+    window.jonEnv = 'prod';
+  } else {
+    window.jonEnv = 'test';
+  }
+
   await loadScript('/scripts/join-our-network-widget.js');
   const formComponent = document.createElement('join-our-network-form');
   setTimeout(() => {
