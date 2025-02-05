@@ -123,7 +123,7 @@ document.addEventListener('click', (event) => {
     const mainNav = document.querySelector('#nav');
     if (mainNav && !mainNav.contains(event.target)) {
       const hamburger = document.querySelector('.btn-ham');
-      hamburger.click();
+      if (hamburger.getAttribute('aria-expanded') === 'true') hamburger.click();
     }
   }
 });
