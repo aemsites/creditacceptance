@@ -22,7 +22,7 @@ function decorateDate(data) {
 }
 
 export default function decorate(block) {
-  const isAnimated = block.classList.contains('animation');
+  const isAnimated = block.classList.contains('animation') && !block.classList.contains('animation-none');
   const ul = createTag('ul');
   [...block.children].forEach((row) => {
     const li = createTag('li');

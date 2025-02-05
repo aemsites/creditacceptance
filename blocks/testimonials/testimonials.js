@@ -21,9 +21,8 @@ function getKeyValuePairs(block) {
         break;
 
       case 'include':
-        // spilit textContent by comma
         value = child.children[1].textContent?.split(',');
-        value.forEach((person) => people.push(person.trim()));
+        value.forEach((person) => people.push(person.trim().toLowerCase()));
         break;
 
       case 'limit':
@@ -54,7 +53,7 @@ async function decorateCards(reviews, block) {
     const nameElement = createTag('p', { class: 'card-person-name' }, name);
     const addressElement = createTag('p', { class: 'card-person-address' }, address);
 
-    const linkElement = createTag('a', { url }, 'Read >');
+    const linkElement = createTag('a', { href: url }, 'Read >');
     const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
     const linkWrapper = createTag('p', null, secondaryLink);
 
@@ -69,19 +68,20 @@ async function decorateCards(reviews, block) {
   decorateIcons(card);
 
   card.classList.add('rounded', 'block', 'animation', 'three-up');
+  card.classList.add(...block.classList);
   const loadedCard = await loadBlock(card);
+
+  block.classList.add(...card.classList);
   block.innerHTML = loadedCard.innerHTML;
-  block.classList.add(...loadedCard.classList);
 }
 
 export default async function init(block) {
-  console.log('-------start-------');
   const { link, people, limit } = getKeyValuePairs(block);
   const reviews = await ffetch(link.href)
     .filter((row) => {
       if (people.length === 0) return true;
 
-      return people.includes(row.name);
+      return people.includes(row.name.toLowerCase());
     })
     .limit(limit)
     .all();
@@ -89,5 +89,4 @@ export default async function init(block) {
   if (!reviews || !reviews.length) return;
 
   await decorateCards(reviews, block);
-  console.log('-------end-------');
 }

@@ -1,0 +1,20 @@
+.testimonials .card-image-person img{
+    height: 110px;
+    object-fit: contain;
+    object-position: left;
+}
+
+.testimonials .card-person-name {
+    font-family: var(--heading-font-family);
+    font-size: 19px;
+    line-height: 1;
+    color: var(--credit-indigo);
+    margin: 0;
+}
+
+.testimonials .card-person-address {
+    font-family: var(--heading-font-family);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0;
+}
