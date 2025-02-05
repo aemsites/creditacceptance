@@ -51,13 +51,13 @@ function updateActiveSlide(slide) {
     }
   });
 
-  if (slideIndex + getSlidesPerView(block) == slides.length) {
+  if (slideIndex + getSlidesPerView(block) === slides.length) {
     slideNext.setAttribute('disabled', 'true');
   } else {
     slideNext.removeAttribute('disabled');
   }
 
-  if (slideIndex == 0) {
+  if (slideIndex === 0) {
     slidePrev.setAttribute('disabled', 'true');
   } else {
     slidePrev.removeAttribute('disabled');

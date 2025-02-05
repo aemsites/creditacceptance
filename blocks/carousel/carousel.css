@@ -30,6 +30,7 @@
 
 .carousel .carousel-slide {
   flex: 0 0 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,10 +44,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: 100%;
+  width: calc(100% - 24px);
+  flex-direction: column;
   max-height: 220px;
 }
+
+.carousel.carousel.aspect-ratio-rectangle .carousel-slide-image {
+  justify-content: flex-start;
+} 
 
 .carousel .carousel-slide .carousel-slide-image picture {
   width: 100%;
@@ -56,10 +62,16 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  max-width: calc(100% - 24px);
   margin: 0 auto;
   display: flex;
+}
+
+.carousel.aspect-ratio-square .carousel-slide .carousel-slide-image picture > img {
   aspect-ratio: 1 / 1;
+}
+
+.carousel.aspect-ratio-rectangle .carousel-slide .carousel-slide-image picture > img {
+  aspect-ratio: 1.67 / 1;
 }
 
 .carousel.slides-per-view-3 .carousel-slide .carousel-slide-image  {
@@ -77,6 +89,10 @@
   top: 100%;
   left: 0;
   right: 0;
+}
+
+.carousel.pagination {
+  margin-bottom: 48px;
 }
 
 .carousel.pagination .carousel-slide-indicators {
