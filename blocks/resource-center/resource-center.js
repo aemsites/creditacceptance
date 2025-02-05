@@ -7,6 +7,22 @@ export default function decorate(block) {
   // setup image columns
   [...block.children].forEach((row) => {
     [...row.children].forEach((col) => {
+      // for each list item li, append a div with the class of link-button
+      const listItems = col.querySelectorAll('li');
+      listItems.forEach((li) => {
+        const link = li.querySelector('a');
+        if (!link) return;
+        const href = link.getAttribute('href');
+        const p = document.createElement('p');
+        p.className = 'button-container link-button';
+        const a = document.createElement('a');
+        a.className = 'button secondary';
+        a.textContent = '>';
+        a.href = href;
+        p.appendChild(a);
+        li.appendChild(p);
+      });
+
       const pic = col.querySelector('picture');
       if (pic) {
         const picWrapper = pic.closest('div');
@@ -29,20 +45,22 @@ export default function decorate(block) {
 
       const links = col.querySelectorAll('a');
       links.forEach((link) => {
-        const parent = link.closest('div');
-        const list = parent.querySelector('ul');
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          // Remove any existing embed block
-          const existingEmbedBlock = parent.querySelector('.block.embed');
-          if (existingEmbedBlock) {
-            existingEmbedBlock.remove();
-          }
-          const embedBlockOnClick = buildBlock('embed', link.cloneNode(true));
-          parent.insertBefore(embedBlockOnClick, list);
-          decorateBlock(embedBlockOnClick);
-          loadBlock(embedBlockOnClick);
-        });
+        if (a.href.includes('vimeo')) {
+          const parent = link.closest('div');
+          const list = parent.querySelector('ul');
+          link.addEventListener('click', (event) => {
+            event.preventDefault();
+            // Remove any existing embed block
+            const existingEmbedBlock = parent.querySelector('.block.embed');
+            if (existingEmbedBlock) {
+              existingEmbedBlock.remove();
+            }
+            const embedBlockOnClick = buildBlock('embed', link.cloneNode(true));
+            parent.insertBefore(embedBlockOnClick, list);
+            decorateBlock(embedBlockOnClick);
+            loadBlock(embedBlockOnClick);
+          });
+        }
       });
     });
   });
