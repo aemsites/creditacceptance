@@ -26,6 +26,8 @@ function getSlidesPerView(block) {
 function updateActiveSlide(slide) {
   const block = slide.closest('.carousel');
   const slideIndex = parseInt(slide.dataset.slideIndex, 10);
+  const slideNext = block.querySelector('.slide-next');
+  const slidePrev = block.querySelector('.slide-prev');
 
   const slides = block.querySelectorAll('.carousel-slide');
 
@@ -48,6 +50,18 @@ function updateActiveSlide(slide) {
       indicator.querySelector('button').setAttribute('disabled', 'true');
     }
   });
+
+  if (slideIndex + getSlidesPerView(block) == slides.length) {
+    slideNext.setAttribute('disabled', 'true');
+  } else {
+    slideNext.removeAttribute('disabled');
+  }
+
+  if (slideIndex == 0) {
+    slidePrev.setAttribute('disabled', 'true');
+  } else {
+    slidePrev.removeAttribute('disabled');
+  }
 }
 
 function showSlide(block, slideIndex = 0) {

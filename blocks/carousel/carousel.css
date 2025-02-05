@@ -98,6 +98,10 @@
   background: none;
 }
 
+.carousel .carousel-navigation-buttons button:disabled {
+  opacity: 0.5;
+}
+
 .carousel .carousel-slide-indicator button:disabled,
 .carousel .carousel-slide-indicator button:hover,
 .carousel .carousel-slide-indicator button:focus-visible {
