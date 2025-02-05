@@ -25,6 +25,15 @@ header {
       position: relative;
     }
     
+    details > summary {
+        list-style: none;
+    }
+        
+    details > summary::marker,
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+    
 }
 
 /* brand */
@@ -377,7 +386,7 @@ header .nav-brand {
     
     details[open] > summary::before {
       content: "\2304";
-    }  
+    }
   }
   
   /* nav tools */
