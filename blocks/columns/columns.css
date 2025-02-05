@@ -16,6 +16,11 @@
   order: 0;
 }
 
+.columns.vertical-center .copy,
+.columns.vertical-center .media {
+  align-content: center;
+}
+
 .columns > div > .media img {
   display: block;
 }

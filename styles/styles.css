@@ -215,7 +215,7 @@ ul, ol {
   }
 }
 
-ol {
+.ca-list ol {
     --number-size: 27px;
 
     counter-reset: ca-counter;

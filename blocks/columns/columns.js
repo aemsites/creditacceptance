@@ -38,7 +38,7 @@ window.addEventListener('resize', () => {
 
 export default function decorate(block) {
   const cols = [...block.firstElementChild.children];
-  block.classList.add(`columns-${cols.length}-cols`);
+  block.classList.add(`columns-${cols.length}-cols`, 'ca-list');
   // setup media columns
   cols.forEach((col, i) => {
     const hasImg = col.querySelector('picture');
