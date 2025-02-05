@@ -151,8 +151,13 @@ header .nav-brand {
   text-transform: uppercase;
   letter-spacing: 0.7px;
   line-height: 20px;
-  a{
-    color: var(--primary-black);
+
+  a {
+    color: var(--credit-indigo);
+
+    &:hover {
+        color: var(--primary-black);
+    }
   }
 }
 
@@ -286,7 +291,7 @@ header .nav-brand {
   header .nav-main .default-content-wrapper,
   header .nav-tools .default-content-wrapper {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     height: 100%;
     align-content: center;
   }

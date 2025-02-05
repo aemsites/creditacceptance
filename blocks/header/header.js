@@ -117,6 +117,33 @@ function decorateFragment(block, fragment) {
   });
 }
 
+// toggle mobile menu if clicked outside of nav
+document.addEventListener('click', (event) => {
+  if (!isDesktop.matches) {
+    const mainNav = document.querySelector('#nav');
+    if (mainNav && !mainNav.contains(event.target)) {
+      const hamburger = document.querySelector('.btn-ham');
+      hamburger.click();
+    }
+  }
+});
+
+function toggleView() {
+  const navBrand = document.querySelector('.nav-brand');
+  if (isDesktop.matches) {
+    navBrand.setAttribute('data-nav-expanded', 'false');
+  } else {
+    const hamburger = document.querySelector('.btn-ham');
+    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    navBrand.setAttribute('data-nav-expanded', isExpanded);
+  }
+}
+
+// Call toggleView on resize
+window.addEventListener('resize', () => {
+  toggleView();
+});
+
 /**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
