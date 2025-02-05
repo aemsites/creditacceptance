@@ -4,16 +4,38 @@ import {
 import { createTag } from '../../libs/utils/utils.js';
 import { decorateButtons } from '../../libs/utils/decorate.js';
 
+function getKeyValuePairs(block) {
+  const { children } = block;
+  const links = [];
+  let dateAllowed = true;
+  Array.from(children).forEach((child) => {
+    const key = child.children[0].textContent?.toLowerCase();
+
+    let value;
+    switch (key) {
+      case 'path':
+        value = child.children[1].querySelectorAll('a');
+        value.forEach((link) => links.push(new URL(link.href)?.pathname));
+        break;
+      case 'date':
+        value = child.children[1].textContent?.toLowerCase();
+        dateAllowed = value === 'true' || value === 'yes';
+        break;
+      default:
+        break;
+    }
+  });
+
+  return { links, dateAllowed };
+}
+
 export default async function init(block) {
-  const links = block.querySelectorAll('a');
+  const { links, dateAllowed } = getKeyValuePairs(block);
+
   const cardBlock = [];
 
   const promises = Array.from(links).map(async (link, index) => {
-    const { href } = link;
-    if (!href) return;
-
-    const url = new URL(href).pathname;
-    const response = await fetch(url);
+    const response = await fetch(link);
     if (!response.ok) return;
 
     const html = await response.text();
@@ -31,14 +53,14 @@ export default async function init(block) {
     const heading = createTag('h4', { class: 'card-title' }, [title]);
     const descriptionElement = createTag('p', { class: 'card-description' }, description);
 
-    const linkElement = createTag('a', { href }, 'Read >');
+    const linkElement = createTag('a', { link }, 'Read >');
     const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
     const linkWrapper = createTag('p', null, secondaryLink);
 
     const secondCol = createTag('div', null, [heading, descriptionElement, linkWrapper]);
 
     const date = getMetadata('date', doc);
-    if (date) {
+    if (date && dateAllowed) {
       const formattedDate = new Date(date).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'short',

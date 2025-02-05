@@ -15,6 +15,7 @@ function decorateDate(data) {
     data.forEach((p) => {
       if (isDateValid(p.textContent)) {
         p.classList.add('date');
+        p.closest('.cards-card-body')?.classList.add('has-date');
       }
     });
   }
