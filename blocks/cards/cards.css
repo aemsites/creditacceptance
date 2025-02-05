@@ -190,3 +190,18 @@
          max-width: calc(50% - 16px);
      }
  }
+
+/* careers */
+.cards.careers .card-wrapper {
+    background: var(--credit-indigo);
+    color: var(--text-color-light);
+}
+
+.cards.careers .card-wrapper .card-title {
+    min-height: 60px;
+}
+
+.cards.careers .card-wrapper a {
+    font-family: var(--ff-acceptance-regular);
+    color: var(--text-color-light);
+}

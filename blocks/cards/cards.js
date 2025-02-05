@@ -64,4 +64,8 @@ export default function decorate(block) {
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
   block.textContent = '';
   block.append(ul);
+
+  if (block.classList.contains('careers')) {
+    block.classList.add('rounded');
+  }
 }
