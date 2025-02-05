@@ -7,6 +7,7 @@ const isDesktop = window.matchMedia('(min-width: 960px)');
 const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 function createRipple(event) {
   const button = event.currentTarget;
@@ -44,7 +45,7 @@ function decorateMainMenu(section) {
     details.append(list);
 
     /* toggle on mouseover in desktop */
-    if (isDesktop.matches) {
+    if (isDesktop.matches && !isTouchDevice) {
       details.addEventListener('mouseover', () => {
         details.setAttribute('open', '');
       });
@@ -117,14 +118,23 @@ function decorateFragment(block, fragment) {
   });
 }
 
-// toggle mobile menu if clicked outside of nav
+/* Handle click outside of nav on mobile and detail on desktop */
 document.addEventListener('click', (event) => {
   if (!isDesktop.matches) {
     const mainNav = document.querySelector('#nav');
+    // toggle mobile menu if clicked outside of nav
     if (mainNav && !mainNav.contains(event.target)) {
       const hamburger = document.querySelector('.btn-ham');
       if (hamburger.getAttribute('aria-expanded') === 'true') hamburger.click();
     }
+  } else {
+    const details = document.querySelectorAll('#nav details');
+    details.forEach((detail) => {
+      // toggle main menu detail if clicked outside
+      if (detail && !detail.contains(event.target)) {
+        if (detail.hasAttribute('open')) detail.removeAttribute('open');
+      }
+    });
   }
 });
 
