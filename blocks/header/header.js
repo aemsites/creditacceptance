@@ -128,7 +128,7 @@ function decorateFragment(block, fragment) {
   const hamburger = document.querySelector('.btn-ham');
   const navBrand = document.querySelector('.nav-brand');
   const navSections = document.querySelectorAll('.nav-section');
-  hamburger.addEventListener('click', () => {
+  hamburger?.addEventListener('click', () => {
     const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
     navBrand.setAttribute('data-nav-expanded', !isExpanded);
     hamburger.setAttribute('aria-expanded', !isExpanded);
