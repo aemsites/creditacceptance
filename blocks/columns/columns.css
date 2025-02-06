@@ -1,3 +1,8 @@
+.columns {
+  position: relative;
+  z-index: 0;
+}
+
 .columns > div {
   display: flex;
   flex-direction: column;
@@ -42,6 +47,17 @@
 
 .columns .button-container > p:last-child {
     margin-top: 0;
+}
+
+.columns.bg-shape-white .copy:last-of-type::before {
+  position: absolute;
+  content: url(../../icons/proofpoint-background.webp);
+  transform: scale(.7); 
+  transform-origin: right top;
+  display: block;
+  top: -30px;
+  right: 0;
+  z-index: -1;
 }
 
 @media screen and (width >= 576px) {
