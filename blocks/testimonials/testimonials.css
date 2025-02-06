@@ -1,4 +1,4 @@
-.testimonials .card-image-person img{
+.testimonials .card-image-person img {
     height: 110px;
     object-fit: contain;
     object-position: left;
@@ -17,4 +17,19 @@
     font-size: 13px;
     line-height: 1.7;
     margin: 0;
+}
+
+.testimonials .url-none .card-person-address {
+    min-height: 45px;
+}
+
+.testimonials .card-description {
+    display: -webkit-box;
+    max-height: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: break-spaces;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }

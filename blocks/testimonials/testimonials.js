@@ -10,6 +10,8 @@ function getKeyValuePairs(block) {
   let link;
   const people = [];
   let limit = 3;
+  let url;
+
   Array.from(children).forEach((child) => {
     const key = child.children[0].textContent?.toLowerCase();
 
@@ -18,6 +20,10 @@ function getKeyValuePairs(block) {
       case 'path':
         value = child.children[1].querySelector('a');
         link = value;
+        break;
+
+      case 'url':
+        url = child.children[1].textContent?.trim();
         break;
 
       case 'include':
@@ -29,21 +35,25 @@ function getKeyValuePairs(block) {
         value = child.children[1].textContent?.trim();
         limit = parseInt(value, 10);
         break;
+
       default:
         break;
     }
   });
 
-  return { link, people, limit };
+  return {
+    link, people, limit, url,
+  };
 }
 
-async function decorateCards(reviews, block) {
+async function decorateCards(block, { reviews, url }) {
   const cardBlock = [];
 
   reviews.forEach((item, index) => {
     const {
-      name, address, image, review, url,
+      name, address, image, review, url: rowUrl,
     } = item;
+
     const imageElement = createOptimizedPicture(image, name);
     imageElement.classList.add('card-image-person');
 
@@ -53,11 +63,17 @@ async function decorateCards(reviews, block) {
     const nameElement = createTag('p', { class: 'card-person-name' }, name);
     const addressElement = createTag('p', { class: 'card-person-address' }, address);
 
-    const linkElement = createTag('a', { href: url }, 'Read >');
-    const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
-    const linkWrapper = createTag('p', null, secondaryLink);
+    const secondCol = createTag('div', null, [reviewElement, nameElement, addressElement]);
+    secondCol.classList.add('url-none');
 
-    const secondCol = createTag('div', null, [reviewElement, nameElement, addressElement, linkWrapper]);
+    if (url !== 'false') {
+      const linkElement = createTag('a', { href: rowUrl || url }, 'Read >');
+      const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
+      const linkWrapper = createTag('p', null, secondaryLink);
+
+      secondCol.classList.remove('url-none');
+      secondCol.append(linkWrapper);
+    }
 
     cardBlock[index] = [firstCol, secondCol];
   });
@@ -76,7 +92,9 @@ async function decorateCards(reviews, block) {
 }
 
 export default async function init(block) {
-  const { link, people, limit } = getKeyValuePairs(block);
+  const {
+    link, people, limit, url,
+  } = getKeyValuePairs(block);
   const reviews = await ffetch(link.href)
     .filter((row) => {
       if (people.length === 0) return true;
@@ -88,5 +106,5 @@ export default async function init(block) {
 
   if (!reviews || !reviews.length) return;
 
-  await decorateCards(reviews, block);
+  await decorateCards(block, { reviews, url });
 }
