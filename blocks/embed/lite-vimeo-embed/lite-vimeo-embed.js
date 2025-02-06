@@ -81,6 +81,8 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
   addIframe() {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
+    //remove the background image
+    this.style.backgroundImage = '';
 
     const iframeEl = document.createElement('iframe');
     iframeEl.width = 640;
