@@ -17,6 +17,8 @@
 
  .cards>ul>li>.card-wrapper {
      padding: 1rem 1.5rem;
+     overflow: hidden;
+     height: 100%;
  }
 
  .cards .cards-card-body {
@@ -31,11 +33,14 @@
 
  .cards .cards-card-body .card-title {
     margin-block-start: 1rem;
+    min-height: 35px;
  }
 
- .cards .cards-card-body.ellipsed p {
+ .cards .cards-card-body.ellipsed p:nth-of-type(1),
+ .cards .cards-card-body.ellipsed.has-date p:nth-of-type(2),
+ .cards .cards-card-body.ellipsed p.card-description {
      display: -webkit-box;
-     max-height: 130px !important;
+     max-height: 130px;
      overflow: hidden;
      text-overflow: ellipsis;
      white-space: break-spaces;

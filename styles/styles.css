@@ -34,20 +34,23 @@
   --tertiary-indigo: #3d5470;
 
   /* link text color */
-  --link-text-color: hsl(193deg 82% 34%);
-  --link-text-color-hover: hsl(193deg 82% 20%);
-  --link-text-color-visited: hsl(193deg 82% 20%);
-  --link-text-color-light: hsl(193deg 82% 65%);
-  --link-text-color-light-hover: hsl(193deg 82% 75%);
-  --link-text-color-light-visited: hsl(193deg 82% 75%);
+  --link-text-color: oklch(62% 0.09 264deg);
+  --link-text-color-hover: oklch(52% 0.09 264deg);
+  --link-text-color-visited: oklch(52% 0.09 264deg);
+  --link-text-color-light: oklch(82% 0.09 264deg);
+  --link-text-color-light-hover: oklch(92% 0.09 264deg);
+  --link-text-color-light-visited: oklch(92% 0.09 264deg);
 
   /* buttons */
-  --btn-primary-bg: hsl(43deg 100% 50%);
-  --btn-primary-bg-hover: hsl(43deg 100% 41%);
-  --btn-primary-blue-bg: hsl(193deg 84% 87%);
-  --btn-primary-blue-bg-hover: hsl(193deg 84% 80%);
-  --btn-secondary-border: #2b4361;
-  --btn-secondary-border-hover: #0A293B;
+  --btn-primary-bg: oklch(83% 0.17 81.97deg / 100%);
+  --btn-primary-bg-hover: oklch(73% 0.14 81.97deg);
+  --btn-primary-blue-bg: oklch(91% 0.11 233.5deg);
+  --btn-primary-blue-bg-hover: oklch(84% 0.11 233.5deg);
+  --btn-secondary-border: oklch(38% 0.06 254.57deg / 100%);
+  --btn-secondary-border-hover: oklch(27% 0.05 238.22deg / 100%);
+
+  /* borders */
+  --bs-border-color: #dee2e6;
 
   /* fonts */
   --body-font-family: 'Visibly Regular', visby-regular-fallback, sans-serif;
@@ -212,33 +215,6 @@ ul, ol {
   }
 }
 
-ol {
-    --number-size: 27px;
-
-    counter-reset: ca-counter;
-    list-style: none;
-    margin-inline-start: var(--number-size);
-    padding-inline-start: .75rem;
-    position: relative;
-
-    li {  counter-increment: ca-counter; }
-    
-    li::before {
-        background: var(--credit-indigo);
-        border-radius: 50%;
-        color: white;
-        content: counter(ca-counter);
-        font-family: var(--ff-acceptance-demi-bold);
-        font-size: 12px;
-        height: var(--number-size);
-        left: calc(var(--number-size) * -1);
-        line-height: var(--number-size);
-        position: absolute;
-        text-align: center;
-        width: var(--number-size);
-    }
-}
-
 b, strong {
   font-weight: bolder;
 }
@@ -280,6 +256,33 @@ textarea,
 select,
 button {
   font: inherit;
+}
+
+.ca-list ol {
+  --number-size: 27px;
+
+  counter-reset: ca-counter;
+  list-style: none;
+  margin-inline-start: var(--number-size);
+  padding-inline-start: .75rem;
+  position: relative;
+
+  li {  counter-increment: ca-counter; }
+  
+  li::before {
+      background: var(--credit-indigo);
+      border-radius: 50%;
+      color: white;
+      content: counter(ca-counter);
+      font-family: var(--ff-acceptance-demi-bold);
+      font-size: 12px;
+      height: var(--number-size);
+      left: calc(var(--number-size) * -1);
+      line-height: var(--number-size);
+      position: absolute;
+      text-align: center;
+      width: var(--number-size);
+  }
 }
 
 /* links */
@@ -370,6 +373,7 @@ button.primary:hover {
 
 a.button.primary.blue {
   background-color: var(--btn-primary-blue-bg);
+  border-color: var(--btn-primary-blue-bg);
 }
 
 a.button.primary.blue:focus,
@@ -377,6 +381,7 @@ button.primary.blue:focus,
 a.button.primary.blue:hover,
 button.primary.blue:hover {
   background-color: var(--btn-primary-blue-bg-hover);
+  border-color: var(--btn-primary-blue-bg-hover);
 }
 
 a.button.secondary,
@@ -393,7 +398,7 @@ a.button.secondary:focus,
 button.secondary:focus,
 a.button.secondary:hover,
 button.secondary:hover {
-  box-shadow: 0 0 0 1px var(--btn-secondary-border-hover); /* Simulate border increase */
+  box-shadow: inset 0 0 0 1px var(--btn-secondary-border-hover); /* Simulate border increase */
   color: var(--btn-secondary-border-hover);
 }
 

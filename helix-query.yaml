@@ -18,7 +18,7 @@ indices:
       - '**/test/**'
       - /nav
       - /footer
-    target: /query-index.json
+    target: /index/query-index.json
     properties:
       title:
         select: head > meta[property="og:title"]
@@ -46,7 +46,7 @@ indices:
       - /car-buyers/express-lane/**
       - /blog/consumer/**
     exclude: *excludes
-    target: /car-buyers/express-lane/query-index.json
+    target: /index/customer-blogs.json
     properties:
       title:
         select: head > meta[property="og:title"]
@@ -86,7 +86,7 @@ indices:
       - /dealers/the-lot/**
       - /blog/dealer/**
     exclude: *excludes
-    target: /dealers/the-lot/query-index.json
+    target: /index/dealer-blogs.json
     properties:
       title:
         select: head > meta[property="og:title"]
