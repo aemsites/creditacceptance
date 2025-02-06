@@ -36,8 +36,16 @@ function decorateMainMenu(section) {
   const navHeaders = section.querySelectorAll('h3');
   if (!navHeaders) return;
   [...navHeaders].forEach((navHeader, i) => {
-    const summaryTag = createTag('summary', { class: 'nav-summary' }, navHeader.textContent);
-    const details = createTag('details', { class: `nav-detail detail-${i}` }, summaryTag);
+    const summaryTag = createTag(
+      'summary',
+      { class: 'nav-summary' },
+      navHeader.textContent,
+    );
+    const details = createTag(
+      'details',
+      { class: `nav-detail detail-${i}` },
+      summaryTag,
+    );
     navHeader.replaceWith(details);
     const list = details.nextElementSibling;
     const listLinks = list.querySelectorAll('li');
@@ -75,7 +83,15 @@ function formatHeaderElements(fragments) {
     const contentWrapper = section.querySelector('.default-content-wrapper');
     if (i === 0) {
       const userIcon = createTag('img', { src: icons.user, alt: 'Login' });
-      const userBtn = createTag('a', { class: 'btn-mobile btn-user', href: 'https://customer.creditacceptance.com/login', target: '_blank' }, userIcon);
+      const userBtn = createTag(
+        'a',
+        {
+          class: 'btn-mobile btn-user',
+          href: 'https://customer.creditacceptance.com/login',
+          target: '_blank',
+        },
+        userIcon,
+      );
       contentWrapper.prepend(userBtn);
       const hamAttr = {
         class: 'btn-mobile btn-ham',
@@ -87,7 +103,11 @@ function formatHeaderElements(fragments) {
       const brandLink = section.querySelector('.icon-CA_Logo');
       if (brandLink) brandLink.parentNode.classList.add('btn-brand');
       section.setAttribute('data-nav-expanded', 'false');
-      const hamIcon = createTag('div', { class: 'icon-ham' }, '<span></span><span></span><span></span><span></span>');
+      const hamIcon = createTag(
+        'div',
+        { class: 'icon-ham' },
+        '<span></span><span></span><span></span><span></span>',
+      );
       const hamBtn = createTag('button', hamAttr, hamIcon);
       contentWrapper.append(hamBtn);
     } else {
@@ -165,3 +185,24 @@ export default async function decorate(block) {
   const fragment = await loadFragment(navPath);
   decorateFragment(block, fragment);
 }
+
+function addStyles(path) {
+  const link = document.createElement('link');
+  link.setAttribute('rel', 'stylesheet');
+  link.href = path;
+  return link;
+}
+
+class CAHeaderWebComponent extends HTMLElement {
+  // connect component
+  async connectedCallback() {
+    const shadow = this.attachShadow({ mode: 'open' });
+    await decorate(shadow);
+    shadow.prepend(addStyles('/blocks/aem-header/aem-header.css'));
+    shadow.prepend(addStyles('/styles/styles.css'));
+    shadow.prepend(addStyles('/styles/fonts.css'));
+  }
+}
+
+// register component
+customElements.define('ca-header', CAHeaderWebComponent);
