@@ -215,33 +215,6 @@ ul, ol {
   }
 }
 
-ol {
-    --number-size: 27px;
-
-    counter-reset: ca-counter;
-    list-style: none;
-    margin-inline-start: var(--number-size);
-    padding-inline-start: .75rem;
-    position: relative;
-
-    li {  counter-increment: ca-counter; }
-    
-    li::before {
-        background: var(--credit-indigo);
-        border-radius: 50%;
-        color: white;
-        content: counter(ca-counter);
-        font-family: var(--ff-acceptance-demi-bold);
-        font-size: 12px;
-        height: var(--number-size);
-        left: calc(var(--number-size) * -1);
-        line-height: var(--number-size);
-        position: absolute;
-        text-align: center;
-        width: var(--number-size);
-    }
-}
-
 b, strong {
   font-weight: bolder;
 }
@@ -283,6 +256,33 @@ textarea,
 select,
 button {
   font: inherit;
+}
+
+.ca-list ol {
+  --number-size: 27px;
+
+  counter-reset: ca-counter;
+  list-style: none;
+  margin-inline-start: var(--number-size);
+  padding-inline-start: .75rem;
+  position: relative;
+
+  li {  counter-increment: ca-counter; }
+  
+  li::before {
+      background: var(--credit-indigo);
+      border-radius: 50%;
+      color: white;
+      content: counter(ca-counter);
+      font-family: var(--ff-acceptance-demi-bold);
+      font-size: 12px;
+      height: var(--number-size);
+      left: calc(var(--number-size) * -1);
+      line-height: var(--number-size);
+      position: absolute;
+      text-align: center;
+      width: var(--number-size);
+  }
 }
 
 /* links */
