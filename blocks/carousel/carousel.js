@@ -1,3 +1,5 @@
+import { createTag } from '../../libs/utils/utils.js';
+
 const isDesktop = window.matchMedia('(min-width: 960px)');
 let carouselId = 0;
 let step = 0;
@@ -23,6 +25,50 @@ function getSlidesPerView(block) {
   return 1;
 }
 
+function decorateRelatedSection(block) {
+  const allSections = document.querySelectorAll('.section');
+  const relatedSections = [...allSections].map((section) => {
+    const match = section.className.match(/\bcarousel-(\d+)\b/);
+    return match ? { element: section, className: match[0], index: (Number(match[1]) - 1) } : null;
+  }).filter(Boolean);
+  if (!relatedSections.length) return;
+  const sectionsContainer = createTag('div', { class: 'sections-group' });
+  relatedSections.forEach((section) => {
+    section.element.parentElement.setAttribute('data-carousel', `${section.index}`);
+    // section.element.parentElement.setAttribute('hidden', 'true');
+    sectionsContainer.append(section.element.parentNode);
+  });
+  const blockOuterSection = block.closest('.section-outer');
+  sectionsContainer.style.backgroundColor = blockOuterSection.style.backgroundColor;
+  blockOuterSection.before(sectionsContainer);
+}
+
+function updateRelatedSection(activeSlide) {
+  const allOuterSections = document.querySelectorAll('.section-outer');
+  const relatedSections = [...allOuterSections].map((sectionOuter) => {
+    const match = sectionOuter.dataset.carousel;
+    return match ? { element: sectionOuter, index: match[0] } : null;
+  }).filter(Boolean);
+  relatedSections.forEach((related) => {
+    const isTarget = (related.index === activeSlide.dataset.slideIndex);
+    if (isTarget) {
+      // acivate target and scroll into view
+      related.element.setAttribute('active', 'true');
+      related.element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'start',
+      });
+      // set group height
+      const sectionsGroup = document.querySelector('.sections-group');
+      const relatedSectionHeight = related.element.firstChild.clientHeight;
+      sectionsGroup.style.height = `${relatedSectionHeight}px`;
+    } else {
+      related.element.setAttribute('active', 'false');
+    }
+  });
+}
+
 function updateActiveSlide(slide) {
   const block = slide.closest('.carousel');
   const slideIndex = parseInt(slide.dataset.slideIndex, 10);
@@ -30,6 +76,8 @@ function updateActiveSlide(slide) {
   const slidePrev = block.querySelector('.slide-prev');
 
   const slides = block.querySelectorAll('.carousel-slide');
+
+  if (block.classList.contains('related-sections')) updateRelatedSection(slide);
 
   slides.forEach((aSlide, idx) => {
     aSlide.setAttribute('aria-hidden', idx !== slideIndex);
@@ -177,6 +225,7 @@ export default async function decorate(block) {
     `;
 
     block.append(slideNavButtons);
+    if (block.classList.contains('related-sections')) decorateRelatedSection(block);
   }
 
   rows.forEach((row, idx) => {
