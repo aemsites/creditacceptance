@@ -7,6 +7,7 @@ const isDesktop = window.matchMedia('(min-width: 960px)');
 const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 function createRipple(event) {
   const button = event.currentTarget;
@@ -44,7 +45,7 @@ function decorateMainMenu(section) {
     details.append(list);
 
     /* toggle on mouseover in desktop */
-    if (isDesktop.matches) {
+    if (isDesktop.matches && !isTouchDevice) {
       details.addEventListener('mouseover', () => {
         details.setAttribute('open', '');
       });
@@ -83,6 +84,9 @@ function formatHeaderElements(fragments) {
         'aria-expanded': 'false',
         type: 'button',
       };
+      const brandLink = section.querySelector('.icon-CA_Logo');
+      if (brandLink) brandLink.parentNode.classList.add('btn-brand');
+      section.setAttribute('data-nav-expanded', 'false');
       const hamIcon = createTag('div', { class: 'icon-ham' }, '<span></span><span></span><span></span><span></span>');
       const hamBtn = createTag('button', hamAttr, hamIcon);
       contentWrapper.append(hamBtn);
@@ -102,15 +106,53 @@ function decorateFragment(block, fragment) {
   block.append(nav);
 
   const hamburger = document.querySelector('.btn-ham');
+  const navBrand = document.querySelector('.nav-brand');
   const navSections = document.querySelectorAll('.nav-section');
   hamburger.addEventListener('click', () => {
     const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    navBrand.setAttribute('data-nav-expanded', !isExpanded);
     hamburger.setAttribute('aria-expanded', !isExpanded);
     navSections.forEach((s) => {
       s.setAttribute('aria-expanded', !isExpanded);
     });
   });
 }
+
+/* Handle click outside of nav on mobile and detail on desktop */
+document.addEventListener('click', (event) => {
+  if (!isDesktop.matches) {
+    const mainNav = document.querySelector('#nav');
+    // toggle mobile menu if clicked outside of nav
+    if (mainNav && !mainNav.contains(event.target)) {
+      const hamburger = document.querySelector('.btn-ham');
+      if (hamburger.getAttribute('aria-expanded') === 'true') hamburger.click();
+    }
+  } else {
+    const details = document.querySelectorAll('#nav details');
+    details.forEach((detail) => {
+      // toggle main menu detail if clicked outside
+      if (detail && !detail.contains(event.target)) {
+        if (detail.hasAttribute('open')) detail.removeAttribute('open');
+      }
+    });
+  }
+});
+
+function toggleView() {
+  const navBrand = document.querySelector('.nav-brand');
+  if (isDesktop.matches) {
+    navBrand.setAttribute('data-nav-expanded', 'false');
+  } else {
+    const hamburger = document.querySelector('.btn-ham');
+    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    navBrand.setAttribute('data-nav-expanded', isExpanded);
+  }
+}
+
+// Call toggleView on resize
+window.addEventListener('resize', () => {
+  toggleView();
+});
 
 /**
  * loads and decorates the header, mainly the nav

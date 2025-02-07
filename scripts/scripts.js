@@ -131,7 +131,7 @@ export function linkTextIncludesHref(link) {
  */
 export function buildEmbedBlocks(main) {
   main.querySelectorAll('a[href]').forEach((a) => {
-    if ((a.href.includes('youtu') || a.href.includes('vimeo')) && linkTextIncludesHref(a) && !a.closest('.block.embed')) {
+    if ((a.href.includes('youtu') || a.href.includes('vimeo') || a.href.includes('www.google.com/maps/embed')) && linkTextIncludesHref(a) && !a.closest('.block.embed')) {
       const embedBlock = buildBlock('embed', a.cloneNode(true));
       a.replaceWith(embedBlock);
       decorateBlock(embedBlock);

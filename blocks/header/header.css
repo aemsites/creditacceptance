@@ -25,6 +25,15 @@ header {
       position: relative;
     }
     
+    details > summary {
+        list-style: none;
+    }
+        
+    details > summary::marker,
+    details > summary::-webkit-details-marker {
+        display: none;
+    }
+    
 }
 
 /* brand */
@@ -136,14 +145,29 @@ header .nav-brand {
   .icon { height: 100%; }
 }
 
+.nav-brand[data-nav-expanded="true"] {
+    .btn-user, 
+    .btn-brand {
+        visibility: hidden;
+    }
+}
+
 .nav-main,
 .nav-tools {
-  color: var(--black-olive);
+  color: var(--primary-black);
   font-size: 12px;
   font-family: var(--ff-acceptance-demi-bold);
   text-transform: uppercase;
   letter-spacing: 0.7px;
   line-height: 20px;
+
+  a {
+    color: var(--credit-indigo);
+
+    &:hover {
+        color: var(--primary-black);
+    }
+  }
 }
 
 .nav-main {
@@ -276,7 +300,7 @@ header .nav-brand {
   header .nav-main .default-content-wrapper,
   header .nav-tools .default-content-wrapper {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     height: 100%;
     align-content: center;
   }
@@ -362,7 +386,7 @@ header .nav-brand {
     
     details[open] > summary::before {
       content: "\2304";
-    }  
+    }
   }
   
   /* nav tools */

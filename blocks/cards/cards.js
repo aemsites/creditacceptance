@@ -15,13 +15,14 @@ function decorateDate(data) {
     data.forEach((p) => {
       if (isDateValid(p.textContent)) {
         p.classList.add('date');
+        p.closest('.cards-card-body')?.classList.add('has-date');
       }
     });
   }
 }
 
 export default function decorate(block) {
-  const isAnimated = block.classList.contains('animation');
+  const isAnimated = block.classList.contains('animation') && !block.classList.contains('animation-none');
   const ul = createTag('ul');
   [...block.children].forEach((row) => {
     const li = createTag('li');
