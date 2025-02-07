@@ -10,8 +10,8 @@
 }
 
 .jon-form button[type='submit'].disabled { 
-  background-color: rgb(206, 212, 218);
-  border-color: #dee2e6;
+  background-color: var(--bs-border-color);
+  border-color: var(--bs-border-color);
   color: var(--text-color);
   opacity: 0.65;
 }
