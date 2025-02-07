@@ -254,5 +254,6 @@ async function loadPage() {
   await loadLazy(document);
   loadDelayed();
 }
-
-// loadPage();
+if (['www.creditacceptance.com', 'creditacceptance--aemsites.aem.page', 'creditacceptance--aemsites.aem.live'].some((host) => window.location.hostname.includes(host))) {
+  loadPage();
+}
