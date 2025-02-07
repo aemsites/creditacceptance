@@ -353,7 +353,7 @@ button:disabled:hover {
   cursor: unset;
 }
 
-a.button.primary {
+a.button.primary, .btn.btn-primary {
   background-color: var(--btn-primary-bg);
   color: var(--text-color);
   border: 1px solid var(--btn-primary-bg);

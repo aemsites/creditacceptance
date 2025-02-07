@@ -25,6 +25,7 @@ export default async function decorate(block) {
   });
 
   await loadScript(script);
+  await loadScript('https://www.google.com/recaptcha/api.js');
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
