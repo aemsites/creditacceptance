@@ -55,7 +55,7 @@ function updateRelatedSection(activeSlide) {
       // acivate target and scroll into view
       related.element.setAttribute('active', 'true');
       related.element.scrollIntoView({
-        behavior: 'smooth',
+        behavior: 'instant',
         block: 'nearest',
         inline: 'start',
       });
@@ -65,7 +65,7 @@ function updateRelatedSection(activeSlide) {
         const sectionsGroup = document.querySelector('.sections-group');
         const relatedSectionHeight = related.element.firstChild.clientHeight;
         sectionsGroup.style.height = `${relatedSectionHeight}px`;
-      }, 100); // Adjust based on CSS transition duration
+      }, 0); // Adjust based on CSS transition duration
     } else {
       related.element.setAttribute('active', 'false');
     }
