@@ -41,7 +41,7 @@
 }
 
 /* Types */
-.columns.stat {
+.columns.stats {
   text-align: center;
 
   p { margin: 0; }
@@ -90,7 +90,7 @@
     }
   }
 
-  .columns.stat > div > div::after {
+  .columns.stats > div > div::after {
     width: 50%;
     left: 25%;
   }
@@ -139,11 +139,11 @@
     border-radius: 0 8px;
   }
 
-  .columns.stat > div {
+  .columns.stats > div {
     gap: 1.5rem;
   }
   
-  .columns.stat > div > div::after {
+  .columns.stats > div > div::after {
       border-width: 0 0 0 5px;
       height: 100%;
       left: auto;
