@@ -3,7 +3,7 @@ import {
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { formatCardLocaleDate } from './feed-helper.js';
-import { getTaxonomyCategory } from '../../tools/tagger/tagger.js';
+import { getTaxonomyCategory } from '../../scripts/taxonomy.js';
 
 let queryIndexEndpoint;
 let pager = 1;
