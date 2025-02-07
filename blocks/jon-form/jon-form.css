@@ -4,3 +4,7 @@
     display: none;
   }
 }
+
+.jon-form input[type="input"] {
+  width: 60%;
+}
