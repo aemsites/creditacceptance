@@ -1,4 +1,4 @@
-import { addStyles, createTag } from '../../libs/utils/utils.js';
+import { addStyles, createTag, loadPalette } from '../../libs/utils/utils.js';
 import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
 import { loadFragment } from '../fragment/fragment.js';
 
@@ -61,13 +61,14 @@ export default function decorate(block) {
 class CAMarqueeWebComponent extends HTMLElement {
   // connect component
   async connectedCallback() {
-    const fragment = await loadFragment('/drafts/msukta/marquee-test');
     const shadow = this.attachShadow({ mode: 'open' });
-    shadow.append(fragment);
-    await decorate(fragment);
     shadow.prepend(addStyles('/blocks/marquee/marquee.css'));
     shadow.prepend(addStyles('/styles/styles.css'));
     shadow.prepend(addStyles('/styles/fonts.css'));
+    await loadPalette();
+    const fragment = await loadFragment('/drafts/msukta/marquee-test');
+    shadow.append(fragment);
+    // await decorate(fragment);
   }
 }
 
