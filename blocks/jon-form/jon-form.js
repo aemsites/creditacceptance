@@ -25,6 +25,15 @@ export default async function decorate(block) {
   });
 
   block.innerHTML = '';
+  // Set block width and height to 1000px
+  block.style.width = '1000px';
+  block.style.height = '1000px';
+  block.style.position = 'relative';
+
+  // Add loading animation
+  const loadingAnimation = document.createElement('div');
+  loadingAnimation.className = 'loading-animation';
+  block.appendChild(loadingAnimation);
 
   setTimeout(async () => {
     await loadScript(script);
