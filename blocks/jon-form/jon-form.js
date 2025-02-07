@@ -24,6 +24,8 @@ export default async function decorate(block) {
     }
   });
 
+  block.innerHTML = '';
+
   setTimeout(async () => {
     await loadScript(script);
     await loadScript('https://www.google.com/recaptcha/api.js');
@@ -34,5 +36,5 @@ export default async function decorate(block) {
     formComponent.addEventListener('successData', () => {
       window.location.href = '/dealers/join-our-network/confirmation-thank-you';
     });
-  }, 5000);
+  }, 3000);
 }
