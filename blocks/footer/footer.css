@@ -5,7 +5,19 @@ footer {
 
 footer .footer > div {
   margin: auto;
-  padding: 40px 12px 12px;
+  padding: 0 12px 12px;
+}
+
+footer .footer .accordion-container {
+    padding-top: 0;
+}
+
+footer .footer .accordion-wrapper {
+    margin-top: 0;
+}
+
+footer .footer .accordion-container .default-content-wrapper {
+    margin-top: 0;
 }
 
 footer .footer p {
@@ -123,10 +135,9 @@ footer .accordion.sitemap details summary .accordion-item-minus {
 }
 
 @media (width >= 992px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
-  }
-
+    footer .footer > div {
+        padding: 0 32px 24px;
+    }
 
     footer .footer .accordion.sitemap {
         padding-inline: 72px;
