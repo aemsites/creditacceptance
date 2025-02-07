@@ -1,6 +1,6 @@
 /* stylelint-disable no-descending-specificity */
 
-:host {
+:host, header {
   --menu-bg: #f7f9fb;
   --menu-bg-hover: #f2f2f2;
   --menu-accent-gray: #ccc;
@@ -287,7 +287,7 @@ details > summary::-webkit-details-marker {
 
 @media (width >= 960px) {
   /* brand */
-  :host nav {
+  :host nav, header nav {
     flex-direction: row;
     height: var(--nav-height);
     padding-top: 0;
