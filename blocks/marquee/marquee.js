@@ -1,5 +1,6 @@
-import { createTag } from '../../libs/utils/utils.js';
+import { addStyles, createTag } from '../../libs/utils/utils.js';
 import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
+import { loadFragment } from '../fragment/fragment.js';
 
 function isDarkColor(colors, colorStr) {
   const colorObject = colors.find((c) => c['brand-name'] === colorStr);
@@ -56,3 +57,19 @@ export default function decorate(block) {
   if (!lastAction) return;
   lastAction.nextElementSibling?.classList.add('supplemental-text');
 }
+
+class CAMarqueeWebComponent extends HTMLElement {
+  // connect component
+  async connectedCallback() {
+    const fragment = await loadFragment('/drafts/msukta/marquee-test');
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.append(fragment);
+    await decorate(fragment);
+    shadow.prepend(addStyles('/blocks/marquee/marquee.css'));
+    shadow.prepend(addStyles('/styles/styles.css'));
+    shadow.prepend(addStyles('/styles/fonts.css'));
+  }
+}
+
+// register component
+customElements.define('ca-marquee', CAMarqueeWebComponent);
