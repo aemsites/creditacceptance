@@ -29,4 +29,8 @@ export default async function decorate(block) {
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
+
+  formComponent.addEventListener('successData', () => {
+    window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+  });
 }
