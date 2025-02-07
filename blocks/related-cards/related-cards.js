@@ -53,7 +53,7 @@ export default async function init(block) {
     const heading = createTag('h4', { class: 'card-title' }, [title]);
     const descriptionElement = createTag('p', { class: 'card-description' }, description);
 
-    const linkElement = createTag('a', { link }, 'Read >');
+    const linkElement = createTag('a', { href: link }, 'Read >');
     const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
     const linkWrapper = createTag('p', null, secondaryLink);
 

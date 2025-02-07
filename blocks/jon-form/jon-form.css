@@ -1,0 +1,6 @@
+/* jon form related styling goes here */
+.jon-form.no-title {
+  h1 {
+    display: none;
+  }
+}
