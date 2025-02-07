@@ -59,10 +59,13 @@ function updateRelatedSection(activeSlide) {
         block: 'nearest',
         inline: 'start',
       });
-      // set group height
-      const sectionsGroup = document.querySelector('.sections-group');
-      const relatedSectionHeight = related.element.firstChild.clientHeight;
-      sectionsGroup.style.height = `${relatedSectionHeight}px`;
+
+      // Wait for height transition after scrolling
+      setTimeout(() => {
+        const sectionsGroup = document.querySelector('.sections-group');
+        const relatedSectionHeight = related.element.firstChild.clientHeight;
+        sectionsGroup.style.height = `${relatedSectionHeight}px`;
+      }, 100); // Adjust based on CSS transition duration
     } else {
       related.element.setAttribute('active', 'false');
     }

@@ -103,7 +103,8 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background-color: #dadada;
+  background-color: var(--pagination-color);
+  border: none;
   transition: background-color 0.2s;
 }
 
@@ -121,7 +122,7 @@
 .carousel .carousel-slide-indicator button:disabled,
 .carousel .carousel-slide-indicator button:hover,
 .carousel .carousel-slide-indicator button:focus-visible {
-  background-color: #000;
+  background-color: var(--pagination-color-active);
 }
 
 .carousel .carousel-navigation-buttons {
