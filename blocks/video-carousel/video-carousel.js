@@ -2,7 +2,7 @@ import { buildBlock, loadBlock, loadCSS } from '../../scripts/aem.js';
 
 async function populateCarousel(videoLinks) {
   const cells = [];
-  const promises = Array.from(videoLinks).map((link) => fetch(`https://vimeo.com/api/oembed.json?url=${link.href}`)
+  const promises = Array.from(videoLinks).map((link, index) => fetch(`https://vimeo.com/api/oembed.json?url=${link.href}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error('Failed to fetch metadata for video ID');
@@ -21,7 +21,7 @@ async function populateCarousel(videoLinks) {
       a.href = `#${metadata.video_id}`;
       a.textContent = 'Watch Video';
       cell.append(a);
-      cells.push([cell]);
+      cells[index] = [cell];
     })
     .catch((error) => {
       console.error(error);
