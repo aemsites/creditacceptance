@@ -38,6 +38,11 @@
   position: relative;
   width: 100%;
   margin-bottom: 0;
+  z-index: 1;
+}
+
+.carousel .carousel-slide > a{
+  width: 100%;
 }
 
 .carousel-slide-image {
@@ -48,6 +53,10 @@
   width: calc(100% - 24px);
   flex-direction: column;
   max-height: 220px;
+}
+
+.carousel-slide-image > p{
+  width: 100%;
 }
 
 .carousel.carousel.aspect-ratio-rectangle .carousel-slide-image {
@@ -133,7 +142,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 1;
 }
 
 @media (width >= 960px) {

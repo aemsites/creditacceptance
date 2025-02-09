@@ -148,7 +148,7 @@ width: 1px;
   }
 }
 
-.embed.showcase, .block.showcase-video .embed.block {
+.embed.showcase, .block.showcase-video .embed {
   padding: 40px 15px 0;
   max-width: 1050px;
   border-radius: 16.7px;

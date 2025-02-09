@@ -110,12 +110,22 @@ function createSlide(row, slideIndex, cId) {
   slide.dataset.slideIndex = slideIndex;
   slide.setAttribute('id', `carousel-${cId}-slide-${slideIndex}`);
   slide.classList.add('carousel-slide');
-
   row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
     column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
     slide.append(column);
   });
 
+  const link = slide.querySelector('a');
+  if (link) {
+    const linkWrapper = document.createElement('a');
+    linkWrapper
+      .classList
+      .add('carousel-slide-link');
+    linkWrapper.setAttribute('href', link.getAttribute('href'));
+    linkWrapper.append(...slide.childNodes);
+    slide.append(linkWrapper);
+    link.remove();
+  }
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (labeledBy) {
     slide.setAttribute('aria-labelledby', labeledBy.getAttribute('id'));
