@@ -180,8 +180,14 @@ window.addEventListener('resize', () => {
  */
 export default async function decorate(block) {
   // load nav as fragment
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  // const navMeta = getMetadata('nav');
+  // const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  // baseURL
+  const scriptEl = document.querySelector(
+    'script[src$="/blocks/header/header.js"]',
+  );
+  const navPath = `${new URL(scriptEl.src).origin}/nav`;
+
   const fragment = await loadFragment(navPath);
   decorateFragment(block, fragment);
 }
