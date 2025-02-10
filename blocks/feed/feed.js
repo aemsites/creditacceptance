@@ -23,12 +23,25 @@ async function fetchData() {
   if (!response.ok) return;
   const data = await response.json();
 
+  // used for ordering
+  categories.forEach((category) => {
+    if (!categoryMap[category]) {
+      categoryMap[category] = [];
+    }
+  });
+
   data.data.forEach((dataItem) => {
     if (dataItem.category) {
-      if (!categoryMap[dataItem.category]) {
-        categoryMap[dataItem.category] = [];
+      if (categoryMap[dataItem.category]) {
+        categoryMap[dataItem.category].push(dataItem);
       }
-      categoryMap[dataItem.category].push(dataItem);
+    }
+  });
+
+  // remove empty categories
+  Object.keys(categoryMap).forEach((category) => {
+    if (categoryMap[category].length === 0) {
+      delete categoryMap[category];
     }
   });
 }
@@ -108,7 +121,7 @@ function buildPager(block) {
   block.insertAdjacentElement('afterend', loadMoreButtonWrapper);
 }
 
-async function buildCategory(block) {
+async function setCategories() {
   const taxCategory = await getTaxonomyCategory(categoryType);
   Object.keys(taxCategory).forEach((key) => {
     if (typeof taxCategory[key] === 'object') {
@@ -117,8 +130,11 @@ async function buildCategory(block) {
   });
 
   [selectedCategory] = categories;
+}
 
-  const listItems = categories.map((category) => {
+async function buildCategory(block) {
+  const orderedCategories = Object.keys(categoryMap);
+  const listItems = orderedCategories.map((category) => {
     const button = createTag('button', { class: 'feed-tab' }, category);
     const listItem = createTag('li', { class: 'feed-tab-item', role: 'tab' }, button);
     button.addEventListener('click', async () => {
@@ -194,8 +210,9 @@ export default async function init(block) {
 
   if (!queryIndexEndpoint || !categoryType) return;
 
-  await buildCategory(block);
+  await setCategories();
   await fetchData();
+  await buildCategory(block);
   updateFeedItems(block);
   await buildCards(block);
   buildPager(block);
