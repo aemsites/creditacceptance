@@ -46,11 +46,6 @@ async function populateCarousel(videoLinks) {
 }
 
 export default async function decorate(block) {
-  if (!block) {
-    console.error('Block is null or undefined');
-    return;
-  }
-
   await loadCSS(`${window.hlx.codeBasePath}/blocks/embed/embed.css`);
   block.classList.add('showcase-video');
   const links = block.querySelectorAll('a');
@@ -61,10 +56,12 @@ export default async function decorate(block) {
 
   block.innerHTML = '';
   const firstVideo = links[0].cloneNode(true);
+  const placeholderEmbed = createTag('div', { class: 'embed' });
+  block.append(placeholderEmbed);
   const embed = buildBlock('embed', { elems: [firstVideo] });
   embed.dataset.blockName = 'embed';
   const loadedEmbed = await loadBlock(embed);
-  block.append(loadedEmbed);
+  block.replaceChildren(loadedEmbed);
   const carousel = await populateCarousel(links);
   if (carousel) {
     carousel.classList.add('slides-per-view-4');
