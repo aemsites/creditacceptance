@@ -1,7 +1,6 @@
 /* video-carousel css */
 
 .video-carousel .carousel-slide-image {
-    width: 295px;
     margin: 0 auto;
 
     h4{
@@ -9,5 +8,11 @@
         word-wrap: break-word;
         overflow-wrap: break-word;
         white-space: normal;
+    }
+}
+
+@media screen and (width < 960px) {
+    .video-carousel .carousel-slide-image {
+        width: 295px;
     }
 }
