@@ -1,5 +1,6 @@
 import { buildBlock, loadBlock, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
+import { updateActiveSlide } from '../carousel/carousel.js';
 
 async function populateCarousel(videoLinks) {
   if (!videoLinks || videoLinks.length === 0) {
@@ -73,12 +74,13 @@ export default async function decorate(block) {
     block.append(carousel);
   }
 
-  // for each carousel-slide, on click, replace the embed block with the video
+  // Add click event listener to each slide
   const carouselSlides = carousel.querySelectorAll('.carousel-slide');
   carouselSlides.forEach((slide) => {
     const a = slide.querySelector('a');
     if (a) {
-      a.addEventListener('click', async (event) => {
+      slide.addEventListener('click', async (event) => {
+        updateActiveSlide(slide);
         event.preventDefault();
         const link = a.href;
         const anchor = createTag('a', { href: link });
@@ -89,4 +91,17 @@ export default async function decorate(block) {
       });
     }
   });
+
+  // Check if videoId is in URL and click the corresponding slide
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoId = urlParams.get('videoId');
+  if (videoId) {
+    const slideIndex = Array.from(carouselSlides).findIndex((slide) => {
+      const a = slide.querySelector('a');
+      return a.href.includes(videoId);
+    });
+    if (slideIndex !== -1) {
+      carouselSlides[slideIndex].click();
+    }
+  }
 }

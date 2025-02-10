@@ -23,7 +23,7 @@ function getSlidesPerView(block) {
   return 1;
 }
 
-function updateActiveSlide(slide) {
+export function updateActiveSlide(slide) {
   const block = slide.closest('.carousel');
   const slideIndex = parseInt(slide.dataset.slideIndex, 10);
   const slideNext = block.querySelector('.slide-next');
