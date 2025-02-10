@@ -6,6 +6,7 @@
 
 .video-carousel a {
     color: var(--text-color);
+    text-decoration: none;
 }
 
 .video-carousel h4,

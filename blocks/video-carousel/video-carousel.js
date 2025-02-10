@@ -23,15 +23,13 @@ async function populateCarousel(videoLinks) {
         return response.json();
       })
       .then((metadata) => {
-        const cell = document.createElement('div');
-        const img = document.createElement('img');
-        img.src = metadata.thumbnail_url;
+        const cell = createTag('div');
+        const img = createTag('img', { src: metadata.thumbnail_url });
         cell.append(img);
-        const h4 = document.createElement('h4');
+        const h4 = createTag('h4');
         h4.textContent = metadata.title;
         cell.append(h4);
-        const a = document.createElement('a');
-        a.href = link.href;
+        const a = createTag('a', { href: link.href });
         a.textContent = 'Watch Video';
         cell.append(a);
         cells[index] = [cell];
