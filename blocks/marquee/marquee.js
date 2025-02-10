@@ -65,8 +65,8 @@ class CAMarqueeWebComponent extends HTMLElement {
     shadow.prepend(addStyles('/blocks/marquee/marquee.css'));
     shadow.prepend(addStyles('/styles/styles.css'));
     shadow.prepend(addStyles('/styles/fonts.css'));
-    await loadPalette();
     const fragment = await loadFragment('/drafts/msukta/marquee-test');
+    await loadPalette();
     shadow.append(fragment);
     // await decorate(fragment);
   }
