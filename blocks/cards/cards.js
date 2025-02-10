@@ -54,13 +54,8 @@ export default function decorate(block) {
       }
       const icon = div.querySelector('.icon img');
       if (icon) {
-        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask:url(${icon.src}) no-repeat center` });
+        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
         icon.parentNode.parentNode.replaceWith(maskedDiv);
-        const img = new Image();
-        img.src = icon.src;
-        img.onload = () => {
-          maskedDiv.style.width = `${img.width}px`;
-        };
       }
     });
     if (heading) li.append(heading);
