@@ -5,6 +5,9 @@ export default function decorate(block) {
   const rows = block.querySelectorAll(':scope > div');
   const foreground = rows[rows.length - 1];
   const background = rows.length > 1 ? rows[0] : null;
-  if (background) decorateBlockBg(block, background, { useHandleFocalpoint: true });
+  if (background) {
+    decorateBlockBg(block, background, { useHandleFocalpoint: true });
+    block.classList.add('has-bg');
+  }
   foreground.classList.add('foreground');
 }
