@@ -2,13 +2,19 @@
 
 .video-carousel .carousel-slide-image {
     margin: 0 auto;
+}
 
-    h4{
-        text-align: center;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        white-space: normal;
-    }
+.video-carousel a {
+    color: var(--text-color);
+}
+
+.video-carousel h4,
+.video-carousel h5,
+.video-carousel h3 {
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 @media screen and (width < 960px) {
