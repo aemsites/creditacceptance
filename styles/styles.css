@@ -32,6 +32,7 @@
   --button-bg-blue: #c4eefa;
   --orange: #fa6400;
   --tertiary-indigo: #3d5470;
+  --validation-error: #ea1010;
 
   /* link text color */
   --link-text-color: oklch(62% 0.09 264deg);
