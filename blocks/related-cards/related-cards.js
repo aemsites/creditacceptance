@@ -1,8 +1,9 @@
 import {
-  buildBlock, createOptimizedPicture, decorateIcons, getMetadata, loadBlock,
+  buildBlock, decorateIcons, getMetadata, loadBlock,
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { decorateButtons } from '../../libs/utils/decorate.js';
+import { createOptimizedPicture } from '../../scripts/scripts.js';
 
 function getKeyValuePairs(block) {
   const { children } = block;
