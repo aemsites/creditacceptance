@@ -4,6 +4,11 @@
     margin: 0 auto;
 }
 
+.video-carousel .embed-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
 .video-carousel a {
     color: var(--text-color);
     text-decoration: none;

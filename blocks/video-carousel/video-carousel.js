@@ -56,12 +56,12 @@ export default async function decorate(block) {
 
   block.innerHTML = '';
   const firstVideo = links[0].cloneNode(true);
-  const placeholderEmbed = createTag('div', { class: 'embed' });
-  block.append(placeholderEmbed);
+  const embedWrapper = createTag('div', { class: 'embed-wrapper' });
   const embed = buildBlock('embed', { elems: [firstVideo] });
   embed.dataset.blockName = 'embed';
   const loadedEmbed = await loadBlock(embed);
-  block.replaceChildren(loadedEmbed);
+  embedWrapper.append(loadedEmbed);
+  block.replaceChildren(embedWrapper);
   const carousel = await populateCarousel(links);
   if (carousel) {
     carousel.classList.add('slides-per-view-4');
