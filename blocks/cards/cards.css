@@ -59,6 +59,22 @@
      object-fit: cover;
  }
 
+/* mobile-only */
+@media screen and (width <= 959px) {
+    .cards > ul {
+        &.slider-container {
+            display: flex;
+            gap: 0;
+            padding: 0 2rem 3rem;
+
+            > li > .card-wrapper {
+                margin: 1rem;
+            }
+        }
+    }
+   
+}
+
  /* Ups Variant */
 @media (width >=960px) {
     .cards.two-up > ul{
