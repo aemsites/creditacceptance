@@ -33,14 +33,12 @@ export default async function decorate(block) {
   const loadingAnimation = document.createElement('div');
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
-  setTimeout(async () => {
-    await loadScript('https://www.google.com/recaptcha/api.js');
-    await loadScript(script);
-    const formComponent = document.createElement('join-our-network-form');
-    formComponent.webContentJson = webContentJson;
-    block.replaceChildren(formComponent);
-    formComponent.addEventListener('successData', () => {
-      window.location.href = '/dealers/join-our-network/confirmation-thank-you';
-    });
-  }, 3500);
+  await loadScript('https://www.google.com/recaptcha/api.js', { async: true });
+  await loadScript(script, { async: true });
+  const formComponent = document.createElement('join-our-network-form');
+  formComponent.webContentJson = webContentJson;
+  block.replaceChildren(formComponent);
+  formComponent.addEventListener('successData', () => {
+    window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+  });
 }
