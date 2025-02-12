@@ -271,7 +271,7 @@ async function decorateInputFields(fields, wrapper, block) {
   }
 }
 
-function decorateDisclaimer(disclaimerField, wrapper) {
+function decorateResultsCard(disclaimerField, wrapper) {
   const { children } = disclaimerField;
   if (children[0].textContent !== 'disclaimer') return;
 
@@ -280,16 +280,36 @@ function decorateDisclaimer(disclaimerField, wrapper) {
   const disclaimerCopy = children[1].querySelector('p:not(:first-child)');
   const link = children[1].querySelector('a');
 
-  title.classList.add('calculator-disclaimer-title');
+  title.classList.add('calculator-results-title');
   disclaimerCopy.classList.add('calculator-disclaimer-copy');
 
   const resultCopy = createTag('p', { class: 'calculator-result-copy' });
 
   const results = createTag('div', { class: 'calculator-results' }, [bgImage, title, resultCopy]);
-  const disclaimerCard = createTag('div', { class: 'calculator-disclaimer-card' }, [results, disclaimerCopy, link]);
-  const disclaimer = createTag('div', { class: 'calculator-disclaimer' }, disclaimerCard);
+  const disclaimerCard = createTag('div', { class: 'calculator-results-card' }, [results, disclaimerCopy, link]);
+  const disclaimer = createTag('div', { class: 'calculator-results-card-container', id: 'calculator-results-card-container' }, disclaimerCard);
   disclaimerField.remove();
   wrapper.append(disclaimer);
+}
+
+function buildSeeResultsButton(block) {
+  const button = createTag('a', { class: 'calculator-see-results button primary', href: '#' }, 'See Results');
+
+  button.addEventListener('click', () => {
+    const results = block.querySelector('.calculator-results-card-container');
+    results.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  const divWrapper = createTag('div', { class: 'calculator-see-results-wrapper' }, button);
+  const form = block.querySelector('.calculator-form');
+  form.insertAdjacentElement('afterend', divWrapper);
+}
+
+function addDividers(block) {
+  const resultsCard = block.querySelector('.calculator-results-card-container');
+  const divider = createTag('div', { class: 'calculator-divider' });
+  resultsCard.insertAdjacentElement('beforebegin', divider.cloneNode(true));
+  resultsCard.insertAdjacentElement('afterend', divider.cloneNode(true));
 }
 
 export default async function init(block) {
@@ -302,8 +322,11 @@ export default async function init(block) {
 
   block.append(form);
 
-  decorateDisclaimer(disclaimerField, block);
+  decorateResultsCard(disclaimerField, block);
 
   // calculate the result on page load
   calculate(block);
+
+  buildSeeResultsButton(block);
+  addDividers(block);
 }
