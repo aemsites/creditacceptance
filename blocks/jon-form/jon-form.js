@@ -2,7 +2,7 @@ import { loadScript } from '../../scripts/aem.js';
 
 export default async function decorate(block) {
   const SCRIPT_URL = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
-  if (window.location.host.endsWith('.live') || window.location.host.endsWith('creditacceptance.com')) {
+  if (window.location.host.endsWith('main--creditacceptance--aemsites.aem.live') || window.location.host.endsWith('creditacceptance.com')) {
     window.jonEnv = 'prod';
   } else {
     window.jonEnv = 'test';
