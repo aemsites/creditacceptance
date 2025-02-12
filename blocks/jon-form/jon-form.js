@@ -25,6 +25,9 @@ export default async function decorate(block) {
   });
 
   block.innerHTML = '';
+  // Set block width and height to 1000px
+  block.style.width = '1000px';
+  block.style.height = '1000px';
   block.style.position = 'relative';
 
   // Add loading animation
@@ -32,29 +35,15 @@ export default async function decorate(block) {
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
 
-  const captchaWorker = new Worker(`${window.hlx.codeBasePath}/blocks/jon-form/google-captcha-worker.js`);
+  setTimeout(async () => {
+    await loadScript(script);
+    await loadScript('https://www.google.com/recaptcha/api.js');
+    const formComponent = document.createElement('join-our-network-form');
+    formComponent.webContentJson = webContentJson;
+    block.replaceChildren(formComponent);
 
-  // Send a message to the Web Worker to load the Popupsmart script
-  captchaWorker.postMessage('loadCaptcha');
-
-  // Optional: Listen for messages from the Web Worker
-  captchaWorker.onmessage = async function (event) {
-    if (event.data.error) {
-      console.error('Error in Captcha Web Worker:', event.data.error);
-    } else {
-      const captchaScript = document.createElement('script');
-      captchaScript.type = 'text/javascript';
-      captchaScript.innerHTML = event.data;
-      captchaScript.async = true;
-      document.head.append(captchaScript);
-      await loadScript(script);
-      const formComponent = document.createElement('join-our-network-form');
-      formComponent.webContentJson = webContentJson;
-      block.replaceChildren(formComponent);
-
-      formComponent.addEventListener('successData', () => {
-        window.location.href = '/dealers/join-our-network/confirmation-thank-you';
-      });
-    }
-  };
+    formComponent.addEventListener('successData', () => {
+      window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+    });
+  }, 3000);
 }
