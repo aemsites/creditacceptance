@@ -1,4 +1,5 @@
  .cards {
+    position: relative;
     margin-block-start: 24px;
  }
  
@@ -64,7 +65,7 @@
     .cards > ul {
         &.slider-container {
             display: flex;
-            gap: 0;
+            gap: 0 !important;
             padding: 0 2rem 3rem;
 
             > li > .card-wrapper {
@@ -216,6 +217,7 @@
  }
 
 /* careers */
+/* stylelint-disable-next-line no-descending-specificity */
 .cards.careers .card-wrapper {
     background: var(--credit-indigo);
     color: var(--text-color-light);
@@ -228,4 +230,17 @@
 .cards.careers .card-wrapper a {
     font-family: var(--ff-acceptance-regular);
     color: var(--text-color-light);
+}
+
+.cards.careers.rounded>ul>li>.card-wrapper {
+    height: auto;
+}
+
+/* mobile-only */
+@media screen and (width <= 959px) {
+    main > .section-outer > .section.cards-container:has(.slider-wrapper) {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
 }

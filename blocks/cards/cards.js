@@ -1,5 +1,8 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
+import { initSlider } from '../../libs/utils/decorate.js';
+
+const isDesktop = window.matchMedia('(min-width: 960px)');
 
 export function isDateValid(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return false;
@@ -18,6 +21,16 @@ function decorateDate(data) {
         p.closest('.cards-card-body')?.classList.add('has-date');
       }
     });
+  }
+}
+
+function addMobileSlider(block) {
+  const isSlider = block.classList.contains('slider-mobile');
+  if (isSlider && !isDesktop.matches) {
+    const sliderContainer = block.querySelector('ul');
+    const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
+    initSlider(block, slides, sliderContainer);
   }
 }
 
@@ -76,4 +89,6 @@ export default function decorate(block) {
   if (block.classList.contains('careers')) {
     block.classList.add('rounded');
   }
+
+  addMobileSlider(block);
 }
