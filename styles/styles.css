@@ -405,7 +405,7 @@ button.secondary:hover {
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
-  h3, h4 {
+  h2, h3, h4 {
     margin-top: 3rem;
   }
 }
