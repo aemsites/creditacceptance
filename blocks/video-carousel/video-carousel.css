@@ -4,12 +4,6 @@
     margin: 0 auto;
 }
 
-.video-carousel .embed-wrapper {
-    width: 100%;
-    min-height: 800px;
-    aspect-ratio: 16 / 9;
-}
-
 .video-carousel a {
     color: var(--text-color);
     text-decoration: none;
@@ -27,5 +21,12 @@
 @media screen and (width < 960px) {
     .video-carousel .carousel-slide-image {
         width: 295px;
+    }
+}
+
+@media screen and (width >= 990px) {
+    .video-carousel .embed-wrapper {
+        width: 100%;
+        min-height: 800px;
     }
 }

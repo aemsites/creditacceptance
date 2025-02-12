@@ -1,7 +1,6 @@
 import { buildBlock, loadBlock, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { updateActiveSlide } from '../carousel/carousel.js';
-import {decorateBlock as decorateEmbedBlock} from '../embed/embed.js';
 
 async function populateCarousel(videoLinks) {
   if (!videoLinks || videoLinks.length === 0) {
@@ -83,9 +82,7 @@ export default async function decorate(block) {
         const videoBlock = buildBlock('embed', { elems: [anchor.cloneNode(true)] });
         videoBlock.dataset.blockName = 'embed';
         const clickedVideo = await loadBlock(videoBlock);
-        console.log(clickedVideo);
         embedWrapper.querySelector('.embed').replaceWith(clickedVideo);
-        decorateEmbedBlock(clickedVideo);
       });
     }
   });
