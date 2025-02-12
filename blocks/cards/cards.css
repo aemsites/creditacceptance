@@ -17,6 +17,8 @@
 
  .cards>ul>li>.card-wrapper {
      padding: 1rem 1.5rem;
+     overflow: hidden;
+     height: 100%;
  }
 
  .cards .cards-card-body {
@@ -31,11 +33,14 @@
 
  .cards .cards-card-body .card-title {
     margin-block-start: 1rem;
+    min-height: 35px;
  }
 
- .cards .cards-card-body.ellipsed p {
+ .cards .cards-card-body.ellipsed p:nth-of-type(1),
+ .cards .cards-card-body.ellipsed.has-date p:nth-of-type(2),
+ .cards .cards-card-body.ellipsed p.card-description {
      display: -webkit-box;
-     max-height: 130px !important;
+     max-height: 130px;
      overflow: hidden;
      text-overflow: ellipsis;
      white-space: break-spaces;
@@ -53,6 +58,22 @@
      aspect-ratio: 4 / 3;
      object-fit: cover;
  }
+
+/* mobile-only */
+@media screen and (width <= 959px) {
+    .cards > ul {
+        &.slider-container {
+            display: flex;
+            gap: 0;
+            padding: 0 2rem 3rem;
+
+            > li > .card-wrapper {
+                margin: 1rem;
+            }
+        }
+    }
+   
+}
 
  /* Ups Variant */
 @media (width >=960px) {
@@ -140,6 +161,8 @@
      height: 80px;
      width: 80px;
      background: var(--credit-iconography-blue);
+     mask-position: left;
+     mask-repeat: no-repeat;
  }
 
  .cards.resources>ul>li img {
@@ -182,6 +205,7 @@
 
  .cards.resources.center .cards-card-body .icon-masked {
      margin: 0 auto;
+     mask-position: center;
  }
 
  @media (width >=960px) {

@@ -3,7 +3,8 @@ import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
 
 function isDarkColor(colors, colorStr) {
   const colorObject = colors.find((c) => c['brand-name'] === colorStr);
-  return colorObject.dark === 'true';
+  if (!colorObject) return false;
+  return isDarkHexColor(colorObject['color-value']);
 }
 
 function decorateIntro(el) {
@@ -39,8 +40,9 @@ function decorateIntro(el) {
 export default function decorate(block) {
   const children = block.querySelectorAll(':scope > div');
   const foreground = children[children.length - 1];
-  if (children.length > 1) {
-    decorateBlockBg(block, children[0], { useHandleFocalpoint: true });
+  const background = children.length > 1 ? children[0] : null;
+  if (background) {
+    decorateBlockBg(block, background, { useHandleFocalpoint: true });
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
