@@ -259,8 +259,8 @@ async function decorateInputFields(fields, wrapper, block) {
 
     const number = createTag('div', { class: 'calculator-number' }, `${index + 1}`);
 
-    const labelText = children[1]?.textContent?.replace('*', '<span class="required-asterisk">*</span>');
-    const label = createTag('label', { for: children[0].textContent }, labelText);
+    const labelHTML = children[1].innerHTML.replace('*', '<span class="required-asterisk">*</span>');
+    const label = createTag('label', { for: children[0].textContent }, labelHTML);
     const mainLabel = children[1].textContent.split('*')[0]?.trim().toLowerCase();
     const errorMessage = createTag('div', { class: 'error-message' }, `Please enter a valid ${mainLabel}`);
     const emptyMessage = createTag('div', { class: 'empty-message' }, `Please fill in ${mainLabel}`);

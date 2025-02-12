@@ -31,6 +31,10 @@
     padding-inline: 20px 0;
 }
 
+.calculator-form-field.input-box {
+    align-items: center;
+}
+
 .calculator-number {
     position: absolute;
     left: -19px;
@@ -48,8 +52,10 @@
     margin-top: 3px;
 }
 
-.calculator-form-field label {
+.calculator-form-field label p{
+    margin: 0;
     font-size: 14px;
+    line-height: 1.28;
 }
 
 .calculator-form-field input,
@@ -58,6 +64,7 @@
     border-radius: 7px;
     font-size: 14px;
     height: 39px;
+    margin-block: 4px 0;
 }
 
 
@@ -100,7 +107,7 @@
     font: 17px Consolas, monospace;
     color: #171714;
     transform: rotate(90deg);
-    top: 8px;
+    top: 12px;
     position: absolute;
     pointer-events: none;
     right: 30px;
@@ -122,8 +129,8 @@
     display: block;
 }
 
-.calculator-form-field:has(.error-message.active) label,
-.calculator-form-field:has(.empty-message.active) label {
+.calculator-form-field:has(.error-message.active) label p,
+.calculator-form-field:has(.empty-message.active) label p{
     color: var(--validation-error);
 }
 
