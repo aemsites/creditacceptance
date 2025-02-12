@@ -76,6 +76,12 @@
     appearance: none;
 }
 
+.calculator-form-field input:focus,
+.calculator-form-field select:focus {
+    outline: none;
+    border: 1px solid var(--credit-violet);
+}
+
 .calculator-form-field.input-box .input-wrapper {
     width: 30%;
 }
@@ -98,13 +104,6 @@
     position: absolute;
     pointer-events: none;
     right: 30px;
-}
-
-
-.calculator-form-field input:focus,
-.calculator-form-field select:focus {
-    outline: none;
-    border: 1px solid var(--credit-violet);
 }
 
 .calculator-form-field .required-asterisk {
