@@ -25,18 +25,22 @@ export default async function decorate(block) {
   });
 
   block.innerHTML = '';
+  // Set block width and height to 1000px
+  block.style.minHeight = '1000px';
   block.style.position = 'relative';
 
   // Add loading animation
   const loadingAnimation = document.createElement('div');
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
-  await loadScript('https://www.google.com/recaptcha/api.js');
-  await loadScript(script);
-  const formComponent = document.createElement('join-our-network-form');
-  formComponent.webContentJson = webContentJson;
-  block.replaceChildren(formComponent);
-  formComponent.addEventListener('successData', () => {
-    window.location.href = '/dealers/join-our-network/confirmation-thank-you';
-  });
+  setTimeout(async () => {
+    await loadScript('https://www.google.com/recaptcha/api.js');
+    await loadScript(script);
+    const formComponent = document.createElement('join-our-network-form');
+    formComponent.webContentJson = webContentJson;
+    block.replaceChildren(formComponent);
+    formComponent.addEventListener('successData', () => {
+      window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+    });
+  }, 3000);
 }
