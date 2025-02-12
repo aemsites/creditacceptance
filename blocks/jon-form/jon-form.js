@@ -42,5 +42,5 @@ export default async function decorate(block) {
     formComponent.addEventListener('successData', () => {
       window.location.href = '/dealers/join-our-network/confirmation-thank-you';
     });
-  }, 3000);
+  }, 3500);
 }
