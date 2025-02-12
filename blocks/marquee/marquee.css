@@ -1,0 +1,137 @@
+main > .section-outer > .section.marquee-container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.marquee-container .marquee-wrapper {
+    max-width: unset;
+    padding: 0;
+}
+
+.marquee {
+    position: relative;
+}
+
+.marquee, 
+.marquee p {
+    color: white;
+}
+
+.marquee.dark-text, 
+.marquee.dark-text p {
+    color: black;
+}
+
+/* background */
+.marquee .background {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+}
+
+.marquee .background picture {
+    height: 100%;
+}
+
+.marquee .background > div,
+.marquee .background > div p { 
+    margin: 0;
+    height: 100%; 
+}
+
+.marquee .background img,
+.marquee .background video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* foreground */
+.marquee .foreground {
+    padding: 0;
+    display: flex;
+    min-height: 470px;
+}
+
+.marquee.height-auto  .foreground {  min-height: unset; }
+
+.marquee .foreground > div {
+    padding: 2em 1em;
+}
+
+.marquee p.intro {
+    color: black;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.marquee p.intro span {
+    background-color: var(--very-light-gray);
+    padding: .5rem .5rem .25rem;
+    font-family: var(--ff-acceptance-demi-bold);
+    display: inline-block;
+}
+
+.marquee p.intro div {
+    height: 2px;
+    background: var(--very-light-gray);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.marquee .action-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-top: 1rem;
+}
+
+.marquee .supplemental-text {
+    font-family: var(--ff-acceptance-extra-bold);
+}
+
+.marquee.max-width-50 .foreground > div {
+    max-width: 50%;
+    width: 50%
+}
+
+.marquee.max-width-75 .foreground > div {
+    max-width: 75%;
+    width: 75%
+}
+
+.marquee.max-width-100 .foreground > div {
+    max-width: 100%;
+    width: 100%
+}
+
+@media screen and (width >= 576px) {
+    .marquee .foreground > div {
+        padding: 2em 0;
+    }
+}
+
+@media screen and (width >= 960px) {
+    .marquee .foreground { 
+        align-items: center;
+    }
+
+    .marquee .foreground > div {
+        max-width: 50%;
+    }
+    
+    .marquee.max-width-75-desktop .foreground > div {
+        max-width: 75%;
+    }
+    
+    .marquee.max-width-100-desktop .foreground > div {
+        max-width: 100%;
+    }
+
+    .marquee .action-area {
+        gap: 1rem;
+    }
+}

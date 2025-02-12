@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
     <title>icon/fb/indigo/700</title>
     <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="footer/desktop-v2" transform="translate(-365.000000, -352.000000)" fill="#2B4361">
+        <g id="footer/desktop-v2" transform="translate(-365.000000, -352.000000)" fill="currentColor">
             <g id="Group-18" transform="translate(365.000000, 345.000000)">
                 <g id="icon/fb/indigo/700" transform="translate(0.000000, 7.000000)">
                     <path d="M23.6199725,0 L1.38002746,0 C0.617832337,0 0,0.617857287 0,1.38008319 L0,23.6209264 C0,24.3821427 0.617832337,25 1.38002746,25 L13.3530528,25 L13.3530528,15.3192263 L10.0952996,15.3192263 L10.0952996,11.5454509 L13.3530528,11.5454509 L13.3530528,8.76307394 C13.3530528,5.53446674 15.3256744,3.77579453 18.2058634,3.77579453 C19.5858908,3.77579453 20.771079,3.87877075 21.1173478,3.92420143 L21.1173478,7.29919638 L19.119488,7.30020595 C17.5526975,7.30020595 17.2488289,8.04425958 17.2488289,9.13661511 L17.2488289,11.5454509 L20.9850993,11.5454509 L20.4995154,15.3192263 L17.2488289,15.3192263 L17.2488289,25 L23.6199725,25 C24.3821677,25 25,24.3821427 25,23.6209264 L25,1.38008319 C25,0.617857287 24.3821677,0 23.6199725,0" id="Fill-11"></path>

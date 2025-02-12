@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+import { isImagePath, decorateGridSection } from '../libs/utils/decorate.js';
+
 /* eslint-env browser */
 function sampleRUM(checkpoint, data) {
   // eslint-disable-next-line max-len
@@ -391,7 +393,11 @@ function wrapTextNodes(block) {
  * @param {Element} element container element
  */
 function decorateButtons(element) {
+  const selfDecoratingBlocks = ['marquee'];
   element.querySelectorAll('a').forEach((a) => {
+    // check if a is in a block that decorates itself
+    const isInBlock = selfDecoratingBlocks.some((block) => a.closest(`.${block}`));
+    if (isInBlock) return;
     a.title = a.title || a.textContent;
     if (a.href !== a.textContent) {
       const up = a.parentElement;
@@ -497,10 +503,22 @@ function decorateSections(main) {
           // style name is appended to div.section
           styles.forEach((style) => section.classList.add(style));
         } else if (key === 'background') {
-          sectionOuter.dataset[toCamelCase(key)] = meta[key];
+          const urlIsImg = isImagePath(meta[key]);
+          if (urlIsImg) {
+            const style = `background-image: url(${meta[key]}); background-repeat: no-repeat; background-size: cover;`;
+            sectionOuter.style = style;
+          } else {
+            let colorStr = meta[key];
+            const isBrandColor = meta[key].startsWith('ca-');
+            if (isBrandColor) {
+              colorStr = `var(--${meta[key]})`;
+            }
+            sectionOuter.style.backgroundColor = colorStr;
+          }
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
         }
+        if (key === 'grid') decorateGridSection(section, meta.grid);
       });
       sectionMeta.parentNode.remove();
     }

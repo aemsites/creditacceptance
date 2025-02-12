@@ -1,0 +1,7 @@
+body.home-page {
+    h2 { 
+        font-size: var(--heading-font-size-l);
+        font-family: var(--ff-acceptance-medium);
+        margin-bottom: 0.75rem;
+      }
+}

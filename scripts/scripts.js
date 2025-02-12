@@ -2,7 +2,6 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
-  decorateButtons,
   decorateIcons,
   decorateSections,
   decorateBlocks,
@@ -10,25 +9,12 @@ import {
   waitForFirstImage,
   loadSection,
   loadSections,
+  decorateBlock,
   loadCSS,
 } from './aem.js';
 
-/**
- * Builds hero block and prepends to main in a new section.
- * @param {Element} main The container element
- */
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    const parent = h1.parentElement;
-    const elems = Array.from(parent.children);
-    section.append(buildBlock('hero', { elems }));
-    main.prepend(section);
-  }
-}
+import { decorateButtons } from '../libs/utils/decorate.js';
+import { loadPalette } from '../libs/utils/utils.js';
 
 /**
  * load fonts.css and set a session storage flag
@@ -50,6 +36,20 @@ async function loadFonts() {
 export function getOrigin() {
   const { location } = window;
   return location.href === 'about:srcdoc' ? window.parent.location.origin : location.origin;
+}
+
+/**
+ * Retrieves the content of metadata tags.
+ * @param {string} name The metadata name (or property)
+ * @param {Document} doc Document object to query for metadata. Defaults to the window's document
+ * @returns {string} The metadata value(s)
+ */
+function getMetadata(name, doc = document) {
+  const attr = name && name.includes(':') ? 'property' : 'name';
+  const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)]
+    .map((m) => m.content)
+    .join(', ');
+  return meta || '';
 }
 
 /**
@@ -115,16 +115,28 @@ export function createOptimizedPicture(
 }
 
 /**
- * Builds all synthetic blocks in a container element.
+ * check if link text is same as the href
+ * @param {Element} link the link element
+ * @returns {boolean} true or false
+ */
+export function linkTextIncludesHref(link) {
+  const href = link.getAttribute('href');
+  const textcontent = link.textContent;
+  return textcontent.includes(href);
+}
+
+/**
+ * Builds video blocks when encounter video links.
  * @param {Element} main The container element
  */
-function buildAutoBlocks(main) {
-  try {
-    buildHeroBlock(main);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Auto Blocking failed', error);
-  }
+export function buildEmbedBlocks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    if ((a.href.includes('youtu') || a.href.includes('vimeo') || a.href.includes('www.google.com/maps/embed')) && linkTextIncludesHref(a) && !a.closest('.block.embed')) {
+      const embedBlock = buildBlock('embed', a.cloneNode(true));
+      a.replaceWith(embedBlock);
+      decorateBlock(embedBlock);
+    }
+  });
 }
 
 /**
@@ -133,12 +145,53 @@ function buildAutoBlocks(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
-  // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
-  buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  buildEmbedBlocks(main);
+}
+
+/**
+ * Sanitizes a string for use as class name.
+ * @param {string} name The unsanitized string
+ * @returns {string} The class name
+ */
+function toClassName(name) {
+  return typeof name === 'string'
+    ? name
+      .toLowerCase()
+      .replace(/[^0-9a-z]/gi, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '')
+    : '';
+}
+
+/**
+ * Loads the template module.
+ * @param {string} templateName The template name
+ * Need to add the template name to the validTemplates array.
+ */
+const validTemplates = [
+  'home-page',
+  'blog-page',
+];
+async function loadTemplate() {
+  const templateName = toClassName(getMetadata('template'));
+  if (templateName && validTemplates.includes(templateName)) {
+    try {
+      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/templates/${templateName}/${templateName}.css`);
+      const mod = await import(
+        `${window.hlx.codeBasePath}/templates/${templateName}/${templateName}.js`
+      );
+      await cssLoaded;
+      return mod;
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(`failed to load template ${templateName}`, error);
+    }
+  }
+  return undefined;
 }
 
 /**
@@ -148,9 +201,10 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  const templateModule = await loadTemplate();
   const main = doc.querySelector('main');
   if (main) {
-    decorateMain(main);
+    decorateMain(main, templateModule);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
@@ -180,6 +234,7 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
+  await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
 }
