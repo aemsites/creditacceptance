@@ -54,8 +54,8 @@ function getOptionsLabelandValue(text) {
 function getAutoPrice(block) {
   const loanTerm = block.querySelector('#length-of-loan')?.value;
   const interestRate = Number(block.querySelector('#interest-rate')?.value.replace('%', ''));
-  const downPayment = block.querySelector('#down-payment')?.value;
-  const preferredMonthlyPayment = block.querySelector('#preferred-monthly-payment')?.value;
+  const downPayment = block.querySelector('#down-payment')?.value?.replace('$', '').replace(',', '');
+  const preferredMonthlyPayment = block.querySelector('#preferred-monthly-payment')?.value?.replace('$', '').replace(',', '');
 
   const aprRate = interestRate / 100;
   const apprdiv12 = aprRate / 12;
@@ -63,7 +63,7 @@ function getAutoPrice(block) {
   let autoPrice;
   if (interestRate > 0) {
     // eslint-disable-next-line max-len
-    autoPrice = Number(preferredMonthlyPayment * (Math.pow(1 + apprdiv12, loanTerm) - 1) / (apprdiv12 * Math.pow(1 + apprdiv12, loanTerm))) + Number(downPayment);
+    autoPrice = Number(preferredMonthlyPayment * (((1 + apprdiv12) ** loanTerm - 1) / (apprdiv12 * (1 + apprdiv12) ** loanTerm))) + Number(downPayment);
   } else {
     autoPrice = Number(preferredMonthlyPayment * loanTerm) + Number(downPayment);
   }
@@ -74,8 +74,8 @@ function getAutoPrice(block) {
 function getMonthlyPayment(block) {
   const loanTerm = block.querySelector('#length-of-loan')?.value;
   const interestRate = Number(block.querySelector('#interest-rate')?.value.replace('%', ''));
-  const autoPrice = block.querySelector('#auto-price')?.value;
-  const downPayment = block.querySelector('#down-payment')?.value;
+  const autoPrice = Number(block.querySelector('#auto-price')?.value?.replace('$', '').replace(',', ''));
+  const downPayment = Number(block.querySelector('#down-payment')?.value?.replace('$', '').replace(',', ''));
 
   const loanAmount = autoPrice - downPayment;
   let monthlyPayment;
@@ -83,7 +83,7 @@ function getMonthlyPayment(block) {
     const aprRate = interestRate / 100;
     const apprdiv12 = aprRate / 12;
     // eslint-disable-next-line max-len
-    monthlyPayment = (loanAmount) * (apprdiv12 * Math.pow(1 + apprdiv12, loanTerm)) / ((Math.pow(1 + apprdiv12, loanTerm) - 1));
+    monthlyPayment = (loanAmount) * ((apprdiv12 * (1 + apprdiv12) ** loanTerm) / (((1 + apprdiv12) ** loanTerm - 1)));
   } else {
     monthlyPayment = loanAmount / loanTerm;
   }
@@ -105,7 +105,9 @@ function calculate(block) {
   }
 }
 
-function handleChange(id, value, block) {
+function handleSelectFieldChange(id, value, block) {
+  if (block.classList.contains('has-error')) return;
+
   let typeOfVehicle = block.querySelector('#type-of-auto').value;
   let state = block.querySelector('#us-states').value;
   let creditScore = block.querySelector('#credit-score').value;
@@ -126,9 +128,55 @@ function handleChange(id, value, block) {
   }
   const object = usStatesData.find((obj) => obj.value === state);
   interestRate = object[`credit-score-${typeOfVehicle}-${creditScore}`];
-  block.querySelector('#interest-rate').value = interestRate;
+  const interestRateElement = block.querySelector('#interest-rate');
+  interestRateElement.value = Percentage.format(interestRate / 100);
+  interestRateElement.setAttribute('value', Percentage.format(interestRate / 100));
 
   calculate(block);
+}
+
+function addTextFieldEventListeners({ inputElement, block }) {
+  const { id } = inputElement;
+
+  inputElement.addEventListener('change', () => {
+    const errorMessageElement = inputElement.parentElement?.querySelector('.error-message');
+    const emptyMessageElement = inputElement.parentElement?.querySelector('.empty-message');
+    errorMessageElement.classList.remove('active');
+    emptyMessageElement.classList.remove('active');
+    block.classList.remove('has-error');
+
+    if (!inputElement.value) {
+      emptyMessageElement.classList.add('active');
+      block.classList.add('has-error');
+      return;
+    }
+
+    if (id === 'interest-rate') {
+      const value = Number(inputElement.value.replace('%', ''));
+      if (Number.isNaN(value)) {
+        errorMessageElement.classList.add('active');
+        block.classList.add('has-error');
+        return;
+      }
+      inputElement.setAttribute('value', Percentage.format(value / 100));
+      inputElement.value = Percentage.format(value / 100);
+    } else {
+      const value = Number(inputElement.value.replace('$', '').replace(',', ''));
+      if (Number.isNaN(value)) {
+        errorMessageElement.classList.add('active');
+        block.classList.add('has-error');
+        return;
+      }
+      inputElement.setAttribute('value', USDollar.format(value));
+      inputElement.value = USDollar.format(value);
+    }
+
+    calculate(block);
+  });
+
+  inputElement.addEventListener('focus', () => {
+    inputElement.select();
+  });
 }
 
 async function decorateInputFields(fields, wrapper, block) {
@@ -163,7 +211,7 @@ async function decorateInputFields(fields, wrapper, block) {
       div.classList.add('select-box');
 
       inputElement.addEventListener('change', (event) => {
-        handleChange(id, event.target.value, block);
+        handleSelectFieldChange(id, event.target.value, block);
       });
     } else if (children[2].querySelector('a')?.href.endsWith('.json')) {
       const url = children[2].querySelector('a').href;
@@ -189,19 +237,20 @@ async function decorateInputFields(fields, wrapper, block) {
       div.classList.add('select-box', index);
 
       inputElement.addEventListener('change', (event) => {
-        handleChange('us-states', event.target.value, block);
+        handleSelectFieldChange('us-states', event.target.value, block);
       });
     } else {
+      const id = children[0].textContent;
       inputElement = createTag('input', {
-        name: children[0].textContent,
-        id: children[0].textContent,
+        name: id,
+        id,
         type: 'text',
+        maxLength: 6,
+        value: id === 'interest-rate' ? Percentage.format(defaultValue / 100) : USDollar.format(defaultValue),
       });
-      inputElement.setAttribute('value', defaultValue);
+
       div.classList.add('input-box');
-      inputElement.addEventListener('change', () => {
-        calculate(block);
-      });
+      addTextFieldEventListeners({ inputElement, defaultValue, block });
     }
 
     if (children[1]?.textContent.includes('*')) {
@@ -209,8 +258,13 @@ async function decorateInputFields(fields, wrapper, block) {
     }
 
     const number = createTag('div', { class: 'calculator-number' }, `${index + 1}`);
-    const label = createTag('label', { for: children[0].textContent }, children[1].textContent);
-    const inputWrapper = createTag('div', { class: 'input-wrapper' }, inputElement);
+
+    const labelText = children[1]?.textContent?.replace('*', '<span class="required-asterisk">*</span>');
+    const label = createTag('label', { for: children[0].textContent }, labelText);
+    const mainLabel = children[1].textContent.split('*')[0]?.trim().toLowerCase();
+    const errorMessage = createTag('div', { class: 'error-message' }, `Please enter a valid ${mainLabel}`);
+    const emptyMessage = createTag('div', { class: 'empty-message' }, `Please fill in ${mainLabel}`);
+    const inputWrapper = createTag('div', { class: 'input-wrapper' }, [inputElement, errorMessage, emptyMessage]);
     div.append(number, label, inputWrapper);
     wrapper.append(div);
     field.remove();
@@ -249,5 +303,7 @@ export default async function init(block) {
   block.append(form);
 
   decorateDisclaimer(disclaimerField, block);
+
+  // calculate the result on page load
   calculate(block);
 }
