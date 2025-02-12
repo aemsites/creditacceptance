@@ -1,6 +1,10 @@
 import ffetch from '../../scripts/ffetch.js';
 import {
-  buildBlock, createOptimizedPicture, decorateIcons, loadBlock,
+  buildBlock,
+  createOptimizedPicture,
+  decorateIcons,
+  loadBlock,
+  loadCSS,
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { decorateButtons, initSlider } from '../../libs/utils/decorate.js';
@@ -96,6 +100,7 @@ async function decorateCards(block, { reviews, url }) {
   if (isSlider && !isDesktop.matches) {
     const sliderContainer = block.querySelector('ul');
     const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
     initSlider(block, slides, sliderContainer);
   }
 }

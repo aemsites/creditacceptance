@@ -1,4 +1,5 @@
 import { handleFocalpoint, initSlider } from '../../libs/utils/decorate.js';
+import { loadCSS } from '../../scripts/aem.js';
 
 const isDesktop = window.matchMedia('(min-width: 960px)');
 
@@ -23,6 +24,7 @@ export default function decorate(block) {
     decorateCard(block, card);
   });
   if (block.classList.contains('slider-mobile') && !isDesktop.matches) {
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
     initSlider(block, rows);
   }
 }
