@@ -416,8 +416,13 @@ button.secondary:hover {
 }
 
 /* sections */
+main > .section:first-of-type {
+  margin-top: 0;
+}
+
 main > .section-outer > .section,
 footer .section-outer > .section,
+main.error .section-outer .section:not(.marquee-container),
 .block .container {
   max-width: 100%;
   margin: 0 auto;
@@ -426,10 +431,6 @@ footer .section-outer > .section,
 
 main > .section-outer > .section.width-100 {
   max-width: 100%;
-}
-
-main > .section:first-of-type {
-  margin-top: 0;
 }
 
 main > .section-outer > .section.width-75 > div {
@@ -471,6 +472,7 @@ main > .section-outer > .section.spacing-4 {
 @media screen and (width >= 576px) {
   main > .section-outer > .section,
   footer .section-outer > .section,
+  main.error .section-outer .section:not(.marquee-container),
   .block .container {
     max-width: var(--container-width);
     padding-left: 0;
