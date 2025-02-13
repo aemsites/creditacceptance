@@ -33,3 +33,12 @@
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
 }
+
+/* mobile-only */
+@media screen and (width <= 959px) {
+    main > .section-outer > .section.testimonials-container:has(.slider-wrapper) {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}

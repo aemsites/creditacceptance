@@ -1,8 +1,9 @@
 import {
-  buildBlock, createOptimizedPicture, decorateIcons, getMetadata, loadBlock,
+  buildBlock, decorateIcons, getMetadata, loadBlock,
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { decorateButtons } from '../../libs/utils/decorate.js';
+import { createOptimizedPicture } from '../../scripts/scripts.js';
 
 function getKeyValuePairs(block) {
   const { children } = block;
@@ -53,7 +54,7 @@ export default async function init(block) {
     const heading = createTag('h4', { class: 'card-title' }, [title]);
     const descriptionElement = createTag('p', { class: 'card-description' }, description);
 
-    const linkElement = createTag('a', { link }, 'Read >');
+    const linkElement = createTag('a', { href: link }, 'Read >');
     const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
     const linkWrapper = createTag('p', null, secondaryLink);
 

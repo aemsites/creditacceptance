@@ -1,4 +1,5 @@
  .cards {
+    position: relative;
     margin-block-start: 24px;
  }
  
@@ -59,6 +60,22 @@
      object-fit: cover;
  }
 
+/* mobile-only */
+@media screen and (width <= 959px) {
+    .cards > ul {
+        &.slider-container {
+            display: flex;
+            gap: 0 !important;
+            padding: 0 2rem 3rem;
+
+            > li > .card-wrapper {
+                margin: 1rem;
+            }
+        }
+    }
+   
+}
+
  /* Ups Variant */
 @media (width >=960px) {
     .cards.two-up > ul{
@@ -107,9 +124,13 @@
   }
 
  /* Resources Variant */
- .cards.resources>ul {
+ .cards.resources:not(.three-up)>ul {
      display: flex;
      flex-wrap: wrap;
+ }
+
+ .cards.resources.three-up>ul {
+	display: block;
  }
 
  .cards.resources>ul>li {
@@ -145,6 +166,12 @@
      height: 80px;
      width: 80px;
      background: var(--credit-iconography-blue);
+     mask-position: left;
+     mask-repeat: no-repeat;
+ }
+
+ .cards.resources.three-up .cards-card-body .icon-masked {
+	max-height: 52px;
  }
 
  .cards.resources>ul>li img {
@@ -187,11 +214,45 @@
 
  .cards.resources.center .cards-card-body .icon-masked {
      margin: 0 auto;
+     mask-position: center;
  }
 
  @media (width >=960px) {
-     .cards.resources>ul>li {
+	.cards.resources.three-up>ul {
+		display: flex;
+	}
+	
+     .cards.resources:not(.three-up)>ul>li {
          flex: 1 1 calc(50% - 16px);
          max-width: calc(50% - 16px);
      }
  }
+
+/* careers */
+/* stylelint-disable-next-line no-descending-specificity */
+.cards.careers .card-wrapper {
+    background: var(--credit-indigo);
+    color: var(--text-color-light);
+}
+
+.cards.careers .card-wrapper .card-title {
+    min-height: 60px;
+}
+
+.cards.careers .card-wrapper a {
+    font-family: var(--ff-acceptance-regular);
+    color: var(--text-color-light);
+}
+
+.cards.careers.rounded>ul>li>.card-wrapper {
+    height: auto;
+}
+
+/* mobile-only */
+@media screen and (width <= 959px) {
+    main > .section-outer > .section.cards-container:has(.slider-wrapper) {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}
