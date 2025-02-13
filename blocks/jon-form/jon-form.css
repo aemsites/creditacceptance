@@ -8,9 +8,6 @@
   }
 }
 
-.jon-form input[type='text'], .jon-form input[type='input'] , .cac-custom-select-box {
-}
-
 .jon-form button[type='submit'].disabled { 
   background-color: var(--bs-border-color);
   border-color: var(--bs-border-color);
