@@ -30,6 +30,9 @@ async function populateCarousel(videoLinks) {
         const h4 = createTag('h4');
         h4.textContent = metadata.title;
         cell.append(h4);
+        const p = createTag('p');
+        p.textContent = metadata.description;
+        cell.append(p);
         const a = createTag('a', { href: link.href });
         a.textContent = 'Watch Video';
         cell.append(a);
@@ -81,6 +84,11 @@ export default async function decorate(block) {
         updateActiveSlide(slide);
         event.preventDefault();
         block.querySelector('.embed').replaceWith(await loadVideo(a));
+        block.querySelectorAll(':scope > h4, :scope > p').forEach((el) => el.remove());
+        const h4Clone = slide.querySelector('h4').cloneNode(true);
+        const pClone = slide.querySelector('p').cloneNode(true);
+        block.append(h4Clone);
+        block.append(pClone);
       });
     }
   });

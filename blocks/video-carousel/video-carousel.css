@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 /* video-carousel css */
 
 .video-carousel .carousel-slide-image {
@@ -18,15 +19,44 @@
     white-space: normal;
 }
 
+.video-carousel .carousel-slide-image p{
+    display: none;
+}
+
 @media screen and (width < 960px) {
     .video-carousel .carousel-slide-image {
         width: 295px;
     }
+
+    .video-carousel .embed h5, .video-carousel .embed p {
+       display: none;
+    }
+
+    .video-carousel .embed > div {
+        padding-bottom: 30px;
+    }
+
+    .video-carousel .embed {
+        margin-bottom: 0 !important;
+    }
+
+    .video-carousel .carousel-slide-image h4{
+        display: none;
+    }
+
+    .video-carousel > h4, .video-carousel > p {
+        float: left;
+    }
+    
 }
 
 @media screen and (width >= 990px) {
-    .video-carousel .embed-wrapper {
+    .video-carousel .embed {
         width: 100%;
         min-height: 800px;
+    }
+
+    .video-carousel > h4, .video-carousel > p {
+        display: none;
     }
 }
