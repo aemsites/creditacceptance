@@ -1,3 +1,5 @@
+/* stylelint-disable no-descending-specificity */
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -32,6 +34,7 @@
   --button-bg-blue: #c4eefa;
   --orange: #fa6400;
   --tertiary-indigo: #3d5470;
+  --validation-error: #ea1010;
 
   /* link text color */
   --link-text-color: oklch(62% 0.09 264deg);
@@ -53,7 +56,7 @@
   --bs-border-color: #dee2e6;
 
   /* fonts */
-  --body-font-family: 'Visibly Regular', visby-regular-fallback, sans-serif;
+  --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;
   --heading-font-family: 'Acceptance Bold', acceptance-bold-fallback, sans-serif;
   --ff-acceptance-demi-bold: 'Acceptance DemiBold', acceptance-demi-bold-fallback, sans-serif;
   --ff-acceptance-extra-bold: 'Acceptance ExtraBold', acceptance-extrabold-fallback, sans-serif;
@@ -353,7 +356,7 @@ button:disabled:hover {
   cursor: unset;
 }
 
-a.button.primary {
+a.button.primary, .btn.btn-primary {
   background-color: var(--btn-primary-bg);
   color: var(--text-color);
   border: 1px solid var(--btn-primary-bg);
@@ -405,7 +408,7 @@ button.secondary:hover {
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
-  h3, h4 {
+  h2:not(:first-of-type), h3, h4 {
     margin-top: 3rem;
   }
 }
@@ -416,8 +419,13 @@ button.secondary:hover {
 }
 
 /* sections */
+main > .section:first-of-type {
+  margin-top: 0;
+}
+
 main > .section-outer > .section,
 footer .section-outer > .section,
+main.error .section-outer .section:not(.marquee-container),
 .block .container {
   max-width: 100%;
   margin: 0 auto;
@@ -426,10 +434,6 @@ footer .section-outer > .section,
 
 main > .section-outer > .section.width-100 {
   max-width: 100%;
-}
-
-main > .section:first-of-type {
-  margin-top: 0;
 }
 
 main > .section-outer > .section.width-75 > div {
@@ -536,6 +540,7 @@ main > .section-outer > .section.spacing-4,
 @media screen and (width >= 576px) {
   main > .section-outer > .section,
   footer .section-outer > .section,
+  main.error .section-outer .section:not(.marquee-container),
   .block .container {
     max-width: var(--container-width);
     padding-left: 0;
@@ -544,7 +549,6 @@ main > .section-outer > .section.spacing-4,
   
   .section > .default-content-wrapper {
     max-width: var(--container-width);
-    margin: 0 auto;
     padding-left: 0;
     padding-right: 0;
   }
