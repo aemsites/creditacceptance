@@ -81,6 +81,7 @@ async function decorateFAQs(block) {
   buildAccordionSection(fragmentSection);
   fragmentSection.querySelectorAll('.accordion').forEach((accordion) => {
     decorate(accordion);
+    accordion.classList.add(...block.classList);
   });
 
   const blockSection = block.closest('.section');

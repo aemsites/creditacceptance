@@ -1,11 +1,19 @@
 // Shared block decorate functions
 
-export const palette = {
-  'brand-blue-light': 'rgb(15, 125, 156)',
-  'brand-blue': 'rgb(13, 93, 115)',
-  'brand-blue-dark': 'rgb(43, 67, 97)',
-  'brand-red': 'rgb(179, 71, 0)',
-};
+import { createTag } from './utils.js';
+
+/**
+ * Checks if a hex color value is dark or light
+ *
+ * @param {string} color - Hex color value
+ */
+export function isDarkHexColor(color) {
+  const hexColor = (color.charAt(0) === '#') ? color.substring(1, 7) : color;
+  const r = parseInt(hexColor.substring(0, 2), 16); // hexToR
+  const g = parseInt(hexColor.substring(2, 4), 16); // hexToG
+  const b = parseInt(hexColor.substring(4, 6), 16); // hexToB
+  return ((r * 0.299) + (g * 0.587) + (b * 0.114)) <= 186;
+}
 
 /**
  * Checks if a given URL points to an image file.
@@ -113,4 +121,60 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
     block.style.background = node.textContent;
     node.remove();
   }
+}
+
+export function decorateGridSection(section, meta) {
+  const sectionRows = section.querySelectorAll('.section > div');
+  const gridValues = meta.split(',');
+  section.classList.add('grid-section');
+  const gridRows = [...sectionRows].slice(0, -1); // remove last row .section-metadata
+  gridRows.forEach((row, i) => {
+    const spanVal = gridValues[i].trim();
+    if (spanVal) row.classList.add(spanVal);
+  });
+}
+
+function updateActiveSlide(steps, pagination) {
+  const dots = pagination.querySelectorAll('button');
+  function handleIntersection(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const visibleStep = entry.target;
+        const index = Array.from(steps).indexOf(visibleStep);
+        dots.forEach((dot) => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+      }
+    });
+  }
+  // Create observer with 50% visibility threshold
+  const observer = new IntersectionObserver(handleIntersection, { threshold: 0.5 });
+  steps.forEach((step) => observer.observe(step)); // Start observing each step
+}
+
+export function initSlider(block, slides, container = null) {
+  if (!slides) return;
+  const slideContainer = container || block;
+  slideContainer.classList.add('slider-container');
+  const pagination = createTag('div', { class: 'pagination' }, null);
+  slides.forEach((slide, i) => {
+    slide.id = `slide-${i}`;
+    slide.classList.add('slide');
+    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}` });
+    pagination.append(dot);
+
+    // scroll into view on click
+    slide.addEventListener('click', () => {
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    dot.addEventListener('click', (event) => {
+      event.preventDefault();
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+  const { blockName } = block.dataset;
+  const outerSection = block.closest(`.${blockName}-wrapper`);
+  outerSection.classList.add('slider-wrapper');
+  outerSection.append(pagination);
+  updateActiveSlide(slides, pagination);
 }

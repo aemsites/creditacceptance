@@ -11,8 +11,6 @@ main > .section-outer > .section.marquee-container {
 
 .marquee {
     position: relative;
-    display: flex;
-    flex-direction: column;
 }
 
 .marquee, 
@@ -27,11 +25,14 @@ main > .section-outer > .section.marquee-container {
 
 /* background */
 .marquee .background {
-    height: 470px;
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
 }
 
 .marquee .background picture {
-    display: initial;
+    height: 100%;
 }
 
 .marquee .background > div,
@@ -49,33 +50,42 @@ main > .section-outer > .section.marquee-container {
 
 /* foreground */
 .marquee .foreground {
-    flex-grow: 1;
-    inset: 0;
-    position: absolute;
-    z-index: 0;
-    padding: 1em;
+    padding: 0;
+    display: flex;
+    min-height: 470px;
+}
+
+.marquee.height-auto  .foreground {  min-height: unset; }
+
+.marquee .foreground > div {
+    padding: 2em 1em;
 }
 
 .marquee p.intro {
     color: black;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .marquee p.intro span {
     background-color: var(--very-light-gray);
     padding: .5rem .5rem .25rem;
     font-family: var(--ff-acceptance-demi-bold);
+    display: inline-block;
 }
 
 .marquee p.intro div {
     height: 2px;
     background: var(--very-light-gray);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .marquee .action-area {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: .5rem;
     margin-top: 1rem;
 }
 
@@ -85,39 +95,27 @@ main > .section-outer > .section.marquee-container {
 
 .marquee.max-width-50 .foreground > div {
     max-width: 50%;
+    width: 50%
 }
 
 .marquee.max-width-75 .foreground > div {
     max-width: 75%;
+    width: 75%
 }
 
 .marquee.max-width-100 .foreground > div {
     max-width: 100%;
+    width: 100%
 }
 
-.marquee.height-auto .background {
-    height: unset;
-}
-
-/* Mobile only */
-@media screen and (width <= 959px) {
-    .marquee.height-auto-mobile .background {
-        height: unset;
+@media screen and (width >= 576px) {
+    .marquee .foreground > div {
+        padding: 2em 0;
     }
 }
 
-/* @media screen and (width >= 576px) {
-    .marquee {}
-}
-
-@media screen and (width >= 768px) {
-    .marquee {}
-} */
-
-/* TODO: This MQ is unconventional */
 @media screen and (width >= 960px) {
-    .marquee .foreground {
-        display: flex;
+    .marquee .foreground { 
         align-items: center;
     }
 
@@ -132,20 +130,8 @@ main > .section-outer > .section.marquee-container {
     .marquee.max-width-100-desktop .foreground > div {
         max-width: 100%;
     }
-    
-    .marquee.height-auto-desktop .background {
-        height: unset;
+
+    .marquee .action-area {
+        gap: 1rem;
     }
 }
-
-/* @media screen and (width >= 992px) {
-    .marquee {}
-}
-
-@media screen and (width >= 1200px) {
-    .marquee {}
-}
-
-@media screen and (width >= 1400px) {
-    .marquee {}
-} */

@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { palette, isImagePath } from '../libs/utils/decorate.js';
+import { isImagePath, decorateGridSection } from '../libs/utils/decorate.js';
 
 /* eslint-env browser */
 function sampleRUM(checkpoint, data) {
@@ -509,12 +509,16 @@ function decorateSections(main) {
             sectionOuter.style = style;
           } else {
             let colorStr = meta[key];
-            if (palette[meta[key]]) colorStr = palette[colorStr];
+            const isBrandColor = meta[key].startsWith('ca-');
+            if (isBrandColor) {
+              colorStr = `var(--${meta[key]})`;
+            }
             sectionOuter.style.backgroundColor = colorStr;
           }
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
         }
+        if (key === 'grid') decorateGridSection(section, meta.grid);
       });
       sectionMeta.parentNode.remove();
     }

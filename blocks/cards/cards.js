@@ -1,5 +1,38 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
+import { initSlider } from '../../libs/utils/decorate.js';
+
+const isDesktop = window.matchMedia('(min-width: 960px)');
+
+export function isDateValid(dateStr) {
+  if (!dateStr || typeof dateStr !== 'string') return false;
+
+  // eslint-disable-next-line no-restricted-globals
+  return !isNaN(new Date(dateStr));
+}
+
+function decorateDate(data) {
+  if (!data) return;
+
+  if (Array.from(data)) {
+    data.forEach((p) => {
+      if (isDateValid(p.textContent)) {
+        p.classList.add('date');
+        p.closest('.cards-card-body')?.classList.add('has-date');
+      }
+    });
+  }
+}
+
+function addMobileSlider(block) {
+  const isSlider = block.classList.contains('slider-mobile');
+  if (isSlider && !isDesktop.matches) {
+    const sliderContainer = block.querySelector('ul');
+    const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
+    initSlider(block, slides, sliderContainer);
+  }
+}
 
 function isDateValid(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return false;
@@ -21,7 +54,7 @@ function decorateDate(data) {
 }
 
 export default function decorate(block) {
-  const isAnimated = block.classList.contains('animation');
+  const isAnimated = block.classList.contains('animation') && !block.classList.contains('animation-none');
   const ul = createTag('ul');
   [...block.children].forEach((row) => {
     const li = createTag('li');
@@ -53,7 +86,7 @@ export default function decorate(block) {
       }
       const icon = div.querySelector('.icon img');
       if (icon) {
-        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask:url(${icon.src}) no-repeat center` });
+        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
@@ -61,7 +94,20 @@ export default function decorate(block) {
     li.append(cardWrapper);
     ul.append(li);
   });
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+
+  ul.querySelectorAll('picture > img').forEach((img) => {
+    const optimizedPicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    const imgParentPicture = img.closest('picture');
+    imgParentPicture.replaceWith(optimizedPicture);
+    if (!imgParentPicture.classList.length) return;
+    optimizedPicture.classList.add(...imgParentPicture.classList);
+  });
   block.textContent = '';
   block.append(ul);
+
+  if (block.classList.contains('careers')) {
+    block.classList.add('rounded');
+  }
+
+  addMobileSlider(block);
 }
