@@ -59,7 +59,11 @@
 @media screen and (width >= 990px) {
     .video-carousel .embed {
         width: 100%;
-        min-height: 800px;
+        min-height: 720px;
+    }
+
+    .video-carousel .embed lite-vimeo {
+        max-height: 530px;
     }
 
     .video-carousel > h4, .video-carousel > p {
