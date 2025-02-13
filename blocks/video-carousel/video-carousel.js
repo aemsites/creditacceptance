@@ -75,6 +75,11 @@ export default async function decorate(block) {
     block.append(carousel);
   }
 
+  const h4Clone = carousel.querySelector('h4').cloneNode(true);
+  const pClone = carousel.querySelector('p').cloneNode(true);
+  block.append(h4Clone);
+  block.append(pClone);
+
   // Add click event listener to each slide
   const carouselSlides = carousel.querySelectorAll('.carousel-slide');
   carouselSlides.forEach((slide) => {
