@@ -37,11 +37,9 @@
 
   .pagination {
     position: absolute;
-    bottom: -1rem;
-    padding-bottom: 1rem;
+    bottom: 1rem;
     left: 0;
     width: 100vw;
-    background: white;
     display: flex;
     justify-content: center;
     gap: .5rem;
