@@ -145,6 +145,8 @@
      height: 80px;
      width: 80px;
      background: var(--credit-iconography-blue);
+     mask-position: left;
+     mask-repeat: no-repeat;
  }
 
  .cards.resources>ul>li img {
@@ -187,6 +189,7 @@
 
  .cards.resources.center .cards-card-body .icon-masked {
      margin: 0 auto;
+     mask-position: center;
  }
 
  @media (width >=960px) {

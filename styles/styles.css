@@ -436,30 +436,95 @@ main > .section-outer > .section.width-75 > div {
   width: 75%;
 }
 
-/* section spacing */
+/* section & block spacing */
 main > .section-outer > .section.spacing-0 {
   padding-top: 0;
   padding-bottom: 0;
 }
 
-main > .section-outer > .section.spacing-1 {
+main > .section-outer > .section.spacing-1,
+.block.spacing-1 {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
-main > .section-outer > .section.spacing-2 {
+main > .section-outer > .section.spacing-2,
+.block.spacing-2  {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
-main > .section-outer > .section.spacing-3 {
+main > .section-outer > .section.spacing-3,
+.block.spacing-3  {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-main > .section-outer > .section.spacing-4 {
+main > .section-outer > .section.spacing-4,
+.block.spacing-4  {
   padding-top: 4rem;
   padding-bottom: 4rem;
+}
+
+.block.spacing-1.has-bg {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.block.spacing-2.has-bg {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.block.spacing-3.has-bg {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.block.spacing-4.has-bg {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+/* section/block utils */
+.section-outer > .section.center,
+.block.center{
+  text-align: center;
+}
+
+.section-outer > .section.right,
+.block.right{
+  text-align: right;
+}
+
+/* Grid Section */
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  .span-1 { grid-column: span 1; }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+  .span-4 { grid-column: span 4; }
+  .span-5 { grid-column: span 5; }
+  .span-6 { grid-column: span 6; }
+  .span-7 { grid-column: span 7; }
+  .span-8 { grid-column: span 8; }
+  .span-9 { grid-column: span 9; }
+  .span-10 { grid-column: span 10; }
+  .span-11 { grid-column: span 11; }
+
+  /* helpers */
+  &.grid-justify-items-center {
+      justify-items: center;
+  }
+}
+
+.section.grid-section > .default-content-wrapper {
+    max-width: unset;
+    margin: unset;
+    padding: unset;
 }
 
 /* Animations */
@@ -511,6 +576,10 @@ main > .section-outer > .section.spacing-4 {
   
     .animation-scale:hover {
         transform: scale(1.05);
+    }
+
+    .grid-section {
+        grid-template-columns: repeat(12, 1fr);
     }
 }
 

@@ -3,15 +3,17 @@ import {
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { formatCardLocaleDate } from './feed-helper.js';
+import { getTaxonomyCategory } from '../../scripts/taxonomy.js';
 
 let queryIndexEndpoint;
 let pager = 1;
 let limit = 7;
 let feedItems = [];
 
+let categoryType;
 let selectedCategory;
 const categoryMap = {};
-let categories = [];
+const categories = [];
 
 let featuredCard = 2;
 let dateAllowed = true;
@@ -21,12 +23,25 @@ async function fetchData() {
   if (!response.ok) return;
   const data = await response.json();
 
+  // used for ordering
+  categories.forEach((category) => {
+    if (!categoryMap[category]) {
+      categoryMap[category] = [];
+    }
+  });
+
   data.data.forEach((dataItem) => {
     if (dataItem.category) {
-      if (!categoryMap[dataItem.category]) {
-        categoryMap[dataItem.category] = [];
+      if (categoryMap[dataItem.category]) {
+        categoryMap[dataItem.category].push(dataItem);
       }
-      categoryMap[dataItem.category].push(dataItem);
+    }
+  });
+
+  // remove empty categories
+  Object.keys(categoryMap).forEach((category) => {
+    if (categoryMap[category].length === 0) {
+      delete categoryMap[category];
     }
   });
 }
@@ -106,12 +121,20 @@ function buildPager(block) {
   block.insertAdjacentElement('afterend', loadMoreButtonWrapper);
 }
 
-async function buildCategory(block) {
-  categories = Object.keys(categoryMap);
+async function setCategories() {
+  const taxCategory = await getTaxonomyCategory(categoryType);
+  Object.keys(taxCategory).forEach((key) => {
+    if (typeof taxCategory[key] === 'object') {
+      categories.push(key);
+    }
+  });
 
   [selectedCategory] = categories;
+}
 
-  const listItems = categories.map((category) => {
+async function buildCategory(block) {
+  const orderedCategories = Object.keys(categoryMap);
+  const listItems = orderedCategories.map((category) => {
     const button = createTag('button', { class: 'feed-tab' }, category);
     const listItem = createTag('li', { class: 'feed-tab-item', role: 'tab' }, button);
     button.addEventListener('click', async () => {
@@ -157,19 +180,27 @@ export default async function init(block) {
   const { children } = block;
   Array.from(children).forEach((child) => {
     const key = child.children[0].textContent?.toLowerCase();
-    const value = child.children[1].textContent?.toLowerCase();
+    let value;
 
     switch (key) {
       case 'path':
+        value = child.children[1].textContent;
         queryIndexEndpoint = new URL(value)?.pathname;
         break;
+      case 'category-type':
+        value = child.children[1].textContent;
+        categoryType = value;
+        break;
       case 'limit':
+        value = child.children[1].textContent;
         limit = parseInt(value, 10);
         break;
       case 'featured-card':
+        value = child.children[1].textContent;
         featuredCard = parseInt(value, 10);
         break;
       case 'date':
+        value = child.children[1].textContent.toLowerCase();
         dateAllowed = value === 'true' || value === 'yes';
         break;
       default:
@@ -177,8 +208,9 @@ export default async function init(block) {
     }
   });
 
-  if (!queryIndexEndpoint) return;
+  if (!queryIndexEndpoint || !categoryType) return;
 
+  await setCategories();
   await fetchData();
   await buildCategory(block);
   updateFeedItems(block);
