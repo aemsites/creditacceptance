@@ -1,6 +1,41 @@
+/* stylelint-disable color-function-notation */
+
 /* jon form related styling goes here */
+
 .jon-form.no-title {
   h1 {
     display: none;
   }
+}
+
+.jon-form input[type='text'], .jon-form input[type='input'] , .cac-custom-select-box {
+}
+
+.jon-form button[type='submit'].disabled { 
+  background-color: var(--bs-border-color);
+  border-color: var(--bs-border-color);
+  color: var(--text-color);
+  opacity: 0.65;
+}
+
+.jon-form .mb-3 {
+  margin-bottom: 1rem;
+}
+
+.loading-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin: -25px 0 0 -25px;
+  border: 5px solid rgba(0, 0, 0, 10%);
+  border-top: 5px solid #2B4361;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
