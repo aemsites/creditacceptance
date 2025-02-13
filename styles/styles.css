@@ -402,7 +402,7 @@ button.secondary:hover {
   color: var(--btn-secondary-border-hover);
 }
 
-.section > .default-content-wrapper {
+body:not(.home-page) .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
   h2, h3, h4 {
@@ -544,7 +544,6 @@ main > .section-outer > .section.spacing-4,
   
   .section > .default-content-wrapper {
     max-width: var(--container-width);
-    margin: 0 auto;
     padding-left: 0;
     padding-right: 0;
   }
