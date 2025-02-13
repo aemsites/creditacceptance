@@ -90,10 +90,10 @@ export default async function decorate(block) {
         event.preventDefault();
         block.querySelector('.embed').replaceWith(await loadVideo(a));
         block.querySelectorAll(':scope > h4, :scope > p').forEach((el) => el.remove());
-        const h4Clone = slide.querySelector('h4').cloneNode(true);
-        const pClone = slide.querySelector('p').cloneNode(true);
-        block.append(h4Clone);
-        block.append(pClone);
+        const h4 = slide.querySelector('h4').cloneNode(true);
+        const p = slide.querySelector('p').cloneNode(true);
+        block.append(h4);
+        block.append(p);
       });
     }
   });
