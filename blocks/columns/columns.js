@@ -23,10 +23,11 @@ function applyMediaHeight(block) {
   const heightValue = getMediaHeightValue(block);
   if (!heightValue) return;
   const media = block.querySelector('.media');
-  if (window.innerWidth >= 960) {
+  const isDesktop = window.matchMedia('(min-width: 960px)');
+  if (isDesktop.matches) {
     media.style.setProperty('height', `${heightValue}px`);
   } else {
-    media.style.removeProperty('style');
+    media.style.removeProperty('height');
   }
 }
 
