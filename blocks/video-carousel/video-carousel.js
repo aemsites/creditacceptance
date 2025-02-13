@@ -1,6 +1,7 @@
 import { buildBlock, loadBlock, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { updateActiveSlide } from '../carousel/carousel.js';
+import { embedVimeo } from '../embed/embed.js';
 
 async function populateCarousel(videoLinks) {
   if (!videoLinks || videoLinks.length === 0) {
@@ -45,6 +46,13 @@ async function populateCarousel(videoLinks) {
   return loadBlock(carousel);
 }
 
+async function loadVideo(link) {
+  const embedWrapper = createTag('div', { class: 'embed block' });
+  const url = new URL(link.href.replace(/%5C%5C_/, '_'));
+  embedWrapper.innerHTML = await embedVimeo(url);
+  return embedWrapper;
+}
+
 export default async function decorate(block) {
   await loadCSS(`${window.hlx.codeBasePath}/blocks/embed/embed.css`);
   block.classList.add('showcase-video');
@@ -55,12 +63,7 @@ export default async function decorate(block) {
   }
 
   block.innerHTML = '';
-  const firstVideo = links[0].cloneNode(true);
-  const embedWrapper = createTag('div', { class: 'embed-wrapper' });
-  const embed = buildBlock('embed', { elems: [firstVideo] });
-  embed.dataset.blockName = 'embed';
-  const loadedEmbed = await loadBlock(embed);
-  embedWrapper.append(loadedEmbed);
+  const embedWrapper = await loadVideo(links[0]);
   block.replaceChildren(embedWrapper);
   const carousel = await populateCarousel(links);
   if (carousel) {
@@ -77,12 +80,7 @@ export default async function decorate(block) {
       slide.addEventListener('click', async (event) => {
         updateActiveSlide(slide);
         event.preventDefault();
-        const link = a.href;
-        const anchor = createTag('a', { href: link });
-        const videoBlock = buildBlock('embed', { elems: [anchor.cloneNode(true)] });
-        videoBlock.dataset.blockName = 'embed';
-        const clickedVideo = await loadBlock(videoBlock);
-        embedWrapper.querySelector('.embed').replaceWith(clickedVideo);
+        block.querySelector('.embed').replaceWith(await loadVideo(a));
       });
     }
   });
