@@ -9,7 +9,6 @@
 }
 
 .jon-form input[type='text'], .jon-form input[type='input'] , .cac-custom-select-box {
-  width: 60% !important;
 }
 
 .jon-form button[type='submit'].disabled { 
