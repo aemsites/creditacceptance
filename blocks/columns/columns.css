@@ -156,10 +156,6 @@
     margin-inline-end: .75rem;
   }
 
-  picture img {
-    min-width: 80px;
-  }
-
   &::after {
     content: "";
     position: absolute;
@@ -206,6 +202,11 @@
 }
 
 .columns.divided-list.list-spacing ul li {  padding: 2.5rem 0; }
+
+.columns.divided-list.list-spacing ul li .icon { 
+  height: 80px;
+  width: 80px; 
+}
 
 /* mobile-tablet only */
 @media screen and (width <= 959px) {
