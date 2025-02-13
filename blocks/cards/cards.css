@@ -19,6 +19,7 @@
      padding: 1rem 1.5rem;
      overflow: hidden;
      height: 100%;
+     background-color: white;
  }
 
  .cards .cards-card-body {

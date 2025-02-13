@@ -1,0 +1,21 @@
+<svg width="420" height="2164" viewBox="0 0 420 2164" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_536_609)">
+<rect width="420" height="858" fill="#F4F4EC"/>
+<ellipse cx="81" cy="957.561" rx="418" ry="409.561" fill="#FCFCFA"/>
+</g>
+<rect width="420" height="630" transform="translate(0 858)" fill="#FCFCFA"/>
+<g clip-path="url(#clip1_536_609)">
+<rect width="420" height="702" transform="translate(0 1462)" fill="#F4F4EC"/>
+<ellipse cx="94" cy="1318.56" rx="418" ry="409.561" fill="#FCFCFA"/>
+<path d="M-475.806 1615.98C-354.33 1479.41 -156.291 1479.76 -60.0024 1590.83C87.1965 1760.63 256.605 1814.18 310.645 1701.33C364.686 1588.48 399.308 1509.87 586.117 1580.78C681.056 1616.82 786.198 1570.92 713.724 1500.59" stroke="#FA6400" stroke-width="10"/>
+<path d="M-475.806 1615.98C-354.33 1479.41 -156.291 1479.76 -60.0024 1590.83C87.1965 1760.63 256.605 1814.18 310.645 1701.33C364.686 1588.48 399.308 1509.87 586.117 1580.78C681.056 1616.82 786.198 1570.92 713.724 1500.59" stroke="#E8E8E0" stroke-width="10"/>
+</g>
+<defs>
+<clipPath id="clip0_536_609">
+<rect width="420" height="858" fill="white"/>
+</clipPath>
+<clipPath id="clip1_536_609">
+<rect width="420" height="702" fill="white" transform="translate(0 1462)"/>
+</clipPath>
+</defs>
+</svg>

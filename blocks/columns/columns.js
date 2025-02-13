@@ -44,6 +44,7 @@ export default function decorate(block) {
     const hasImg = col.querySelector('picture');
     if (hasImg) {
       col.classList.add('media');
+      if (col.children.length === 1) col.classList.add('media-count-1');
       if (i === 0) col.classList.add('media-left');
     } else {
       col.classList.add('copy');
