@@ -405,10 +405,10 @@ button.secondary:hover {
   color: var(--btn-secondary-border-hover);
 }
 
-body:not(.home-page) .section > .default-content-wrapper {
+.section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
-  h2, h3, h4 {
+  h2:not(:first-of-type), h3, h4 {
     margin-top: 3rem;
   }
 }
