@@ -56,8 +56,6 @@
 
  .cards>ul>li img {
      width: 100%;
-     aspect-ratio: 4 / 3;
-     object-fit: cover;
  }
 
 /* mobile-only */
@@ -246,6 +244,38 @@
 
 .cards.careers.rounded>ul>li>.card-wrapper {
     height: auto;
+}
+
+.cards-card-image .card-image-mobile,
+.cards-card-image .card-image-tablet, 
+.cards-card-image .card-image-desktop {
+    display: none;
+}
+
+.cards-card-image .card-image-mobile {
+    display: block;
+}
+
+@media screen and (width >= 768px) {
+    .cards-card-image.three-images .card-image-mobile,
+    .cards-card-image.two-images .card-image-mobile {
+        display: none;
+    }
+    
+    .cards-card-image.three-images .card-image-tablet,
+    .cards-card-image.two-images .card-image-tablet {
+        display: block;
+    }
+}
+
+@media screen and (width >= 960px) {
+    .cards-card-image.three-images .card-image-desktop {
+        display: block;
+    }
+    
+    .cards-card-image.three-images .card-image-tablet {
+        display: none;
+    }
 }
 
 /* mobile-only */
