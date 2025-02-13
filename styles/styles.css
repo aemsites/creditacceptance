@@ -1,3 +1,5 @@
+/* stylelint-disable no-descending-specificity */
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -406,7 +408,7 @@ button.secondary:hover {
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
-  h2, h3, h4 {
+  h2:not(:first-of-type), h3, h4 {
     margin-top: 3rem;
   }
 }
@@ -547,7 +549,6 @@ main > .section-outer > .section.spacing-4,
   
   .section > .default-content-wrapper {
     max-width: var(--container-width);
-    margin: 0 auto;
     padding-left: 0;
     padding-right: 0;
   }
