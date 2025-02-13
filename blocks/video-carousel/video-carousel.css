@@ -23,6 +23,15 @@
     display: none;
 }
 
+.video-carousel .embed {
+    margin-bottom: 0 !important;
+}
+
+.video-carousel .carousel {
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
 @media screen and (width < 960px) {
     .video-carousel .carousel-slide-image {
         width: 295px;
@@ -34,10 +43,6 @@
 
     .video-carousel .embed > div {
         padding-bottom: 30px;
-    }
-
-    .video-carousel .embed {
-        margin-bottom: 0 !important;
     }
 
     .video-carousel .carousel-slide-image h4{
