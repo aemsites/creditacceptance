@@ -1,27 +1,20 @@
 // delay loading of GTM script until after the page has loaded
 
-const GTM_SCRIPT = `
-  window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
-  gtag('set', 'linker', {"domains":["www.famous-smoke.com"]} );
-  gtag("js", new Date());
-  gtag("set", "developer_id.dZTNiMT", true);
-  gtag("config", "GT-PHR6L87");
-`;
+const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
+const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
 
-function loadGTM() {
-    const tag = document.createElement('script');
-    tag.type = 'text/javascript';
-    tag.async = true;
-    tag.id = 'google-gtagjs-js';
-    tag.src = 'https://www.googletagmanager.com/gtag/js?id=GT-PHR6L87';
-    document.querySelector('head').append(tag);
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.id = 'google_gtagjs-js-after';
-    script.innerHTML = GTM_SCRIPT;
-    tag.insertAdjacentElement('afterend', script);
+function loadAdobeLaunch() {
+  const tag = document.createElement('script');
+  tag.type = 'text/javascript';
+  tag.async = true;
+  if (/main--.*\.aem\.live$/.test(window.location.host) || window.location.host.endsWith('creditacceptance.com')) {
+    tag.src = PROD_LAUNCH_SCRIPT;
+  } else {
+    tag.src = DEV_LAUNCH_SCRIPT;
+  }
+  document.querySelector('head').append(tag);
 }
 
 if (window.location.hostname !== 'localhost') {
-    loadGTM();
+  loadAdobeLaunch();
 }
