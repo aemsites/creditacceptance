@@ -69,3 +69,7 @@ export function addStyles(path) {
   link.href = path;
   return link;
 }
+
+export function isProd() {
+  return (/main--.*\.aem\.live$/.test(window.location.host) || window.location.host.endsWith('creditacceptance.com'));
+}
