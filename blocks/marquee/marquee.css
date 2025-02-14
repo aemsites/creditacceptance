@@ -70,7 +70,8 @@ main > .section-outer > .section.marquee-container {
 .marquee p.intro span {
     background-color: var(--very-light-gray);
     padding: .5rem .5rem .25rem;
-    font-family: var(--ff-acceptance-demi-bold);
+    font-weight: 600;
+    line-height: 22px;
     display: inline-block;
 }
 

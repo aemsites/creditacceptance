@@ -23,10 +23,11 @@ function applyMediaHeight(block) {
   const heightValue = getMediaHeightValue(block);
   if (!heightValue) return;
   const media = block.querySelector('.media');
-  if (window.innerWidth >= 960) {
+  const isDesktop = window.matchMedia('(min-width: 960px)');
+  if (isDesktop.matches) {
     media.style.setProperty('height', `${heightValue}px`);
   } else {
-    media.style.removeProperty('style');
+    media.style.removeProperty('height');
   }
 }
 
@@ -43,8 +44,13 @@ export default function decorate(block) {
   cols.forEach((col, i) => {
     const hasImg = col.querySelector('picture');
     if (hasImg) {
-      col.classList.add('media');
-      if (i === 0) col.classList.add('media-left');
+      const isSingleTagPicture = (col.children.length === 1 && col.children[0].tagName === 'PICTURE');
+      if (isSingleTagPicture) {
+        col.classList.add('media-count-1', 'media');
+        if (i === 0) col.classList.add('media-left');
+      } else {
+        col.classList.add('media-copy');
+      }
     } else {
       col.classList.add('copy');
     }

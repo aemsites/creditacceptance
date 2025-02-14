@@ -1,9 +1,15 @@
 import ffetch from '../../scripts/ffetch.js';
 import {
-  buildBlock, createOptimizedPicture, decorateIcons, loadBlock,
+  buildBlock,
+  createOptimizedPicture,
+  decorateIcons,
+  loadBlock,
+  loadCSS,
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
-import { decorateButtons } from '../../libs/utils/decorate.js';
+import { decorateButtons, initSlider } from '../../libs/utils/decorate.js';
+
+const isDesktop = window.matchMedia('(min-width: 960px)');
 
 function getKeyValuePairs(block) {
   const { children } = block;
@@ -89,6 +95,24 @@ async function decorateCards(block, { reviews, url }) {
 
   block.classList.add(...card.classList);
   block.innerHTML = loadedCard.innerHTML;
+
+  const isSlider = block.classList.contains('slider-mobile');
+  if (isSlider && !isDesktop.matches) {
+    const sliderContainer = block.querySelector('ul');
+    const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
+    initSlider(block, slides, sliderContainer);
+  }
+}
+
+function sortPeople(reviews, people) {
+  if (!people.length) return;
+
+  reviews.sort((a, b) => {
+    const aIndex = people.indexOf(a.name.toLowerCase());
+    const bIndex = people.indexOf(b.name.toLowerCase());
+    return aIndex - bIndex;
+  });
 }
 
 export default async function init(block) {
@@ -106,5 +130,6 @@ export default async function init(block) {
 
   if (!reviews || !reviews.length) return;
 
+  sortPeople(reviews, people);
   await decorateCards(block, { reviews, url });
 }
