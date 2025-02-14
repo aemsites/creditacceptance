@@ -20,6 +20,10 @@
     white-space: normal;
 }
 
+.video-carousel > h4 {
+    text-align: left;
+}
+
 .video-carousel .carousel-slide-image p{
     display: none;
 }
