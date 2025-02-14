@@ -74,14 +74,28 @@ async function buildCards(block) {
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
-    const imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
-    const tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
-    imageElement.className = 'card-image-all';
+    let imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
+    let tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
+    const desktopImageElement = createOptimizedPicture(item.image, item.imageAlt);
+    let oneImageAvailable = false;
+
+    if (!imageElement || item.mobileImage === '0' || !tabletImageElement || item.tabletImage === '0') {
+      imageElement = desktopImageElement;
+      tabletImageElement = desktopImageElement;
+      oneImageAvailable = true;
+    }
+
+    imageElement.className = 'card-image-mobile';
     tabletImageElement.className = 'card-image-tablet';
+    desktopImageElement.className = 'card-image-desktop';
 
-    const firstCol = createTag('div', null, [imageElement, tabletImageElement]);
+    const firstCol = createTag(
+      'div',
+      { class: oneImageAvailable ? 'one-image-available' : '' },
+      [imageElement, tabletImageElement, desktopImageElement],
+    );
 
-    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.title}</strong>`);
+    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.heading}</strong>`);
     const description = createTag('p', { class: 'card-description' }, item.description);
 
     const link = createTag('a', { href: item.path }, 'Read >');
