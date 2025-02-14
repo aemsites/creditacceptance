@@ -20,6 +20,7 @@
      padding: 1rem 1.5rem;
      overflow: hidden;
      height: 100%;
+     background-color: white;
  }
 
  .cards .cards-card-body {
@@ -64,7 +65,7 @@
         &.slider-container {
             display: flex;
             gap: 0 !important;
-            padding: 0 2rem 3rem;
+            padding: 0 2rem 4rem;
 
             > li > .card-wrapper {
                 margin: 1rem;

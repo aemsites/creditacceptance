@@ -105,6 +105,16 @@ async function decorateCards(block, { reviews, url }) {
   }
 }
 
+function sortPeople(reviews, people) {
+  if (!people.length) return;
+
+  reviews.sort((a, b) => {
+    const aIndex = people.indexOf(a.name.toLowerCase());
+    const bIndex = people.indexOf(b.name.toLowerCase());
+    return aIndex - bIndex;
+  });
+}
+
 export default async function init(block) {
   const {
     link, people, limit, url,
@@ -120,5 +130,6 @@ export default async function init(block) {
 
   if (!reviews || !reviews.length) return;
 
+  sortPeople(reviews, people);
   await decorateCards(block, { reviews, url });
 }
