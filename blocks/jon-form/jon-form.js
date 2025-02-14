@@ -1,8 +1,9 @@
 import { loadScript } from '../../scripts/aem.js';
+import { isProd } from '../../libs/utils/utils.js';
 
 export default async function decorate(block) {
   const SCRIPT_URL = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
-  if (/main--.*\.aem\.live$/.test(window.location.host) || window.location.host.endsWith('creditacceptance.com')) {
+  if (isProd()) {
     window.jonEnv = 'prod';
   } else {
     window.jonEnv = 'test';
