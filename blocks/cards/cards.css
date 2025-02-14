@@ -149,7 +149,7 @@
     border-radius: 11px;
   }
 
-  /* Feauture variants */
+  /* Feature variants */
   @media screen and (width>= 960px) {
     .cards.feature-tall > ul > li:first-child {
         grid-column: span 2;
