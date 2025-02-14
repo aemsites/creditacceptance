@@ -40,6 +40,18 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
         let thumbnailUrl = data.thumbnail_url;
         thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
         this.style.backgroundImage = `url("${thumbnailUrl}")`;
+        // if one of the super parent has class .showcase-video, add the title and description
+        let showcase = this.closest('.showcase-video');
+        if (showcase) {
+          let h5 = document.createElement('h5');
+          h5.textContent = data.title;
+          h5.classList.add('video-title');
+          this.parentElement.append(h5);
+          let p = document.createElement('p');
+          p.textContent = data.description;
+          p.classList.add('video-description');
+          this.parentElement.append(p);
+        }
       });
 
     let playBtnEl = this.querySelector('.ltv-playbtn');
@@ -69,10 +81,13 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
   addIframe() {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
+    //remove the background image
+    this.style.backgroundImage = '';
 
     const iframeEl = document.createElement('iframe');
     iframeEl.width = 640;
     iframeEl.height = 360;
+    iframeEl.allowFullscreen = true;
     // No encoding necessary as [title] is safe. https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#:~:text=Safe%20HTML%20Attributes%20include
     iframeEl.title = this.playLabel;
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
