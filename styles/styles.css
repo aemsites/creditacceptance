@@ -548,6 +548,14 @@ main > .section-outer > .section.spacing-4,
   transition: transform 0.15s ease-in-out;
 }
 
+/* devider */
+.divider {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--secondary-brown);
+  margin-top: 30px;
+}
+
 @media screen and (width >= 576px) {
   main > .section-outer > .section,
   footer .section-outer > .section,

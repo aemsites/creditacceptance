@@ -209,6 +209,33 @@ export function groupMultipleButtons(main) {
 }
 
 /**
+ * Processes all <code> elements within the given main element, and if their text content
+ * starts with 'divider' and either equals 'divider' or includes 'element', it clears their
+ * text content and adds the 'divider' class to them.
+ *
+ * @param {HTMLElement} main - The main element containing the <code> elements to process.
+ */
+function buildPageDivider(main) {
+  const allPageDivider = main.querySelectorAll('code');
+  allPageDivider.forEach((el) => {
+    const parent = el.parentElement;
+    if (parent.parentElement.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
+      parent.parentElement.replaceWith(el);
+    } else if (parent.tagName === 'P') {
+      parent.replaceWith(el);
+    }
+    const alt = el.innerText.trim();
+    const lower = alt.toLowerCase();
+    if (lower.startsWith('divider')) {
+      if (lower === 'divider' || lower.includes('element')) {
+        el.innerText = '';
+        el.classList.add('divider');
+      }
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -221,6 +248,7 @@ export function decorateMain(main) {
   buildEmbedBlocks(main);
   buildFragmentBlocks(main);
   groupMultipleButtons(main);
+  buildPageDivider(main);
 }
 
 /**
