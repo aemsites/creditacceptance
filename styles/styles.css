@@ -405,6 +405,17 @@ button.secondary:hover {
   color: var(--btn-secondary-border-hover);
 }
 
+/* Buttons Container */
+.buttons-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.buttons-container a.button {
+  margin: 5px;
+}
+
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
