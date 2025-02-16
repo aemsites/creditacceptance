@@ -1,4 +1,18 @@
+/* stylelint-disable no-descending-specificity */
+
+/* Card - variants 
+** rounded
+** image-rounded
+** gap
+** animation
+** ups
+** feature
+** resources
+** careers
+*/
+
  .cards {
+    position: relative;
     margin-block-start: 24px;
  }
  
@@ -13,10 +27,14 @@
 
  .cards>ul>li {
      background: var(--background-color);
+     margin-bottom: 0;
  }
 
  .cards>ul>li>.card-wrapper {
      padding: 1rem 1.5rem;
+     overflow: hidden;
+     height: 100%;
+     background-color: white;
  }
 
  .cards .cards-card-body {
@@ -31,11 +49,14 @@
 
  .cards .cards-card-body .card-title {
     margin-block-start: 1rem;
+    min-height: 35px;
  }
 
- .cards .cards-card-body.ellipsed p {
+ .cards .cards-card-body.ellipsed p:nth-of-type(1),
+ .cards .cards-card-body.ellipsed.has-date p:nth-of-type(2),
+ .cards .cards-card-body.ellipsed p.card-description {
      display: -webkit-box;
-     max-height: 130px !important;
+     max-height: 130px;
      overflow: hidden;
      text-overflow: ellipsis;
      white-space: break-spaces;
@@ -50,9 +71,23 @@
 
  .cards>ul>li img {
      width: 100%;
-     aspect-ratio: 4 / 3;
-     object-fit: cover;
  }
+
+/* mobile-only */
+@media screen and (width <= 959px) {
+    .cards > ul {
+        &.slider-container {
+            display: flex;
+            gap: 0 !important;
+            padding: 0 2rem 4rem;
+
+            > li > .card-wrapper {
+                margin: 1rem;
+            }
+        }
+    }
+   
+}
 
  /* Ups Variant */
 @media (width >=960px) {
@@ -101,10 +136,63 @@
     gap: var(--gap-xl);
   }
 
+  /* Image rounded variant */
+  .cards.image-rounded>ul>li>.card-wrapper {
+    padding: 0;
+  }
+
+  .cards.image-rounded .cards-card-body {
+    padding: 0 1rem;
+  }
+
+  .cards.image-rounded .cards-card-image img {
+    border-radius: 11px;
+  }
+
+  /* Feature variants */
+  @media screen and (width>= 960px) {
+    .cards.feature-tall > ul > li:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .cards.feature-tall > ul > li:first-child .card-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cards.feature-tall > ul > li:first-child .cards-card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .cards.feature-tall > ul > li:first-child .cards-card-body p {
+        margin-block: 0 0.8rem;
+    }
+
+    .cards.feature-wide > ul > li:nth-child(2) {
+        grid-column: span 2;
+    }
+
+    .cards.feature-wide > ul > li:nth-child(2) .card-wrapper {
+        padding: 0;
+    }
+
+    .cards.feature-wide > ul > li:nth-child(2) .cards-card-body {
+        padding: 0 1rem;
+    }
+  }
+
  /* Resources Variant */
- .cards.resources>ul {
+ .cards.resources:not(.three-up)>ul {
      display: flex;
      flex-wrap: wrap;
+ }
+
+ .cards.resources.three-up>ul {
+	display: block;
  }
 
  .cards.resources>ul>li {
@@ -140,6 +228,12 @@
      height: 80px;
      width: 80px;
      background: var(--credit-iconography-blue);
+     mask-position: left;
+     mask-repeat: no-repeat;
+ }
+
+ .cards.resources.three-up .cards-card-body .icon-masked {
+	max-height: 52px;
  }
 
  .cards.resources>ul>li img {
@@ -182,11 +276,76 @@
 
  .cards.resources.center .cards-card-body .icon-masked {
      margin: 0 auto;
+     mask-position: center;
  }
 
  @media (width >=960px) {
-     .cards.resources>ul>li {
+	.cards.resources.three-up>ul {
+		display: flex;
+	}
+	
+     .cards.resources:not(.three-up)>ul>li {
          flex: 1 1 calc(50% - 16px);
          max-width: calc(50% - 16px);
      }
  }
+
+/* careers */
+.cards.careers .card-wrapper {
+    background: var(--credit-indigo);
+    color: var(--text-color-light);
+}
+
+.cards.careers .card-wrapper .card-title {
+    min-height: 60px;
+}
+
+.cards.careers .card-wrapper a {
+    font-family: var(--ff-acceptance-regular);
+    color: var(--text-color-light);
+}
+
+.cards.careers.rounded>ul>li>.card-wrapper {
+    height: auto;
+}
+
+.cards-card-image .card-image-mobile,
+.cards-card-image .card-image-tablet, 
+.cards-card-image .card-image-desktop {
+    display: none;
+}
+
+.cards-card-image .card-image-mobile {
+    display: block;
+}
+
+@media screen and (width >= 768px) {
+    .cards-card-image.three-images .card-image-mobile,
+    .cards-card-image.two-images .card-image-mobile {
+        display: none;
+    }
+    
+    .cards-card-image.three-images .card-image-tablet,
+    .cards-card-image.two-images .card-image-tablet {
+        display: block;
+    }
+}
+
+@media screen and (width >= 960px) {
+    .cards-card-image.three-images .card-image-desktop {
+        display: block;
+    }
+    
+    .cards-card-image.three-images .card-image-tablet {
+        display: none;
+    }
+}
+
+/* mobile-only */
+@media screen and (width <= 959px) {
+    main > .section-outer > .section.cards-container:has(.slider-wrapper) {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+}

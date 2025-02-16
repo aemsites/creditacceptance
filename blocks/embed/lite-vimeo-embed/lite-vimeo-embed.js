@@ -45,9 +45,11 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
         if (showcase) {
           let h5 = document.createElement('h5');
           h5.textContent = data.title;
+          h5.classList.add('video-title');
           this.parentElement.append(h5);
           let p = document.createElement('p');
           p.textContent = data.description;
+          p.classList.add('video-description');
           this.parentElement.append(p);
         }
       });
@@ -79,10 +81,13 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
   addIframe() {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
+    //remove the background image
+    this.style.backgroundImage = '';
 
     const iframeEl = document.createElement('iframe');
     iframeEl.width = 640;
     iframeEl.height = 360;
+    iframeEl.allowFullscreen = true;
     // No encoding necessary as [title] is safe. https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html#:~:text=Safe%20HTML%20Attributes%20include
     iframeEl.title = this.playLabel;
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
