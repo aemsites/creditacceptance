@@ -128,36 +128,27 @@ export default {
     }
 
     const heroSection = main.querySelector('cac-hero-image');
-    let desktopImage; let mobileImage; let
-      tabletImage;
+    let desktopImage; let mobileImage;
     if (heroSection) {
       const mobImage = heroSection.querySelector('img').getAttribute('src');
       if (mobImage) {
         mobileImage = document.createElement('img');
         mobileImage.src = mobImage;
-        console.log('mobileImage ==========>>>>', mobImage);
-        if (mobImage.includes('MobileHero')) {
+        if (mobImage.includes('-mobile')) {
           desktopImage = document.createElement('img');
-          desktopImage.src = mobImage.replace('MobileHero', 'DesktopHero');
-          console.log(desktopImage);
-          tabletImage = document.createElement('img');
-          tabletImage.src = mobImage.replace('MobileHero', 'TabletHero');
+          desktopImage.src = mobImage.replace('-mobile', '');
         } else
-          if (mobImage.includes('DesktopHero')) {
+          if (mobImage.includes('-img')) {
             desktopImage = document.createElement('img');
             desktopImage.src = mobImage;
             mobileImage = document.createElement('img');
-            mobileImage.src = mobImage.replace('DesktopHero', 'MobileHero');
-            console.log(desktopImage);
-            tabletImage = document.createElement('img');
-            tabletImage.src = mobImage.replace('DesktopHero', 'TabletHero');
+            mobileImage.src = mobImage.replace('-img', '-mobile');
           }
       }
     }
     const marqueeCells = [['Marquee']];
     const row2 = [];
     if (mobileImage) row2.push(mobileImage);
-    if (tabletImage) row2.push(tabletImage);
     if (desktopImage) row2.push(desktopImage);
     marqueeCells.push(row2);
     const rows3 = [];
@@ -185,6 +176,23 @@ export default {
       div.append(document.createElement('hr'));
       blueSection.replaceWith(div);
     }
+
+    // form faqs
+    const faqContainer = main.querySelectorAll('.cac-faqs-container');
+    faqContainer.forEach((container) => {
+      const faqCells = [['Accordion']];
+      container.querySelectorAll('.faq-item').forEach((faqItem) => {
+        const row = [];
+        const question = faqItem.querySelector('.faq-question');
+        const answer = faqItem.querySelector('.body-description');
+        if (question) row.push(question.querySelector('h4'));
+        if (answer) row.push(answer);
+        faqCells.push(row);
+      });
+      const faqTable = WebImporter.DOMUtils.createTable(faqCells, document);
+      container.replaceWith(faqTable);
+    });
+
     transformButtons(main);
     formatLists(main);
     // append a fragment block table
