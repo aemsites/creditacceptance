@@ -1,6 +1,5 @@
 import { buildBlock, loadBlock, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
-import { updateActiveSlide } from '../carousel/carousel.js';
 import { embedVimeo } from '../embed/embed.js';
 
 async function populateCarousel(videoLinks) {
@@ -25,8 +24,10 @@ async function populateCarousel(videoLinks) {
       })
       .then((metadata) => {
         const cell = createTag('div');
-        const img = createTag('img', { src: metadata.thumbnail_url });
-        cell.append(img);
+        const img = createTag('img', { src: metadata.thumbnail_url, alt: metadata.title });
+        // create a picture tag with the image without using createoptimizedpicture
+        const picture = createTag('picture', null, [img]);
+        cell.append(picture);
         const h4 = createTag('h4');
         h4.textContent = metadata.title;
         cell.append(h4);
@@ -46,7 +47,9 @@ async function populateCarousel(videoLinks) {
   await Promise.all(promises);
   const carousel = buildBlock('carousel', cells);
   carousel.dataset.blockName = 'carousel';
-  return loadBlock(carousel);
+  carousel.classList.add('slides-per-view-4-desktop', 'slides-per-view-4-mobile', 'aspect-ratio-rectangle');
+  const carouselBlock = await loadBlock(carousel);
+  return carouselBlock;
 }
 
 async function loadVideo(link) {
@@ -70,15 +73,12 @@ export default async function decorate(block) {
   block.replaceChildren(embedWrapper);
   const carousel = await populateCarousel(links);
   if (carousel) {
-    carousel.classList.add('slides-per-view-4');
-    carousel.classList.add('aspect-ratio-rectangle');
     block.append(carousel);
+    const h4Clone = carousel.querySelector('h4').cloneNode(true);
+    const pClone = carousel.querySelector('p').cloneNode(true);
+    block.append(h4Clone);
+    block.append(pClone);
   }
-
-  const h4Clone = carousel.querySelector('h4').cloneNode(true);
-  const pClone = carousel.querySelector('p').cloneNode(true);
-  block.append(h4Clone);
-  block.append(pClone);
 
   // Add click event listener to each slide
   const carouselSlides = carousel.querySelectorAll('.carousel-slide');
@@ -86,7 +86,6 @@ export default async function decorate(block) {
     const a = slide.querySelector('a');
     if (a) {
       slide.addEventListener('click', async (event) => {
-        updateActiveSlide(slide);
         event.preventDefault();
         block.querySelector('.embed').replaceWith(await loadVideo(a));
         block.querySelectorAll(':scope > h4, :scope > p').forEach((el) => el.remove());

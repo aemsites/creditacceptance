@@ -24,24 +24,20 @@
     text-align: left;
 }
 
-.video-carousel .carousel-slide-image p{
+.video-carousel .carousel-slide-image p, .video-carousel .carousel-slide-image a{
     display: none;
 }
 
 .video-carousel .embed {
-    margin-bottom: 0 !important;
+    margin-bottom: 10px !important;
 }
 
 .video-carousel .carousel {
     max-width: 1050px;
-    margin: 0 auto;
+    margin: 0 auto 10px;
 }
 
 @media screen and (width < 960px) {
-    .video-carousel .carousel-slide-image {
-        width: 295px;
-    }
-
     .video-carousel .embed h5, .video-carousel .embed p {
        display: none;
     }
