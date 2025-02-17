@@ -270,7 +270,9 @@
  }
 
  .cards.resources.center .cards-card-body h4,
- .cards.resources.center .cards-card-body p:not(.button-container) {
+ .cards.resources.center .cards-card-body p:not(.button-container),
+ .cards.resources.center .cards-card-body ol,
+ .cards.resources.center .cards-card-body ul {
      text-align: left;
  }
 
