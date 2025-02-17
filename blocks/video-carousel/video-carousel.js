@@ -70,8 +70,7 @@ export default async function decorate(block) {
   block.replaceChildren(embedWrapper);
   const carousel = await populateCarousel(links);
   if (carousel) {
-    carousel.classList.add('slides-per-view-4');
-    carousel.classList.add('aspect-ratio-rectangle');
+    carousel.classList.add('aspect-ratio-rectangle', 'slides-per-view-4-desktop', 'slides-per-view-4-mobile');
     block.append(carousel);
   }
 
