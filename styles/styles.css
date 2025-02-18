@@ -54,6 +54,7 @@
 
   /* borders */
   --bs-border-color: #dee2e6;
+  --bs-border-color-dotted: #D9D9D9;
 
   /* fonts */
   --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;

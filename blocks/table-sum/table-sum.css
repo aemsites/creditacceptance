@@ -1,0 +1,75 @@
+.table-sum {
+    /* var --columns-count is set dynamically */
+    text-align: center;
+}
+
+.table-sum .upper,
+.table-sum .lower {
+    display: grid;
+    grid-template-columns: repeat(var(--columns-count), 1fr);
+}
+
+.table-sum .upper {
+    gap: 10px;
+    padding: 10px;
+    margin-block: 0 12px;
+}
+
+.table-sum .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.table-sum .cell {
+    min-height: 50px;
+    width: 100%;
+}
+
+.table-sum .upper .cell {
+    height: 50px;
+    border-bottom: 1px dotted #D9D9D9;
+}
+
+.table-sum .upper .cell:not(.header) {
+    padding: 10px;
+}
+
+.table-sum .upper .cell.empty,
+.table-sum .upper .cell.header,
+.table-sum .upper .cell:last-child {
+    border: none;
+}
+
+.table-sum .separator {
+    border-top: 2px dotted var(--credit-indigo);
+    width: calc(4 * 100% / var(--columns-count));
+    margin-inline-start: calc(3 * 100% / var(--columns-count));
+    margin-block: 10px;
+}
+
+.table-sum .upper .column .cell:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.table-sum .upper .column .cell:not(.header) {
+    background-color: #f5f5f7; 
+}
+
+.table-sum .upper .column:nth-child(1) .cell:not(.empty) {
+    background-color: transparent;
+}
+
+.table-sum .upper .column:nth-child(2) .cell:not(.empty),
+.table-sum .upper .column:nth-child(3) .cell:not(.empty) {
+    background-color: #abb5bf;
+}
+
+.table-sum .upper .column .cell.header + .cell,
+.table-sum .upper .column .cell:first-child:not(.header) {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
