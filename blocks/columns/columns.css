@@ -209,9 +209,9 @@
   width: 80px; 
 }
 
-.columns.cta-icons {
+.columns .cta-icons {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.2rem;
   justify-content: center;
   top: -100%;
   position: relative;
