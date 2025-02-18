@@ -1,10 +1,6 @@
 /* stylelint-disable no-descending-specificity */
 
 /* video-carousel css */
-.video-carousel {
-    overflow: auto;
-}
-
 .video-carousel .carousel-slide-image {
     margin: 0 auto;
 }
@@ -52,11 +48,6 @@
     .video-carousel .carousel-slide-image h4{
         display: none;
     }
-
-    .video-carousel > h4, .video-carousel > p {
-        float: left;
-    }
-    
 }
 
 @media screen and (width >= 990px) {
