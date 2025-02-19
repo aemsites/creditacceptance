@@ -557,6 +557,12 @@ main > .section-outer > .section.spacing-4,
   margin: 30px 0;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth
+  }
+}
+
 @media screen and (width >= 576px) {
   main > .section-outer > .section,
   footer .section-outer > .section,
