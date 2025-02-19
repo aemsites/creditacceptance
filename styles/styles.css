@@ -544,7 +544,8 @@ main > .section-outer > .section.spacing-4,
 
 /* Section Style */
 .section-outer:has( > .section.bg-shape) {
-    position: relative;    
+    position: relative;
+    overflow: hidden;
     .section { position: relative; }
 
     &::before {
