@@ -95,6 +95,9 @@
   --gap-md: 24px;
   --gap-lg: 32px;
   --gap-xl: 48px;
+
+  /* header height */
+  --header-height: 52px;
 }
 
 *, ::before, ::after {
