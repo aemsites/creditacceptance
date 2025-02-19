@@ -137,7 +137,6 @@ export default function init(block) {
 
   const sliderColumns = block.querySelectorAll('.upper .column.slider-mobile');
   const columnsSliderCount = sliderColumns.length;
-  block.style.setProperty('--columns-slider-count', columnsSliderCount);
 
   const mobileColumns = block.querySelectorAll('.upper .column:not(.hide-mobile)');
   const mobileColumnCount = columnsSliderCount ? mobileColumns.length - (sliderColumns.length - 1)
