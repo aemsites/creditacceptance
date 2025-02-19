@@ -133,9 +133,7 @@
     .table-sum .separator {
         display: block;
         border-top: 2px dotted var(--credit-indigo);
-        width: calc(var(--columns-slider-count) * 100% / var(--columns-desktop-count));
-        margin-inline-start: calc((var(--columns-desktop-count) - var(--columns-slider-count)) * 100% / var(--columns-desktop-count));
-        margin-block: 10px;
+         margin-block: 10px;
     }
 
     .table-sum .swiper {

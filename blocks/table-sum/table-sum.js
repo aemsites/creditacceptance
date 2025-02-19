@@ -24,6 +24,35 @@ function getBlockMetadata(block) {
   return data;
 }
 
+function decorateSeparator(lower) {
+  const columns = lower.querySelectorAll('.column');
+  let start = 0;
+  let end = columns.length - 1;
+  for (let i = 0; i < columns.length; i += 1) {
+    if (columns[i].textContent.trim()) {
+      start = i;
+      break;
+    }
+  }
+
+  for (let i = columns.length - 1; i >= 0; i -= 1) {
+    if (columns[i].textContent.trim()) {
+      end = i;
+      break;
+    }
+  }
+
+  const separator = createTag('div', { class: 'separator' });
+
+  const lowerStyles = getComputedStyle(lower, '--columns-desktop-count');
+  const desktopColumnCount = lowerStyles.getPropertyValue('--columns-desktop-count');
+
+  const width = ((end - start + 1) / parseInt(desktopColumnCount, 10)) * 100;
+  separator.style.width = `${width}%`;
+  separator.style.marginInlineStart = `calc(100% - ${width}%)`;
+  lower.insertAdjacentElement('beforebegin', separator);
+}
+
 export default function init(block) {
   const columns = [];
   const rows = block.querySelectorAll(':scope > div');
@@ -39,7 +68,7 @@ export default function init(block) {
 
   const upper = createTag('div', { class: 'upper' });
   const lower = createTag('div', { class: 'lower' });
-  const separator = createTag('div', { class: 'separator' });
+  // const separator = createTag('div', { class: 'separator' });
 
   columns.forEach((column) => {
     const upperCol = createTag('div', { class: 'column' });
@@ -70,7 +99,7 @@ export default function init(block) {
   });
 
   block.innerHTML = '';
-  block.append(upper, separator, lower);
+  block.append(upper, lower);
 
   const metadata = getBlockMetadata(block);
 
@@ -98,7 +127,7 @@ export default function init(block) {
             const lowerColumn = block.querySelector(`.lower .column:nth-child(${columnIndex})`);
             lowerColumn.classList.add('hide-desktop');
           }
-          break
+          break;
         default:
           break;
       }
@@ -109,14 +138,19 @@ export default function init(block) {
   const columnsSliderCount = sliderColumns.length;
   block.style.setProperty('--columns-slider-count', columnsSliderCount);
 
-  const mobileColumnCount = block.querySelectorAll('.upper .column:not(.hide-mobile)').length - (sliderColumns.length - 1);
+  const mobileColumns = block.querySelectorAll('.upper .column:not(.hide-mobile)');
+  const mobileColumnCount = columnsSliderCount ? mobileColumns.length - (sliderColumns.length - 1)
+    : mobileColumns.length;
   block.style.setProperty('--columns-mobile-count', mobileColumnCount);
 
   const desktopColumnCount = block.querySelectorAll('.upper .column:not(.hide-desktop)').length;
   block.style.setProperty('--columns-desktop-count', desktopColumnCount);
 
+  decorateSeparator(lower);
+
+  if (!columnsSliderCount) return;
   const swiper = createTag('div', { class: 'swiper' });
-  Array.from(sliderColumns).forEach((column, i) => {
+  Array.from(sliderColumns).forEach((column) => {
     const clone = column.cloneNode(true);
     clone.classList.remove('slider-mobile');
     clone.classList.add('swiper-slide');
