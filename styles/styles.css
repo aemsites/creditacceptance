@@ -180,6 +180,13 @@ h6 {
   }
 }
 
+p > .icon:first-child { 
+  margin-inline-end: .5rem;
+  vertical-align: text-top;
+
+  img { margin-top: 5px; }
+}
+
 h1 { 
   font-size: var(--heading-font-size-xxl);
   font-weight: var(--font-weight-extra-bold);
