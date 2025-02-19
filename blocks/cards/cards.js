@@ -46,8 +46,8 @@ function decoratePictures(cell) {
     if (picture.parentNode.tagName === 'P') {
       if (link) {
         link.innerHTML = '';
-        link.append(optimizedPicture)
-        picture.parentNode.replaceWith(link)
+        link.append(optimizedPicture);
+        picture.parentNode.replaceWith(link);
       } else {
         picture.parentNode.replaceWith(optimizedPicture);
       }
