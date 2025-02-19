@@ -32,6 +32,17 @@ async function fetchData() {
 
   data.data.forEach((dataItem) => {
     if (dataItem.category) {
+      // multiple categories
+      if (dataItem.category.includes(',')) {
+        const splitCategories = dataItem.category.split(',');
+        splitCategories.forEach((category) => {
+          if (categoryMap[category.trim()]) {
+            categoryMap[category.trim()].push(dataItem);
+          }
+        });
+        return;
+      }
+
       if (categoryMap[dataItem.category]) {
         categoryMap[dataItem.category].push(dataItem);
       }
@@ -170,7 +181,7 @@ async function buildCategory(block) {
   listItems[0].classList.add('active');
   const ul = createTag('ul', { class: 'feed-tabs-list-desktop', role: 'tablist' }, listItems);
 
-  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, categories.map((category) => {
+  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, orderedCategories.map((category) => {
     const option = createTag('option', { value: category }, category);
     return option;
   }));
