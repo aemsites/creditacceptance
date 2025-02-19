@@ -95,14 +95,12 @@
     gap: 20px;
     overflow: auto;
     scroll-snap-type: x mandatory;
-    -ms-overflow-style: none;
-    /* IE and Edge */
+    -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none;
 
     /* Firefox */
     &::-webkit-scrollbar {
-        display: none;
-        /* Hide scrollbar for Chrome, Safari and Opera */
+        display: none; /* Hide scrollbar for Chrome, Safari and Opera */
     }
 }
 
@@ -114,7 +112,6 @@
 }
 
 @media screen and (width>=992px) {
-
     .table-sum .upper,
     .table-sum .lower {
         display: grid;
