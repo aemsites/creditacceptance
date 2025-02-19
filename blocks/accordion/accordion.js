@@ -1,8 +1,19 @@
 import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
+function getRelatedSectionId(str) {
+  const match = str.match(/^{{section-id-(.*?)}}$/);
+  return match ? match[1] : null;
+}
+
+function getExpandIndex(element) {
+  const match = [...element.classList].find((cls) => cls.startsWith('expand-'))?.match(/^expand-(\d+)$/);
+  return match ? (match[1] - 1) : null;
+}
+
 function decorate(block) {
-  [...block.children].forEach((row) => {
+  const openIndex = getExpandIndex(block);
+  [...block.children].forEach((row, i) => {
     const label = row.children[0];
     const summary = createTag('summary', { class: 'accordion-item-label' }, [...label.childNodes]);
 
@@ -13,7 +24,18 @@ function decorate(block) {
     const body = row.children[1];
     body.className = 'accordion-item-body';
 
-    const details = createTag('details', { class: 'accordion-item' }, [summary, body]);
+    const relatedSectionId = getRelatedSectionId(body.textContent.trim());
+    if (relatedSectionId) {
+      const relatedSectionEl = document.querySelector(`.section-outer[data-id="${relatedSectionId}"]`);
+      if (relatedSectionEl) {
+        body.innerHTML = '';
+        body.append(relatedSectionEl);
+      }
+    }
+
+    const detailsAttrs = { class: 'accordion-item' };
+    if (openIndex === i) detailsAttrs.open = true;
+    const details = createTag('details', detailsAttrs, [summary, body]);
     row.replaceWith(details);
   });
 }
