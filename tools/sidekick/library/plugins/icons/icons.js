@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /*
  * Copyright 2023 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -11,38 +12,78 @@
  */
 import { createElement } from '../../library-utils.js';
 
+// Format icon name to display text (e.g., "icon-name" -> "Icon Name")
+function formatIconName(name) {
+  return name
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+// Create icon card element
+function createIconCard(icon, container) {
+  const card = createElement('sp-card', '', {
+    variant: 'quiet',
+    heading: icon.label,
+    size: 's',
+  });
+
+  const cardIcon = createElement('div', 'icon', {
+    size: 's',
+    slot: 'preview',
+  });
+
+  cardIcon.innerHTML = icon.svg;
+  card.append(cardIcon);
+
+  // Add click handler for copying
+  card.addEventListener('click', () => {
+    navigator.clipboard.writeText(`:${icon.name}:`);
+    container.dispatchEvent(new CustomEvent('Toast', {
+      detail: { message: 'Copied Icon' },
+    }));
+  });
+
+  return card;
+}
+
+// Process icons from a block
 async function processIcons(pageBlock, path) {
   const icons = {};
   const { host } = new URL(path);
   const iconElements = [...pageBlock.querySelectorAll('span.icon')];
+
   await Promise.all(iconElements.map(async (icon) => {
-    const iconText = icon.parentElement.nextElementSibling.textContent;
-    const iconName = Array.from(icon.classList)
-      .find((c) => c.startsWith('icon-'))
-      .substring(5);
-    // need to comment out host to run locally
-    const response = await fetch(`https://${host}/icons/${iconName}.svg`);
-    // const response = await fetch(`http://localhost:3000/icons/${iconName}.svg`);
-    const svg = await response.text();
-    icons[iconText] = { label: iconText, name: iconName, svg };
+    const iconClass = Array.from(icon.classList).find((c) => c.startsWith('icon-'));
+    if (!iconClass) return;
+
+    const iconName = iconClass.substring(5);
+    const iconText = icon?.parentElement?.nextElementSibling?.textContent?.trim()
+      || formatIconName(iconName);
+
+    try {
+      const response = await fetch(`https://${host}/icons/${iconName}.svg`);
+      const svg = await response.text();
+      icons[iconText] = { label: iconText, name: iconName, svg };
+    } catch (error) {
+      console.warn(`Failed to fetch icon: ${iconName}`, error);
+    }
   }));
+
   return icons;
 }
 
-export async function fetchBlock(path) {
-  if (!window.blocks) { // look for all paths from the helix-icons sheet
-    window.blocks = {};
-  }
-  if (!window.icons) {
-    window.icons = [];
-  }
+// Fetch and process block content
+async function fetchBlock(path) {
+  if (!window.blocks) window.blocks = {};
+  if (!window.icons) window.icons = [];
+
   if (!window.blocks[path]) {
     const resp = await fetch(`${path}.plain.html`);
-    if (!resp.ok) return '';
+    if (!resp.ok) return null;
 
     const html = await resp.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
+    const doc = new DOMParser().parseFromString(html, 'text/html');
     const icons = await processIcons(doc, path);
 
     window.blocks[path] = { doc, icons };
@@ -60,52 +101,40 @@ export async function fetchBlock(path) {
  */
 export async function decorate(container, data, query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
+
   const gridContainer = createElement('div', 'grid-container');
   const iconGrid = createElement('div', 'icon-grid');
   gridContainer.append(iconGrid);
 
-  const promises = data.map(async (item) => {
-    const { name, path } = item;
-    const blockPromise = fetchBlock(path);
+  try {
+    await Promise.all(data.map(async ({ path }) => {
+      const block = await fetchBlock(path);
+      if (!block) return;
 
-    try {
-      const res = await blockPromise;
-      if (!res) {
-        throw new Error(`An error occurred fetching ${name}`);
-      }
-      const keys = Object.keys(res.icons).filter((key) => {
-        if (!query) {
-          return true;
-        }
-        return key.toLowerCase().includes(query.toLowerCase());
-      });
-      keys.sort().forEach((iconText) => {
-        const icon = res.icons[iconText];
-        const card = createElement('sp-card', '', { variant: 'quiet', heading: icon.label, size: 's' });
-        const cardIcon = createElement('div', 'icon', { size: 's', slot: 'preview' });
-        cardIcon.innerHTML = icon.svg;
-        card.append(cardIcon);
+      // Filter and sort icons based on query
+      const filteredIcons = Object.keys(block.icons)
+        .filter((key) => !query || key.toLowerCase().includes(query.toLowerCase()))
+        .sort();
+
+      // Create cards for matching icons
+      filteredIcons.forEach((iconText) => {
+        const icon = block.icons[iconText];
+        const card = createIconCard(icon, container);
         iconGrid.append(card);
-
-        card.addEventListener('click', () => {
-          navigator.clipboard.writeText(`:${icon.name}:`);
-          // Show toast
-          container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Icon' } }));
-        });
       });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e.message);
-      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: e.message, variant: 'negative' } }));
-    }
+    }));
 
-    return blockPromise;
-  });
+    container.append(gridContainer);
+  } catch (error) {
+    console.error('Error loading icons:', error);
+    container.dispatchEvent(new CustomEvent('Toast', {
+      detail: {
+        message: 'Failed to load icons',
+        variant: 'negative',
+      },
+    }));
+  }
 
-  await Promise.all(promises);
-
-  // Show blocks and hide loader
-  container.append(gridContainer);
   container.dispatchEvent(new CustomEvent('HideLoader'));
 }
 
