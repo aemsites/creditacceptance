@@ -628,16 +628,16 @@ main > .section-outer > .section.spacing-4,
     /* Section Style */
     .section-outer:has(.section.bg-shape) {
       &::before {
-        top: 0px;
+        top: 0;
         left: calc(50% - 48px);
       }
 
       .copy:nth-child(1) {
-        margin-top: 0px
+        margin-top: 0;
       }
       
       .copy:nth-child(2) {
-        margin-top: 16px
+        margin-top: 16;
       }
     }
 
