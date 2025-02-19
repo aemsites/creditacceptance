@@ -1,0 +1,66 @@
+/* stylelint-disable no-descending-specificity */
+
+/* video-carousel css */
+.video-carousel .carousel-slide-image {
+    margin: 0 auto;
+}
+
+.video-carousel a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.video-carousel h4,
+.video-carousel h5,
+.video-carousel h3 {
+    text-align: center;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.video-carousel > h4 {
+    text-align: left;
+}
+
+.video-carousel .carousel-slide-image p, .video-carousel .carousel-slide-image a{
+    display: none;
+}
+
+.video-carousel .embed {
+    margin-bottom: 10px !important;
+}
+
+.video-carousel .carousel {
+    max-width: 1050px;
+    margin: 0 auto 10px;
+}
+
+@media screen and (width < 960px) {
+    .video-carousel .embed h5, .video-carousel .embed p {
+       display: none;
+    }
+
+    .video-carousel .embed > div {
+        padding-bottom: 30px;
+    }
+
+    .video-carousel .carousel-slide-image h4{
+        display: none;
+    }
+}
+
+@media screen and (width >= 990px) {
+    .video-carousel .embed {
+        width: 100%;
+        min-height: 720px;
+    }
+
+    .video-carousel .embed lite-vimeo {
+        max-height: 530px;
+    }
+
+    .video-carousel > h4, .video-carousel > p {
+        display: none;
+    }
+}

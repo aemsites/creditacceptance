@@ -64,7 +64,7 @@ const embedYoutube = async (url) => {
 };
 
 // Vimeo embed with lite-vimeo-embed
-const embedVimeo = async (url) => {
+export const embedVimeo = async (url) => {
   await loadScript('/blocks/embed/lite-vimeo-embed/lite-vimeo-embed.js');
   const videoId = getVideoId(url);
   const wrapper = document.createElement('div');

@@ -14,7 +14,9 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
-import { loadPalette } from '../libs/utils/utils.js';
+import { loadPalette, createTag } from '../libs/utils/utils.js';
+
+export const PRODUCTION_DOMAINS = ['www.creditacceptance.com'];
 
 /**
  * load fonts.css and set a session storage flag
@@ -139,6 +141,100 @@ export function buildEmbedBlocks(main) {
   });
 }
 
+const domainCheckCache = {};
+
+/**
+ * Checks a url to determine if it is a known domain.
+ * @param {string | URL} url the url to check
+ * @returns {Object} an object with properties indicating the urls domain types.
+ */
+export function checkDomain(url) {
+  const urlToCheck = typeof url === 'string' ? new URL(url) : url;
+
+  let result = domainCheckCache[urlToCheck.hostname];
+  if (!result) {
+    const isProd = PRODUCTION_DOMAINS.some((host) => urlToCheck.hostname.includes(host));
+    const isHlx = ['hlx.page', 'hlx.live', 'aem.page', 'aem.live'].some((host) => urlToCheck.hostname.includes(host));
+    const isLocal = urlToCheck.hostname.includes('localhost');
+    const isPreview = isLocal || urlToCheck.hostname.includes('hlx.page') || urlToCheck.hostname.includes('aem.page');
+    const isKnown = isProd || isHlx || isLocal;
+    const isExternal = !isKnown;
+    result = {
+      isProd,
+      isHlx,
+      isLocal,
+      isKnown,
+      isExternal,
+      isPreview,
+    };
+
+    domainCheckCache[urlToCheck.hostname] = result;
+  }
+
+  return result;
+}
+
+/**
+   * Builds fragment blocks from links to fragments
+   * @param {Element} main The container element
+   */
+export function buildFragmentBlocks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const url = new URL(a.href);
+    const domainCheck = checkDomain(url);
+    // don't autoblock the header navigation currently in fragments
+    if (domainCheck.isKnown && linkTextIncludesHref(a) && (url.pathname.includes('/fragments/') && !url.pathname.includes('header/'))) {
+      const block = buildBlock('fragment', url.pathname);
+      a.replaceWith(block);
+      decorateBlock(block);
+    }
+  });
+}
+
+/**
+ * When there are multiple buttons in a row, display them next to each other.
+ */
+export function groupMultipleButtons(main) {
+  const buttons = main.querySelectorAll('p.button-container');
+  buttons.forEach((button) => {
+    if (button.nextElementSibling && button.nextElementSibling.classList.contains('button-container')) {
+      const siblingButton = button.nextElementSibling;
+      if (siblingButton && !button.parentElement.classList.contains('buttons-container')) {
+        const buttonContainer = createTag('div', { class: 'buttons-container' });
+        button.parentElement.insertBefore(buttonContainer, button);
+        buttonContainer.append(button, siblingButton);
+      }
+    }
+  });
+}
+
+/**
+ * Processes all <code> elements within the given main element, and if their text content
+ * starts with 'divider' and either equals 'divider' or includes 'element', it clears their
+ * text content and adds the 'divider' class to them.
+ *
+ * @param {HTMLElement} main - The main element containing the <code> elements to process.
+ */
+function buildPageDivider(main) {
+  const allPageDivider = main.querySelectorAll('code');
+  allPageDivider.forEach((el) => {
+    const parent = el.parentElement;
+    if (parent.parentElement.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
+      parent.parentElement.replaceWith(el);
+    } else if (parent.tagName === 'P') {
+      parent.replaceWith(el);
+    }
+    const alt = el.innerText.trim();
+    const lower = alt.toLowerCase();
+    if (lower.startsWith('divider')) {
+      if (lower === 'divider' || lower.includes('element')) {
+        el.innerText = '';
+        el.classList.add('divider');
+      }
+    }
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -150,6 +246,9 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildEmbedBlocks(main);
+  buildFragmentBlocks(main);
+  groupMultipleButtons(main);
+  buildPageDivider(main);
 }
 
 /**

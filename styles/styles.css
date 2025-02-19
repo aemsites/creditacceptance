@@ -35,6 +35,7 @@
   --orange: #fa6400;
   --tertiary-indigo: #3d5470;
   --validation-error: #ea1010;
+  --ca-eggshell-400: #C2C2BD;
 
   /* link text color */
   --link-text-color: oklch(62% 0.09 264deg);
@@ -405,6 +406,17 @@ button.secondary:hover {
   color: var(--btn-secondary-border-hover);
 }
 
+/* Buttons Container */
+.buttons-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.buttons-container a.button {
+  margin: 5px;
+}
+
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
@@ -535,6 +547,14 @@ main > .section-outer > .section.spacing-4,
 .animation-scale {
   transform: scale(1);
   transition: transform 0.15s ease-in-out;
+}
+
+/* devider */
+.divider {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--secondary-brown);
+  margin: 30px 0;
 }
 
 @media screen and (width >= 576px) {

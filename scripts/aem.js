@@ -602,6 +602,7 @@ async function loadBlock(block) {
   if (status !== 'loading' && status !== 'loaded') {
     block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
+    if (blockName === 'default-content-wrapper' || blockName === 'separator') return block;
     try {
       const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
