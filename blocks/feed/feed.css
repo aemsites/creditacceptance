@@ -68,7 +68,7 @@
 }
 
 .feed-wrapper .card-wrapper .cards-card-image .one-image-available img {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
 }
 

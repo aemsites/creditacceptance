@@ -11,19 +11,6 @@
 ** careers
 */
 
-/* stylelint-disable no-descending-specificity */
-
-/* Card - variants 
-** rounded
-** image-rounded
-** gap
-** animation
-** ups
-** feature
-** resources
-** careers
-*/
-
  .cards {
     position: relative;
     margin-block-start: 24px;
@@ -40,7 +27,6 @@
 
  .cards>ul>li {
      background: var(--background-color);
-     margin-bottom: 0;
      margin-bottom: 0;
  }
 
@@ -86,6 +72,10 @@
  .cards>ul>li img {
      width: 100%;
      object-fit: cover;
+ }
+
+ .cards .one-image img {
+    aspect-ratio: 3/2;
  }
 
 /* mobile-only */
