@@ -34,7 +34,7 @@ function decorate(block) {
     }
 
     const detailsAttrs = { class: 'accordion-item' };
-    if (openIndex && openIndex === i) detailsAttrs.open = true;
+    if (openIndex !== null && openIndex === i) detailsAttrs.open = 'true';
     const details = createTag('details', detailsAttrs, [summary, body]);
     row.replaceWith(details);
   });
