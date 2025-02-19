@@ -12,6 +12,7 @@ function getBlockMetadata(block) {
     const valueCol = row.children[1].textContent.trim().toLowerCase();
     const keys = keyCol.split(',');
     keys.forEach((key) => {
+      // eslint-disable-next-line no-unused-vars
       const [_, index, type] = key.split('-');
       data.push({
         columnIndex: parseInt(index, 10),
