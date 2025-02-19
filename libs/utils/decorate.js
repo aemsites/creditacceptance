@@ -126,21 +126,18 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
 export function decorateGridSection(section, meta) {
   const sectionRows = [];
   let currentDiv = document.createElement('div');
-  currentDiv.classList.add('test');
   sectionRows.push(currentDiv);
 
   [...section.children].forEach((child) => {
     if (child.querySelector('.section-metadata')) return;
     if (child.querySelector('.separator')) {
       currentDiv = document.createElement('div');
-      currentDiv.classList.add('test');
       sectionRows.push(currentDiv);
       child.remove();
     } else {
       currentDiv.append(child);
     }
   });
-  console.log(sectionRows);
   const gridValues = meta.split(',');
   section.classList.add('grid-section');
   const gridRows = [...sectionRows];
