@@ -285,7 +285,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildEmbedBlocks(main);
-  buildFragmentBlocks(main);
+  // buildFragmentBlocks(main);
   groupMultipleButtons(main);
   buildPageDivider(main);
   decorateExternalLinks(main);
