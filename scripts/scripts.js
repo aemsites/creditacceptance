@@ -266,6 +266,10 @@ function buildPageDivider(main) {
         el.innerText = '';
         el.classList.add('divider');
       }
+      if (lower === 'divider-thin-dark') {
+        el.innerText = '';
+        el.classList.add('divider-thin-dark');
+      }
     }
   });
 }
