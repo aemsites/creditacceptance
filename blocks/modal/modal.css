@@ -82,3 +82,11 @@ body.modal-open {
 .modal dialog .section {
   padding: 0;
 }
+
+.modal dialog .embed {
+  margin-bottom: 0;
+}
+
+.modal .default-content-wrapper {
+  max-width: 100%;
+}

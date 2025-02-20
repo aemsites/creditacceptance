@@ -160,9 +160,12 @@ const loadEmbed = async (block, service, url, height) => {
  */
 export default async function decorate(block) {
   const url = new URL(block.querySelector('a').href.replace(/%5C%5C_/, '_'));
-  const { text } = block.querySelector('a');
+  const aTag = block.querySelector('a');
+  const { text } = aTag;
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
+
+  aTag.style.visibility = 'hidden';
 
   let service;
   if (block.classList.contains('showcase')) {
