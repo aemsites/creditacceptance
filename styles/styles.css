@@ -177,7 +177,6 @@ h6 {
   
   > .icon:first-child { 
     margin-inline-end: .5rem;
-    vertical-align: text-top;
 
     img { margin-top: 5px; }
   }
@@ -185,7 +184,6 @@ h6 {
 
 p > .icon:first-child { 
   margin-inline-end: .5rem;
-  vertical-align: text-top;
 
   img { margin-top: 5px; }
 }
