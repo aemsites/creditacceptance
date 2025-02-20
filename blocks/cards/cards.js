@@ -42,8 +42,15 @@ function decoratePictures(cell) {
     const img = picture.querySelector('img');
     const optimizedPicture = createOptimizedPicture(img.src, img.alt);
     optimizedPicture.classList.add(`card-image-${classes[index]}`);
+    const link = picture.parentNode.querySelector('a');
     if (picture.parentNode.tagName === 'P') {
-      picture.parentNode.replaceWith(optimizedPicture);
+      if (link) {
+        link.innerHTML = '';
+        link.append(optimizedPicture);
+        picture.parentNode.replaceWith(link);
+      } else {
+        picture.parentNode.replaceWith(optimizedPicture);
+      }
     } else {
       picture.replaceWith(optimizedPicture);
     }

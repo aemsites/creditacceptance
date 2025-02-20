@@ -35,7 +35,6 @@
   --orange: #fa6400;
   --tertiary-indigo: #3d5470;
   --validation-error: #ea1010;
-  --ca-eggshell-400: #C2C2BD;
 
   /* link text color */
   --link-text-color: oklch(62% 0.09 264deg);
@@ -55,6 +54,7 @@
 
   /* borders */
   --bs-border-color: #dee2e6;
+  --bs-border-color-dotted: #D9D9D9;
 
   /* fonts */
   --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;
@@ -95,6 +95,9 @@
   --gap-md: 24px;
   --gap-lg: 32px;
   --gap-xl: 48px;
+
+  /* header height */
+  --header-height: 52px;
 }
 
 *, ::before, ::after {
@@ -178,6 +181,13 @@ h6 {
 
     img { margin-top: 5px; }
   }
+}
+
+p > .icon:first-child { 
+  margin-inline-end: .5rem;
+  vertical-align: text-top;
+
+  img { margin-top: 5px; }
 }
 
 h1 { 
@@ -591,6 +601,12 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   width: 100%;
   border: 2px solid var(--secondary-brown);
   margin: 30px 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth
+  }
 }
 
 @media screen and (width >= 576px) {
