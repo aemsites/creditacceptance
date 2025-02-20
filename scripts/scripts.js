@@ -312,7 +312,7 @@ function loadDataLayer() {
     
     var cacAnalytics = {};
     cacAnalytics.is_spa = false;
-    cacAnalytics.property = "cp";
+    cacAnalytics.property = "www";
     cacAnalytics.sub_property = "customer";
     
     window.adobeDataLayer.push(cacAnalytics);
