@@ -54,6 +54,7 @@
 
   /* borders */
   --bs-border-color: #dee2e6;
+  --bs-border-color-dotted: #D9D9D9;
 
   /* fonts */
   --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;
@@ -94,6 +95,9 @@
   --gap-md: 24px;
   --gap-lg: 32px;
   --gap-xl: 48px;
+
+  /* header height */
+  --header-height: 52px;
 }
 
 *, ::before, ::after {
@@ -177,6 +181,13 @@ h6 {
 
     img { margin-top: 5px; }
   }
+}
+
+p > .icon:first-child { 
+  margin-inline-end: .5rem;
+  vertical-align: text-top;
+
+  img { margin-top: 5px; }
 }
 
 h1 { 
@@ -405,6 +416,17 @@ button.secondary:hover {
   color: var(--btn-secondary-border-hover);
 }
 
+/* Buttons Container */
+.buttons-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.buttons-container a.button {
+  margin: 5px;
+}
+
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
@@ -535,6 +557,20 @@ main > .section-outer > .section.spacing-4,
 .animation-scale {
   transform: scale(1);
   transition: transform 0.15s ease-in-out;
+}
+
+/* devider */
+.divider {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--secondary-brown);
+  margin: 30px 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth
+  }
 }
 
 @media screen and (width >= 576px) {

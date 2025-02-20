@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 .columns > div {
   display: flex;
   flex-direction: column;
@@ -207,6 +208,38 @@
   height: 80px;
   width: 80px; 
 }
+
+.columns .cta-icons {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  top: -100%;
+  position: relative;
+}
+
+.columns.dot-separator > div {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 5px dotted var(--ca-eggshell-400);
+}
+
+.columns.dot-separator > div:last-child {
+  border-bottom: 5px dotted var(--ca-eggshell-400);
+}
+
+.columns.icons-col .icon, .cta-icons .icon {
+  height: unset;
+  width: unset;
+}
+
+.columns.icons-col > div > :first-child {
+  flex: 0 0 25%;
+}
+
+.columns.icons-col  h4 {
+  color: var(--credit-indigo);
+}
+
 
 /* mobile-tablet only */
 @media screen and (width <= 959px) {
