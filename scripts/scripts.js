@@ -30,6 +30,13 @@ async function loadFonts() {
   }
 }
 
+/**
+ * Attaches an event listener to the specified element that intercepts clicks on links
+ * containing '/modals/' in their href attribute. When such a link is clicked, the default
+ * action is prevented, and the modal specified by the link's href is opened.
+ *
+ * @param {HTMLElement} element - The DOM element to which the event listener is attached.
+ */
 function autolinkModals(element) {
   element.addEventListener('click', async (e) => {
     const origin = e.target.closest('a');
@@ -38,6 +45,22 @@ function autolinkModals(element) {
       e.preventDefault();
       const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
       openModal(origin.href);
+    }
+  });
+}
+
+// All .pdf and external links to open in a new tab
+export function decorateExternalLinks(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href) {
+      const extension = href.split('.').pop().trim();
+      const isExternal = !href.startsWith('/') && !href.startsWith('#');
+      const isPDF = extension === 'pdf';
+      const isCa = href.includes('www.creditacceptance.com');
+      if ((isExternal && (!isCa || isPDF)) || isPDF) {
+        a.setAttribute('target', '_blank');
+      }
     }
   });
 }
@@ -261,6 +284,7 @@ export function decorateMain(main) {
   buildFragmentBlocks(main);
   groupMultipleButtons(main);
   buildPageDivider(main);
+  decorateExternalLinks(main);
 }
 
 /**
