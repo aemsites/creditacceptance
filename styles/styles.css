@@ -492,6 +492,42 @@ main > .section-outer > .section.spacing-4,
   padding-bottom: 4rem;
 }
 
+main > .section-outer:has(.section.light-shadow) {
+    box-shadow:0 0 18px #0000004d ;
+}
+
+main > .section-outer:has(.section.light-bottom-shadow)::after,
+main > .section-outer:has(.section.bottom-light-shadow)::after {
+    content: ' ';
+    display: block;
+    height: 2px;
+    width: 100%;
+    box-shadow: #00000017 0 2px 50px, #00000017 0 4px 2px, #00000017 0 8px 4px, #00000017 0 16px 8px, #00000017 0 32px 16px;
+}
+
+main > .section-outer:has(.section.light-top-shadow)::before,
+main > .section-outer:has(.section.top-light-shadow)::before {
+    content: ' ';
+    display: block;
+    height: 2px;
+    width: 100%;
+    box-shadow: #00000017 0 2px 50px, #00000017 0 4px 2px, #00000017 0 8px 4px, #00000017 0 16px 8px, #00000017 0 32px 16px;
+}
+
+main > .section-outer:has(.section.strong-shadow) {
+    box-shadow:0 -15px 10px -15px #00000080,0 15px 10px -15px #00000080 ;
+}
+
+main > .section-outer:has(.section.strong-top-shadow),
+main > .section-outer:has(.section.top-strong-shadow) {
+    box-shadow:0 -15px 10px -15px #00000080;
+}
+
+main > .section-outer:has(.section.bottom-strong-shadow),
+main > .section-outer:has(.section.strong-bottom-shadow) {
+    box-shadow: 0 15px 10px -15px #00000080 ;
+}
+
 .block.spacing-1.has-bg {
   padding-left: 1rem;
   padding-right: 1rem;
