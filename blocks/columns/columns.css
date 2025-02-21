@@ -227,6 +227,10 @@
   border-bottom: 5px dotted var(--ca-eggshell-400);
 }
 
+.columns.col-mobile-reverse > div {
+  flex-direction: column-reverse;
+}
+
 .columns.icons-col .icon, .cta-icons .icon {
   height: unset;
   width: unset;
@@ -258,6 +262,10 @@
   .columns.stats > div > div::after {
     width: 50%;
     left: 25%;
+  }
+
+  .columns.col-mobile-reverse > div {
+    flex-direction: row;
   }
 }
 

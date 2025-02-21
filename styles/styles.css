@@ -601,7 +601,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 }
 
 /* devider */
-.divider, .divider-thin-dark {
+.divider, .divider-thin-dark, .divider-thin-blue-dot {
   display: block;
   width: 100%;
   border: 2px solid var(--secondary-brown);
@@ -610,6 +610,10 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 
 .divider-thin-dark {
   border: 1px solid var(--credit-indigo);
+}
+
+.divider-thin-blue-dot {
+  border: 1px dotted var(--credit-violet);
 }
 
 

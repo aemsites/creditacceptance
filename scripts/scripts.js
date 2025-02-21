@@ -253,6 +253,28 @@ function buildPageDivider(main) {
         el.innerText = '';
         el.classList.add('divider-thin-dark');
       }
+      if (lower === 'divider-thin-blue-dot') {
+        el.innerText = '';
+        el.classList.add('divider-thin-blue-dot');
+      }
+    }
+  });
+}
+
+/**
+   * Builds fragment blocks from links to fragments
+   * @param {Element} main The container element
+   */
+export function buildFragmentBlocks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const url = new URL(a.href);
+    const domainCheck = checkDomain(url);
+    // don't autoblock the header navigation currently in fragments
+    if (domainCheck.isKnown && linkTextIncludesHref(a) && (url.pathname.includes('/fragments/') && !url.pathname.includes('header/'))) {
+      if (a.closest('.accordion.faqs')) return;
+      const block = buildBlock('fragment', url.pathname);
+      a.replaceWith(block);
+      decorateBlock(block);
     }
   });
 }
@@ -271,6 +293,7 @@ export function decorateMain(main) {
   groupMultipleButtons(main);
   buildPageDivider(main);
   decorateExternalLinks(main);
+  buildFragmentBlocks(main);
 }
 
 /**
