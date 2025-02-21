@@ -63,9 +63,9 @@ function initAnimatedMarquee(block) {
 
   const toggleAria = createTag('div', { class: 'toggle-aria' }, label);
   foreground.append(toggleAria);
+  addCoins(foreground);
 
   const toggleClass = () => { block.classList.toggle('toggled', input.checked); };
-
   input.addEventListener('change', toggleClass);
 
   // Auto-toggle every 8 seconds
@@ -73,10 +73,6 @@ function initAnimatedMarquee(block) {
     input.checked = !input.checked;
     toggleClass();
   }, '8000');
-
-  setTimeout(() => {
-    addCoins(foreground);
-  }, '10');
 }
 
 export default function decorate(block) {
