@@ -85,32 +85,24 @@ async function buildCards(block) {
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
-    function getValidSource(...sources) {
-      return sources.find((src) => src && src !== '0');
+    let imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
+    let tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
+    const desktopImageElement = createOptimizedPicture(item.image, item.imageAlt);
+    let oneImageAvailable = false;
+
+    if (!imageElement || item.mobileImage === '0' || !tabletImageElement || item.tabletImage === '0') {
+      imageElement = desktopImageElement;
+      tabletImageElement = desktopImageElement;
+      oneImageAvailable = true;
     }
 
-    function chooseImage(sources) {
-      const validSource = getValidSource(...sources);
-      return validSource ? createOptimizedPicture(validSource, item.imageAlt) : null;
-    }
-
-    const validSources = [item.image, item.mobileImage, item.tabletImage].filter((src) => src && src !== '0');
-
-    const countMap = {
-      1: 'one',
-      2: 'two',
-      3: 'three',
-    };
-    const imagesCount = validSources.length;
-    const countClass = countMap[imagesCount] ?? 'one';
-
-    const desktopImageElement = chooseImage([item.image, item.mobileImage, item.tabletImage]);
-    const imageElement = chooseImage([item.mobileImage, item.image, item.tabletImage]);
-    const tabletImageElement = chooseImage([item.tabletImage, item.mobileImage, item.image]);
+    imageElement.className = 'card-image-mobile';
+    tabletImageElement.className = 'card-image-tablet';
+    desktopImageElement.className = 'card-image-desktop';
 
     const firstCol = createTag(
       'div',
-      { class: `${countClass}-image-available` },
+      { class: oneImageAvailable ? 'one-image-available' : '' },
       [imageElement, tabletImageElement, desktopImageElement],
     );
 
