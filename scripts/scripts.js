@@ -210,23 +210,6 @@ export function checkDomain(url) {
 }
 
 /**
-   * Builds fragment blocks from links to fragments
-   * @param {Element} main The container element
-   */
-export function buildFragmentBlocks(main) {
-  main.querySelectorAll('a[href]').forEach((a) => {
-    const url = new URL(a.href);
-    const domainCheck = checkDomain(url);
-    // don't autoblock the header navigation currently in fragments
-    if (domainCheck.isKnown && linkTextIncludesHref(a) && (url.pathname.includes('/fragments/') && !url.pathname.includes('header/'))) {
-      const block = buildBlock('fragment', url.pathname);
-      a.replaceWith(block);
-      decorateBlock(block);
-    }
-  });
-}
-
-/**
  * When there are multiple buttons in a row, display them next to each other.
  */
 export function groupMultipleButtons(main) {
@@ -285,7 +268,6 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildEmbedBlocks(main);
-  // buildFragmentBlocks(main);
   groupMultipleButtons(main);
   buildPageDivider(main);
   decorateExternalLinks(main);
