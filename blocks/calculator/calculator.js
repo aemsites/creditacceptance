@@ -245,7 +245,7 @@ async function decorateInputFields(fields, wrapper, block) {
         name: id,
         id,
         type: 'text',
-        maxLength: 6,
+        maxLength: 5,
         value: id === 'interest-rate' ? Percentage.format(defaultValue / 100) : USDollar.format(defaultValue),
       });
 
