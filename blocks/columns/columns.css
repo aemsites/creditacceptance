@@ -252,6 +252,12 @@
     }
 }
 
+@media screen and (width < 576px) {
+  .columns.col-mobile-reverse > div {
+    flex-direction: column-reverse;
+  }
+}
+
 @media screen and (width >= 576px) {
   .columns.media-unbound > div div:not(.media) { 
     margin: 0 auto;
@@ -262,10 +268,6 @@
   .columns.stats > div > div::after {
     width: 50%;
     left: 25%;
-  }
-
-  .columns.col-mobile-reverse > div {
-    flex-direction: row;
   }
 }
 
