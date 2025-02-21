@@ -157,6 +157,11 @@ main img {
   width: 24px;
 }
 
+.big-icons .icon {
+  width: auto;
+  height: auto;
+}
+
 .icon img {
   height: 100%;
   width: 100%;
