@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isImagePath } from '../libs/utils/decorate.js';
+import { isImagePath, decorateGridSection } from '../libs/utils/decorate.js';
 
 /* eslint-env browser */
 function sampleRUM(checkpoint, data) {
@@ -505,8 +505,9 @@ function decorateSections(main) {
         } else if (key === 'background') {
           const urlIsImg = isImagePath(meta[key]);
           if (urlIsImg) {
-            const style = `background-image: url(${meta[key]}); background-repeat: no-repeat; background-size: cover;`;
-            sectionOuter.style = style;
+            sectionOuter.style.backgroundImage = `url(${meta[key]})`;
+            sectionOuter.style.backgroundRepeat = 'no-repeat';
+            sectionOuter.style.backgroundSize = 'cover';
           } else {
             let colorStr = meta[key];
             const isBrandColor = meta[key].startsWith('ca-');
@@ -518,6 +519,7 @@ function decorateSections(main) {
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
         }
+        if (key === 'grid') decorateGridSection(section, meta.grid);
       });
       sectionMeta.parentNode.remove();
     }
@@ -601,6 +603,7 @@ async function loadBlock(block) {
   if (status !== 'loading' && status !== 'loaded') {
     block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
+    if (blockName === 'default-content-wrapper' || blockName === 'separator') return block;
     try {
       const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {

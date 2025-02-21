@@ -1,5 +1,7 @@
 // Shared block decorate functions
 
+import { createTag } from './utils.js';
+
 /**
  * Checks if a hex color value is dark or light
  *
@@ -119,4 +121,82 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
     block.style.background = node.textContent;
     node.remove();
   }
+}
+
+export function decorateGridSection(section, meta) {
+  const sectionRows = [];
+  let currentDiv = document.createElement('div');
+  sectionRows.push(currentDiv);
+
+  [...section.children].forEach((child) => {
+    if (child.querySelector('.section-metadata')) return;
+    if (child.querySelector('.separator')) {
+      currentDiv = document.createElement('div');
+      sectionRows.push(currentDiv);
+      child.remove();
+    } else {
+      currentDiv.append(child);
+    }
+  });
+  const gridValues = meta.split(',');
+  section.classList.add('grid-section');
+  const gridRows = [...sectionRows];
+  gridRows.forEach((row, i) => {
+    // for each direct child of the row, unwrap it if it doesn't have a class
+    const rowChildren = [...row.children];
+    rowChildren.forEach((child) => {
+      if (child.classList.length === 0) {
+        child.replaceWith(...child.childNodes);
+      }
+    });
+    const spanVal = gridValues[i].trim();
+    if (spanVal) row.classList.add(spanVal.toLowerCase());
+  });
+
+  section.append(...gridRows);
+}
+
+function updateActiveSlide(steps, pagination) {
+  const dots = pagination.querySelectorAll('button');
+  function handleIntersection(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const visibleStep = entry.target;
+        const index = Array.from(steps).indexOf(visibleStep);
+        dots.forEach((dot) => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+      }
+    });
+  }
+  // Create observer with 50% visibility threshold
+  const observer = new IntersectionObserver(handleIntersection, { threshold: 0.5 });
+  steps.forEach((step) => observer.observe(step)); // Start observing each step
+}
+
+export function initSlider(block, slides, container = null) {
+  if (!slides) return;
+  const slideContainer = container || block;
+  slideContainer.classList.add('slider-container');
+  const pagination = createTag('div', { class: 'pagination' }, null);
+  slides.forEach((slide, i) => {
+    slide.id = `slide-${i}`;
+    slide.classList.add('slide');
+    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}` });
+    pagination.append(dot);
+
+    // scroll into view on click
+    slide.addEventListener('click', () => {
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    dot.addEventListener('click', (event) => {
+      event.preventDefault();
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+  const { blockName } = block.dataset;
+  const outerSection = block.closest(`.${blockName}-wrapper`);
+  outerSection.classList.add('slider-wrapper');
+  outerSection.append(pagination);
+  updateActiveSlide(slides, pagination);
 }

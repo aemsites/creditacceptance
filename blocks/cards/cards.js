@@ -1,5 +1,8 @@
-import { createOptimizedPicture } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
+import { initSlider } from '../../libs/utils/decorate.js';
+
+const isDesktop = window.matchMedia('(min-width: 960px)');
 
 export function isDateValid(dateStr) {
   if (!dateStr || typeof dateStr !== 'string') return false;
@@ -21,6 +24,55 @@ function decorateDate(data) {
   }
 }
 
+function addMobileSlider(block) {
+  const isSlider = block.classList.contains('slider-mobile');
+  if (isSlider && !isDesktop.matches) {
+    const sliderContainer = block.querySelector('ul');
+    const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
+    initSlider(block, slides, sliderContainer);
+  }
+}
+
+function decoratePictures(cell) {
+  const pictures = cell.querySelectorAll('picture');
+
+  const classes = ['mobile', 'tablet', 'desktop'];
+  pictures.forEach((picture, index) => {
+    const img = picture.querySelector('img');
+    const optimizedPicture = createOptimizedPicture(img.src, img.alt);
+    optimizedPicture.classList.add(`card-image-${classes[index]}`);
+    const link = picture.parentNode.querySelector('a');
+    if (picture.parentNode.tagName === 'P') {
+      if (link) {
+        link.innerHTML = '';
+        link.append(optimizedPicture);
+        picture.parentNode.replaceWith(link);
+      } else {
+        picture.parentNode.replaceWith(optimizedPicture);
+      }
+    } else {
+      picture.replaceWith(optimizedPicture);
+    }
+  });
+
+  switch (pictures.length) {
+    case 1:
+      cell.classList.add('one-image');
+      break;
+
+    case 2:
+      cell.classList.add('two-images');
+      break;
+
+    case 3:
+      cell.classList.add('three-images');
+      break;
+    default:
+      break;
+  }
+}
+
 export default function decorate(block) {
   const isAnimated = block.classList.contains('animation') && !block.classList.contains('animation-none');
   const ul = createTag('ul');
@@ -31,8 +83,9 @@ export default function decorate(block) {
     while (row.firstElementChild) cardWrapper.append(row.firstElementChild);
     let heading = null;
     [...cardWrapper.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) {
+      if (div.querySelector('picture')) {
         div.className = 'cards-card-image';
+        decoratePictures(div);
       } else {
         div.className = 'cards-card-body';
         const h3 = div.querySelector('h3');
@@ -54,7 +107,7 @@ export default function decorate(block) {
       }
       const icon = div.querySelector('.icon img');
       if (icon) {
-        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask:url(${icon.src}) no-repeat center` });
+        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
@@ -63,13 +116,12 @@ export default function decorate(block) {
     ul.append(li);
   });
 
-  ul.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPicture = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
-    const imgParentPicture = img.closest('picture');
-    imgParentPicture.replaceWith(optimizedPicture);
-    if (!imgParentPicture.classList.length) return;
-    optimizedPicture.classList.add(...imgParentPicture.classList);
-  });
   block.textContent = '';
   block.append(ul);
+
+  if (block.classList.contains('careers')) {
+    block.classList.add('rounded');
+  }
+
+  addMobileSlider(block);
 }

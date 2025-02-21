@@ -422,6 +422,13 @@ header .nav-brand {
   }
 }
 
+@media screen and (width >= 992px) {
+    header nav {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
 @keyframes ripple {
   to {
     transform: scale(3);

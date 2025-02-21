@@ -1,0 +1,56 @@
+.picture {
+    padding-inline: 12px;
+    margin-block: 30px;
+    margin-inline: 1rem;
+}
+
+.picture img {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.picture .image-tablet, 
+.picture .image-desktop {
+    display: none;
+}
+
+@media screen and (width >= 576px) {
+    .picture {
+        margin-inline: 0;
+    }
+
+    .picture .image-mobile {
+        display: none;
+    } 
+
+    .picture .image-tablet {
+        display: block;
+    }
+}
+
+
+@media screen and (width >= 960px) {
+    .picture .image-tablet {
+        display: none;
+    }
+
+    .picture .image-desktop {
+        display: block;
+    }
+}
+
+/* specific for the careers page - picture & columns combination */
+.section.width-100 > .picture-wrapper + .columns-wrapper > .columns {
+    display: flex;
+    justify-content: start;
+    padding-inline: 12px;
+    margin-inline: 1rem;
+}
+
+@media screen and (width >= 960px) {
+    .section.width-100 > .picture-wrapper + .columns-wrapper > .columns {
+        margin-inline: 0;
+        justify-content: center;
+    } 
+}

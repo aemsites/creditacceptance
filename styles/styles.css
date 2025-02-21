@@ -1,3 +1,5 @@
+/* stylelint-disable no-descending-specificity */
+
 /*
  * Copyright 2020 Adobe. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -52,9 +54,10 @@
 
   /* borders */
   --bs-border-color: #dee2e6;
+  --bs-border-color-dotted: #D9D9D9;
 
   /* fonts */
-  --body-font-family: 'Visibly Regular', visby-regular-fallback, sans-serif;
+  --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;
   --heading-font-family: 'Acceptance Bold', acceptance-bold-fallback, sans-serif;
   --ff-acceptance-demi-bold: 'Acceptance DemiBold', acceptance-demi-bold-fallback, sans-serif;
   --ff-acceptance-extra-bold: 'Acceptance ExtraBold', acceptance-extrabold-fallback, sans-serif;
@@ -92,6 +95,9 @@
   --gap-md: 24px;
   --gap-lg: 32px;
   --gap-xl: 48px;
+
+  /* header height */
+  --header-height: 52px;
 }
 
 *, ::before, ::after {
@@ -151,6 +157,11 @@ main img {
   width: 24px;
 }
 
+.big-icons .icon {
+  width: auto;
+  height: auto;
+}
+
 .icon img {
   height: 100%;
   width: 100%;
@@ -175,6 +186,13 @@ h6 {
 
     img { margin-top: 5px; }
   }
+}
+
+p > .icon:first-child { 
+  margin-inline-end: .5rem;
+  vertical-align: text-top;
+
+  img { margin-top: 5px; }
 }
 
 h1 { 
@@ -354,7 +372,7 @@ button:disabled:hover {
   cursor: unset;
 }
 
-a.button.primary {
+a.button.primary, .btn.btn-primary {
   background-color: var(--btn-primary-bg);
   color: var(--text-color);
   border: 1px solid var(--btn-primary-bg);
@@ -403,10 +421,21 @@ button.secondary:hover {
   color: var(--btn-secondary-border-hover);
 }
 
+/* Buttons Container */
+.buttons-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.buttons-container a.button {
+  margin: 5px;
+}
+
 .section > .default-content-wrapper {
   padding: 1.5rem 1rem;
 
-  h3, h4 {
+  h2:not(:first-of-type), h3, h4 {
     margin-top: 3rem;
   }
 }
@@ -417,8 +446,13 @@ button.secondary:hover {
 }
 
 /* sections */
+main > .section:first-of-type {
+  margin-top: 0;
+}
+
 main > .section-outer > .section,
 footer .section-outer > .section,
+main.error .section-outer .section:not(.marquee-container),
 .block .container {
   max-width: 100%;
   margin: 0 auto;
@@ -429,38 +463,135 @@ main > .section-outer > .section.width-100 {
   max-width: 100%;
 }
 
-main > .section:first-of-type {
-  margin-top: 0;
-}
-
 main > .section-outer > .section.width-75 > div {
   width: 75%;
 }
 
-/* section spacing */
+/* section & block spacing */
 main > .section-outer > .section.spacing-0 {
   padding-top: 0;
   padding-bottom: 0;
 }
 
-main > .section-outer > .section.spacing-1 {
+main > .section-outer > .section.spacing-1,
+.block.spacing-1 {
   padding-top: 1rem;
   padding-bottom: 1rem;
 }
 
-main > .section-outer > .section.spacing-2 {
+main > .section-outer > .section.spacing-2,
+.block.spacing-2  {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
 
-main > .section-outer > .section.spacing-3 {
+main > .section-outer > .section.spacing-3,
+.block.spacing-3  {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
 
-main > .section-outer > .section.spacing-4 {
+main > .section-outer > .section.spacing-4,
+.block.spacing-4  {
   padding-top: 4rem;
   padding-bottom: 4rem;
+}
+
+main > .section-outer:has(.section.light-shadow) {
+    box-shadow:0 0 18px #0000004d ;
+}
+
+main > .section-outer:has(.section.light-bottom-shadow)::after,
+main > .section-outer:has(.section.bottom-light-shadow)::after {
+    content: ' ';
+    display: block;
+    height: 2px;
+    width: 100%;
+    box-shadow: #00000017 0 2px 50px, #00000017 0 4px 2px, #00000017 0 8px 4px, #00000017 0 16px 8px, #00000017 0 32px 16px;
+}
+
+main > .section-outer:has(.section.light-top-shadow)::before,
+main > .section-outer:has(.section.top-light-shadow)::before {
+    content: ' ';
+    display: block;
+    height: 2px;
+    width: 100%;
+    box-shadow: #00000017 0 2px 50px, #00000017 0 4px 2px, #00000017 0 8px 4px, #00000017 0 16px 8px, #00000017 0 32px 16px;
+}
+
+main > .section-outer:has(.section.strong-shadow) {
+    box-shadow:0 -15px 10px -15px #00000080,0 15px 10px -15px #00000080 ;
+}
+
+main > .section-outer:has(.section.strong-top-shadow),
+main > .section-outer:has(.section.top-strong-shadow) {
+    box-shadow:0 -15px 10px -15px #00000080;
+}
+
+main > .section-outer:has(.section.bottom-strong-shadow),
+main > .section-outer:has(.section.strong-bottom-shadow) {
+    box-shadow: 0 15px 10px -15px #00000080 ;
+}
+
+.block.spacing-1.has-bg {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.block.spacing-2.has-bg {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.block.spacing-3.has-bg {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.block.spacing-4.has-bg {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+/* section/block utils */
+.section-outer > .section.center,
+.block.center{
+  text-align: center;
+}
+
+.section-outer > .section.right,
+.block.right{
+  text-align: right;
+}
+
+/* Grid Section */
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  .span-1 { grid-column: span 1; }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+  .span-4 { grid-column: span 4; }
+  .span-5 { grid-column: span 5; }
+  .span-6 { grid-column: span 6; }
+  .span-7 { grid-column: span 7; }
+  .span-8 { grid-column: span 8; }
+  .span-9 { grid-column: span 9; }
+  .span-10 { grid-column: span 10; }
+  .span-11 { grid-column: span 11; }
+
+  /* helpers */
+  &.grid-justify-items-center {
+      justify-items: center;
+  }
+}
+
+.section.grid-section > .default-content-wrapper {
+    max-width: unset;
+    margin: unset;
+    padding: unset;
 }
 
 /* Animations */
@@ -469,9 +600,29 @@ main > .section-outer > .section.spacing-4 {
   transition: transform 0.15s ease-in-out;
 }
 
+/* devider */
+.divider, .divider-thin-dark {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--secondary-brown);
+  margin: 30px 0;
+}
+
+.divider-thin-dark {
+  border: 1px solid var(--credit-indigo);
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth
+  }
+}
+
 @media screen and (width >= 576px) {
   main > .section-outer > .section,
   footer .section-outer > .section,
+  main.error .section-outer .section:not(.marquee-container),
   .block .container {
     max-width: var(--container-width);
     padding-left: 0;
@@ -480,7 +631,6 @@ main > .section-outer > .section.spacing-4 {
   
   .section > .default-content-wrapper {
     max-width: var(--container-width);
-    margin: 0 auto;
     padding-left: 0;
     padding-right: 0;
   }
@@ -512,6 +662,10 @@ main > .section-outer > .section.spacing-4 {
   
     .animation-scale:hover {
         transform: scale(1.05);
+    }
+
+    .grid-section {
+        grid-template-columns: repeat(12, 1fr);
     }
 }
 
