@@ -43,19 +43,14 @@
 /* specific for the careers page - picture & columns combination */
 .section.width-100 > .picture-wrapper + .columns-wrapper > .columns {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     padding-inline: 12px;
     margin-inline: 1rem;
-}
-
-@media screen and (width >= 576px) {
-    .section.width-100 > .picture-wrapper + .columns-wrapper > .columns {
-        justify-content: start;
-    } 
 }
 
 @media screen and (width >= 960px) {
     .section.width-100 > .picture-wrapper + .columns-wrapper > .columns {
         margin-inline: 0;
+        justify-content: center;
     } 
 }
