@@ -64,9 +64,16 @@ function initAnimatedMarquee(block) {
   const toggleAria = createTag('div', { class: 'toggle-aria' }, label);
   foreground.append(toggleAria);
 
-  input.addEventListener('change', (event) => {
-    block.classList.toggle('toggled', event.target.checked);
-  });
+  const toggleClass = () => { block.classList.toggle('toggled', input.checked); };
+
+  input.addEventListener('change', toggleClass);
+
+  // Auto-toggle every 8 seconds
+  setInterval(() => {
+    input.checked = !input.checked;
+    toggleClass();
+  }, '8000');
+
   setTimeout(() => {
     addCoins(foreground);
   }, '10');
@@ -91,7 +98,7 @@ export default function decorate(block) {
   if (!lastAction) return;
   lastAction.nextElementSibling?.classList.add('supplemental-text');
   if (block.classList.contains('animated-toggle')) {
-    loadCSS(`${window.hlx.codeBasePath}/blocks/marquee/animated/animated-marquee.css`);
+    loadCSS(`${window.hlx.codeBasePath}/blocks/marquee/animated/animated-toggle.css`);
     initAnimatedMarquee(block);
   }
 }
