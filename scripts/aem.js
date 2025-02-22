@@ -518,6 +518,7 @@ function decorateSections(main) {
           }
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
+          if (key === 'id') sectionOuter.id = meta[key];
         }
         if (key === 'grid') decorateGridSection(section, meta.grid);
       });
