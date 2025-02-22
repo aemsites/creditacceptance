@@ -18,7 +18,7 @@
 
 .accordion.arrow details{
     border: none;
-    border-bottom: 1px solid var(--secondary-brown);
+    border-bottom: 1px solid #0003;
     margin-block: 20px;
     background: none;
 }
@@ -109,4 +109,8 @@
  
 .accordion details .accordion-item-body > *:first-child {
     margin-top: 0;
+}
+
+.accordion.arrow details .accordion-item-body.fragment-section {
+    padding-bottom: 1rem;
 }

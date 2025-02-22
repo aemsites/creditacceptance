@@ -236,10 +236,31 @@
   flex: 0 0 25%;
 }
 
-.columns.icons-col  h4 {
+.columns.icons-col h4 {
   color: var(--credit-indigo);
 }
 
+.columns.bg-shape-right > div > :nth-child(2){
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+
+    ol { margin: 3rem 1rem 2rem 8rem; }
+    
+    &::after {
+        position: absolute;
+        background: white;
+        border-radius: 192px 0 0 32px;
+        content: '';
+        width: 100vw;
+        height: 100%;
+        display: block;
+        top: 0;
+        left: 8px;
+        box-shadow: -8px -8px 0 #0f7d9c11, inset 8px -8px 0 #FFCC4A55;
+        z-index: -1;
+    }
+}
 
 /* mobile-tablet only */
 @media screen and (width <= 959px) {

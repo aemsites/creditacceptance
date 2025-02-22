@@ -1,0 +1,164 @@
+.animated-toggle {
+    background: white;
+    color: var(--ca-tangerine-400);
+    overflow: hidden;
+
+    .view-1 { display: block; }
+    .view-2 { display: none; }
+
+    p.intro {
+        color: white;
+        span, div {
+            background-color: var(--ca-tangerine-700);
+        }
+    }
+
+    .foreground {
+        position: relative;
+        z-index: 0;
+        flex-direction: column;
+
+        .toggle-copy { flex: 4; max-width: unset; }
+        .toggle-aria { flex: 6; max-width: unset; text-align: center; }
+    }
+}
+
+.animated-toggle.toggled {
+    background: var(--ca-tangerine-400);
+    color: white;
+
+    .view-1 { display: none; }
+    .view-2 { display: block; }
+
+    p.intro {
+        color: black;
+        span, div { background-color: white; }
+    }
+}
+
+/* Coin positioning */
+.animated-toggle .coin {
+    z-index: -1; 
+    position: absolute;
+    width: 115px;
+    height: 115px;
+    transition: all .4s ease-in-out;
+}
+
+/* Base positions */
+.animated-toggle {
+    .coin-1 { top: 0; right: 95%; }
+    .coin-2 { top: 5%; right: 18%; transform: rotate(-120deg) scale(0.9); }
+    .coin-3 { top: 65%; right: 12%; transform: rotate(-90deg) scale(0.9); }
+    .coin-4 { top: 72%; right: 22%; transform: rotate(-90deg) scale(1) blur(2.06108px); }
+    .coin-5 { top: 65%; right: 105%; transform: rotate(-60deg) scale(1); }
+    .coin-6 { top: 2%; right: 40%; transform: rotate(-20deg) scale(.4); }
+    .coin-7 { top: -5%; right: 5%; transform: rotate(-120deg) scale(.2) blur(3.06108px); }
+    .coin-8 { top: 15%; right: -5%; transform: rotate(-180deg) scale(.4); }
+    .coin-9 { top: 78%; right: 70%; transform: rotate(-200deg) scale(.3); }
+    .coin-10 { top: 70%; right: 44%; transform: rotate(-95deg) scale(.3) blur(1.5px); }
+}
+
+/* Toggled positions */
+.animated-toggle.toggled {
+    .coin-1 { top: 65%; right: 12%; }
+    .coin-3 { top: 0; right: 95%; }
+    .coin-8 { top: 78%; right: 70%; }
+    .coin-9 { top: 15%; right: -5%; }
+}
+
+/* Toggle Aria */
+.toggle-aria .toggle {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    height: 76px;
+
+    input { display: none; }
+}
+
+
+.toggle-aria .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--ca-tangerine-400);
+    transition: 0.4s;
+    border-radius: 38px;
+}
+
+.toggle-aria .slider:before {
+    position: absolute;
+    content: "";
+    height: 50px;
+    width: 50px;
+    left: 140px;
+    top: 12px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.toggle-aria .slider:after {
+    position: absolute;
+    content: "Purchase";
+    display: block;
+    top: 22px;
+    left: 20px;
+    font-family: var(--ff-acceptance-demi-bold);
+    font-size: 21px;
+    color: white;
+}
+
+.toggle-aria input:checked + .slider {
+    background-color: white;
+}
+
+.toggle-aria input:checked + .slider:before {
+    transform: translateX(-130px);
+    background-color: var(--ca-indigo-700);
+}
+
+.toggle-aria input:checked + .slider:after {
+    content: 'Portfolio';
+    left: 90px;
+    color: var(--ca-indigo-700);
+}
+
+/* mobile-only */
+@media screen and (width <= 960px) {
+    .coin-2, .coin-4, .coin-6, .coin-10 { display: none; }
+}
+
+/* desktop-up */
+@media screen and (width >= 960px) {
+    .animated-toggle .foreground { flex-direction: row; }
+
+    .animated-toggle {
+        .coin-1 { top: 0; right: 42%; }
+        .coin-2 { right: 10%; } 
+        .coin-3 { top: 45%; right: 2%; transform: rotate(-95deg) scale(.8); }
+        .coin-4 { right: 18%; } 
+        .coin-5 { top: 50%; right: 40%; transform: rotate(-95deg) scale(.8); }
+        .coin-6 { right: 22%; transform: rotate(180deg) scale(.3); }
+        .coin-7 { top: 80%; right: -4%; transform: rotate(0deg) scale(.3); }
+        .coin-8 { top: -1%; right: -2%; transform: rotate(180deg) scale(.2) blur(3.06108px); }
+        .coin-9 { top: 70%; right: 30%; }
+        .coin-10 { top: 77%; right: 44%; transform: rotate(150deg) scale(.3); }
+    }
+
+    .animated-toggle.toggled {
+        .coin-1 { top: 0; right: 42%; }
+        .coin-2 { top: 50%; right: 40%; } 
+        .coin-3 { top: 10%; right: 10%; } 
+        .coin-5 { top: 45%; right: 2%; } 
+        .coin-6 { top: 70%; right: 30%; } 
+        .coin-7 { top: 80%; right: -4%; } 
+        .coin-8 { top: 77%; right: 44%; } 
+        .coin-9 { top: 2%; right: 22%; } 
+        .coin-10 { top: 0; right: -4%; }
+    }
+}
