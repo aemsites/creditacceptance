@@ -338,6 +338,21 @@ async function loadTemplate() {
   return undefined;
 }
 
+function loadDataLayer() {
+  const scriptBlock = document.createElement('script');
+  scriptBlock.innerHTML = `
+    window.adobeDataLayer = window.adobeDataLayer || [];
+    
+    var cacAnalytics = {};
+    cacAnalytics.is_spa = false;
+    cacAnalytics.property = "www";
+    cacAnalytics.sub_property = "customer";
+    
+    window.adobeDataLayer.push(cacAnalytics);
+  `;
+  document.head.appendChild(scriptBlock);
+}
+
 /**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
@@ -397,6 +412,7 @@ function loadDelayed() {
 async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
+  loadDataLayer();
   loadDelayed();
 }
 
