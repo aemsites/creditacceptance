@@ -5,6 +5,7 @@
  */
 
 import { loadScript, readBlockConfig } from '../../scripts/aem.js';
+import { isProd } from '../../libs/utils/utils.js';
 
 const getDefaultEmbed = (url, height) => {
   const divHeight = height ? `${height}px` : '0';
@@ -160,9 +161,12 @@ const loadEmbed = async (block, service, url, height) => {
  */
 export default async function decorate(block) {
   const meta = readBlockConfig(block);
+  let link = block.querySelector('a')?.href;
   if (meta && meta.test && meta.prod) {
+    if (isProd()) link = meta.prod;
+    else link = meta.test;
   }
-  const url = new URL(block.querySelector('a').href.replace(/%5C%5C_/, '_'));
+  const url = new URL(link.replace(/%5C%5C_/, '_'));
   const { text } = block.querySelector('a');
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
