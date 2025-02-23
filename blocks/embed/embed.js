@@ -4,7 +4,7 @@
  * https://www.hlx.live/developer/block-collection/embed
  */
 
-import { loadScript } from '../../scripts/aem.js';
+import { loadScript, readBlockConfig } from '../../scripts/aem.js';
 
 const getDefaultEmbed = (url, height) => {
   const divHeight = height ? `${height}px` : '0';
@@ -159,6 +159,9 @@ const loadEmbed = async (block, service, url, height) => {
  * @param {HTMLDivElement} block
  */
 export default async function decorate(block) {
+  const meta = readBlockConfig(block);
+  if (meta && meta.test && meta.prod) {
+  }
   const url = new URL(block.querySelector('a').href.replace(/%5C%5C_/, '_'));
   const { text } = block.querySelector('a');
   const getHeightVal = text.match(/height:\s*(\d+)px/);
