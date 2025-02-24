@@ -1,4 +1,4 @@
-// eslint-disable no-console
+/* eslint-disable no-console */
 
 import { buildBlock, loadBlock, loadCSS } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';

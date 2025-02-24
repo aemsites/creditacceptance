@@ -41,8 +41,9 @@ function decorateIntro(el) {
 function addCoins(el) {
   for (let i = 0; i < 10; i += 1) {
     const coinAttrs = {
-      src: `${window.hlx.codeBasePath}/blocks/marquee/animated/big-coin.gif`,
+      src: `${window.hlx.codeBasePath}/blocks/marquee/animated/coin.webp`,
       class: `coin coin-${i + 1}`,
+      alt: `coin-${i + 1}`,
     };
     const coinImg = createTag('img', coinAttrs);
     el.append(coinImg);
