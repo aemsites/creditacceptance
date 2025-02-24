@@ -67,7 +67,7 @@ const embedYoutube = async (url) => {
 };
 
 // Vimeo embed with lite-vimeo-embed
-export const embedVimeo = async (url) => {
+export const embedVimeo = async (url, imageUrl) => {
   await loadScript('/blocks/embed/lite-vimeo-embed/lite-vimeo-embed.js');
   const videoId = getVideoId(url);
   const wrapper = document.createElement('div');
@@ -88,6 +88,7 @@ export const embedVimeo = async (url) => {
   }
   const litePlayer = document.createElement('lite-vimeo');
   litePlayer.setAttribute('videoid', videoId);
+  litePlayer.setAttribute('image-url', imageUrl);
   const playBtnEl = document.createElement('button');
   playBtnEl.setAttribute(('class', 'ltv-playbtn'), ('aria-label', 'Video play button'));
   wrapper.append(litePlayer);
@@ -142,7 +143,7 @@ const loadEmbed = async (block, service, url, height) => {
   try {
     block.classList.toggle(service, true);
     try {
-      if (embedService === 'vimeoShowcase') {
+      if (embedService.indexOf('vimeoShowcase') > -1) {
         const imageUrl = block.querySelector('img').src;
         block.innerHTML = await embed(url, imageUrl);
       } else {

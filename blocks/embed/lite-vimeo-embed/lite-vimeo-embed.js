@@ -20,6 +20,7 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
 
   connectedCallback() {
 
+    const imageUrl = this.getAttribute('image-url');
     this.videoId = this.getAttribute('videoid');
     const fullUrl = 
         new URL( `https://player.vimeo.com/video/${this.videoId}`);
@@ -32,14 +33,19 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     if (devicePixelRatio >= 2) devicePixelRatio *= .75;
     width = Math.round(width * devicePixelRatio);
     height = Math.round(height * devicePixelRatio);
+    if(imageUrl){
+      this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
+    }
 
      // fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`) // doesn't work with private videos
     fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
       .then(response => response.json())
       .then(data => {
+        if(!imageUrl || imageUrl === 'undefined') {
         let thumbnailUrl = data.thumbnail_url;
         thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
         this.style.backgroundImage = `url("${thumbnailUrl}")`;
+        }
         // if one of the super parent has class .showcase-video, add the title and description
         let showcase = this.closest('.showcase-video');
         if (showcase) {
