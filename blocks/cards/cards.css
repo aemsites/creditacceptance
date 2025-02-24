@@ -258,7 +258,8 @@
 
  .cards.resources .cards-card-body .icon-masked {
      height: 80px;
-     width: 80px;
+     width: auto;
+     aspect-ratio: 2 / 1;
      background: var(--credit-iconography-blue);
      mask-position: left;
      mask-repeat: no-repeat;
