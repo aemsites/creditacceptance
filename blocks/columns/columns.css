@@ -5,6 +5,13 @@
   gap: 1.5rem;
 }
 
+.columns.columns-2-cols > div { gap: 3rem; }
+.columns.gap-0 > div { gap: 0; }
+.columns.gap-1 > div { gap: 1rem; }
+.columns.gap-2 > div { gap: 2rem; }
+.columns.gap-3 > div { gap: 3rem; }
+.columns.gap-4 > div { gap: 4rem; }
+
 .columns img {
   width: 100%;
 }

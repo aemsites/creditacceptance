@@ -557,6 +557,11 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   &.grid-justify-items-center {
       justify-items: center;
   }
+  
+  &.gap-0 { gap: 0; }
+  &.gap-2 { gap: 2rem; }
+  &.gap-3 { gap: 3rem; }
+  &.gap-4 { gap: 0; }
 }
 
 .section.grid-section > .default-content-wrapper {
