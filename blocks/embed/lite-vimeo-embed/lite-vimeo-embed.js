@@ -34,6 +34,7 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     width = Math.round(width * devicePixelRatio);
     height = Math.round(height * devicePixelRatio);
     if(imageUrl){
+      console.log('image url', imageUrl);
       this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
     }
 
