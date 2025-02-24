@@ -42,11 +42,11 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
       this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
 
       if (!playBtnEl) {
-        playBtnEl = createTag('button', { aria-label: `${this.playLabel}`, class: 'ltv-playbtn'  }, null);
-      playBtnEl.type = 'button';
-      playBtnEl.setAttribute('aria-label', this.playLabel);
-      playBtnEl.classList.add('ltv-playbtn');
-      this.append(playBtnEl);
+          playBtnEl = document.createElement('button');
+          playBtnEl.type = 'button';
+          playBtnEl.setAttribute('aria-label', this.playLabel);
+          playBtnEl.classList.add('ltv-playbtn');
+          this.append(playBtnEl);
       }
       playBtnEl.removeAttribute('href');
 
