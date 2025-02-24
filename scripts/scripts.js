@@ -30,6 +30,13 @@ async function loadFonts() {
   }
 }
 
+/**
+ * Attaches an event listener to the specified element that intercepts clicks on links
+ * containing '/modals/' in their href attribute. When such a link is clicked, the default
+ * action is prevented, and the modal specified by the link's href is opened.
+ *
+ * @param {HTMLElement} element - The DOM element to which the event listener is attached.
+ */
 function autolinkModals(element) {
   element.addEventListener('click', async (e) => {
     const origin = e.target.closest('a');
@@ -38,6 +45,22 @@ function autolinkModals(element) {
       e.preventDefault();
       const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
       openModal(origin.href);
+    }
+  });
+}
+
+// All .pdf and external links to open in a new tab
+export function decorateExternalLinks(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href) {
+      const extension = href.split('.').pop().trim();
+      const isExternal = !href.startsWith('/') && !href.startsWith('#');
+      const isPDF = extension === 'pdf';
+      const isCa = href.includes('www.creditacceptance.com');
+      if ((isExternal && (!isCa || isPDF)) || isPDF) {
+        a.setAttribute('target', '_blank');
+      }
     }
   });
 }
@@ -187,23 +210,6 @@ export function checkDomain(url) {
 }
 
 /**
-   * Builds fragment blocks from links to fragments
-   * @param {Element} main The container element
-   */
-export function buildFragmentBlocks(main) {
-  main.querySelectorAll('a[href]').forEach((a) => {
-    const url = new URL(a.href);
-    const domainCheck = checkDomain(url);
-    // don't autoblock the header navigation currently in fragments
-    if (domainCheck.isKnown && linkTextIncludesHref(a) && (url.pathname.includes('/fragments/') && !url.pathname.includes('header/'))) {
-      const block = buildBlock('fragment', url.pathname);
-      a.replaceWith(block);
-      decorateBlock(block);
-    }
-  });
-}
-
-/**
  * When there are multiple buttons in a row, display them next to each other.
  */
 export function groupMultipleButtons(main) {
@@ -243,6 +249,32 @@ function buildPageDivider(main) {
         el.innerText = '';
         el.classList.add('divider');
       }
+      if (lower === 'divider-thin-dark') {
+        el.innerText = '';
+        el.classList.add('divider-thin-dark');
+      }
+      if (lower === 'divider-thin-blue-dot') {
+        el.innerText = '';
+        el.classList.add('divider-thin-blue-dot');
+      }
+    }
+  });
+}
+
+/**
+   * Builds fragment blocks from links to fragments
+   * @param {Element} main The container element
+   */
+export function buildFragmentBlocks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const url = new URL(a.href);
+    const domainCheck = checkDomain(url);
+    // don't autoblock the header navigation currently in fragments
+    if (domainCheck.isKnown && linkTextIncludesHref(a) && (url.pathname.includes('/fragments/') && !url.pathname.includes('header/'))) {
+      if (a.closest('.accordion.faqs')) return;
+      const block = buildBlock('fragment', url.pathname);
+      a.replaceWith(block);
+      decorateBlock(block);
     }
   });
 }
@@ -258,9 +290,10 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildEmbedBlocks(main);
-  buildFragmentBlocks(main);
   groupMultipleButtons(main);
   buildPageDivider(main);
+  decorateExternalLinks(main);
+  buildFragmentBlocks(main);
 }
 
 /**
@@ -303,6 +336,21 @@ async function loadTemplate() {
     }
   }
   return undefined;
+}
+
+function loadDataLayer() {
+  const scriptBlock = document.createElement('script');
+  scriptBlock.innerHTML = `
+    window.adobeDataLayer = window.adobeDataLayer || [];
+    
+    var cacAnalytics = {};
+    cacAnalytics.is_spa = false;
+    cacAnalytics.property = "www";
+    cacAnalytics.sub_property = "customer";
+    
+    window.adobeDataLayer.push(cacAnalytics);
+  `;
+  document.head.appendChild(scriptBlock);
 }
 
 /**
@@ -364,6 +412,7 @@ function loadDelayed() {
 async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
+  loadDataLayer();
   loadDelayed();
 }
 

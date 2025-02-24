@@ -1,19 +1,25 @@
 import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
+function getExpandIndex(element) {
+  const match = [...element.classList].find((cls) => cls.startsWith('expand-'))?.match(/^expand-(\d+)$/);
+  return match ? (match[1] - 1) : null;
+}
+
 function decorate(block) {
-  [...block.children].forEach((row) => {
+  const openIndex = getExpandIndex(block);
+  [...block.children].forEach((row, i) => {
     const label = row.children[0];
     const summary = createTag('summary', { class: 'accordion-item-label' }, [...label.childNodes]);
-
     const plus = createTag('span', { class: 'accordion-item-plus' }, '+');
     const minus = createTag('span', { class: 'accordion-item-minus' }, '-');
     summary.prepend(plus, minus);
 
     const body = row.children[1];
     body.className = 'accordion-item-body';
-
-    const details = createTag('details', { class: 'accordion-item' }, [summary, body]);
+    const detailsAttrs = { class: 'accordion-item' };
+    if (openIndex !== null && openIndex === i) detailsAttrs.open = 'true';
+    const details = createTag('details', detailsAttrs, [summary, body]);
     row.replaceWith(details);
   });
 }
@@ -47,12 +53,10 @@ function buildAccordionSection(section) {
   accordionItemLabels.forEach((label) => {
     let content = label.nextElementSibling;
     const contentElements = [];
-
     while (content && !accordionItemLabels.includes(content)) {
       contentElements.push(content);
       content = content.nextElementSibling;
     }
-
     const accordionItemLabelCol = createTag('div', null, [label]);
     const accordionItemContentCol = createTag('div', null, [...contentElements]);
     const accordionItemRow = createTag('div', null, [accordionItemLabelCol, accordionItemContentCol]);
@@ -90,10 +94,28 @@ async function decorateFAQs(block) {
   fragmentSection.remove();
 }
 
+async function decorateFragmentBody(block) {
+  const fragments = block.querySelectorAll('a');
+  if (!fragments) return;
+
+  fragments.forEach(async (fragment) => {
+    const path = fragment.getAttribute('href');
+    const content = await loadFragment(path);
+    const fragmentSection = content && content.querySelector('.section');
+    if (!fragmentSection) return;
+    const parentRow = fragment.closest('div');
+    parentRow.replaceWith(fragmentSection);
+    fragmentSection.classList.add('fragment-section', 'accordion-item-body');
+  });
+}
+
 export default async function init(block) {
   if (block.classList.contains('faqs')) {
     await decorateFAQs(block);
     return;
+  }
+  if (block.classList.contains('fragments')) {
+    await decorateFragmentBody(block);
   }
   decorate(block);
 }

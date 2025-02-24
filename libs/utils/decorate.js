@@ -150,7 +150,7 @@ export function decorateGridSection(section, meta) {
       }
     });
     const spanVal = gridValues[i].trim();
-    if (spanVal) row.classList.add(spanVal);
+    if (spanVal) row.classList.add(spanVal.toLowerCase());
   });
 
   section.append(...gridRows);
