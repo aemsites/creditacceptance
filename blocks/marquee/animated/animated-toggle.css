@@ -1,15 +1,14 @@
 .animated-toggle {
     background: white;
-    color: var(--ca-tangerine-400);
     overflow: hidden;
 
-    .view-1 { display: block; }
-    .view-2 { display: none; }
+    .view-1 { display: block; color: var(--ca-tangerine-400);}
+    .view-2 { display: none; color: white; }
 
     p.intro {
         color: white;
         span, div {
-            background-color: var(--ca-tangerine-700);
+            background: var(--ca-tangerine-700);
         }
     }
 
@@ -25,14 +24,12 @@
 
 .animated-toggle.toggled {
     background: var(--ca-tangerine-400);
-    color: white;
-
     .view-1 { display: none; }
     .view-2 { display: block; }
 
     p.intro {
         color: black;
-        span, div { background-color: white; }
+        span, div { background: white; }
     }
 }
 
