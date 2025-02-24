@@ -173,6 +173,8 @@ export default async function decorate(block) {
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
 
+  block.querySelector('a').style.visibility = 'hidden';
+
   let service;
   if (block.classList.contains('showcase')) {
     service = 'vimeoShowcase';
