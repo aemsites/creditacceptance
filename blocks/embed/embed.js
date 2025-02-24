@@ -29,7 +29,9 @@ const getVideoId = (url) => {
   if (url.hostname.includes('vimeo.com')) {
     // lite-vimeo script expects a player.vimeo.com/video URL, so if we have a short URL
     // we need to extract the video ID separately here
-    return url.pathname.split('/').pop();
+    const videoId = url.pathname.split('/').pop();
+    const hParam = url.searchParams.get('h');
+    return hParam ? `${videoId}?h=${hParam}` : videoId;
   }
   return null;
 };
