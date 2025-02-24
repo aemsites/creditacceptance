@@ -65,7 +65,9 @@ export default function decorate(block) {
     const cols = [...row.children];
     block.classList.add(`columns-${cols.length}-cols`, 'ca-list');
     cols.forEach((col, i) => {
-      isIconsCol(col);
+      if (block.classList.contains('cta-icons')) {
+        isIconsCol(col);
+      }
       const hasImg = col.querySelector('picture');
       if (hasImg) {
         const isSingleTagPicture = (col.children.length === 1 && col.children[0].tagName === 'PICTURE');

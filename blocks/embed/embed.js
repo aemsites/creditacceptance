@@ -4,7 +4,8 @@
  * https://www.hlx.live/developer/block-collection/embed
  */
 
-import { loadScript } from '../../scripts/aem.js';
+import { loadScript, readBlockConfig } from '../../scripts/aem.js';
+import { isProd } from '../../libs/utils/utils.js';
 
 const getDefaultEmbed = (url, height) => {
   const divHeight = height ? `${height}px` : '0';
@@ -28,7 +29,9 @@ const getVideoId = (url) => {
   if (url.hostname.includes('vimeo.com')) {
     // lite-vimeo script expects a player.vimeo.com/video URL, so if we have a short URL
     // we need to extract the video ID separately here
-    return url.pathname.split('/').pop();
+    const videoId = url.pathname.split('/').pop();
+    const hParam = url.searchParams.get('h');
+    return hParam ? `${videoId}?h=${hParam}` : videoId;
   }
   return null;
 };
@@ -159,13 +162,18 @@ const loadEmbed = async (block, service, url, height) => {
  * @param {HTMLDivElement} block
  */
 export default async function decorate(block) {
-  const url = new URL(block.querySelector('a').href.replace(/%5C%5C_/, '_'));
-  const aTag = block.querySelector('a');
-  const { text } = aTag;
+  const meta = readBlockConfig(block);
+  let link = block.querySelector('a')?.href;
+  if (meta && meta.test && meta.prod) {
+    if (isProd()) link = meta.prod;
+    else link = meta.test;
+  }
+  const url = new URL(link.replace(/%5C%5C_/, '_'));
+  const { text } = block.querySelector('a');
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
 
-  aTag.style.visibility = 'hidden';
+  block.querySelector('a').style.visibility = 'hidden';
 
   let service;
   if (block.classList.contains('showcase')) {
