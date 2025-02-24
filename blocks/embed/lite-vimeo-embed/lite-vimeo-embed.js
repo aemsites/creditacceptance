@@ -97,7 +97,7 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
       const [videoId, queryString] = this.videoId.split('?');
       iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1`;
     }else {
-    iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
+      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
     }
     this.append(iframeEl);
 
