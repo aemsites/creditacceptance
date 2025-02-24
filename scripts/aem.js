@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isImagePath, decorateGridSection } from '../libs/utils/decorate.js';
+import { isImagePath, decorateGridSection, decorateGridSectionGroups } from '../libs/utils/decorate.js';
 
 /* eslint-env browser */
 function sampleRUM(checkpoint, data) {
@@ -518,8 +518,15 @@ function decorateSections(main) {
           }
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
+          if (key === 'id') sectionOuter.id = meta[key];
         }
-        if (key === 'grid') decorateGridSection(section, meta.grid);
+        if (key === 'grid') {
+          if (section.querySelector('.separator')) {
+            decorateGridSectionGroups(section, meta.grid);
+          } else {
+            decorateGridSection(section, meta.grid);
+          }
+        }
       });
       sectionMeta.parentNode.remove();
     }

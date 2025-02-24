@@ -375,17 +375,16 @@ header .nav-brand {
       display: block;
     }
 
-
     details > summary::before {
       right: 1.5rem;
-      margin-top: -4px;
+      margin-top: -6px;
       left: auto;
-      content: '\2304';
-      font-size: 1.2rem;
+      content: url('../../icons/arrow-down.svg');
+      width: 12px;
     }
     
     details[open] > summary::before {
-      content: "\2304";
+      content: url('../../icons/arrow-down.svg');
     }
   }
   

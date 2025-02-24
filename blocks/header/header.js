@@ -74,7 +74,9 @@ function formatHeaderElements(fragments) {
     section.removeAttribute('style');
     const contentWrapper = section.querySelector('.default-content-wrapper');
     if (i === 0) {
-      const userIcon = createTag('img', { src: icons.user, alt: 'Login' });
+      const userIcon = createTag('img', {
+        src: icons.user, alt: 'Login', width: '18px', height: '21px',
+      });
       const userBtn = createTag('a', { class: 'btn-mobile btn-user', href: 'https://customer.creditacceptance.com/login', target: '_blank' }, userIcon);
       contentWrapper.prepend(userBtn);
       const hamAttr = {

@@ -4,7 +4,8 @@
  * https://www.hlx.live/developer/block-collection/embed
  */
 
-import { loadScript } from '../../scripts/aem.js';
+import { loadScript, readBlockConfig } from '../../scripts/aem.js';
+import { isProd } from '../../libs/utils/utils.js';
 
 const getDefaultEmbed = (url, height) => {
   const divHeight = height ? `${height}px` : '0';
@@ -28,7 +29,9 @@ const getVideoId = (url) => {
   if (url.hostname.includes('vimeo.com')) {
     // lite-vimeo script expects a player.vimeo.com/video URL, so if we have a short URL
     // we need to extract the video ID separately here
-    return url.pathname.split('/').pop();
+    const videoId = url.pathname.split('/').pop();
+    const hParam = url.searchParams.get('h');
+    return hParam ? `${videoId}?h=${hParam}` : videoId;
   }
   return null;
 };
@@ -64,7 +67,7 @@ const embedYoutube = async (url) => {
 };
 
 // Vimeo embed with lite-vimeo-embed
-export const embedVimeo = async (url) => {
+export const embedVimeo = async (url, imageUrl) => {
   await loadScript('/blocks/embed/lite-vimeo-embed/lite-vimeo-embed.js');
   const videoId = getVideoId(url);
   const wrapper = document.createElement('div');
@@ -85,6 +88,7 @@ export const embedVimeo = async (url) => {
   }
   const litePlayer = document.createElement('lite-vimeo');
   litePlayer.setAttribute('videoid', videoId);
+  litePlayer.setAttribute('image-url', imageUrl);
   const playBtnEl = document.createElement('button');
   playBtnEl.setAttribute(('class', 'ltv-playbtn'), ('aria-label', 'Video play button'));
   wrapper.append(litePlayer);
@@ -139,7 +143,7 @@ const loadEmbed = async (block, service, url, height) => {
   try {
     block.classList.toggle(service, true);
     try {
-      if (embedService === 'vimeoShowcase') {
+      if (embedService.indexOf('vimeo') > -1) {
         const imageUrl = block.querySelector('img').src;
         block.innerHTML = await embed(url, imageUrl);
       } else {
@@ -159,10 +163,18 @@ const loadEmbed = async (block, service, url, height) => {
  * @param {HTMLDivElement} block
  */
 export default async function decorate(block) {
-  const url = new URL(block.querySelector('a').href.replace(/%5C%5C_/, '_'));
+  const meta = readBlockConfig(block);
+  let link = block.querySelector('a')?.href;
+  if (meta && meta.test && meta.prod) {
+    if (isProd()) link = meta.prod;
+    else link = meta.test;
+  }
+  const url = new URL(link.replace(/%5C%5C_/, '_'));
   const { text } = block.querySelector('a');
   const getHeightVal = text.match(/height:\s*(\d+)px/);
   const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
+
+  block.querySelector('a').style.visibility = 'hidden';
 
   let service;
   if (block.classList.contains('showcase')) {
