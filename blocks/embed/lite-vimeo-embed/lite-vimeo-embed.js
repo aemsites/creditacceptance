@@ -34,12 +34,25 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     width = Math.round(width * devicePixelRatio);
     height = Math.round(height * devicePixelRatio);
     if(imageUrl){
-      console.log('image url', imageUrl);
       this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
     }
 
+    let playBtnEl = this.querySelector('.ltv-playbtn');
+      // A label for the button takes priority over a [playlabel] attribute on the custom-element
+      this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
+
+      if (!playBtnEl) {
+      playBtnEl = document.createElement('button');
+      playBtnEl.type = 'button';
+      playBtnEl.setAttribute('aria-label', this.playLabel);
+      playBtnEl.classList.add('ltv-playbtn');
+      this.append(playBtnEl);
+      }
+      playBtnEl.removeAttribute('href');
+
      // fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`) // doesn't work with private videos
-    fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
+    setTimeout(() => {
+      fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
       .then(response => response.json())
       .then(data => {
         if(!imageUrl || imageUrl === 'undefined') {
@@ -50,29 +63,17 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
         // if one of the super parent has class .showcase-video, add the title and description
         let showcase = this.closest('.showcase-video');
         if (showcase) {
-          let h5 = document.createElement('h5');
-          h5.textContent = data.title;
-          h5.classList.add('video-title');
-          this.parentElement.append(h5);
-          let p = document.createElement('p');
-          p.textContent = data.description;
-          p.classList.add('video-description');
-          this.parentElement.append(p);
+        let h5 = document.createElement('h5');
+        h5.textContent = data.title;
+        h5.classList.add('video-title');
+        this.parentElement.append(h5);
+        let p = document.createElement('p');
+        p.textContent = data.description;
+        p.classList.add('video-description');
+        this.parentElement.append(p);
         }
       });
-
-    let playBtnEl = this.querySelector('.ltv-playbtn');
-    // A label for the button takes priority over a [playlabel] attribute on the custom-element
-    this.playLabel = (playBtnEl && playBtnEl.textContent.trim()) || this.getAttribute('playlabel') || 'Play video';
-
-    if (!playBtnEl) {
-      playBtnEl = document.createElement('button');
-      playBtnEl.type = 'button';
-      playBtnEl.setAttribute('aria-label', this.playLabel);
-      playBtnEl.classList.add('ltv-playbtn');
-      this.append(playBtnEl);
-    }
-    playBtnEl.removeAttribute('href');
+    }, 3000);
 
     // On hover (or tap), warm up the TCP connections we're (likely) about to use.
     this.addEventListener('pointerover', LiteVimeo._warmConnections, {
