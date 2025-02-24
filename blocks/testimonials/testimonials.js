@@ -61,7 +61,6 @@ async function decorateCards(block, { reviews, url }) {
     } = item;
 
     const imageElement = createOptimizedPicture(image, name);
-    imageElement.classList.add('card-image-person');
 
     const firstCol = createTag('div', null, [imageElement]);
 

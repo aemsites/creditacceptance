@@ -14,7 +14,9 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
-import { loadPalette } from '../libs/utils/utils.js';
+import { loadPalette, createTag } from '../libs/utils/utils.js';
+
+export const PRODUCTION_DOMAINS = ['www.creditacceptance.com'];
 
 /**
  * load fonts.css and set a session storage flag
@@ -26,6 +28,41 @@ async function loadFonts() {
   } catch (e) {
     // do nothing
   }
+}
+
+/**
+ * Attaches an event listener to the specified element that intercepts clicks on links
+ * containing '/modals/' in their href attribute. When such a link is clicked, the default
+ * action is prevented, and the modal specified by the link's href is opened.
+ *
+ * @param {HTMLElement} element - The DOM element to which the event listener is attached.
+ */
+function autolinkModals(element) {
+  element.addEventListener('click', async (e) => {
+    const origin = e.target.closest('a');
+
+    if (origin && origin.href && origin.href.includes('/modals/')) {
+      e.preventDefault();
+      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+      openModal(origin.href);
+    }
+  });
+}
+
+// All .pdf and external links to open in a new tab
+export function decorateExternalLinks(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href) {
+      const extension = href.split('.').pop().trim();
+      const isExternal = !href.startsWith('/') && !href.startsWith('#');
+      const isPDF = extension === 'pdf';
+      const isCa = href.includes('www.creditacceptance.com');
+      if ((isExternal && (!isCa || isPDF)) || isPDF) {
+        a.setAttribute('target', '_blank');
+      }
+    }
+  });
 }
 
 /**
@@ -139,6 +176,87 @@ export function buildEmbedBlocks(main) {
   });
 }
 
+const domainCheckCache = {};
+
+/**
+ * Checks a url to determine if it is a known domain.
+ * @param {string | URL} url the url to check
+ * @returns {Object} an object with properties indicating the urls domain types.
+ */
+export function checkDomain(url) {
+  const urlToCheck = typeof url === 'string' ? new URL(url) : url;
+
+  let result = domainCheckCache[urlToCheck.hostname];
+  if (!result) {
+    const isProd = PRODUCTION_DOMAINS.some((host) => urlToCheck.hostname.includes(host));
+    const isHlx = ['hlx.page', 'hlx.live', 'aem.page', 'aem.live'].some((host) => urlToCheck.hostname.includes(host));
+    const isLocal = urlToCheck.hostname.includes('localhost');
+    const isPreview = isLocal || urlToCheck.hostname.includes('hlx.page') || urlToCheck.hostname.includes('aem.page');
+    const isKnown = isProd || isHlx || isLocal;
+    const isExternal = !isKnown;
+    result = {
+      isProd,
+      isHlx,
+      isLocal,
+      isKnown,
+      isExternal,
+      isPreview,
+    };
+
+    domainCheckCache[urlToCheck.hostname] = result;
+  }
+
+  return result;
+}
+
+/**
+ * When there are multiple buttons in a row, display them next to each other.
+ */
+export function groupMultipleButtons(main) {
+  const buttons = main.querySelectorAll('p.button-container');
+  buttons.forEach((button) => {
+    if (button.nextElementSibling && button.nextElementSibling.classList.contains('button-container')) {
+      const siblingButton = button.nextElementSibling;
+      if (siblingButton && !button.parentElement.classList.contains('buttons-container')) {
+        const buttonContainer = createTag('div', { class: 'buttons-container' });
+        button.parentElement.insertBefore(buttonContainer, button);
+        buttonContainer.append(button, siblingButton);
+      }
+    }
+  });
+}
+
+/**
+ * Processes all <code> elements within the given main element, and if their text content
+ * starts with 'divider' and either equals 'divider' or includes 'element', it clears their
+ * text content and adds the 'divider' class to them.
+ *
+ * @param {HTMLElement} main - The main element containing the <code> elements to process.
+ */
+function buildPageDivider(main) {
+  const allPageDivider = main.querySelectorAll('code');
+  allPageDivider.forEach((el) => {
+    const parent = el.parentElement;
+    if (parent.parentElement.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
+      parent.parentElement.replaceWith(el);
+    } else if (parent.tagName === 'P') {
+      parent.replaceWith(el);
+    }
+    const alt = el.innerText.trim();
+    const lower = alt.toLowerCase();
+    if (lower.startsWith('divider')) {
+      if (lower === 'divider' || lower.includes('element')) {
+        el.innerText = '';
+        el.classList.add('divider');
+      }
+      if (lower === 'divider-thin-dark') {
+        el.innerText = '';
+        el.classList.add('divider-thin-dark');
+      }
+    }
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -150,6 +268,9 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildEmbedBlocks(main);
+  groupMultipleButtons(main);
+  buildPageDivider(main);
+  decorateExternalLinks(main);
 }
 
 /**
@@ -224,6 +345,7 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
+  autolinkModals(doc);
   const main = doc.querySelector('main');
   await loadSections(main);
 
