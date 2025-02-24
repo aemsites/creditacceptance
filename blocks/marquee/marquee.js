@@ -43,6 +43,7 @@ function addCoins(el) {
     const coinAttrs = {
       src: `${window.hlx.codeBasePath}/blocks/marquee/animated/coin.webp`,
       class: `coin coin-${i + 1}`,
+      alt: `coin-${i + 1}`,
     };
     const coinImg = createTag('img', coinAttrs);
     el.append(coinImg);
