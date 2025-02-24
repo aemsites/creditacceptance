@@ -1,3 +1,5 @@
+import { createTag } from '../../libs/utils/utils.js';
+
 function decorateFlexRows(block) {
   const rows = block.querySelectorAll(':scope > div');
   const colClass = [...block.classList].find((cls) => cls.startsWith('col-'));
@@ -58,6 +60,17 @@ function isIconsCol(col) {
   }
 }
 
+function decorateColumnsCalculation(block) {
+  const rows = [...block.children];
+  rows.forEach((row) => {
+    const cols = [...row.children];
+    const separator = createTag('div', { class: 'separator' });
+    const firstGroup = createTag('div', { class: 'first-group' }, [cols[0], cols[1], cols[2]]);
+    const secondGroup = createTag('div', { class: 'second-group' }, [cols[3], cols[4]]);
+    row.append(firstGroup, separator, secondGroup);
+  });
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   // setup media columns
@@ -85,4 +98,6 @@ export default function decorate(block) {
   // flex basis
   decorateFlexRows(block);
   if (block.classList.contains('media-unbound')) applyMediaHeight(block);
+
+  if (block.classList.contains('calculation')) decorateColumnsCalculation(block);
 }

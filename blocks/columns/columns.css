@@ -262,6 +262,28 @@
     }
 }
 
+.columns.calculation > div {
+    font-family: var(--ff-acceptance-regular);
+    row-gap: 0.5rem;
+}
+
+.columns.calculation > div > div{
+    display: flex;
+    flex-flow: row;
+    gap: 0.5rem 1rem;
+}
+
+.columns.calculation .second-group {
+    display: flex;
+    justify-content: center;
+}
+
+.columns.calculation .separator {
+    width: 100%;
+    border-top: 2px solid var(--pure-black);
+} 
+
+
 /* mobile-tablet only */
 @media screen and (width <= 959px) {
     .columns.media-hidden-mobile .media-count-1 {
@@ -350,5 +372,19 @@
     &::before {
       top: -58px;
     }
+  }
+
+  .columns.calculation > div {
+    justify-content: center;
+  }
+
+  .columns.columns.calculation > div > div {
+    flex: 0 1 auto;
+    gap: 1.5rem;
+
+  }
+
+  .columns.calculation .separator {
+    display: none;
   }
 }

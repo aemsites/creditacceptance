@@ -19,40 +19,21 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
   }
 
   connectedCallback() {
-
+    const imageUrl = this.getAttribute('image-url');
     this.videoId = this.getAttribute('videoid');
-    const fullUrl = 
-        new URL( `https://player.vimeo.com/video/${this.videoId}`);
+    const fullUrl = new URL(`https://player.vimeo.com/video/${this.videoId}`);
     /**
      * Lo, the vimeo placeholder image!  (aka the thumbnail, poster image, etc)
      * We have to use the Vimeo API.
      */
     let { width, height } = getThumbnailDimensions(this.getBoundingClientRect());
     let devicePixelRatio = window.devicePixelRatio || 1;
-    if (devicePixelRatio >= 2) devicePixelRatio *= .75;
+    if (devicePixelRatio >= 2) devicePixelRatio *= 0.75;
     width = Math.round(width * devicePixelRatio);
     height = Math.round(height * devicePixelRatio);
-
-     // fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`) // doesn't work with private videos
-    fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
-      .then(response => response.json())
-      .then(data => {
-        let thumbnailUrl = data.thumbnail_url;
-        thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
-        this.style.backgroundImage = `url("${thumbnailUrl}")`;
-        // if one of the super parent has class .showcase-video, add the title and description
-        let showcase = this.closest('.showcase-video');
-        if (showcase) {
-          let h5 = document.createElement('h5');
-          h5.textContent = data.title;
-          h5.classList.add('video-title');
-          this.parentElement.append(h5);
-          let p = document.createElement('p');
-          p.textContent = data.description;
-          p.classList.add('video-description');
-          this.parentElement.append(p);
-        }
-      });
+    if (imageUrl) {
+      this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
+    }
 
     let playBtnEl = this.querySelector('.ltv-playbtn');
     // A label for the button takes priority over a [playlabel] attribute on the custom-element
@@ -67,9 +48,34 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     }
     playBtnEl.removeAttribute('href');
 
+    // fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`) // doesn't work with private videos
+    setTimeout(() => {
+      fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (!imageUrl || imageUrl === 'undefined') {
+            let thumbnailUrl = data.thumbnail_url;
+            thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
+            this.style.backgroundImage = `url("${thumbnailUrl}")`;
+          }
+          // if one of the super parent has class .showcase-video, add the title and description
+          const showcase = this.closest('.showcase-video');
+          if (showcase) {
+            const h5 = document.createElement('h5');
+            h5.textContent = data.title;
+            h5.classList.add('video-title');
+            this.parentElement.append(h5);
+            const p = document.createElement('p');
+            p.textContent = data.description;
+            p.classList.add('video-description');
+            this.parentElement.append(p);
+          }
+        });
+    }, 3000);
+
     // On hover (or tap), warm up the TCP connections we're (likely) about to use.
     this.addEventListener('pointerover', LiteVimeo._warmConnections, {
-      once: true
+      once: true,
     });
 
     // Once the user clicks, add the real iframe and drop our play button
@@ -81,7 +87,7 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
   addIframe() {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
-    //remove the background image
+    // remove the background image
     this.style.backgroundImage = '';
 
     const iframeEl = document.createElement('iframe');
@@ -93,10 +99,10 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
     // AFAIK, the encoding here isn't necessary for XSS, but we'll do it only because this is a URL
     // https://stackoverflow.com/q/64959723/89484
-    if(this.videoId.includes('?')) {
+    if (this.videoId.includes('?')) {
       const [videoId, queryString] = this.videoId.split('?');
       iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1`;
-    }else {
+    } else {
       iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
     }
     this.append(iframeEl);
@@ -152,6 +158,6 @@ function getThumbnailDimensions({ width, height }) {
 
   return {
     width: roundedWidth,
-    height: roundedHeight
+    height: roundedHeight,
   };
 }
