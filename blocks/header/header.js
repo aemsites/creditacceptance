@@ -33,15 +33,15 @@ function createRipple(event) {
 }
 
 function decorateMainMenu(section) {
-  const navHeaders = section.querySelectorAll('h3');
+  const navHeaders = section?.querySelectorAll('h3');
   if (!navHeaders) return;
   [...navHeaders].forEach((navHeader, i) => {
     const summaryTag = createTag('summary', { class: 'nav-summary' }, navHeader.textContent);
     const details = createTag('details', { class: `nav-detail detail-${i}` }, summaryTag);
     navHeader.replaceWith(details);
     const list = details.nextElementSibling;
-    const listLinks = list.querySelectorAll('li');
     if (!list) return;
+    const listLinks = list.querySelectorAll('li');
     details.append(list);
 
     /* toggle on mouseover in desktop */
