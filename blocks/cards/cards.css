@@ -75,10 +75,6 @@
      object-fit: cover;
  }
 
- .cards .one-image img {
-    aspect-ratio: 4 / 3;
- }
-
 /* mobile-only */
 @media screen and (width <= 959px) {
     .cards > ul {
