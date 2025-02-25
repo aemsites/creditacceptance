@@ -376,6 +376,28 @@ function loadDataLayer() {
     }
   `;
   document.head.appendChild(scriptBlock);
+
+  //page load event
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const sub_property = window.location.pathname.split('/')[1] || 'www';
+  const sub_sub_property = window.location.pathname.split('/')[2] || 'home';
+  console.log('sub_property', sub_property);
+  let i = (window.cacAnalytics = {
+    property: 'www',
+    sub_property: sub_property,
+    sub_sub_property: sub_sub_property,
+    page_title: document.title.toLocaleLowerCase(),
+    user_id: '',
+    br_language: navigator.language,
+    web_lang: document.documentElement.lang,
+    campaign_id: '',
+    internal_cmp_id: '',
+    page_url: window.location.href,
+    is_spa: 'true',
+    event: 'cac-page-view',
+    event_type: 'cac-page-view',
+  });
+  window.adobeDataLayer?.push(i);
 }
 
 /**
