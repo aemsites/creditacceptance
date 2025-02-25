@@ -341,14 +341,39 @@ async function loadTemplate() {
 function loadDataLayer() {
   const scriptBlock = document.createElement('script');
   scriptBlock.innerHTML = `
-    window.adobeDataLayer = window.adobeDataLayer || [];
-    
-    var cacAnalytics = {};
-    cacAnalytics.is_spa = false;
-    cacAnalytics.property = "www";
-    cacAnalytics.sub_property = "customer";
-    
-    window.adobeDataLayer.push(cacAnalytics);
+    // implmentation of adobe analytics
+    window.cacAnalytics = window.cacAnalytics || {};
+
+    var hostLocation = window.location.host;
+    window.dataLayer = window.dataLayer || [];
+    var gtm = false;
+    var googleTagManagerId = '';
+    var googleAnalyticsId = '';
+    var noScriptTag = '';
+    var fullStoryId = '';
+
+    if (hostLocation && hostLocation.indexOf('wwwtest') != -1) {
+      gtm = true;
+      googleTagManagerId = 'GTM-T3JGLB4';
+      googleAnalyticsId = 'UA-120917412-2';
+      //fullStoryId = 'YZ5TJ'; //We do not have ID for Test for testing use QA FullStory ID
+    } else if (hostLocation && hostLocation.indexOf('wwwqa') != -1) {
+      gtm = true;
+      googleTagManagerId = 'GTM-53N8ZWC';
+      googleAnalyticsId = 'UA-2602405-3';
+      fullStoryId = 'YZ5TJ';
+    } else if (hostLocation && hostLocation === 'www.creditacceptance.com') {
+      gtm = true;
+      googleTagManagerId = 'GTM-5ZCB74P';
+      googleAnalyticsId = 'UA-2602405-4';
+      fullStoryId = 'YZ5JA';
+    } else {
+      //Below code for testing for Local and S3 hosting
+      gtm = true;
+      googleTagManagerId = 'GTM-T3JGLB4';
+      googleAnalyticsId = 'UA-120917412-2';
+      fullStoryId = 'YZ5TJ'; //We do not have ID for Test for testing use QA FullStory ID
+    }
   `;
   document.head.appendChild(scriptBlock);
 }
