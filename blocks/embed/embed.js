@@ -8,10 +8,10 @@ import { loadScript, readBlockConfig } from '../../scripts/aem.js';
 import { isProd } from '../../libs/utils/utils.js';
 
 const getDefaultEmbed = (url, height) => {
-  const divHeight = height ? `${height}px` : '0';
+  const divHeight = height ? `${height}px` : '100%';
   const iframeHeight = height ? `${height}px` : '100%';
 
-  return `<div style="left: 0; width: 100%; height: ${divHeight}; position: relative; padding-bottom: 56.25%;">
+  return `<div style="width: 100%; height: ${divHeight}; position: relative; padding-bottom: 56.25%;">
       <iframe src="${url.href}" style="border: 0; top: 0; left: 0; width: 100%; height: ${iframeHeight}; position: absolute;" allowfullscreen=""
         scrolling="yes" allow="encrypted-media" title="Content from ${url.hostname}" loading="lazy">
       </iframe>
@@ -67,7 +67,7 @@ const embedYoutube = async (url) => {
 };
 
 // Vimeo embed with lite-vimeo-embed
-export const embedVimeo = async (url) => {
+export const embedVimeo = async (url, imageUrl) => {
   await loadScript('/blocks/embed/lite-vimeo-embed/lite-vimeo-embed.js');
   const videoId = getVideoId(url);
   const wrapper = document.createElement('div');
@@ -88,6 +88,7 @@ export const embedVimeo = async (url) => {
   }
   const litePlayer = document.createElement('lite-vimeo');
   litePlayer.setAttribute('videoid', videoId);
+  litePlayer.setAttribute('image-url', imageUrl);
   const playBtnEl = document.createElement('button');
   playBtnEl.setAttribute(('class', 'ltv-playbtn'), ('aria-label', 'Video play button'));
   wrapper.append(litePlayer);
@@ -142,8 +143,8 @@ const loadEmbed = async (block, service, url, height) => {
   try {
     block.classList.toggle(service, true);
     try {
-      if (embedService === 'vimeoShowcase') {
-        const imageUrl = block.querySelector('img').src;
+      if (embedService.indexOf('vimeo') > -1) {
+        const imageUrl = block.querySelector('img')?.src;
         block.innerHTML = await embed(url, imageUrl);
       } else {
         block.innerHTML = await embed(url);
@@ -171,7 +172,14 @@ export default async function decorate(block) {
   const url = new URL(link.replace(/%5C%5C_/, '_'));
   const { text } = block.querySelector('a');
   const getHeightVal = text.match(/height:\s*(\d+)px/);
-  const height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
+  let height = (getHeightVal) ? parseInt(getHeightVal[1], 10) : null;
+  if (!height) {
+    const minHeightClass = [...block.classList].find((cls) => cls.startsWith('min-height-'));
+    const minHeightValue = minHeightClass ? parseInt(minHeightClass.replace('min-height-', ''), 10) : null;
+    height = minHeightValue;
+  }
+
+  block.querySelector('a').style.visibility = 'hidden';
 
   let service;
   if (block.classList.contains('showcase')) {
@@ -185,7 +193,6 @@ export default async function decorate(block) {
       if (!entries.some((e) => e.isIntersecting)) {
         return;
       }
-
       loadEmbed(block, service, url, height);
       observer.unobserve(block);
     });

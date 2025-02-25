@@ -124,6 +124,17 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
 }
 
 export function decorateGridSection(section, meta) {
+  const sectionRows = section.querySelectorAll('.section > div');
+  const gridValues = meta.split(',');
+  section.classList.add('grid-section');
+  const gridRows = [...sectionRows].slice(0, -1); // remove last row .section-metadata
+  gridRows.forEach((row, i) => {
+    const spanVal = gridValues[i].trim();
+    if (spanVal) row.classList.add(spanVal);
+  });
+}
+
+export function decorateGridSectionGroups(section, meta) {
   const sectionRows = [];
   let currentDiv = document.createElement('div');
   sectionRows.push(currentDiv);
