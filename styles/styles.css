@@ -617,6 +617,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
     max-width: var(--container-width);
     padding-left: 0;
     padding-right: 0;
+    margin: 0 auto;
   }
 
   :root {  --container-width: 540px; }
