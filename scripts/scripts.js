@@ -379,9 +379,8 @@ function loadDataLayer() {
 
   //page load event
   window.adobeDataLayer = window.adobeDataLayer || [];
-  const sub_property = window.location.pathname.split('/')[1] || 'www';
-  const sub_sub_property = window.location.pathname.split('/')[2] || 'home';
-  console.log('sub_property', sub_property);
+  const sub_property = window.location.pathname.split('/')[1] || 'home';
+  const sub_sub_property = window.location.pathname.split('/')[2] || '';
   let i = (window.cacAnalytics = {
     property: 'www',
     sub_property: sub_property,
