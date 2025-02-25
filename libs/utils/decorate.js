@@ -137,7 +137,7 @@ export function decorateGridSection(section, meta) {
   Array.from(section.querySelectorAll('.section > div'))
     .filter((row) => {
       const firstCol = row.querySelector(':scope > div');
-      if (firstCol.classList.contains('library-metadata')) row.classList.add('span-12');
+      if (firstCol && firstCol.classList.contains('library-metadata')) row.classList.add('span-12');
       return !firstCol?.classList.contains('section-metadata') && !firstCol?.classList.contains('library-metadata');
     })
     .forEach((row, i) => {
