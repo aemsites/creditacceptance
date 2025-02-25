@@ -58,6 +58,6 @@ export default async function decorate(block) {
   block.innerHTML = '';
   block.append(table);
 
-  const boderColorClass = [...block.classList].find((cls) => cls.startsWith('border-color-'));
-  if (boderColorClass) setBorderColor(boderColorClass, block);
+  const borderColorClass = [...block.classList].find((cls) => cls.startsWith('border-color-'));
+  if (borderColorClass) setBorderColor(borderColorClass, block);
 }
