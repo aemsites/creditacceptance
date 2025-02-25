@@ -63,41 +63,48 @@ function decorateMainMenu(section) {
 }
 
 function formatHeaderElements(fragments) {
-  fragments.forEach((section, i) => {
-    const innerSection = section.querySelector('.section');
+  if (fragments[0].querySelector('.section.logo-only')) {
+    const innerSection = fragments[0].querySelector('.section');
     if (!innerSection) return;
-    section.innerHTML = innerSection.innerHTML;
-    const areas = ['brand', 'quick-links', 'main', 'tools'];
-    section.classList.add(`nav-${areas[i]}`);
-    section.classList.remove('section-outer');
-    section.removeAttribute('data-section-status');
-    section.removeAttribute('style');
-    const contentWrapper = section.querySelector('.default-content-wrapper');
-    if (i === 0) {
-      const userIcon = createTag('img', {
-        src: icons.user, alt: 'Login', width: '18px', height: '21px',
-      });
-      const userBtn = createTag('a', { class: 'btn-mobile btn-user', href: 'https://customer.creditacceptance.com/login', target: '_blank' }, userIcon);
-      contentWrapper.prepend(userBtn);
-      const hamAttr = {
-        class: 'btn-mobile btn-ham',
-        'aria-label': 'Open navigation',
-        'aria-controls': 'nav-main',
-        'aria-expanded': 'false',
-        type: 'button',
-      };
-      const brandLink = section.querySelector('.icon-CA_Logo');
-      if (brandLink) brandLink.parentNode.classList.add('btn-brand');
-      section.setAttribute('data-nav-expanded', 'false');
-      const hamIcon = createTag('div', { class: 'icon-ham' }, '<span></span><span></span><span></span><span></span>');
-      const hamBtn = createTag('button', hamAttr, hamIcon);
-      contentWrapper.append(hamBtn);
-    } else {
-      section.classList.add('nav-section');
-      section.setAttribute('aria-expanded', 'false');
-    }
-  });
-  decorateMainMenu(fragments[2]);
+    fragments[0].innerHTML = innerSection.innerHTML;
+    fragments[0].classList.add('nav-brand');
+  } else {
+    fragments.forEach((section, i) => {
+      const innerSection = section.querySelector('.section');
+      if (!innerSection) return;
+      section.innerHTML = innerSection.innerHTML;
+      const areas = ['brand', 'quick-links', 'main', 'tools'];
+      section.classList.add(`nav-${areas[i]}`);
+      section.classList.remove('section-outer');
+      section.removeAttribute('data-section-status');
+      section.removeAttribute('style');
+      const contentWrapper = section.querySelector('.default-content-wrapper');
+      if (i === 0) {
+        const userIcon = createTag('img', {
+          src: icons.user, alt: 'Login', width: '18px', height: '21px',
+        });
+        const userBtn = createTag('a', { class: 'btn-mobile btn-user', href: 'https://customer.creditacceptance.com/login', target: '_blank' }, userIcon);
+        contentWrapper.prepend(userBtn);
+        const hamAttr = {
+          class: 'btn-mobile btn-ham',
+          'aria-label': 'Open navigation',
+          'aria-controls': 'nav-main',
+          'aria-expanded': 'false',
+          type: 'button',
+        };
+        const brandLink = section.querySelector('.icon-CA_Logo');
+        if (brandLink) brandLink.parentNode.classList.add('btn-brand');
+        section.setAttribute('data-nav-expanded', 'false');
+        const hamIcon = createTag('div', { class: 'icon-ham' }, '<span></span><span></span><span></span><span></span>');
+        const hamBtn = createTag('button', hamAttr, hamIcon);
+        contentWrapper.append(hamBtn);
+      } else {
+        section.classList.add('nav-section');
+        section.setAttribute('aria-expanded', 'false');
+      }
+    });
+    decorateMainMenu(fragments[2]);
+  }
 }
 
 function decorateFragment(block, fragment) {
@@ -110,14 +117,16 @@ function decorateFragment(block, fragment) {
   const hamburger = document.querySelector('.btn-ham');
   const navBrand = document.querySelector('.nav-brand');
   const navSections = document.querySelectorAll('.nav-section');
-  hamburger.addEventListener('click', () => {
-    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
-    navBrand.setAttribute('data-nav-expanded', !isExpanded);
-    hamburger.setAttribute('aria-expanded', !isExpanded);
-    navSections.forEach((s) => {
-      s.setAttribute('aria-expanded', !isExpanded);
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+      navBrand.setAttribute('data-nav-expanded', !isExpanded);
+      hamburger.setAttribute('aria-expanded', !isExpanded);
+      navSections.forEach((s) => {
+        s.setAttribute('aria-expanded', !isExpanded);
+      });
     });
-  });
+  }
 }
 
 /* Handle click outside of nav on mobile and detail on desktop */
@@ -146,7 +155,7 @@ function toggleView() {
     navBrand.setAttribute('data-nav-expanded', 'false');
   } else {
     const hamburger = document.querySelector('.btn-ham');
-    const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+    const isExpanded = hamburger ? hamburger.getAttribute('aria-expanded') === 'true' : false;
     navBrand.setAttribute('data-nav-expanded', isExpanded);
   }
 }

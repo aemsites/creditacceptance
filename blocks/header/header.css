@@ -289,8 +289,8 @@ header .nav-brand {
   header nav {
     flex-direction: row;
     height: var(--nav-height);
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
   }
 
   header .nav-brand {
