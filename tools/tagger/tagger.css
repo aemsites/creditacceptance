@@ -172,6 +172,8 @@ body {
 
   #palette {
     margin: 0 0 1rem;
+    padding-bottom: 100px;
+
     ul {
         list-style-type: none;
         display: grid;
