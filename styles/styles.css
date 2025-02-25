@@ -421,6 +421,10 @@ main > .section:first-of-type {
   margin-top: 0;
 }
 
+main > .section-outer {
+  overflow: hidden;
+}
+
 main > .section-outer > .section,
 footer .section-outer > .section,
 main.error .section-outer .section:not(.marquee-container),
@@ -552,6 +556,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   .span-9 { grid-column: span 9; }
   .span-10 { grid-column: span 10; }
   .span-11 { grid-column: span 11; }
+  .span-12 { grid-column: span 12; }
 
   /* helpers */
   &.grid-justify-items-center {
