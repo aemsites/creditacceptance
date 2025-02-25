@@ -69,10 +69,12 @@ main > .section-outer > .section.marquee-container {
 
 .marquee p.intro span {
     background-color: var(--very-light-gray);
-    padding: .5rem .5rem .25rem;
-    font-weight: 600;
-    line-height: 22px;
     display: inline-block;
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    padding: .5rem .5rem .25rem;
 }
 
 .marquee p.intro div {
@@ -107,6 +109,14 @@ main > .section-outer > .section.marquee-container {
 .marquee.max-width-100 .foreground > div {
     max-width: 100%;
     width: 100%
+}
+
+/* mobile-only */
+@media screen and (width < 960px) {
+  .marquee h1 {
+    font-size: 46px;
+    line-height: 42px;
+  }
 }
 
 @media screen and (width >= 576px) {

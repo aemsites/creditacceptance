@@ -49,29 +49,27 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     playBtnEl.removeAttribute('href');
 
     // fetch(`https://vimeo.com/api/v2/video/${this.videoId}.json`) // doesn't work with private videos
-    setTimeout(() => {
-      fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (!imageUrl || imageUrl === 'undefined') {
-            let thumbnailUrl = data.thumbnail_url;
-            thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
-            this.style.backgroundImage = `url("${thumbnailUrl}")`;
-          }
-          // if one of the super parent has class .showcase-video, add the title and description
-          const showcase = this.closest('.showcase-video');
-          if (showcase) {
-            const h5 = document.createElement('h5');
-            h5.textContent = data.title;
-            h5.classList.add('video-title');
-            this.parentElement.append(h5);
-            const p = document.createElement('p');
-            p.textContent = data.description;
-            p.classList.add('video-description');
-            this.parentElement.append(p);
-          }
-        });
-    }, 3000);
+    fetch(`https://vimeo.com/api/oembed.json?url=${fullUrl}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (!imageUrl || imageUrl === 'undefined') {
+          let thumbnailUrl = data.thumbnail_url;
+          thumbnailUrl = thumbnailUrl.replace(/-d_[\dx]+$/i, `-d_${width}x${height}`);
+          this.style.backgroundImage = `url("${thumbnailUrl}")`;
+        }
+        // if one of the super parent has class .showcase-video, add the title and description
+        const showcase = this.closest('.showcase-video');
+        if (showcase) {
+          const h5 = document.createElement('h5');
+          h5.textContent = data.title;
+          h5.classList.add('video-title');
+          this.parentElement.append(h5);
+          const p = document.createElement('p');
+          p.textContent = data.description;
+          p.classList.add('video-description');
+          this.parentElement.append(p);
+        }
+      });
 
     // On hover (or tap), warm up the TCP connections we're (likely) about to use.
     this.addEventListener('pointerover', LiteVimeo._warmConnections, {

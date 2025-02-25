@@ -129,7 +129,7 @@ export function decorateGridSection(section, meta) {
   section.classList.add('grid-section');
   const gridRows = [...sectionRows].slice(0, -1); // remove last row .section-metadata
   gridRows.forEach((row, i) => {
-    const spanVal = gridValues[i]?.trim().toLowerCase();
+    const spanVal = gridValues[i].trim();
     if (spanVal) row.classList.add(spanVal);
   });
 }
