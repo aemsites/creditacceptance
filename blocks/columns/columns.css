@@ -296,6 +296,22 @@
     .columns.media-hidden-mobile .media-count-1 {
         display: none;
     }
+
+    .columns.big-icons .copy {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      grid-template-rows: auto auto;
+      gap: 0 32px;
+    }
+  
+    .columns.big-icons .copy > p:first-of-type {
+      grid-row: span 2;
+      align-self: center;
+    }
+  
+    .columns.big-icons .copy > p:not(:first-of-type) {
+      margin-top: 0;
+    }
 }
 
 @media screen and (width < 576px) {

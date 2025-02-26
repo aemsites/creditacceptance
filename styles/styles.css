@@ -665,21 +665,3 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 @media screen and (width >= 1400px) {
     :root { --container-width: 1320px; }
 }
-
-@media screen and (width < 960px) {
-  .columns.big-icons .copy {
-    display: grid;
-    grid-template-columns: 24px 1fr;
-    grid-template-rows: auto auto;
-    gap: 0 32px;
-  }
-
-  .columns.big-icons .copy > p:first-of-type {
-    grid-row: span 2;
-    align-self: center;
-  }
-
-  .columns.big-icons .copy > p:not(:first-of-type) {
-    margin-top: 0;
-  }
-}
