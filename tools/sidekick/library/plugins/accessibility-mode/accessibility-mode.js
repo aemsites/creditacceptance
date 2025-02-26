@@ -1,7 +1,7 @@
 /* eslint-disable no-undef, no-unused-vars */
 import { Sa11y, Lang } from './lib/sa11y.min.js';
 import Sa11yLangEn from './lib/sa11y.lang.en.js';
-import { loadCSS } from '../../../../scripts/aem.js';
+import { loadCSS } from '../../../../../scripts/aem.js';
 import customChecks from './custom-checks/custom-checks.js';
 
 let initializedCounter = 0;
