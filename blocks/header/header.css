@@ -7,7 +7,8 @@ header {
   --menu-accent-orange: #ffb800;
 
     background-color: var(--light-gray);
-
+    height: var(--header-height);
+    
     nav {
       padding: 0.5rem 1rem;
       margin: 0 auto;
@@ -16,6 +17,7 @@ header {
       z-index: 2;
       position: relative;
       background-color: var(--light-gray);
+      min-height: var(--header-height);
     }
     p { margin: 0; }
 
@@ -283,12 +285,18 @@ header .nav-brand {
   }
 }
 
+/* nav variant with logo */
+.header.logo-only .btn-mobile.btn-user,
+.header.logo-only .btn-mobile.btn-ham {
+  display: none;
+}
+
 @media (width >= 960px) {
   /* brand */
   header nav {
     flex-direction: row;
     height: var(--nav-height);
-    padding-top: 0;
+    padding-top: 0.25rem;
     padding-bottom: 0;
   }
 
@@ -375,17 +383,16 @@ header .nav-brand {
       display: block;
     }
 
-
     details > summary::before {
       right: 1.5rem;
-      margin-top: -4px;
+      margin-top: -6px;
       left: auto;
-      content: '\2304';
-      font-size: 1.2rem;
+      content: url('../../icons/arrow-down.svg');
+      width: 12px;
     }
     
     details[open] > summary::before {
-      content: "\2304";
+      content: url('../../icons/arrow-down.svg');
     }
   }
   
@@ -420,6 +427,13 @@ header .nav-brand {
   .nav-quick-links[aria-expanded='true'] {
     display: none;
   }
+}
+
+@media screen and (width >= 992px) {
+    header nav {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 @keyframes ripple {

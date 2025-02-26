@@ -1,0 +1,66 @@
+ 
+.slider-wrapper {
+  position: relative;
+}
+
+/* slider mobile-only */
+ @media screen and (width <= 959px) {
+  .slider-container {
+    width: 100Vw;
+    overflow: visible;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 2rem 2rem 4rem;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .slide {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+      width: 80%;
+    }
+  }
+
+  .pagination {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+
+    button.dot {
+      background: #e8e7df;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      
+      &.active {
+        background-color: #87cf25;
+      }
+    }
+  }
+}
+
+/* slider desktop up */
+@media screen and (width >= 960px) {
+  .pagination {
+    display: none;
+  }
+}
