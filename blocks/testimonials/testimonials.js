@@ -66,7 +66,9 @@ async function decorateCards(block, { reviews, url }) {
 
     const reviewElement = createTag('p', { class: 'card-description' }, review);
     const nameElement = createTag('p', { class: 'card-person-name' }, name);
-    const addressElement = createTag('p', { class: 'card-person-address' }, address);
+
+    const addressWithNewLine = address?.replace(/\n/g, '<br>');
+    const addressElement = createTag('p', { class: 'card-person-address' }, addressWithNewLine);
 
     const secondCol = createTag('div', null, [reviewElement, nameElement, addressElement]);
     secondCol.classList.add('url-none');

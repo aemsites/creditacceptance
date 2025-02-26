@@ -123,15 +123,28 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
   }
 }
 
+/**
+ * Decorates a section element with grid classes based on metadata.
+ *
+ * @param {HTMLElement} section - The section element to be decorated.
+ * @param {string} meta - A comma-separated string of class names to
+ * be applied to the section's rows.
+ */
 export function decorateGridSection(section, meta) {
-  const sectionRows = section.querySelectorAll('.section > div');
-  const gridValues = meta.split(',');
   section.classList.add('grid-section');
-  const gridRows = [...sectionRows].slice(0, -1); // remove last row .section-metadata
-  gridRows.forEach((row, i) => {
-    const spanVal = gridValues[i].trim();
-    if (spanVal) row.classList.add(spanVal);
-  });
+  const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
+
+  Array.from(section.querySelectorAll('.section > div'))
+    .filter((row) => {
+      const firstCol = row.querySelector(':scope > div');
+      if (firstCol && firstCol.classList.contains('library-metadata')) row.classList.add('span-12');
+      return !firstCol?.classList.contains('section-metadata') && !firstCol?.classList.contains('library-metadata');
+    })
+    .forEach((row, i) => {
+      if (gridValues[i]) {
+        row.classList.add(gridValues[i]);
+      }
+    });
 }
 
 export function decorateGridSectionGroups(section, meta) {

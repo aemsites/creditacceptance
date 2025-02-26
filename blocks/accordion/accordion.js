@@ -1,6 +1,20 @@
 import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
+function expandAccordionItem() {
+  const { hash } = window.location;
+  if (hash) {
+    const element = document.querySelector(hash);
+    if (element) {
+      element.scrollIntoView();
+      const accordionItem = element.closest('.accordion-item');
+      if (accordionItem) {
+        accordionItem.open = true;
+      }
+    }
+  }
+}
+
 function getExpandIndex(element) {
   const match = [...element.classList].find((cls) => cls.startsWith('expand-'))?.match(/^expand-(\d+)$/);
   return match ? (match[1] - 1) : null;
@@ -84,8 +98,8 @@ async function decorateFAQs(block) {
 
   buildAccordionSection(fragmentSection);
   fragmentSection.querySelectorAll('.accordion').forEach((accordion) => {
-    decorate(accordion);
     accordion.classList.add(...block.classList);
+    decorate(accordion);
   });
 
   const blockSection = block.closest('.section');
@@ -109,13 +123,24 @@ async function decorateFragmentBody(block) {
   });
 }
 
+function addEventListener(block) {
+  const existingListener = document.querySelector('.accordion-listener');
+  if (!existingListener) {
+    window.addEventListener('hashchange', () => expandAccordionItem());
+    block.classList.add('accordion-listener');
+  }
+}
+
 export default async function init(block) {
   if (block.classList.contains('faqs')) {
     await decorateFAQs(block);
+    addEventListener(block);
     return;
   }
+
   if (block.classList.contains('fragments')) {
     await decorateFragmentBody(block);
   }
   decorate(block);
+  addEventListener(block);
 }

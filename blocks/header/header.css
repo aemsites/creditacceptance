@@ -17,6 +17,7 @@ header {
       z-index: 2;
       position: relative;
       background-color: var(--light-gray);
+      min-height: var(--header-height);
     }
     p { margin: 0; }
 
@@ -284,12 +285,18 @@ header .nav-brand {
   }
 }
 
+/* nav variant with logo */
+.header.logo-only .btn-mobile.btn-user,
+.header.logo-only .btn-mobile.btn-ham {
+  display: none;
+}
+
 @media (width >= 960px) {
   /* brand */
   header nav {
     flex-direction: row;
     height: var(--nav-height);
-    padding-top: 0;
+    padding-top: 0.25rem;
     padding-bottom: 0;
   }
 

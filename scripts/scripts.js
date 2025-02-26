@@ -376,6 +376,27 @@ function loadDataLayer() {
     }
   `;
   document.head.appendChild(scriptBlock);
+
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const subProperty = window.location.pathname.split('/')[1] || 'home';
+  const subSubProperty = window.location.pathname.split('/')[2] || '';
+  window.cacAnalytics = {
+    property: 'www',
+    sub_property: subProperty,
+    sub_sub_property: subSubProperty,
+    page_title: document.title.toLocaleLowerCase(),
+    user_id: '',
+    br_language: navigator.language,
+    web_lang: document.documentElement.lang,
+    campaign_id: '',
+    internal_cmp_id: '',
+    page_url: window.location.href,
+    is_spa: 'true',
+    event: 'cac-page-view',
+    event_type: 'cac-page-view',
+  };
+  const i = window.cacAnalytics;
+  window.adobeDataLayer?.push(i);
 }
 
 /**
