@@ -7,7 +7,7 @@ header {
   --menu-accent-orange: #ffb800;
 
     background-color: var(--light-gray);
-    height: var(--header-height);
+    min-height: var(--header-height);
     
     nav {
       padding: 0.5rem 1rem;
