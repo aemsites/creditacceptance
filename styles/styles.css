@@ -412,7 +412,6 @@ button.secondary:hover {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
-  float: left;
 }
 
 .buttons-container a.button {
