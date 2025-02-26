@@ -27,6 +27,7 @@ main > .section-outer > .section.image-text-overlay-container {
   /* mobile-only */
   @media screen and (width <= 959px) {
     .card {
+      min-height: 450px;
       padding: 1rem;
       margin: 1rem;
       border-radius: 11px;
@@ -37,10 +38,6 @@ main > .section-outer > .section.image-text-overlay-container {
         box-shadow: 0 8px 54px #0003, 0 4px 8px #0000003b;
         transform: scale(1.05);
       }
-    }
-    
-    .image-text-overlay.media-hidden-mobile {
-        min-height: 546px;
     }
 
     .image-text-overlay.media-hidden-mobile .image {
