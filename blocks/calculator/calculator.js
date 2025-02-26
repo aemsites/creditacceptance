@@ -1,4 +1,5 @@
 import { createTag } from '../../libs/utils/utils.js';
+import pushCalculatorDataLayer from './calculator-data-layer.js';
 
 let usStatesData;
 const USDollar = new Intl.NumberFormat('en-US', {
@@ -133,6 +134,7 @@ function handleSelectFieldChange(id, value, block) {
   interestRateElement.setAttribute('value', Percentage.format(interestRate / 100));
 
   calculate(block);
+  pushCalculatorDataLayer(block, id);
 }
 
 function addTextFieldEventListeners({ inputElement, block }) {
@@ -177,6 +179,10 @@ function addTextFieldEventListeners({ inputElement, block }) {
   inputElement.addEventListener('focus', () => {
     inputElement.select();
   });
+
+  inputElement.addEventListener('blur', () => {
+    pushCalculatorDataLayer(block, id);
+  });
 }
 
 async function decorateInputFields(fields, wrapper, block) {
@@ -206,6 +212,7 @@ async function decorateInputFields(fields, wrapper, block) {
           optionElement.setAttribute('selected', '');
         }
         optionElement.textContent = label;
+        optionElement.dataset.label = label;
         inputElement.append(optionElement);
       });
       div.classList.add('select-box');
@@ -261,11 +268,13 @@ async function decorateInputFields(fields, wrapper, block) {
 
     const labelHTML = children[1].innerHTML.replace('*', '<span class="required-asterisk">*</span>');
     const label = createTag('label', { for: children[0].textContent }, labelHTML);
-    const mainLabel = children[1].textContent.split('*')[0]?.trim().toLowerCase();
-    const errorMessage = createTag('div', { class: 'error-message' }, `Please enter a valid ${mainLabel}`);
-    const emptyMessage = createTag('div', { class: 'empty-message' }, `Please fill in ${mainLabel}`);
+    const mainLabel = children[1].textContent.split('*')[0]?.trim();
+    const mainLabelLowerCase = mainLabel.toLowerCase();
+    const errorMessage = createTag('div', { class: 'error-message' }, `Please enter a valid ${mainLabelLowerCase}`);
+    const emptyMessage = createTag('div', { class: 'empty-message' }, `Please fill in ${mainLabelLowerCase}`);
     const inputWrapper = createTag('div', { class: 'input-wrapper' }, [inputElement, errorMessage, emptyMessage]);
     div.append(number, label, inputWrapper);
+    div.dataset.label = mainLabel;
     wrapper.append(div);
     field.remove();
   }
@@ -283,7 +292,9 @@ function decorateResultsCard(disclaimerField, wrapper) {
   title.classList.add('calculator-results-title');
   disclaimerCopy.classList.add('calculator-disclaimer-copy');
 
-  const resultCopy = createTag('p', { class: 'calculator-result-copy' });
+  const isMonthly = wrapper.classList.contains('monthly');
+  const resultCopyId = isMonthly ? 'estimated-monthly-price' : 'estimated-auto-price';
+  const resultCopy = createTag('p', { class: 'calculator-result-copy', id: resultCopyId });
 
   const results = createTag('div', { class: 'calculator-results' }, [bgImage, title, resultCopy]);
   const disclaimerCard = createTag('div', { class: 'calculator-results-card' }, [results, disclaimerCopy, link]);
