@@ -33,6 +33,7 @@
   --credit-iconography-blue: #40ABDE;
   --tertiary-indigo: #3d5470;
   --validation-error: #ea1010;
+  --calculator-input-color: #7d7d78;
 
   /* link text color */
   --link-text-color: oklch(62% 0.09 264deg);
@@ -101,6 +102,7 @@ body {
   font-size: var(--body-font-size-m);
   line-height: 1.6;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body.appear {
@@ -195,6 +197,7 @@ p {
   line-height: 1.5;
   margin-top: 0.75em;
   margin-bottom: 0.75em;
+  overflow-wrap: break-word;
 }
 
 .center {
@@ -222,14 +225,6 @@ button {
 }
 
 /* icons */
-h1, h2, h3, h4, h5, h6, p {
-  > .icon:first-child { 
-    margin-inline-end: .5rem;
-
-    img { margin-top: 5px; }
-  }
-}
-
 .icon {
   display: inline-block;
   height: 24px;
@@ -239,11 +234,31 @@ h1, h2, h3, h4, h5, h6, p {
     height: 100%;
     width: 100%;
   }
+
+  &:first-child { 
+    margin-inline-end: .5rem;
+  }
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+h1, h2, h3, h4, h5, h6 {
+  > .icon:first-child { 
+    vertical-align: text-top;
+
+    img { margin-top: 5px; }
+  }
+}
+
+p > .icon:first-child {
+  vertical-align: text-bottom;
+  
+  img { margin-top: 2px; }
 }
 
 .big-icons .icon {
   width: auto;
   height: auto;
+  min-width: 25px;
 }
 
 /* Lists */
@@ -411,14 +426,18 @@ button.secondary:hover {
   }
 }
 
-.marquee .background .tablet-only,
-.marquee .background .desktop-only {
+.block .background .tablet-only,
+.block .background .desktop-only {
     display: none;
 }
 
 /* sections */
 main > .section:first-of-type {
   margin-top: 0;
+}
+
+main > .section-outer {
+  overflow: hidden;
 }
 
 main > .section-outer > .section,
@@ -552,6 +571,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   .span-9 { grid-column: span 9; }
   .span-10 { grid-column: span 10; }
   .span-11 { grid-column: span 11; }
+  .span-12 { grid-column: span 12; }
 
   /* helpers */
   &.grid-justify-items-center {
@@ -612,6 +632,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
     max-width: var(--container-width);
     padding-left: 0;
     padding-right: 0;
+    margin: 0 auto;
   }
 
   :root {  --container-width: 540px; }

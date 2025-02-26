@@ -71,6 +71,14 @@ function decorateColumnsCalculation(block) {
   });
 }
 
+function decorateColIconList(col) {
+  const colHeader = col.querySelector('h1, h2, h3, h4, h5, h6');
+  const colHeaderIcon = colHeader?.querySelector('.icon');
+  if (!colHeader && !colHeaderIcon) return;
+  const colContentWrapper = createTag('ul', { class: 'col-icon-list' }, [...col.children]);
+  col.append(colContentWrapper);
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   // setup media columns
@@ -93,11 +101,11 @@ export default function decorate(block) {
       } else {
         col.classList.add('copy');
       }
+      decorateColIconList(col);
     });
   });
   // flex basis
   decorateFlexRows(block);
   if (block.classList.contains('media-unbound')) applyMediaHeight(block);
-
   if (block.classList.contains('calculation')) decorateColumnsCalculation(block);
 }

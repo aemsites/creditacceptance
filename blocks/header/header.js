@@ -166,4 +166,8 @@ export default async function decorate(block) {
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
   const fragment = await loadFragment(navPath);
   decorateFragment(block, fragment);
+
+  if (block.querySelector('.nav-quick-links.nav-section').childNodes.length === 0) {
+    block.classList.add('logo-only');
+  }
 }
