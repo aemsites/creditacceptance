@@ -1,3 +1,46 @@
-/* Text */
+.text-block { 
+    position: relative;
+}
 
-/* .text-block { } */
+/* background */
+.text-block .background {
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+}
+
+.text-block .background picture {
+    height: 100%;
+}
+
+.text-block .background > div,
+.text-block .background > div p { 
+    margin: 0;
+    height: 100%; 
+}
+
+.text-block .background img,
+.text-block .background video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+/* foreground */
+.text-block .foreground {
+    padding: 0;
+}
+
+/* inner-spacing */
+.text-block.inner-spacing-1 .foreground { padding: 1rem; }
+.text-block.inner-spacing-2 .foreground { padding: 2rem; }
+.text-block.inner-spacing-3 .foreground { padding: 3rem; }
+.text-block.inner-spacing-4 .foreground { padding: 4rem; }
+
+.text-block.max-width-50 .foreground { max-width: 50%; }
+.text-block.max-width-60 .foreground { max-width: 60%; }
+.text-block.max-width-70 .foreground { max-width: 70%; }
+.text-block.max-width-75 .foreground { max-width: 75%; }
+.text-block.max-width-80 .foreground { max-width: 80%; }
+.text-block.max-width-90 .foreground { max-width: 90%; }
