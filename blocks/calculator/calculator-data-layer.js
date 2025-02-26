@@ -1,13 +1,13 @@
 function getCreditScoreLabel(block) {
   const creditScoreElement = block.querySelector('#credit-score');
-  const selectedOptionField = creditScoreElement.querySelector(`option[value="${creditScoreElement.value}"]`);
-  return selectedOptionField.textContent;
+  const selectedOptionField = creditScoreElement.querySelector(`option[value="${creditScoreElement?.value}"]`);
+  return selectedOptionField?.textContent;
 }
 
 function getFieldLabel(block, fieldId) {
   const field = block.querySelector(`#${fieldId}`);
   const wrapperDiv = field.closest('.calculator-form-field');
-  return wrapperDiv.dataset.label;
+  return wrapperDiv?.dataset.label || '';
 }
 
 function parseFromString(value) {
