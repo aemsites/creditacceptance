@@ -123,7 +123,31 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
   }
 }
 
+/**
+ * Decorates a section element with grid classes based on metadata.
+ *
+ * @param {HTMLElement} section - The section element to be decorated.
+ * @param {string} meta - A comma-separated string of class names to
+ * be applied to the section's rows.
+ */
 export function decorateGridSection(section, meta) {
+  section.classList.add('grid-section');
+  const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
+
+  Array.from(section.querySelectorAll('.section > div'))
+    .filter((row) => {
+      const firstCol = row.querySelector(':scope > div');
+      if (firstCol && firstCol.classList.contains('library-metadata')) row.classList.add('span-12');
+      return !firstCol?.classList.contains('section-metadata') && !firstCol?.classList.contains('library-metadata');
+    })
+    .forEach((row, i) => {
+      if (gridValues[i]) {
+        row.classList.add(gridValues[i]);
+      }
+    });
+}
+
+export function decorateGridSectionGroups(section, meta) {
   const sectionRows = [];
   let currentDiv = document.createElement('div');
   sectionRows.push(currentDiv);

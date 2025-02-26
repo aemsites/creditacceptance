@@ -253,6 +253,28 @@ function buildPageDivider(main) {
         el.innerText = '';
         el.classList.add('divider-thin-dark');
       }
+      if (lower === 'divider-thin-blue-dot') {
+        el.innerText = '';
+        el.classList.add('divider-thin-blue-dot');
+      }
+    }
+  });
+}
+
+/**
+   * Builds fragment blocks from links to fragments
+   * @param {Element} main The container element
+   */
+export function buildFragmentBlocks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const url = new URL(a.href);
+    const domainCheck = checkDomain(url);
+    // don't autoblock the header navigation currently in fragments
+    if (domainCheck.isKnown && linkTextIncludesHref(a) && (url.pathname.includes('/fragments/') && !url.pathname.includes('header/'))) {
+      if (a.closest('.accordion.faqs')) return;
+      const block = buildBlock('fragment', url.pathname);
+      a.replaceWith(block);
+      decorateBlock(block);
     }
   });
 }
@@ -271,6 +293,7 @@ export function decorateMain(main) {
   groupMultipleButtons(main);
   buildPageDivider(main);
   decorateExternalLinks(main);
+  buildFragmentBlocks(main);
 }
 
 /**
@@ -313,6 +336,67 @@ async function loadTemplate() {
     }
   }
   return undefined;
+}
+
+function loadDataLayer() {
+  const scriptBlock = document.createElement('script');
+  scriptBlock.innerHTML = `
+    // implmentation of adobe analytics
+    window.cacAnalytics = window.cacAnalytics || {};
+
+    var hostLocation = window.location.host;
+    window.dataLayer = window.dataLayer || [];
+    var gtm = false;
+    var googleTagManagerId = '';
+    var googleAnalyticsId = '';
+    var noScriptTag = '';
+    var fullStoryId = '';
+
+    if (hostLocation && hostLocation.indexOf('wwwtest') != -1) {
+      gtm = true;
+      googleTagManagerId = 'GTM-T3JGLB4';
+      googleAnalyticsId = 'UA-120917412-2';
+      //fullStoryId = 'YZ5TJ'; //We do not have ID for Test for testing use QA FullStory ID
+    } else if (hostLocation && hostLocation.indexOf('wwwqa') != -1) {
+      gtm = true;
+      googleTagManagerId = 'GTM-53N8ZWC';
+      googleAnalyticsId = 'UA-2602405-3';
+      fullStoryId = 'YZ5TJ';
+    } else if (hostLocation && hostLocation === 'www.creditacceptance.com') {
+      gtm = true;
+      googleTagManagerId = 'GTM-5ZCB74P';
+      googleAnalyticsId = 'UA-2602405-4';
+      fullStoryId = 'YZ5JA';
+    } else {
+      //Below code for testing for Local and S3 hosting
+      gtm = true;
+      googleTagManagerId = 'GTM-T3JGLB4';
+      googleAnalyticsId = 'UA-120917412-2';
+      fullStoryId = 'YZ5TJ'; //We do not have ID for Test for testing use QA FullStory ID
+    }
+  `;
+  document.head.appendChild(scriptBlock);
+
+  window.adobeDataLayer = window.adobeDataLayer || [];
+  const subProperty = window.location.pathname.split('/')[1] || 'home';
+  const subSubProperty = window.location.pathname.split('/')[2] || '';
+  window.cacAnalytics = {
+    property: 'www',
+    sub_property: subProperty,
+    sub_sub_property: subSubProperty,
+    page_title: document.title.toLocaleLowerCase(),
+    user_id: '',
+    br_language: navigator.language,
+    web_lang: document.documentElement.lang,
+    campaign_id: '',
+    internal_cmp_id: '',
+    page_url: window.location.href,
+    is_spa: 'true',
+    event: 'cac-page-view',
+    event_type: 'cac-page-view',
+  };
+  const i = window.cacAnalytics;
+  window.adobeDataLayer?.push(i);
 }
 
 /**
@@ -374,6 +458,7 @@ function loadDelayed() {
 async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
+  loadDataLayer();
   loadDelayed();
 }
 

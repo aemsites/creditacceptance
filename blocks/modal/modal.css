@@ -9,7 +9,6 @@ body.modal-open {
 .modal dialog {
   overscroll-behavior: none;
   overflow-y: hidden;
-  position: relative;
   width: calc(100vw - 48px);
   max-width: 900px;
   max-height: calc(100dvh - (2 * var(--header-height)));
@@ -81,4 +80,12 @@ body.modal-open {
 
 .modal dialog .section {
   padding: 0;
+}
+
+.modal dialog .embed {
+  margin-bottom: 0;
+}
+
+.modal .default-content-wrapper {
+  max-width: 100%;
 }
