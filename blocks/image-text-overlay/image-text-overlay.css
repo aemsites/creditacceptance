@@ -43,7 +43,7 @@ main > .section-outer > .section.image-text-overlay-container {
         min-height: 546px;
     }
 
-    .image-text-overlay.media-hidden-mobile .image > p {
+    .image-text-overlay.media-hidden-mobile .image {
         display: none;
     }
   }
