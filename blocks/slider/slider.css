@@ -13,7 +13,7 @@
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    padding: 2rem;
+    padding: 2rem 2rem 4rem;
 
     &::-webkit-scrollbar {
       width: 0;
@@ -37,11 +37,9 @@
 
   .pagination {
     position: absolute;
-    bottom: -1rem;
-    padding-bottom: 1rem;
+    bottom: 1rem;
     left: 0;
     width: 100vw;
-    background: white;
     display: flex;
     justify-content: center;
     gap: .5rem;
