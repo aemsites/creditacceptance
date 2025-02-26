@@ -1,6 +1,9 @@
 // delay loading of GTM script until after the page has loaded
 import { isProd } from '../libs/utils/utils.js';
 
+// eslint-disable-next-line import/no-cycle
+import initAccessibilityMode from '../tools/sidekick/library/plugins/accessibility-mode/accessibility-mode.js';
+
 const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
 const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
 
@@ -83,4 +86,41 @@ if (window.location.hostname !== 'localhost') {
     loadGoogleTagManagerDev();
     loadFullStoryDev();
   }
+}
+
+
+const accessibilityMode = async (e) => {
+  const oldpluginButton = e.target.shadowRoot.querySelector('.accessibility-mode > button');
+  const newplugginButton = e.target.shadowRoot.querySelector('.accessibility-mode');
+
+  isA11yModeActive = !isA11yModeActive;
+
+  if (isA11yModeActive) {
+    if (oldpluginButton) {
+      oldpluginButton.style.backgroundColor = '#fb0f01';
+      oldpluginButton.style.color = '#fff';
+    } else if (newplugginButton) {
+      newplugginButton.style.backgroundColor = '#f3f3f3';
+    }
+  } else if (oldpluginButton) {
+    oldpluginButton.removeAttribute('style');
+  } else if (newplugginButton) {
+    newplugginButton.removeAttribute('style');
+  }
+
+  document.querySelector('body').classList.toggle('accessibility-mode-active');
+  await initAccessibilityMode(isA11yModeActive);
+};
+
+let sk = document.querySelector('helix-sidekick') || document.querySelector('aem-sidekick');
+
+if (sk) {
+  sk.addEventListener('custom:accessibility-mode', accessibilityMode);
+} else {
+  document.addEventListener('sidekick-ready', () => {
+    sk = document.querySelector('helix-sidekick') || document.querySelector('aem-sidekick');
+    sk.addEventListener('custom:accessibility-mode', accessibilityMode);
+  }, {
+    once: true,
+  });
 }
