@@ -106,7 +106,7 @@ export default function decorate(block) {
         }
       }
       const icon = div.querySelector('.icon img');
-      if (icon) {
+      if (icon && div.children.length === 1) {
         const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }

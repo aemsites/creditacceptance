@@ -1,0 +1,8 @@
+sitemaps:
+  pages:
+    origin: https://www.creditacceptance.com
+    source: /index/query-index.json
+    destination: /sitemap.xml
+    lastmod: YYYY-MM-DD
+    changefreq: monthly
+    priority: 0.5
