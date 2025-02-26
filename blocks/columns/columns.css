@@ -2,7 +2,7 @@
 .columns > div {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 0 1.5rem;
 }
 
 .columns.columns-2-cols > div { gap: 3rem; }
@@ -290,6 +290,22 @@
     border-top: 2px solid var(--pure-black);
 } 
 
+.columns ul.col-icon-list {
+    margin: 0;
+    padding-inline-start: 40px;
+    
+    h2, h3, h4, h5, h6 {
+        position: relative;
+
+        .icon {
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
 
 /* mobile-tablet only */
 @media screen and (width <= 959px) {

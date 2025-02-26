@@ -222,14 +222,6 @@ button {
 }
 
 /* icons */
-h1, h2, h3, h4, h5, h6, p {
-  > .icon:first-child { 
-    margin-inline-end: .5rem;
-
-    img { margin-top: 5px; }
-  }
-}
-
 .icon {
   display: inline-block;
   height: 24px;
@@ -239,6 +231,25 @@ h1, h2, h3, h4, h5, h6, p {
     height: 100%;
     width: 100%;
   }
+
+  &:first-child { 
+    margin-inline-end: .5rem;
+  }
+}
+
+/* stylelint-disable-next-line no-duplicate-selectors */
+h1, h2, h3, h4, h5, h6 {
+  > .icon:first-child { 
+    vertical-align: text-top;
+
+    img { margin-top: 5px; }
+  }
+}
+
+p > .icon:first-child {
+  vertical-align: text-bottom;
+  
+  img { margin-top: 2px; }
 }
 
 .big-icons .icon {
