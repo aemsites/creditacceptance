@@ -60,6 +60,7 @@
 
 .calculator-form-field input,
 .calculator-form-field select {
+    background-color: var(--pure-white);
     border: 1px solid var(--soft-gray);
     border-radius: 7px;
     font-size: 14px;
@@ -73,7 +74,7 @@
 }
 
 .calculator-form-field.input-box input {
-    color: var(--dark-gray);
+    color: var(--calculator-input-color);
 }
 
 .calculator-form-field select {
@@ -81,6 +82,7 @@
     width: 100%;
     padding-left: 10px;
     appearance: none;
+    color: var(--text-color);
 }
 
 .calculator-form-field input:focus,
