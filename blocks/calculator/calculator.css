@@ -33,6 +33,8 @@
 
 .calculator-form-field.input-box {
     align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
 }
 
 .calculator-number {
@@ -93,6 +95,7 @@
 
 .calculator-form-field.input-box .input-wrapper {
     width: 30%;
+    align-self: self-start;
 }
 
 .calculator-form-field.input-box .input-wrapper input {
