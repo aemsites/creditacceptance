@@ -377,14 +377,13 @@ function loadDataLayer() {
   `;
   document.head.appendChild(scriptBlock);
 
-  //page load event
   window.adobeDataLayer = window.adobeDataLayer || [];
-  const sub_property = window.location.pathname.split('/')[1] || 'home';
-  const sub_sub_property = window.location.pathname.split('/')[2] || '';
-  let i = (window.cacAnalytics = {
+  const subProperty = window.location.pathname.split('/')[1] || 'home';
+  const subSubProperty = window.location.pathname.split('/')[2] || '';
+  window.cacAnalytics = {
     property: 'www',
-    sub_property: sub_property,
-    sub_sub_property: sub_sub_property,
+    sub_property: subProperty,
+    sub_sub_property: subSubProperty,
     page_title: document.title.toLocaleLowerCase(),
     user_id: '',
     br_language: navigator.language,
@@ -395,7 +394,8 @@ function loadDataLayer() {
     is_spa: 'true',
     event: 'cac-page-view',
     event_type: 'cac-page-view',
-  });
+  };
+  const i = window.cacAnalytics;
   window.adobeDataLayer?.push(i);
 }
 
