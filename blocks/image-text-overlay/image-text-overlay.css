@@ -38,6 +38,14 @@ main > .section-outer > .section.image-text-overlay-container {
         transform: scale(1.05);
       }
     }
+    
+    .image-text-overlay.image-hide-mobile {
+        min-height: 546px;
+    }
+
+    .image-text-overlay.image-hide-mobile .image > p{
+        display: none;
+    }
   }
   
   /* desktop up */
@@ -48,7 +56,6 @@ main > .section-outer > .section.image-text-overlay-container {
   }
 
   .card {
-    height: 100%;
     display: flex;
     align-items: end;
     position: relative;
