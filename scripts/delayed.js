@@ -3,6 +3,7 @@ import { isProd } from '../libs/utils/utils.js';
 
 // eslint-disable-next-line import/no-cycle
 import initAccessibilityMode from '../tools/sidekick/library/plugins/accessibility-mode/accessibility-mode.js';
+let isA11yModeActive = false;
 
 const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
 const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
