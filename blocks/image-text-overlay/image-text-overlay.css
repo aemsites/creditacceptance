@@ -39,11 +39,11 @@ main > .section-outer > .section.image-text-overlay-container {
       }
     }
     
-    .image-text-overlay.image-hide-mobile {
+    .image-text-overlay.media-hidden-mobile {
         min-height: 546px;
     }
 
-    .image-text-overlay.image-hide-mobile .image > p{
+    .image-text-overlay.media-hidden-mobile .image > p {
         display: none;
     }
   }
