@@ -17,7 +17,7 @@ header {
       z-index: 2;
       position: relative;
       background-color: var(--light-gray);
-      height: var(--header-height);
+      min-height: var(--header-height);
     }
     p { margin: 0; }
 
