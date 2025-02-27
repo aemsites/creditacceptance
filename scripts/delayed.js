@@ -1,5 +1,5 @@
 // delay loading of GTM script until after the page has loaded
-import { isProd } from '../libs/utils/utils.js';
+import { isProductionEnvironment } from '../libs/utils/utils.js';
 
 function loadGoogleTagManagerDev() {
   const gtmScript = document.createElement('script');
@@ -60,7 +60,7 @@ function loadFullStoryProd() {
 }
 
 if (window.location.hostname !== 'localhost') {
-  if (isProd()) {
+  if (isProductionEnvironment()) {
     loadGoogleTagManagerProd();
     loadFullStoryProd();
   } else {

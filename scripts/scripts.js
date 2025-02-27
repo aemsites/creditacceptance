@@ -14,10 +14,9 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
-import { loadPalette, createTag } from '../libs/utils/utils.js';
+import { loadPalette, createTag, isProductionEnvironment } from '../libs/utils/utils.js';
 
 export const PRODUCTION_DOMAINS = ['www.creditacceptance.com'];
-import { isProd } from '../libs/utils/utils.js';
 
 /**
  * load fonts.css and set a session storage flag
@@ -432,7 +431,7 @@ function loadAdobeLaunch() {
   const tag = document.createElement('script');
   tag.type = 'text/javascript';
   tag.async = true;
-  if (isProd()) {
+  if (isProductionEnvironment()) {
     tag.src = PROD_LAUNCH_SCRIPT;
   } else {
     tag.src = DEV_LAUNCH_SCRIPT;
