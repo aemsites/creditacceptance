@@ -5,7 +5,7 @@ import { createTag } from '../../libs/utils/utils.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 960px)');
 const icons = {
-  user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
+  user: '/icons/user.svg',
 };
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 

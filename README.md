@@ -2,8 +2,8 @@
 Edge Delivery Project for www.creditacceptance.com
 
 ## Environments
-- Preview: https://main--creditacceptance--aemsites.aem.page
-- Live: https://main--creditacceptance--aemsites.aem.live
+- Preview: https://main--www-web-app--credit-acceptance.aem.page
+- Live: https://main--www-web-app--credit-acceptance.aem.live
 
 ## Documentation
 
