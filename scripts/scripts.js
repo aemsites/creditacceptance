@@ -458,7 +458,9 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
-  loadAdobeLaunch();
+  if (window.location.hostname !== 'localhost') {
+    loadAdobeLaunch();
+  }
 }
 
 /**
