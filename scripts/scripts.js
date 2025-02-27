@@ -443,6 +443,17 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+  const preconnectLinks = [
+    'https://www.googletagmanager.com',
+    'https://assets.adobedtm.com/',
+  ];
+
+  preconnectLinks.forEach((link) => {
+    const preconnectLink = document.createElement('link');
+    preconnectLink.rel = 'preconnect';
+    preconnectLink.href = link;
+    document.head.appendChild(preconnectLink);
+  });
 }
 
 /**
