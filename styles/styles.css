@@ -440,6 +440,10 @@ main > .section-outer {
   overflow: hidden;
 }
 
+main > .section-outer:has(.overflow-visible) {
+  overflow: visible;
+}
+
 main > .section-outer > .section,
 footer .section-outer > .section,
 main.error .section-outer .section:not(.marquee-container),
