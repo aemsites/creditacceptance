@@ -17,6 +17,7 @@ import { decorateButtons } from '../libs/utils/decorate.js';
 import { loadPalette, createTag } from '../libs/utils/utils.js';
 
 export const PRODUCTION_DOMAINS = ['www.creditacceptance.com'];
+import { isProd } from '../libs/utils/utils.js';
 
 /**
  * load fonts.css and set a session storage flag
