@@ -111,6 +111,10 @@ main > .section-outer > .section.marquee-container {
     width: 100%
 }
 
+.marquee .buttons-container {
+    justify-content: flex-start;
+}
+
 /* mobile-only */
 @media screen and (width < 960px) {
   .marquee h1 {

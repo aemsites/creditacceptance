@@ -31,7 +31,7 @@ export default function decorate(block) {
           picWrapper.classList.add('columns-img-col');
         }
       }
-      const a = col.querySelector('a');
+      const a = col.querySelector('ul a');
       if (a && a.href.includes('vimeo')) {
         const embedBlock = buildBlock('embed', a.cloneNode(true));
         const parent = a.closest('div');
@@ -43,7 +43,7 @@ export default function decorate(block) {
         }
       }
 
-      const links = col.querySelectorAll('a');
+      const links = col.querySelectorAll('ul a');
       links.forEach((link) => {
         if (a.href.includes('vimeo')) {
           const parent = link.closest('div');
