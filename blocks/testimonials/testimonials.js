@@ -78,7 +78,7 @@ async function decorateCards(block, { reviews, url, ctaLabel }) {
     secondCol.classList.add('url-none');
 
     if (url !== 'false') {
-      const linkElement = createTag('a', { href: rowUrl || url }, ctaLabel );
+      const linkElement = createTag('a', { href: rowUrl || url }, ctaLabel);
       const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
       const linkWrapper = createTag('p', null, secondaryLink);
 
