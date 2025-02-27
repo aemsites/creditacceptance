@@ -304,7 +304,7 @@ function decorateResultsCard(disclaimerField, wrapper) {
 }
 
 function buildSeeResultsButton(block) {
-  const button = createTag('a', { class: 'calculator-see-results button primary', href: '#' }, 'See Results');
+  const button = createTag('a', { class: 'calculator-see-results button primary', href: '#calculator-results-card-container' }, 'See Results');
 
   button.addEventListener('click', () => {
     const results = block.querySelector('.calculator-results-card-container');
