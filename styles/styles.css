@@ -36,9 +36,9 @@
   --calculator-input-color: #7d7d78;
 
   /* link text color */
-  --link-text-color: oklch(62% 0.09 264deg);
-  --link-text-color-hover: oklch(52% 0.09 264deg);
-  --link-text-color-visited: oklch(52% 0.09 264deg);
+  --link-text-color: oklch(51.36% 0.0472 253.08deg);
+  --link-text-color-hover: oklch(32.77% 0.0522 253.54deg);
+  --link-text-color-visited: oklch(32.77% 0.0522 253.54deg);
   --link-text-color-light: oklch(82% 0.09 264deg);
   --link-text-color-light-hover: oklch(92% 0.09 264deg);
   --link-text-color-light-visited: oklch(92% 0.09 264deg);

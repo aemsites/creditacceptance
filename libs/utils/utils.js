@@ -70,6 +70,6 @@ export function addStyles(path) {
   return link;
 }
 
-export function isProd() {
+export function isProductionEnvironment() {
   return (/main--.*\.aem\.live$/.test(window.location.host) || window.location.host.endsWith('creditacceptance.com'));
 }
