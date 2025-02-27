@@ -2,6 +2,7 @@ export default function decorate(block) {
   const nav = document.createElement('nav');
   const ul = document.createElement('ul');
   nav.append(ul);
+  nav.setAttribute('aria-label', 'quick-links-navigation');
 
   Array.from(block.children).forEach((row) => {
     const li = document.createElement('li');
