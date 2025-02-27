@@ -245,6 +245,9 @@
 
  .cards.resources.center .cards-card-body .button-container {
     text-align: center;
+ }
+
+ .cards.resources .cards-card-body .button-container {
     margin-top: auto;
  }
 
