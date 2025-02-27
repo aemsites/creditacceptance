@@ -1,0 +1,44 @@
+/* Text */
+
+.anchor-links {
+    div > p {
+        display: flex;
+        gap: 32px;
+    }
+    
+    a {
+        position: relative;
+        text-transform: uppercase;
+        color: var(--text-color);
+        font-size: 12px;
+        line-height: 13px;
+        letter-spacing: .4px;
+        font-family: var(--heading-font-family);
+        padding: 4px 0;
+
+        &:hover, 
+        &:active {
+            color: black;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            border: 1px dotted var(--ca-aqua);
+            height: 100%;
+            right: -16px;
+            top: 0;
+        }
+
+        &:last-of-type::after {
+            display: none;
+        }
+    }
+}
+
+
+@media screen and (width >= 960px) {
+    .anchor-links div > p {
+        justify-content: center; 
+    }
+}

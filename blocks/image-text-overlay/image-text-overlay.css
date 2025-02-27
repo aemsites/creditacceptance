@@ -27,6 +27,7 @@ main > .section-outer > .section.image-text-overlay-container {
   /* mobile-only */
   @media screen and (width <= 959px) {
     .card {
+      min-height: 450px;
       padding: 1rem;
       margin: 1rem;
       border-radius: 11px;
@@ -38,6 +39,10 @@ main > .section-outer > .section.image-text-overlay-container {
         transform: scale(1.05);
       }
     }
+
+    .image-text-overlay.media-hidden-mobile .image {
+        display: none;
+    }
   }
   
   /* desktop up */
@@ -48,7 +53,6 @@ main > .section-outer > .section.image-text-overlay-container {
   }
 
   .card {
-    height: 100%;
     display: flex;
     align-items: end;
     position: relative;

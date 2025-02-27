@@ -42,8 +42,15 @@ function decoratePictures(cell) {
     const img = picture.querySelector('img');
     const optimizedPicture = createOptimizedPicture(img.src, img.alt);
     optimizedPicture.classList.add(`card-image-${classes[index]}`);
+    const link = picture.parentNode.querySelector('a');
     if (picture.parentNode.tagName === 'P') {
-      picture.parentNode.replaceWith(optimizedPicture);
+      if (link) {
+        link.innerHTML = '';
+        link.append(optimizedPicture);
+        picture.parentNode.replaceWith(link);
+      } else {
+        picture.parentNode.replaceWith(optimizedPicture);
+      }
     } else {
       picture.replaceWith(optimizedPicture);
     }
@@ -99,7 +106,7 @@ export default function decorate(block) {
         }
       }
       const icon = div.querySelector('.icon img');
-      if (icon) {
+      if (icon && div.children.length === 1) {
         const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }

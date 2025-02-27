@@ -32,6 +32,17 @@ async function fetchData() {
 
   data.data.forEach((dataItem) => {
     if (dataItem.category) {
+      // multiple categories
+      if (dataItem.category.includes(',')) {
+        const splitCategories = dataItem.category.split(',');
+        splitCategories.forEach((category) => {
+          if (categoryMap[category.trim()]) {
+            categoryMap[category.trim()].push(dataItem);
+          }
+        });
+        return;
+      }
+
       if (categoryMap[dataItem.category]) {
         categoryMap[dataItem.category].push(dataItem);
       }
@@ -74,14 +85,28 @@ async function buildCards(block) {
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
-    const imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
-    const tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
-    imageElement.className = 'card-image-all';
+    let imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
+    let tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
+    const desktopImageElement = createOptimizedPicture(item.image, item.imageAlt);
+    let oneImageAvailable = false;
+
+    if (!imageElement || item.mobileImage === '0' || !tabletImageElement || item.tabletImage === '0') {
+      imageElement = desktopImageElement;
+      tabletImageElement = desktopImageElement;
+      oneImageAvailable = true;
+    }
+
+    imageElement.className = 'card-image-mobile';
     tabletImageElement.className = 'card-image-tablet';
+    desktopImageElement.className = 'card-image-desktop';
 
-    const firstCol = createTag('div', null, [imageElement, tabletImageElement]);
+    const firstCol = createTag(
+      'div',
+      { class: oneImageAvailable ? 'one-image-available' : '' },
+      [imageElement, tabletImageElement, desktopImageElement],
+    );
 
-    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.title}</strong>`);
+    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.heading}</strong>`);
     const description = createTag('p', { class: 'card-description' }, item.description);
 
     const link = createTag('a', { href: item.path }, 'Read >');
@@ -156,7 +181,7 @@ async function buildCategory(block) {
   listItems[0].classList.add('active');
   const ul = createTag('ul', { class: 'feed-tabs-list-desktop', role: 'tablist' }, listItems);
 
-  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, categories.map((category) => {
+  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, orderedCategories.map((category) => {
     const option = createTag('option', { value: category }, category);
     return option;
   }));
