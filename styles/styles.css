@@ -36,9 +36,9 @@
   --calculator-input-color: #7d7d78;
 
   /* link text color */
-  --link-text-color: oklch(51.36% 0.0472 253.08deg);
-  --link-text-color-hover: oklch(32.77% 0.0522 253.54deg);
-  --link-text-color-visited: oklch(32.77% 0.0522 253.54deg);
+  --link-text-color: oklch(50.38% 0.0907 223.2deg); /* #0D6F8A - sky-blue-600 */
+  --link-text-color-hover: oklch(31.69% 0.0532 220.9deg); /* #083845 - sky-blue-800 */
+  --link-text-color-visited: oklch(31.69% 0.0532 220.9deg);
   --link-text-color-light: oklch(82% 0.09 264deg);
   --link-text-color-light-hover: oklch(92% 0.09 264deg);
   --link-text-color-light-visited: oklch(92% 0.09 264deg);
