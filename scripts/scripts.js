@@ -424,6 +424,21 @@ async function loadEager(doc) {
   }
 }
 
+const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
+const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
+
+function loadAdobeLaunch() {
+  const tag = document.createElement('script');
+  tag.type = 'text/javascript';
+  tag.async = true;
+  if (isProd()) {
+    tag.src = PROD_LAUNCH_SCRIPT;
+  } else {
+    tag.src = DEV_LAUNCH_SCRIPT;
+  }
+  document.querySelector('head').append(tag);
+}
+
 /**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
@@ -443,6 +458,7 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+  loadAdobeLaunch();
 }
 
 /**

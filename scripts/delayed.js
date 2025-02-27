@@ -75,7 +75,7 @@ function loadFullStoryProd() {
 }
 
 if (window.location.hostname !== 'localhost') {
-  loadAdobeLaunch();
+ // loadAdobeLaunch();
   if (isProd()) {
     loadGoogleTagManagerProd();
     loadFullStoryProd();
