@@ -564,9 +564,6 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   }
   
   &.gap-0 { gap: 0; }
-  &.gap-2 { gap: 2rem 0; }
-  &.gap-3 { gap: 3rem 0; }
-  &.gap-4 { gap: 4rem 0; }
 }
 
 .section.grid-section > .default-content-wrapper {
@@ -660,7 +657,12 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 
     .grid-section {
         grid-template-columns: repeat(12, 1fr);
+        
+        &.gap-2 { gap: 2rem; }
+        &.gap-3 { gap: 3rem; }
+        &.gap-4 { gap: 4rem; }
     }
+    
 }
 
 @media screen and (width >= 1200px) {
