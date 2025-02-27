@@ -1,6 +1,82 @@
 // delay loading of GTM script until after the page has loaded
 import { isProductionEnvironment } from '../libs/utils/utils.js';
 
+function enableGoogleTagManagerDev() {
+  // Create an instance of the Web Worker
+  const gtmWorker = new Worker(`${window.hlx.codeBasePath}/scripts/googletagmanager-worker.js`);
+
+  // Send a message to the Web Worker to load the GTM script
+  gtmWorker.postMessage('loadGTMDev');
+
+  // Listen for messages from the Web Worker
+  gtmWorker.onmessage = function (event) {
+    if (event.data.error) {
+      console.error('Error in GTM Web Worker:', event.data.error);
+    } else {
+      // Inject the received GTM script into the page
+      const gtmScript = document.createElement('script');
+      gtmScript.type = 'text/javascript';
+      gtmScript.innerHTML = event.data;
+      document.head.appendChild(gtmScript);
+
+      // Create and insert the <noscript> fallback for GTM
+      const noscriptElement = document.createElement('noscript');
+      const iframeElement = document.createElement('iframe');
+      iframeElement.src = 'https://www.googletagmanager.com/ns.html?id=GTM-53N8ZWC';
+      iframeElement.height = '0';
+      iframeElement.width = '0';
+      iframeElement.style.display = 'none';
+      iframeElement.style.visibility = 'hidden';
+      noscriptElement.appendChild(iframeElement);
+      document.body.insertAdjacentElement('afterbegin', noscriptElement);
+    }
+  };
+
+  // Handle errors from the Web Worker
+  gtmWorker.onerror = function (error) {
+    console.error('Error in Web Worker:', error);
+  };
+}
+
+function enableGoogleTagManagerProd() {
+  // Create an instance of the Web Worker
+  const gtmWorker = new Worker(`${window.hlx.codeBasePath}/scripts/googletagmanager-worker.js`);
+
+  // Send a message to the Web Worker to load the GTM script
+  gtmWorker.postMessage('loadGTMProd');
+
+  // Listen for messages from the Web Worker
+  gtmWorker.onmessage = function (event) {
+    if (event.data.error) {
+      console.error('Error in GTM Web Worker:', event.data.error);
+    } else {
+      // Inject the received GTM script into the page
+      const gtmScript = document.createElement('script');
+      gtmScript.type = 'text/javascript';
+      gtmScript.innerHTML = event.data;
+      document.head.appendChild(gtmScript);
+
+      // Create and insert the <noscript> fallback for GTM
+      const noscriptElement = document.createElement('noscript');
+      const iframeElement = document.createElement('iframe');
+      iframeElement.src = 'https://www.googletagmanager.com/ns.html?id=GTM-5ZCB74P';
+      iframeElement.height = '0';
+      iframeElement.width = '0';
+      iframeElement.style.display = 'none';
+      iframeElement.style.visibility = 'hidden';
+      noscriptElement.appendChild(iframeElement);
+      document.body.insertAdjacentElement('afterbegin', noscriptElement);
+    }
+  };
+
+  // Handle errors from the Web Worker
+  gtmWorker.onerror = function (error) {
+    console.error('Error in Web Worker:', error);
+  };
+}
+
+
+
 function loadGoogleTagManagerDev() {
   const gtmScript = document.createElement('script');
   gtmScript.type = 'text/javascript';
@@ -61,10 +137,10 @@ function loadFullStoryProd() {
 
 if (window.location.hostname !== 'localhost') {
   if (isProductionEnvironment()) {
-    loadGoogleTagManagerProd();
+    enableGoogleTagManagerProd();
     loadFullStoryProd();
   } else {
-    loadGoogleTagManagerDev();
+    enableGoogleTagManagerDev();
     loadFullStoryDev();
   }
 }
