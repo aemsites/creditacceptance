@@ -13,6 +13,14 @@ import {
   loadCSS,
 } from './aem.js';
 
+import {
+  initMartech,
+  updateUserConsent,
+  martechEager,
+  martechLazy,
+  martechDelayed,
+} from '../plugins/martech/src/index.js';
+
 import { decorateButtons } from '../libs/utils/decorate.js';
 import { loadPalette, createTag, isProductionEnvironment } from '../libs/utils/utils.js';
 
@@ -74,6 +82,64 @@ export function getOrigin() {
   const { location } = window;
   return location.href === 'about:srcdoc' ? window.parent.location.origin : location.origin;
 }
+
+const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
+const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
+
+
+const isConsentGiven = true;
+const martechLoadedPromise = initMartech(
+  // The WebSDK config
+  // Documentation: https://experienceleague.adobe.com/en/docs/experience-platform/web-sdk/commands/configure/overview#configure-js
+  {
+    datastreamId: "www - cac - STAGE - a57ce71a-9261-4607-9dc5-b4a09c4a1004",
+    orgId: "D18E27A66401CE840A495CD2@AdobeOrg",
+    defaultConsent: 'in',
+    onBeforeEventSend: (payload) => {
+      // set custom Target params
+      // see doc at https://experienceleague.adobe.com/en/docs/platform-learn/migrate-target-to-websdk/send-parameters#parameter-mapping-summary
+      payload.data.__adobe.target ||= {};
+
+      // set custom Analytics params
+      // see doc at https://experienceleague.adobe.com/en/docs/analytics/implementation/aep-edge/data-var-mapping
+      payload.data.__adobe.analytics ||= {};
+    },
+
+    // set custom datastream overrides
+    // see doc at:
+    // - https://experienceleague.adobe.com/en/docs/experience-platform/web-sdk/commands/datastream-overrides
+    // - https://experienceleague.adobe.com/en/docs/experience-platform/datastreams/overrides
+    edgeConfigOverrides: {
+      // Override the datastream id
+      // datastreamId: '...'
+
+      // Override AEP event datasets
+      // com_adobe_experience_platform: {
+      //   datasets: {
+      //     event: {
+      //       datasetId: '...'
+      //     }
+      //   }
+      // },
+
+      // Override the Analytics report suites
+      // com_adobe_analytics: {
+      //   reportSuites: ['...']
+      // },
+
+      // Override the Target property token
+      // com_adobe_target: {
+      //   propertyToken: '...'
+      // }
+    },
+  },
+  // The library config
+  {
+    launchUrls: [DEV_LAUNCH_SCRIPT],
+    personalization: !!getMetadata('target') && isConsentGiven,
+  },
+);
+
 
 /**
  * Retrieves the content of metadata tags.
@@ -396,7 +462,24 @@ function loadDataLayer() {
     event_type: 'cac-page-view',
   };
   const i = window.cacAnalytics;
-  window.adobeDataLayer?.push(i);
+  window.adobeDataLayer?.push(
+    i,
+    {
+      _experienceplatform: {
+        identification: {
+          core: {
+            ecid: sessionStorage.getItem("com.adobe.reactor.dataElements.ECID")
+          }
+        }
+      },
+      web: {
+        webPageDetails: {
+          name: document.title,
+          URL: window.location.href
+        }
+      }
+    }
+  );
 }
 
 /**
@@ -411,7 +494,10 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), waitForFirstImage);
+    await Promise.all([
+      martechLoadedPromise.then(martechEager),
+      loadSection(main.querySelector('.section'), waitForFirstImage)
+    ]);
   }
 
   try {
@@ -423,9 +509,6 @@ async function loadEager(doc) {
     // do nothing
   }
 }
-
-const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
-const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
 
 function loadAdobeLaunch() {
   const tag = document.createElement('script');
@@ -445,6 +528,7 @@ function loadAdobeLaunch() {
  */
 async function loadLazy(doc) {
   autolinkModals(doc);
+  await martechLazy();
   const main = doc.querySelector('main');
   await loadSections(main);
 
@@ -458,9 +542,9 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
-  if (window.location.hostname !== 'localhost') {
-    loadAdobeLaunch();
-  }
+  // if (window.location.hostname !== 'localhost') {
+  //   loadAdobeLaunch();
+  // }
 }
 
 /**
@@ -469,8 +553,11 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
+  window.setTimeout(() => {
+    martechDelayed();
+    return import('./delayed.js');
+  }, 3000);
 }
 
 async function loadPage() {
