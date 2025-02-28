@@ -55,6 +55,8 @@ main > .section-outer > .section.marquee-container {
     min-height: 470px;
 }
 
+.marquee.vertical-center .foreground {  align-items: center; }
+
 .marquee.height-auto  .foreground {  min-height: unset; }
 
 .marquee .foreground > div {

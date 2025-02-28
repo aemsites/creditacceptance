@@ -68,6 +68,15 @@
   }
 }
 
+.columns.stats-small {
+    p:first-of-type { margin: 0;}
+
+    strong {
+        font-size: 22px;
+        line-height: 1;
+    }
+}
+
 .columns.stats > div { gap: 3rem; }
 
 .columns.steps > div {

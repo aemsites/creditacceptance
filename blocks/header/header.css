@@ -295,7 +295,7 @@ header .nav-brand {
   /* brand */
   header nav {
     flex-direction: row;
-    height: var(--nav-height);
+    height: var(--header-height);
     padding-top: 0.25rem;
     padding-bottom: 0;
   }
