@@ -616,6 +616,10 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   border: 1px dotted var(--credit-violet);
 }
 
+header {
+  min-height: var(--header-height);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth
