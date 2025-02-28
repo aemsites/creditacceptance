@@ -11,11 +11,12 @@ function buildCell(rowIndex) {
 }
 
 function setBorderColor(cls, block) {
-  const isHexColor = cls.includes('#');
-  const isBordered = block.classList.contains('bordered');
-
   const color = cls.replace('border-color-', '');
-  const colorProperty = isHexColor ? color : `var(--${color})`;
+  const hexRegex = /^#?([0-9a-f]{3}){1,2}$/i;
+  const isHexColor = hexRegex.test(color);
+  const formattedColor = isHexColor && !color.startsWith('#') ? `#${color}` : color;
+  const isBordered = block.classList.contains('bordered');
+  const colorProperty = isHexColor ? formattedColor : `var(--${color})`;
   const rows = block.querySelectorAll('tr');
   rows.forEach((row) => {
     if (isBordered) {

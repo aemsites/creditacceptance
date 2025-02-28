@@ -1,9 +1,9 @@
 import { loadScript } from '../../scripts/aem.js';
-import { isProd } from '../../libs/utils/utils.js';
+import { isProductionEnvironment } from '../../libs/utils/utils.js';
 
 export default async function decorate(block) {
   let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
-  if (isProd()) {
+  if (isProductionEnvironment()) {
     script = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
     window.jonEnv = 'prod';
   } else {

@@ -1,65 +1,78 @@
 // delay loading of GTM script until after the page has loaded
-import { isProd } from '../libs/utils/utils.js';
+import { isProductionEnvironment } from '../libs/utils/utils.js';
 
-const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
-const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
+function enableGoogleTagManagerDev() {
+  // Create an instance of the Web Worker
+  const gtmWorker = new Worker(`${window.hlx.codeBasePath}/scripts/googletagmanager-worker.js`);
 
-function loadAdobeLaunch() {
-  const tag = document.createElement('script');
-  tag.type = 'text/javascript';
-  tag.async = true;
-  if (isProd()) {
-    tag.src = PROD_LAUNCH_SCRIPT;
-  } else {
-    tag.src = DEV_LAUNCH_SCRIPT;
-  }
-  document.querySelector('head').append(tag);
+  // Send a message to the Web Worker to load the GTM script
+  gtmWorker.postMessage('loadGTMDev');
+
+  // Listen for messages from the Web Worker
+  gtmWorker.onmessage = function (event) {
+    if (event.data.error) {
+      console.error('Error in GTM Web Worker:', event.data.error);
+    } else {
+      // Inject the received GTM script into the page
+      const gtmScript = document.createElement('script');
+      gtmScript.type = 'text/javascript';
+      gtmScript.innerHTML = event.data;
+      document.head.appendChild(gtmScript);
+
+      // Create and insert the <noscript> fallback for GTM
+      const noscriptElement = document.createElement('noscript');
+      const iframeElement = document.createElement('iframe');
+      iframeElement.src = 'https://www.googletagmanager.com/ns.html?id=GTM-53N8ZWC';
+      iframeElement.height = '0';
+      iframeElement.width = '0';
+      iframeElement.style.display = 'none';
+      iframeElement.style.visibility = 'hidden';
+      noscriptElement.appendChild(iframeElement);
+      document.body.insertAdjacentElement('afterbegin', noscriptElement);
+    }
+  };
+
+  // Handle errors from the Web Worker
+  gtmWorker.onerror = function (error) {
+    console.error('Error in Web Worker:', error);
+  };
 }
 
-function loadGoogleTagManagerDev() {
-  const gtmScript = document.createElement('script');
-  gtmScript.type = 'text/javascript';
-  gtmScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-53N8ZWC');`;
-  gtmScript.async = true;
+function enableGoogleTagManagerProd() {
+  // Create an instance of the Web Worker
+  const gtmWorker = new Worker(`${window.hlx.codeBasePath}/scripts/googletagmanager-worker.js`);
 
-  const noscriptElement = document.createElement('noscript');
-  const iframeElement = document.createElement('iframe');
-  iframeElement.src = 'https://www.googletagmanager.com/ns.html?id=GTM-53N8ZWC';
-  iframeElement.height = '0';
-  iframeElement.width = '0';
-  iframeElement.style.display = 'none';
-  iframeElement.style.visibility = 'hidden';
-  noscriptElement.appendChild(iframeElement);
+  // Send a message to the Web Worker to load the GTM script
+  gtmWorker.postMessage('loadGTMProd');
 
-  document.head.appendChild(gtmScript);
-  document.body.insertAdjacentElement('afterbegin', noscriptElement);
-}
+  // Listen for messages from the Web Worker
+  gtmWorker.onmessage = function (event) {
+    if (event.data.error) {
+      console.error('Error in GTM Web Worker:', event.data.error);
+    } else {
+      // Inject the received GTM script into the page
+      const gtmScript = document.createElement('script');
+      gtmScript.type = 'text/javascript';
+      gtmScript.innerHTML = event.data;
+      document.head.appendChild(gtmScript);
 
-function loadGoogleTagManagerProd() {
-  const gtmScript = document.createElement('script');
-  gtmScript.type = 'text/javascript';
-  gtmScript.innerHTML = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-5ZCB74P');`;
-  gtmScript.async = true;
+      // Create and insert the <noscript> fallback for GTM
+      const noscriptElement = document.createElement('noscript');
+      const iframeElement = document.createElement('iframe');
+      iframeElement.src = 'https://www.googletagmanager.com/ns.html?id=GTM-5ZCB74P';
+      iframeElement.height = '0';
+      iframeElement.width = '0';
+      iframeElement.style.display = 'none';
+      iframeElement.style.visibility = 'hidden';
+      noscriptElement.appendChild(iframeElement);
+      document.body.insertAdjacentElement('afterbegin', noscriptElement);
+    }
+  };
 
-  const noscriptElement = document.createElement('noscript');
-  const iframeElement = document.createElement('iframe');
-  iframeElement.src = 'https://www.googletagmanager.com/ns.html?id=GTM-5ZCB74P';
-  iframeElement.height = '0';
-  iframeElement.width = '0';
-  iframeElement.style.display = 'none';
-  iframeElement.style.visibility = 'hidden';
-  noscriptElement.appendChild(iframeElement);
-
-  document.head.appendChild(gtmScript);
-  document.body.insertAdjacentElement('afterbegin', noscriptElement);
+  // Handle errors from the Web Worker
+  gtmWorker.onerror = function (error) {
+    console.error('Error in Web Worker:', error);
+  };
 }
 
 function loadFullStoryDev() {
@@ -75,12 +88,11 @@ function loadFullStoryProd() {
 }
 
 if (window.location.hostname !== 'localhost') {
-  loadAdobeLaunch();
-  if (isProd()) {
-    loadGoogleTagManagerProd();
+  if (isProductionEnvironment()) {
+    enableGoogleTagManagerProd();
     loadFullStoryProd();
   } else {
-    loadGoogleTagManagerDev();
+    enableGoogleTagManagerDev();
     loadFullStoryDev();
   }
 }

@@ -6,7 +6,6 @@ import {
   decorateSections,
   decorateBlocks,
   decorateTemplateAndTheme,
-  waitForFirstImage,
   loadSection,
   loadSections,
   decorateBlock,
@@ -14,7 +13,7 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
-import { loadPalette, createTag } from '../libs/utils/utils.js';
+import { loadPalette, createTag, isProductionEnvironment } from '../libs/utils/utils.js';
 
 export const PRODUCTION_DOMAINS = ['www.creditacceptance.com'];
 
@@ -399,6 +398,19 @@ function loadDataLayer() {
   window.adobeDataLayer?.push(i);
 }
 
+async function waitForSectionImages(section) {
+  const lcpImages = section.querySelectorAll('img');
+  await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
+    if (!img.complete) {
+      img.setAttribute('loading', 'eager');
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    } else {
+      resolve();
+    }
+  })));
+}
+
 /**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
@@ -411,7 +423,7 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), waitForFirstImage);
+    await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
   }
 
   try {
@@ -422,6 +434,21 @@ async function loadEager(doc) {
   } catch (e) {
     // do nothing
   }
+}
+
+const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
+const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
+
+function loadAdobeLaunch() {
+  const tag = document.createElement('script');
+  tag.type = 'text/javascript';
+  tag.async = true;
+  if (isProductionEnvironment()) {
+    tag.src = PROD_LAUNCH_SCRIPT;
+  } else {
+    tag.src = DEV_LAUNCH_SCRIPT;
+  }
+  document.querySelector('head').append(tag);
 }
 
 /**
@@ -443,6 +470,9 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+  if (window.location.hostname !== 'localhost') {
+    loadAdobeLaunch();
+  }
 }
 
 /**

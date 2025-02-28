@@ -9,6 +9,8 @@ let queryIndexEndpoint;
 let pager = 1;
 let limit = 7;
 let feedItems = [];
+let ctaLabel = 'Read >';
+let pagerLabel = 'Load More';
 
 let categoryType;
 let selectedCategory;
@@ -85,31 +87,39 @@ async function buildCards(block) {
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
-    let imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
-    let tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
-    const desktopImageElement = createOptimizedPicture(item.image, item.imageAlt);
-    let oneImageAvailable = false;
-
-    if (!imageElement || item.mobileImage === '0' || !tabletImageElement || item.tabletImage === '0') {
-      imageElement = desktopImageElement;
-      tabletImageElement = desktopImageElement;
-      oneImageAvailable = true;
+    function getValidSource(...sources) {
+      return sources.find((src) => src && src !== '0');
     }
 
-    imageElement.className = 'card-image-mobile';
-    tabletImageElement.className = 'card-image-tablet';
-    desktopImageElement.className = 'card-image-desktop';
+    function chooseImage(sources) {
+      const validSource = getValidSource(...sources);
+      return validSource ? createOptimizedPicture(validSource, item.imageAlt) : null;
+    }
+
+    const validSources = [item.image, item.mobileImage, item.tabletImage].filter((src) => src && src !== '0');
+
+    const countMap = {
+      1: 'one',
+      2: 'two',
+      3: 'three',
+    };
+    const imagesCount = validSources.length;
+    const countClass = countMap[imagesCount] ?? 'one';
+
+    const desktopImageElement = chooseImage([item.image, item.mobileImage, item.tabletImage]);
+    const imageElement = chooseImage([item.mobileImage, item.image, item.tabletImage]);
+    const tabletImageElement = chooseImage([item.tabletImage, item.mobileImage, item.image]);
 
     const firstCol = createTag(
       'div',
-      { class: oneImageAvailable ? 'one-image-available' : '' },
+      { class: `${countClass}-image-available` },
       [imageElement, tabletImageElement, desktopImageElement],
     );
 
     const heading = createTag('p', { class: 'card-title' }, `<strong>${item.heading}</strong>`);
     const description = createTag('p', { class: 'card-description' }, item.description);
 
-    const link = createTag('a', { href: item.path }, 'Read >');
+    const link = createTag('a', { href: item.path }, ctaLabel);
     const secondaryLink = createTag('em', { class: 'button-container' }, link);
     const linkWrapper = createTag('p', null, secondaryLink);
 
@@ -137,7 +147,7 @@ async function buildCards(block) {
 }
 
 function buildPager(block) {
-  const loadMoreButton = createTag('button', { class: 'load-more' }, 'Load More');
+  const loadMoreButton = createTag('button', { class: 'load-more' }, pagerLabel);
   loadMoreButton.addEventListener('click', async () => {
     await loadMoreFeedItems(block);
     await buildCards(block);
@@ -204,7 +214,7 @@ async function buildCategory(block) {
 export default async function init(block) {
   const { children } = block;
   Array.from(children).forEach((child) => {
-    const key = child.children[0].textContent?.toLowerCase();
+    const key = child.children[0].textContent?.toLowerCase().replace(/\s/g, '-');
     let value;
 
     switch (key) {
@@ -227,6 +237,12 @@ export default async function init(block) {
       case 'date':
         value = child.children[1].textContent.toLowerCase();
         dateAllowed = value === 'true' || value === 'yes';
+        break;
+      case 'cta-label':
+        ctaLabel = child.children[1].textContent.trim();
+        break;
+      case 'pager-label':
+        pagerLabel = child.children[1].textContent.trim();
         break;
       default:
         break;

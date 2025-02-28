@@ -17,10 +17,10 @@ function getKeyValuePairs(block) {
   const people = [];
   let limit = 3;
   let url;
+  let ctaLabel = 'Learn More >';
 
   Array.from(children).forEach((child) => {
-    const key = child.children[0].textContent?.toLowerCase();
-
+    const key = child.children[0].textContent?.toLowerCase().replace(/\s/g, '-');
     let value;
     switch (key) {
       case 'path':
@@ -42,17 +42,21 @@ function getKeyValuePairs(block) {
         limit = parseInt(value, 10);
         break;
 
+      case 'cta-label':
+        ctaLabel = child.children[1].textContent?.trim();
+        break;
+
       default:
         break;
     }
   });
 
   return {
-    link, people, limit, url,
+    link, people, limit, url, ctaLabel,
   };
 }
 
-async function decorateCards(block, { reviews, url }) {
+async function decorateCards(block, { reviews, url, ctaLabel }) {
   const cardBlock = [];
 
   reviews.forEach((item, index) => {
@@ -74,7 +78,7 @@ async function decorateCards(block, { reviews, url }) {
     secondCol.classList.add('url-none');
 
     if (url !== 'false') {
-      const linkElement = createTag('a', { href: rowUrl || url }, 'Read >');
+      const linkElement = createTag('a', { href: rowUrl || url }, ctaLabel);
       const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
       const linkWrapper = createTag('p', null, secondaryLink);
 
@@ -118,7 +122,7 @@ function sortPeople(reviews, people) {
 
 export default async function init(block) {
   const {
-    link, people, limit, url,
+    link, people, limit, url, ctaLabel,
   } = getKeyValuePairs(block);
   const reviews = await ffetch(link.href)
     .filter((row) => {
@@ -132,5 +136,5 @@ export default async function init(block) {
   if (!reviews || !reviews.length) return;
 
   sortPeople(reviews, people);
-  await decorateCards(block, { reviews, url });
+  await decorateCards(block, { reviews, url, ctaLabel });
 }

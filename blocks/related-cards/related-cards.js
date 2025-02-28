@@ -9,8 +9,10 @@ function getKeyValuePairs(block) {
   const { children } = block;
   const links = [];
   let dateAllowed = true;
+  let ctaLabel = 'Read More >';
+
   Array.from(children).forEach((child) => {
-    const key = child.children[0].textContent?.toLowerCase();
+    const key = child.children[0].textContent?.toLowerCase().replace(/\s/g, '-');
 
     let value;
     switch (key) {
@@ -22,16 +24,21 @@ function getKeyValuePairs(block) {
         value = child.children[1].textContent?.toLowerCase();
         dateAllowed = value === 'true' || value === 'yes';
         break;
+
+      case 'cta-label':
+        ctaLabel = child.children[1].textContent?.trim();
+        break;
+
       default:
         break;
     }
   });
 
-  return { links, dateAllowed };
+  return { links, dateAllowed, ctaLabel };
 }
 
 export default async function init(block) {
-  const { links, dateAllowed } = getKeyValuePairs(block);
+  const { links, dateAllowed, ctaLabel } = getKeyValuePairs(block);
 
   const cardBlock = [];
 
@@ -54,7 +61,7 @@ export default async function init(block) {
     const heading = createTag('h4', { class: 'card-title' }, [title]);
     const descriptionElement = createTag('p', { class: 'card-description' }, description);
 
-    const linkElement = createTag('a', { href: link }, 'Read >');
+    const linkElement = createTag('a', { href: link }, ctaLabel);
     const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
     const linkWrapper = createTag('p', null, secondaryLink);
 

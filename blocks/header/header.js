@@ -81,7 +81,7 @@ function formatHeaderElements(fragments) {
       contentWrapper.prepend(userBtn);
       const hamAttr = {
         class: 'btn-mobile btn-ham',
-        'aria-label': 'Open navigation',
+        'aria-label': 'Toggle Main Menu',
         'aria-controls': 'nav-main',
         'aria-expanded': 'false',
         type: 'button',
@@ -104,7 +104,7 @@ function decorateFragment(block, fragment) {
   block.textContent = '';
   const fragSections = [...fragment.children];
   formatHeaderElements(fragSections);
-  const nav = createTag('nav', { id: 'nav' }, fragSections);
+  const nav = createTag('nav', { id: 'nav', 'aria-label': 'main-menu' }, fragSections);
   block.append(nav);
 
   const hamburger = document.querySelector('.btn-ham');
@@ -167,7 +167,7 @@ export default async function decorate(block) {
   const fragment = await loadFragment(navPath);
   decorateFragment(block, fragment);
 
-  if (block.querySelector('.nav-quick-links.nav-section').childNodes.length === 0) {
+  if (block.querySelector('.nav-quick-links.nav-section')?.childNodes?.length === 0) {
     block.classList.add('logo-only');
   }
 }
