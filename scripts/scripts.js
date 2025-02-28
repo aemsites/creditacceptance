@@ -469,9 +469,23 @@ function loadDataLayer() {
   };
   const i = window.cacAnalytics;
   window.adobeDataLayer?.push(
-    i,
     {
-      _experienceplatform: {
+      pageContext: {
+      property: 'www',
+      sub_property: subProperty,
+      sub_sub_property: subSubProperty,
+      page_title: document.title.toLocaleLowerCase(),
+      user_id: '',
+      br_language: navigator.language,
+      web_lang: document.documentElement.lang,
+      campaign_id: '',
+      internal_cmp_id: '',
+      page_url: window.location.href,
+      is_spa: 'true',
+      event: 'cac-page-view',
+      event_type: 'cac-page-view',
+    },
+    _experienceplatform: {
         identification: {
           core: {
             ecid: sessionStorage.getItem("com.adobe.reactor.dataElements.ECID")
