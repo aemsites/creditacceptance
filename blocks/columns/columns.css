@@ -326,6 +326,21 @@
     }
 }
 
+.columns.big-icons .copy:has(.icon-elm) {
+    p, h2, h3, h4, h5, h6 {
+        padding-inline-start: unset;
+        
+        .icon {
+            position: relative;
+            left: unset;
+            top: unset;
+            width: 60px;
+            height: auto;
+        }
+    }
+    
+}
+
 
 /* mobile-tablet only */
 @media screen and (width <= 959px) {
@@ -333,19 +348,19 @@
         display: none;
     }
 
-    .columns.big-icons .copy {
+    .columns.big-icons > div {
       display: grid;
-      grid-template-columns: 24px 1fr;
+      grid-template-columns: 60px 1fr;
       grid-template-rows: auto auto;
-      gap: 0 32px;
+      gap: 0 1.5rem;
     }
   
-    .columns.big-icons .copy > p:first-of-type {
+    .columns.big-icons > div:first-of-type {
       grid-row: span 2;
       align-self: center;
     }
   
-    .columns.big-icons .copy > p:not(:first-of-type) {
+    .columns.big-icons .> div:not(:first-of-type) {
       margin-top: 0;
     }
 }
