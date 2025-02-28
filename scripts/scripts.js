@@ -87,10 +87,10 @@ const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a989
 var launchUrl, datastreamId;
 if (isProductionEnvironment()) {
   launchUrl = PROD_LAUNCH_SCRIPT;
-  datastreamId = "www-cac-PROD-b8b54dcc-8772-467b-b908-d01fff9380a3";
+  datastreamId = "b8b54dcc-8772-467b-b908-d01fff9380a3";
 } else {
   launchUrl = DEV_LAUNCH_SCRIPT;
-  datastreamId = "www-cac-STAGE-a57ce71a-9261-4607-9dc5-b4a09c4a1004";
+  datastreamId = "a57ce71a-9261-4607-9dc5-b4a09c4a1004";
 }
 
 const isConsentGiven = true;
