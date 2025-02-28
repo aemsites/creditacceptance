@@ -121,6 +121,10 @@ img {
   width: auto;
 }
 
+header {
+    min-height: var(--header-height);
+}
+
 header .header,
 footer .footer {
   visibility: hidden;
