@@ -15,7 +15,6 @@ import {
 
 import {
   initMartech,
-  updateUserConsent,
   martechEager,
   martechLazy,
   martechDelayed,
@@ -85,14 +84,21 @@ export function getOrigin() {
 
 const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
 const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
-
+var launchUrl, datastreamId;
+if (isProductionEnvironment()) {
+  launchUrl = PROD_LAUNCH_SCRIPT;
+  datastreamId = "www-cac-PROD-b8b54dcc-8772-467b-b908-d01fff9380a3";
+} else {
+  launchUrl = DEV_LAUNCH_SCRIPT;
+  datastreamId = "www-cac-STAGE-a57ce71a-9261-4607-9dc5-b4a09c4a1004";
+}
 
 const isConsentGiven = true;
 const martechLoadedPromise = initMartech(
   // The WebSDK config
   // Documentation: https://experienceleague.adobe.com/en/docs/experience-platform/web-sdk/commands/configure/overview#configure-js
   {
-    datastreamId: "www-cac-STAGE-a57ce71a-9261-4607-9dc5-b4a09c4a1004",
+    datastreamId: datastreamId,
     orgId: "D18E27A66401CE840A495CD2@AdobeOrg",
     defaultConsent: 'in',
     onBeforeEventSend: (payload) => {
@@ -135,7 +141,7 @@ const martechLoadedPromise = initMartech(
   },
   // The library config
   {
-    launchUrls: [DEV_LAUNCH_SCRIPT],
+    launchUrls: [launchUrl],
     personalization: !!getMetadata('target') && isConsentGiven,
   },
 );
