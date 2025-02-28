@@ -6,7 +6,6 @@ import {
   decorateSections,
   decorateBlocks,
   decorateTemplateAndTheme,
-  waitForFirstImage,
   loadSection,
   loadSections,
   decorateBlock,
@@ -399,6 +398,19 @@ function loadDataLayer() {
   window.adobeDataLayer?.push(i);
 }
 
+async function waitForSectionImages(section) {
+  const lcpImages = section.querySelectorAll('img');
+  await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
+    if (!img.complete) {
+      img.setAttribute('loading', 'eager');
+      img.addEventListener('load', resolve, { once: true });
+      img.addEventListener('error', resolve, { once: true });
+    } else {
+      resolve();
+    }
+  })));
+}
+
 /**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
@@ -411,7 +423,7 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section'), waitForFirstImage);
+    await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
   }
 
   try {

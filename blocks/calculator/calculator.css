@@ -173,6 +173,7 @@
     position: absolute;
     top: 74px;
     left: 24px;
+    margin: 0;
     font-size: 74px;
     color: var(--soft-white);
     font-family: var(--heading-font-family);
