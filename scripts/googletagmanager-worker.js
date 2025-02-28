@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 // Listen for messages from the main thread
 onmessage = function (event) {
   if (event.data === 'loadGTMDev') {

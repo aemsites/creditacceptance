@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-console */
 
 // delay loading of GTM script until after the page has loaded
