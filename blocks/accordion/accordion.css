@@ -98,6 +98,11 @@
     transform: translateY(-50%) rotate(135deg);
 }
 
+
+.accordion.arrow details summary span.icon {
+    vertical-align: baseline;
+}
+
 .accordion details .accordion-item-body {
     padding-block: 0;
     padding-inline: 52px 16px;
