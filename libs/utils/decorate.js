@@ -133,7 +133,8 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
 export function decorateGridSection(section, meta) {
   section.classList.add('grid-section');
   const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
-
+  let rowCount = 0;
+  let autoGrid = false;
   Array.from(section.querySelectorAll('.section > div'))
     .filter((row) => {
       const firstCol = row.querySelector(':scope > div');
@@ -144,7 +145,15 @@ export function decorateGridSection(section, meta) {
       if (gridValues[i]) {
         row.classList.add(gridValues[i]);
       }
+      // if single span-auto row, add span-auto class to all rows
+      if (gridValues[0] === 'span-auto' && gridValues.length === 1) {
+        row.classList.add('span-auto');
+        autoGrid = true;
+      }
+      rowCount += 1;
     });
+
+  if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
 }
 
 export function decorateGridSectionGroups(section, meta) {
