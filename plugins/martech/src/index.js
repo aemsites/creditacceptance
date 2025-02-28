@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable */
 /**
  * Default configuration for the library.
  * @typedef {Object} MartechConfig

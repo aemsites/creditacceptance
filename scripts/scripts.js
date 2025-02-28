@@ -1,3 +1,11 @@
+/* eslint-disable import/no-relative-packages */
+/* eslint-disable no-underscore-dangle */
+import {
+  initMartech,
+  martechEager,
+  martechLazy,
+  martechDelayed,
+} from '../plugins/martech/src/index.js';
 import {
   buildBlock,
   loadHeader,
@@ -12,13 +20,6 @@ import {
   waitForFirstImage,
   loadCSS,
 } from './aem.js';
-
-import {
-  initMartech,
-  martechEager,
-  martechLazy,
-  martechDelayed,
-} from '../plugins/martech/src/index.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
 import { loadPalette, createTag, isProductionEnvironment } from '../libs/utils/utils.js';
@@ -82,15 +83,30 @@ export function getOrigin() {
   return location.href === 'about:srcdoc' ? window.parent.location.origin : location.origin;
 }
 
+/**
+ * Retrieves the content of metadata tags.
+ * @param {string} name The metadata name (or property)
+ * @param {Document} doc Document object to query for metadata. Defaults to the window's document
+ * @returns {string} The metadata value(s)
+ */
+function getMetadata(name, doc = document) {
+  const attr = name && name.includes(':') ? 'property' : 'name';
+  const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)]
+    .map((m) => m.content)
+    .join(', ');
+  return meta || '';
+}
+
 const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
 const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
-var launchUrl, datastreamId;
+let launchUrl; let
+  datastreamId;
 if (isProductionEnvironment()) {
   launchUrl = PROD_LAUNCH_SCRIPT;
-  datastreamId = "b8b54dcc-8772-467b-b908-d01fff9380a3";
+  datastreamId = 'b8b54dcc-8772-467b-b908-d01fff9380a3';
 } else {
   launchUrl = DEV_LAUNCH_SCRIPT;
-  datastreamId = "a57ce71a-9261-4607-9dc5-b4a09c4a1004";
+  datastreamId = 'a57ce71a-9261-4607-9dc5-b4a09c4a1004';
 }
 
 const isConsentGiven = true;
@@ -98,8 +114,8 @@ const martechLoadedPromise = initMartech(
   // The WebSDK config
   // Documentation: https://experienceleague.adobe.com/en/docs/experience-platform/web-sdk/commands/configure/overview#configure-js
   {
-    datastreamId: datastreamId,
-    orgId: "D18E27A66401CE840A495CD2@AdobeOrg",
+    datastreamId,
+    orgId: 'D18E27A66401CE840A495CD2@AdobeOrg',
     defaultConsent: 'in',
     onBeforeEventSend: (payload) => {
       // set custom Target params
@@ -145,21 +161,6 @@ const martechLoadedPromise = initMartech(
     personalization: !!getMetadata('target') && isConsentGiven,
   },
 );
-
-
-/**
- * Retrieves the content of metadata tags.
- * @param {string} name The metadata name (or property)
- * @param {Document} doc Document object to query for metadata. Defaults to the window's document
- * @returns {string} The metadata value(s)
- */
-function getMetadata(name, doc = document) {
-  const attr = name && name.includes(':') ? 'property' : 'name';
-  const meta = [...doc.head.querySelectorAll(`meta[${attr}="${name}"]`)]
-    .map((m) => m.content)
-    .join(', ');
-  return meta || '';
-}
 
 /**
  * Returns the true of the current page in the browser.mac
@@ -467,38 +468,23 @@ function loadDataLayer() {
     event: 'cac-page-view',
     event_type: 'cac-page-view',
   };
-  const i = window.cacAnalytics;
   window.adobeDataLayer?.push(
     {
-      pageContext: {
-      property: 'www',
-      sub_property: subProperty,
-      sub_sub_property: subSubProperty,
-      page_title: document.title.toLocaleLowerCase(),
-      user_id: '',
-      br_language: navigator.language,
-      web_lang: document.documentElement.lang,
-      campaign_id: '',
-      internal_cmp_id: '',
-      page_url: window.location.href,
-      is_spa: 'true',
-      event: 'cac-page-view',
-      event_type: 'cac-page-view',
-    },
-    _experienceplatform: {
+      pageContext: window.cacAnalytics,
+      _experienceplatform: {
         identification: {
           core: {
-            ecid: sessionStorage.getItem("com.adobe.reactor.dataElements.ECID")
-          }
-        }
+            ecid: sessionStorage.getItem('com.adobe.reactor.dataElements.ECID'),
+          },
+        },
       },
       web: {
         webPageDetails: {
           name: document.title,
-          URL: window.location.href
-        }
-      }
-    }
+          URL: window.location.href,
+        },
+      },
+    },
   );
 }
 
@@ -529,7 +515,7 @@ async function loadEager(doc) {
     document.body.classList.add('appear');
     await Promise.all([
       martechLoadedPromise.then(martechEager),
-      loadSection(main.querySelector('.section'), waitForFirstImage)
+      loadSection(main.querySelector('.section'), waitForFirstImage),
     ]);
     if (main.querySelector('.section.marquee-container')) {
       await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
