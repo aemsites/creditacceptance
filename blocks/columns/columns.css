@@ -360,7 +360,7 @@
       align-self: center;
     }
   
-    .columns.big-icons .> div:not(:first-of-type) {
+    .columns.big-icons > div:not(:first-of-type) {
       margin-top: 0;
     }
 }
