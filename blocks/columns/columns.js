@@ -79,6 +79,10 @@ function decorateColIconList(col) {
   col.append(colContentWrapper);
 }
 
+function applyStatsClasses(block) {
+  block.classList.add('stats');
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   // setup media columns
@@ -108,4 +112,5 @@ export default function decorate(block) {
   decorateFlexRows(block);
   if (block.classList.contains('media-unbound')) applyMediaHeight(block);
   if (block.classList.contains('calculation')) decorateColumnsCalculation(block);
+  if ([...block.classList].some((cls) => cls.startsWith('stats-'))) applyStatsClasses(block);
 }
