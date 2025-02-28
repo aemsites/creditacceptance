@@ -572,7 +572,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   &.gap-0 { gap: 0; }
   &.gap-2 { gap: 2rem; }
   &.gap-3 { gap: 3rem; }
-  &.gap-4 { gap: 0; }
+  &.gap-4 { gap: 4rem; }
 }
 
 .section.grid-section > .default-content-wrapper {
@@ -630,6 +630,16 @@ header {
     margin: 0 auto;
   }
 
+  .block .background .tablet-only,
+  .block .background .tablet-only.desktop-only {
+    display: block;
+  }
+
+  .block .background .mobile-only,
+  .block .background .desktop-only {
+      display: none;
+  }
+
   :root {  --container-width: 540px; }
 }
 
@@ -677,7 +687,6 @@ header {
         .span-12 { grid-column: span 12; }
         .span-auto { grid-column: initial; }
 
-
         &.grid-template-columns-1-auto { grid-template-columns: repeat(1, auto); }
         &.grid-template-columns-2-auto { grid-template-columns: repeat(2, auto); }
         &.grid-template-columns-3-auto { grid-template-columns: repeat(3, auto); }
@@ -691,6 +700,7 @@ header {
         &.grid-template-columns-11-auto { grid-template-columns: repeat(11, auto); }
         &.grid-template-columns-12-auto { grid-template-columns: repeat(12, auto); }
     }
+    
 }
 
 @media screen and (width >= 1200px) {
