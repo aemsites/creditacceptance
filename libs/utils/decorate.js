@@ -205,7 +205,7 @@ export function initSlider(block, slides, container = null) {
   slides.forEach((slide, i) => {
     slide.id = `slide-${i}`;
     slide.classList.add('slide');
-    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}` });
+    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}`, 'aria-label': `Slide ${i + 1}` }, null);
     pagination.append(dot);
 
     // scroll into view on click
