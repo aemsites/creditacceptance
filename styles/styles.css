@@ -564,19 +564,6 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   grid-template-columns: 1fr;
   gap: 1rem;
 
-  .span-1 { grid-column: span 1; }
-  .span-2 { grid-column: span 2; }
-  .span-3 { grid-column: span 3; }
-  .span-4 { grid-column: span 4; }
-  .span-5 { grid-column: span 5; }
-  .span-6 { grid-column: span 6; }
-  .span-7 { grid-column: span 7; }
-  .span-8 { grid-column: span 8; }
-  .span-9 { grid-column: span 9; }
-  .span-10 { grid-column: span 10; }
-  .span-11 { grid-column: span 11; }
-  .span-12 { grid-column: span 12; }
-
   /* helpers */
   &.grid-justify-items-center {
       justify-items: center;
@@ -585,7 +572,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   &.gap-0 { gap: 0; }
   &.gap-2 { gap: 2rem; }
   &.gap-3 { gap: 3rem; }
-  &.gap-4 { gap: 0; }
+  &.gap-4 { gap: 4rem; }
 }
 
 .section.grid-section > .default-content-wrapper {
@@ -616,6 +603,10 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   border: 1px dotted var(--credit-violet);
 }
 
+header {
+  min-height: var(--header-height);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth
@@ -637,6 +628,16 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
     padding-left: 0;
     padding-right: 0;
     margin: 0 auto;
+  }
+
+  .block .background .tablet-only,
+  .block .background .tablet-only.desktop-only {
+    display: block;
+  }
+
+  .block .background .mobile-only,
+  .block .background .desktop-only {
+      display: none;
   }
 
   :root {  --container-width: 540px; }
@@ -671,7 +672,21 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 
     .grid-section {
         grid-template-columns: repeat(12, 1fr);
+        
+        .span-1 { grid-column: span 1; }
+        .span-2 { grid-column: span 2; }
+        .span-3 { grid-column: span 3; }
+        .span-4 { grid-column: span 4; }
+        .span-5 { grid-column: span 5; }
+        .span-6 { grid-column: span 6; }
+        .span-7 { grid-column: span 7; }
+        .span-8 { grid-column: span 8; }
+        .span-9 { grid-column: span 9; }
+        .span-10 { grid-column: span 10; }
+        .span-11 { grid-column: span 11; }
+        .span-12 { grid-column: span 12; }
     }
+    
 }
 
 @media screen and (width >= 1200px) {

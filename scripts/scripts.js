@@ -423,7 +423,9 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
+    if (main.querySelector('.section.marquee-container')) {
+      await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
+    }
   }
 
   try {
