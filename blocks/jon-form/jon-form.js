@@ -16,7 +16,7 @@ function preconnectOrigins(orgins) {
 }
 
 export default function decorate(block) {
-  let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
+  let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js';
   if (isProductionEnvironment()) {
     script = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
     window.jonEnv = 'prod';
@@ -26,12 +26,19 @@ export default function decorate(block) {
 
   preconnectOrigins(ORIGINS);
 
-  window.addEventListener('load', () => {
+  if (document.readyState === 'complete') {
     setTimeout(() => {
       loadScript('https://www.google.com/recaptcha/api.js', { async: true })
         .then(() => loadScript(script, { async: true }));
     }, DELAY);
-  });
+  } else {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        loadScript('https://www.google.com/recaptcha/api.js', { async: true })
+          .then(() => loadScript(script, { async: true }));
+      }, DELAY);
+    });
+  }
 
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
