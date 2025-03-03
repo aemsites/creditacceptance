@@ -76,10 +76,12 @@ function decoratePictures(cell) {
 export default function decorate(block) {
   const isAnimated = block.classList.contains('animation') && !block.classList.contains('animation-none');
   const ul = createTag('ul');
+  const resourcesType = block.classList.contains('resources');
   [...block.children].forEach((row) => {
     const li = createTag('li');
     if (isAnimated) li.classList.add('animation-scale');
     const cardWrapper = createTag('div', { class: 'card-wrapper' });
+    let cardIntro = null;
     while (row.firstElementChild) cardWrapper.append(row.firstElementChild);
     [...cardWrapper.children].forEach((div) => {
       if (div.querySelector('picture')) {
@@ -87,9 +89,15 @@ export default function decorate(block) {
         decoratePictures(div);
       } else {
         div.className = 'cards-card-body';
-        const cardTitle = div.querySelector('h2, h3, h4, h5, h6');
-        cardTitle?.classList.add('card-title');
-
+        const cardheaders = div.querySelectorAll('h2, h3, h4, h5, h6');
+        cardheaders.forEach((header, i) => {
+          if (cardheaders.length > 1 && i === 0 && resourcesType) {
+            cardIntro = header;
+            cardIntro.classList.add('card-intro');
+          } else {
+            header?.classList.add('card-title');
+          }
+        });
         const paragraphs = div.querySelectorAll('p');
         decorateDate(paragraphs);
 
@@ -104,6 +112,7 @@ export default function decorate(block) {
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
+    if (cardIntro) li.append(cardIntro);
     li.append(cardWrapper);
     ul.append(li);
   });

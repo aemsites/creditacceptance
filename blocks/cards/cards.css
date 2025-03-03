@@ -318,6 +318,11 @@
      flex-shrink: 0;
  }
 
+ .cards.resources>ul>li .card-intro {
+    padding: 48px 0;
+    font-size: 32px;
+}
+
  .cards.resources.center .cards-card-body h2,
  .cards.resources.center .cards-card-body h3,
  .cards.resources.center .cards-card-body h4,
