@@ -43,24 +43,24 @@ export function decorateButtons(el) {
   if (buttons.length === 0) return;
   const buttonTypeMap = { STRONG: 'primary', EM: 'secondary', A: 'link' };
   buttons.forEach((button) => {
-    let target = button;
     const parent = button.parentElement;
     const buttonType = buttonTypeMap[parent.nodeName] || 'primary';
-    if (button.nodeName === 'STRONG') {
-      target = parent;
-    } else {
-      parent.insertAdjacentElement('afterend', button);
-      parent.remove();
-    }
-    target.classList.add('button', buttonType);
-    const customClasses = target.textContent && [...target.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
+    button.classList.add('button', buttonType);
+
+    const customClasses = button.textContent && [...button.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
     if (customClasses) {
       customClasses.forEach((match) => {
-        target.textContent = target.textContent.replace(match[0], '');
-        target.classList.add(match[1]);
+        button.textContent = button.textContent.replace(match[0], '');
+        button.classList.add(match[1]);
       });
     }
-    button.parentElement?.classList.add('button-container');
+  });
+  // remove wrapping tags and add button-container class to parent p
+  el.querySelectorAll('p > strong, p > em').forEach((btn) => {
+    const parentP = btn.parentElement;
+    btn.querySelectorAll('a').forEach((a) => parentP.appendChild(a));
+    btn.remove();
+    parentP.classList.add('button-container');
   });
 }
 
