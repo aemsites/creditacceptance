@@ -395,7 +395,7 @@ button.secondary {
   border-radius: 19px;
   background-color: var(--very-light-gray);
   color: var(--btn-secondary-border);
-  padding: .3rem 2rem;
+  padding: .4rem 2rem 0;
   transition: box-shadow 0.2s ease-in-out, color 0.2s ease-in-out; /* Add transition for smooth effect */
 }
 
@@ -408,6 +408,12 @@ button.secondary:hover {
 }
 
 /* Buttons Container */
+.button-container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: .75rem;
+}
+
 .buttons-container {
   display: flex;
   flex-flow: row wrap;
