@@ -1,7 +1,6 @@
 .picture {
     padding-inline: 12px;
     margin-block: 30px;
-    margin-inline: 1rem;
 }
 
 .picture img {
@@ -16,10 +15,6 @@
 }
 
 @media screen and (width >= 576px) {
-    .picture {
-        margin-inline: 0;
-    }
-
     .picture .image-mobile {
         display: none;
     } 
