@@ -1,7 +1,7 @@
 import { loadScript } from '../../scripts/aem.js';
 import { isProductionEnvironment } from '../../libs/utils/utils.js';
 
-export default async function decorate(block) {
+export default function decorate(block) {
   let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
   if (isProductionEnvironment()) {
     script = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
@@ -9,6 +9,10 @@ export default async function decorate(block) {
   } else {
     window.jonEnv = 'test';
   }
+
+  loadScript(script, { async: true });
+  loadScript('https://www.google.com/recaptcha/api.js', { async: true });
+
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
 
@@ -34,8 +38,7 @@ export default async function decorate(block) {
   const loadingAnimation = document.createElement('div');
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
-  await loadScript('https://www.google.com/recaptcha/api.js', { async: true });
-  await loadScript(script, { async: true });
+
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
