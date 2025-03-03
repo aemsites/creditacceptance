@@ -81,20 +81,13 @@ export default function decorate(block) {
     if (isAnimated) li.classList.add('animation-scale');
     const cardWrapper = createTag('div', { class: 'card-wrapper' });
     while (row.firstElementChild) cardWrapper.append(row.firstElementChild);
-    let heading = null;
     [...cardWrapper.children].forEach((div) => {
       if (div.querySelector('picture')) {
         div.className = 'cards-card-image';
         decoratePictures(div);
       } else {
         div.className = 'cards-card-body';
-        const h3 = div.querySelector('h3');
-        if (h3) {
-          heading = h3;
-          div.removeChild(h3);
-        }
-
-        const cardTitle = div.querySelector('h4, h5, h6');
+        const cardTitle = div.querySelector('h2, h3, h4, h5, h6');
         cardTitle?.classList.add('card-title');
 
         const paragraphs = div.querySelectorAll('p');
@@ -111,7 +104,6 @@ export default function decorate(block) {
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
-    if (heading) li.append(heading);
     li.append(cardWrapper);
     ul.append(li);
   });
