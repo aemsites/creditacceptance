@@ -395,7 +395,7 @@ button.secondary {
   border-radius: 19px;
   background-color: var(--very-light-gray);
   color: var(--btn-secondary-border);
-  padding: .4rem 2rem 0;
+  padding: .3rem 2rem;
   transition: box-shadow 0.2s ease-in-out, color 0.2s ease-in-out; /* Add transition for smooth effect */
 }
 
