@@ -1,5 +1,4 @@
 /* eslint-disable  */
-import { addPrefetch } from "../../../libs/utils/utils";
 
 /**
  * adapted from https://github.com/luwes/lite-vimeo-embed
@@ -114,6 +113,21 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
 if (globalThis.customElements && !globalThis.customElements.get('lite-vimeo')) {
   globalThis.customElements.define('lite-vimeo', LiteVimeo);
 }
+
+/**
+ * Add a <link rel={preload | preconnect} ...> to the head
+ */
+function addPrefetch(kind, url, as) {
+  const linkElem = document.createElement('link');
+  linkElem.rel = kind;
+  linkElem.href = url;
+  if (as) {
+    linkElem.as = as;
+  }
+  linkElem.crossorigin = true;
+  document.head.append(linkElem);
+}
+
 
 /**
  * Get the thumbnail dimensions to use for a given player size.
