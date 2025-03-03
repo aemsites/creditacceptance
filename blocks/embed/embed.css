@@ -161,10 +161,13 @@ width: 1px;
   margin-bottom: 4rem;
   text-align: left;
 
-  h5 {
+  h3 {
     margin-top: 2rem;
     padding-bottom: 15px;
     margin-left: 10px;
+    font-size: var(--heading-font-size-s);
+    color: var(--credit-indigo);
+    font-family: var(--ff-acceptance-regular);
   }
 
   p {
