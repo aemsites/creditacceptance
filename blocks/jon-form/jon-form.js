@@ -1,5 +1,17 @@
 import { loadScript } from '../../scripts/aem.js';
-import { isProductionEnvironment } from '../../libs/utils/utils.js';
+import { isProductionEnvironment, addPrefetch } from '../../libs/utils/utils.js';
+
+const ORIGINS = [
+  'https://www.google.com',
+  'https://wwwbucket-join-network.static.creditacceptance.com',
+  'https://s3.us-east-2.amazonaws.com',
+];
+
+function preconnectOrigins(orgins) {
+  orgins.forEach((origin) => {
+    addPrefetch('preconnect', origin);
+  });
+}
 
 export default function decorate(block) {
   let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
@@ -10,9 +22,9 @@ export default function decorate(block) {
     window.jonEnv = 'test';
   }
 
-  loadScript(script, { async: true });
-  loadScript('https://www.google.com/recaptcha/api.js', { async: true });
+  preconnectOrigins(ORIGINS);
 
+  loadScript('https://www.google.com/recaptcha/api.js', { async: true }).then(() => loadScript(script, { async: true }));
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
 

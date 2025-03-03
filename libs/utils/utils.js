@@ -73,3 +73,17 @@ export function addStyles(path) {
 export function isProductionEnvironment() {
   return (/main--.*\.aem\.live$/.test(window.location.host) || window.location.host.endsWith('creditacceptance.com'));
 }
+
+/**
+ * Add a <link rel={preload | preconnect} ...> to the head
+ */
+export function addPrefetch(kind, url, as) {
+  const linkElem = document.createElement('link');
+  linkElem.rel = kind;
+  linkElem.href = url;
+  if (as) {
+    linkElem.as = as;
+  }
+  linkElem.crossorigin = true;
+  document.head.append(linkElem);
+}
