@@ -128,6 +128,7 @@ function addPrefetch(kind, url, as) {
   document.head.append(linkElem);
 }
 
+
 /**
  * Get the thumbnail dimensions to use for a given player size.
  *
