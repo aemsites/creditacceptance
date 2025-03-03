@@ -32,10 +32,10 @@ export default function decorate(block) {
     }, DELAY);
   }
 
-  if (document.readyState === 'complete') {
-    loadDelayedScripts();
-  } else {
+  if (document.readyState !== 'complete') {
     window.addEventListener('load', () => loadDelayedScripts());
+  } else {
+    loadDelayedScripts();
   }
 
   const webContentJson = {};
