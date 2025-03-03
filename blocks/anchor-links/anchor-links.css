@@ -36,10 +36,3 @@
         }
     }
 }
-
-
-@media screen and (width >= 960px) {
-    .anchor-links div > p {
-        justify-content: center; 
-    }
-}
