@@ -24,7 +24,9 @@ export default function decorate(block) {
 
   preconnectOrigins(ORIGINS);
 
-  loadScript('https://www.google.com/recaptcha/api.js', { async: true }).then(() => loadScript(script, { async: true }));
+  loadScript('https://www.google.com/recaptcha/api.js', { defer: true })
+    .then(() => loadScript(script, { defer: true }));
+
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
 
@@ -54,6 +56,8 @@ export default function decorate(block) {
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
+  const button = document.createElement('button');
+  block.prepend(button);
   formComponent.addEventListener('successData', () => {
     window.location.href = '/dealers/join-our-network/confirmation-thank-you';
   });
