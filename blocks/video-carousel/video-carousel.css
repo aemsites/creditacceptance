@@ -10,15 +10,13 @@
     text-decoration: none;
 }
 
+.video-carousel h2,
 .video-carousel h4,
 .video-carousel h5,
 .video-carousel h3 {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
-}
-
-.video-carousel > h4 {
     text-align: left;
 }
 
@@ -59,7 +57,7 @@
         max-height: 530px;
     }
 
-    .video-carousel > h4, .video-carousel > p {
+    .video-carousel > h4, .video-carousel > h3, .video-carousel > h5, .video-carousel > h2, .video-carousel > p {
         display: none;
     }
 }

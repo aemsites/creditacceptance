@@ -46,10 +46,10 @@
   /* buttons */
   --btn-primary-bg: oklch(83% 0.17 81.97deg / 100%);
   --btn-primary-bg-hover: oklch(73% 0.14 81.97deg);
-  --btn-primary-blue-bg: oklch(91% 0.11 233.5deg);
-  --btn-primary-blue-bg-hover: oklch(84% 0.11 233.5deg);
-  --btn-secondary-border: oklch(38% 0.06 254.57deg / 100%);
-  --btn-secondary-border-hover: oklch(27% 0.05 238.22deg / 100%);
+  --btn-primary-blue-bg: oklch(92% 0.05 217deg);
+  --btn-primary-blue-bg-hover: oklch(88% 0.1 217deg);
+  --btn-secondary-border: oklch(38% 0.06 254.57deg);
+  --btn-secondary-border-hover: oklch(27% 0.05 238.22deg);
 
   /* borders */
   --bs-border-color: #dee2e6;
@@ -408,6 +408,12 @@ button.secondary:hover {
 }
 
 /* Buttons Container */
+.button-container {
+  display: flex;
+  flex-flow: row wrap;
+  gap: .75rem;
+}
+
 .buttons-container {
   display: flex;
   flex-flow: row wrap;
@@ -672,7 +678,7 @@ header {
 
     .grid-section {
         grid-template-columns: repeat(12, 1fr);
-        
+
         .span-1 { grid-column: span 1; }
         .span-2 { grid-column: span 2; }
         .span-3 { grid-column: span 3; }
@@ -685,6 +691,20 @@ header {
         .span-10 { grid-column: span 10; }
         .span-11 { grid-column: span 11; }
         .span-12 { grid-column: span 12; }
+        .span-auto { grid-column: initial; }
+
+        &.grid-template-columns-1-auto { grid-template-columns: repeat(1, auto); }
+        &.grid-template-columns-2-auto { grid-template-columns: repeat(2, auto); }
+        &.grid-template-columns-3-auto { grid-template-columns: repeat(3, auto); }
+        &.grid-template-columns-4-auto { grid-template-columns: repeat(4, auto); }
+        &.grid-template-columns-5-auto { grid-template-columns: repeat(5, auto); }
+        &.grid-template-columns-6-auto { grid-template-columns: repeat(6, auto); }
+        &.grid-template-columns-7-auto { grid-template-columns: repeat(7, auto); }
+        &.grid-template-columns-8-auto { grid-template-columns: repeat(8, auto); }
+        &.grid-template-columns-9-auto { grid-template-columns: repeat(9, auto); }
+        &.grid-template-columns-10-auto { grid-template-columns: repeat(10, auto); }
+        &.grid-template-columns-11-auto { grid-template-columns: repeat(11, auto); }
+        &.grid-template-columns-12-auto { grid-template-columns: repeat(12, auto); }
     }
     
 }

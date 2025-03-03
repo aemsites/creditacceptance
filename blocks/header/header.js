@@ -95,6 +95,8 @@ function formatHeaderElements(fragments) {
     } else {
       section.classList.add('nav-section');
       section.setAttribute('aria-expanded', 'false');
+      section.setAttribute('role', 'button');
+      section.setAttribute('aria-controls', 'menu');
     }
   });
   decorateMainMenu(fragments[2]);

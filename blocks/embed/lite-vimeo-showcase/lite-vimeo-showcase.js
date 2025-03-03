@@ -37,11 +37,11 @@ class LiteVimeoShowcase extends HTMLElement {
     }
     this.style.backgroundImage = `url("${imageUrl}_${width}x${height}")`;
     if (showcaseUrl) {
-      const h5 = document.createElement('h5');
-      h5.classList.add('video-title');
+      const h3 = document.createElement('h3');
+      h3.classList.add('video-title');
       const p = document.createElement('p');
       p.classList.add('video-description');
-      this.parentElement.append(h5);
+      this.parentElement.append(h3);
       this.parentElement.append(p);
       let playBtnEl = this.querySelector('.ltv-playbtn');
       // A label for the button takes priority over a [playlabel] attribute on the custom-element
@@ -107,14 +107,14 @@ class LiteVimeoShowcase extends HTMLElement {
           fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`)
             .then((response) => response.json())
             .then((data) => {
-                const existingH5 = this.parentElement.querySelector('h5');
+                const existingh3 = this.parentElement.querySelector('h3');
                 const existingP = this.parentElement.querySelector('p');
-                if (existingH5) existingH5.remove();
+                if (existingh3) existingh3.remove();
                 if (existingP) existingP.remove();
-                const h5 = document.createElement('h5');
-                h5.innerHTML = data.title;
-                this.parentElement.append(h5);
-                h5.classList.add('video-title');
+                const h3 = document.createElement('h3');
+                h3.innerHTML = data.title;
+                this.parentElement.append(h3);
+                h3.classList.add('video-title');
                 const p = document.createElement('p');
                 p.innerHTML = data.description;
                 p.classList.add('video-description');

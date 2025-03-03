@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable func-names */
 
 // delay loading of GTM script until after the page has loaded
 import { isProductionEnvironment } from '../libs/utils/utils.js';
