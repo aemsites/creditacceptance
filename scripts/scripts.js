@@ -403,6 +403,12 @@ async function waitForSectionImages(section) {
   await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
     if (!img.complete) {
       img.setAttribute('loading', 'eager');
+      //preload image before resolving
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = img.src;
+      document.head.appendChild(link);
       img.addEventListener('load', resolve, { once: true });
       img.addEventListener('error', resolve, { once: true });
     } else {
