@@ -48,8 +48,8 @@
   --btn-primary-bg-hover: oklch(73% 0.14 81.97deg);
   --btn-primary-blue-bg: oklch(92% 0.05 217deg);
   --btn-primary-blue-bg-hover: oklch(88% 0.1 217deg);
-  --btn-secondary-border: oklch(92% 0.05 217deg);
-  --btn-secondary-border-hover: oklch(88% 0.1 217deg);
+  --btn-secondary-border: oklch(38% 0.06 254.57deg);
+  --btn-secondary-border-hover: oklch(27% 0.05 238.22deg);
 
   /* borders */
   --bs-border-color: #dee2e6;
