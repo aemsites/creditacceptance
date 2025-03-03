@@ -25,17 +25,19 @@ export default function decorate(block) {
   }
 
   preconnectOrigins(ORIGINS);
-  function loadDelayedScripts() {
+
+  if (document.readyState === 'complete') {
     setTimeout(() => {
       loadScript('https://www.google.com/recaptcha/api.js', { async: true })
         .then(() => loadScript(script, { async: true }));
     }, DELAY);
-  }
-
-  if (document.readyState !== 'complete') {
-    window.addEventListener('load', () => loadDelayedScripts());
   } else {
-    loadDelayedScripts();
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        loadScript('https://www.google.com/recaptcha/api.js', { async: true })
+          .then(() => loadScript(script, { async: true }));
+      }, DELAY);
+    });
   }
 
   const webContentJson = {};
