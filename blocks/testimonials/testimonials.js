@@ -17,7 +17,7 @@ function getKeyValuePairs(block) {
   const people = [];
   let limit = 3;
   let url;
-  let ctaLabel = 'Learn More >';
+  let ctaLabel = 'More >';
 
   Array.from(children).forEach((child) => {
     const key = child.children[0].textContent?.toLowerCase().replace(/\s/g, '-');
