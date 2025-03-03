@@ -16,7 +16,7 @@ function preconnectOrigins(orgins) {
 }
 
 export default function decorate(block) {
-  let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js';
+  let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
   if (isProductionEnvironment()) {
     script = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
     window.jonEnv = 'prod';
@@ -26,14 +26,12 @@ export default function decorate(block) {
 
   preconnectOrigins(ORIGINS);
 
-  function loadScripts() {
-    loadScript('https://www.google.com/recaptcha/api.js', { async: true })
-      .then(() => loadScript(script, { async: true }));
-  }
-
-  function loadDelayedScripts() {
-    setTimeout(loadScripts, DELAY);
-  }
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      loadScript('https://www.google.com/recaptcha/api.js', { async: true })
+        .then(() => loadScript(script, { async: true }));
+    }, DELAY);
+  });
 
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
@@ -59,12 +57,6 @@ export default function decorate(block) {
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
-
-  if (document.readyState === 'complete') {
-    loadDelayedScripts();
-  } else {
-    window.addEventListener('load', loadDelayedScripts);
-  }
 
   // Add loading animation
   const loadingAnimation = document.createElement('div');
