@@ -403,6 +403,7 @@ async function waitForSectionImages(section) {
   await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
     if (!img.complete) {
       img.setAttribute('loading', 'eager');
+      img.setAttribute('fetchpriority', 'high');
       img.addEventListener('load', resolve, { once: true });
       img.addEventListener('error', resolve, { once: true });
     } else {
