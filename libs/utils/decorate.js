@@ -152,7 +152,6 @@ export function decorateGridSection(section, meta) {
       }
       rowCount += 1;
     });
-
   if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
 }
 
@@ -171,7 +170,9 @@ export function decorateGridSectionGroups(section, meta) {
       currentDiv.append(child);
     }
   });
-  const gridValues = meta.split(',');
+  const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
+  let rowCount = 0;
+  let autoGrid = false;
   section.classList.add('grid-section');
   const gridRows = [...sectionRows];
   gridRows.forEach((row, i) => {
@@ -182,11 +183,17 @@ export function decorateGridSectionGroups(section, meta) {
         child.replaceWith(...child.childNodes);
       }
     });
-    const spanVal = gridValues[i].trim();
-    if (spanVal) row.classList.add(spanVal.toLowerCase());
+    if (gridValues[i]) row.classList.add(gridValues[i]);
+    // if single span-auto row, add span-auto class to all rows
+    if (gridValues[0] === 'span-auto' && gridValues.length === 1) {
+      row.classList.add('span-auto');
+      autoGrid = true;
+    }
+    rowCount += 1;
   });
 
   section.append(...gridRows);
+  if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
 }
 
 function updateActiveSlide(steps, pagination) {
