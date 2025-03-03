@@ -7,6 +7,8 @@ const ORIGINS = [
   'https://s3.us-east-2.amazonaws.com',
 ];
 
+const DELAY = 1000; // ms
+
 function preconnectOrigins(orgins) {
   orgins.forEach((origin) => {
     addPrefetch('preconnect', origin);
@@ -28,7 +30,7 @@ export default function decorate(block) {
     setTimeout(() => {
       loadScript('https://www.google.com/recaptcha/api.js', { async: true })
         .then(() => loadScript(script, { async: true }));
-    }, 1000);
+    }, DELAY);
   });
 
   const webContentJson = {};
@@ -52,14 +54,18 @@ export default function decorate(block) {
   block.style.minHeight = '1000px';
   block.style.position = 'relative';
 
+  const formComponent = document.createElement('join-our-network-form');
+  formComponent.webContentJson = webContentJson;
+  block.replaceChildren(formComponent);
+
   // Add loading animation
   const loadingAnimation = document.createElement('div');
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
 
-  const formComponent = document.createElement('join-our-network-form');
-  formComponent.webContentJson = webContentJson;
-  block.replaceChildren(formComponent);
+  setTimeout(() => {
+    loadingAnimation.remove();
+  }, DELAY);
 
   formComponent.addEventListener('successData', () => {
     window.location.href = '/dealers/join-our-network/confirmation-thank-you';
