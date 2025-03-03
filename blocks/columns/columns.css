@@ -5,12 +5,12 @@
   gap: 0 1.5rem;
 }
 
-.columns.columns-2-cols > div { gap: 3rem; }
+.columns.columns-2-cols > div { gap: 0 3rem; }
 .columns.gap-0 > div { gap: 0; }
-.columns.gap-1 > div { gap: 1rem; }
-.columns.gap-2 > div { gap: 2rem; }
-.columns.gap-3 > div { gap: 3rem; }
-.columns.gap-4 > div { gap: 4rem; }
+.columns.gap-1 > div { gap: 0 1rem; }
+.columns.gap-2 > div { gap: 0 2rem; }
+.columns.gap-3 > div { gap: 0 3rem; }
+.columns.gap-4 > div { gap: 0 4rem; }
 
 .columns img {
   width: 100%;
@@ -229,8 +229,13 @@
   display: flex;
   gap: 1.2rem;
   justify-content: center;
-  top: -100%;
   position: relative;
+
+  .icon.icon-googleplay-badge,
+  .icon.icon-app-store-badge {
+    margin-top: 1rem;
+    width: 135px;
+  }
 }
 
 .columns.dot-separator > div {
@@ -299,22 +304,42 @@
     border-top: 2px solid var(--pure-black);
 } 
 
-.columns ul.col-icon-list {
-    margin: 0;
-    padding-inline-start: 40px;
-    
-    h2, h3, h4, h5, h6 {
-        position: relative;
 
+.columns .copy:has(.icon-elm) {
+    p, h2, h3, h4, h5, h6 {
+        padding-inline-start: 40px;
+        position: relative;
+        
         .icon {
             position: absolute;
-            left: -40px;
+            left: 0;
             top: 0;
             width: 24px;
             height: 24px;
-        }
+        }    
+    }
+
+    .divider-thin-blue-dot {
+        margin: 1rem 0 1rem 40px;
+        width: auto;
     }
 }
+
+.columns.big-icons .copy:has(.icon-elm) {
+    p, h2, h3, h4, h5, h6 {
+        padding-inline-start: unset;
+        
+        .icon {
+            position: relative;
+            left: unset;
+            top: unset;
+            width: 60px;
+            height: auto;
+        }
+    }
+    
+}
+
 
 /* mobile-tablet only */
 @media screen and (width <= 959px) {
@@ -322,19 +347,19 @@
         display: none;
     }
 
-    .columns.big-icons .copy {
+    .columns.big-icons > div {
       display: grid;
-      grid-template-columns: 24px 1fr;
+      grid-template-columns: 60px 1fr;
       grid-template-rows: auto auto;
-      gap: 0 32px;
+      gap: 0 1.5rem;
     }
   
-    .columns.big-icons .copy > p:first-of-type {
+    .columns.big-icons > div:first-of-type {
       grid-row: span 2;
       align-self: center;
     }
   
-    .columns.big-icons .copy > p:not(:first-of-type) {
+    .columns.big-icons > div:not(:first-of-type) {
       margin-top: 0;
     }
 }
