@@ -1,20 +1,17 @@
 import { loadScript } from '../../scripts/aem.js';
-import { isProductionEnvironment, addPrefetch } from '../../libs/utils/utils.js';
+import { isProductionEnvironment } from '../../libs/utils/utils.js';
 
-const ORIGINS = [
-  'https://www.google.com',
-  'https://wwwbucket-join-network.static.creditacceptance.com',
-  'https://s3.us-east-2.amazonaws.com',
-];
-
-function preconnectOrigins(origins) {
-  origins.forEach((origin) => {
-    addPrefetch('preconnect', origin);
-  });
+function preloadScript(src) {
+  const link = document.createElement('link');
+  link.rel = 'preload';
+  link.as = 'script';
+  link.href = src;
+  document.head.appendChild(link);
 }
 
 export default function decorate(block) {
   (async () => {
+    const recaptchaScript = 'https://www.google.com/recaptcha/api.js';
     let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js';
     if (isProductionEnvironment()) {
       script = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
@@ -23,7 +20,8 @@ export default function decorate(block) {
       window.jonEnv = 'test';
     }
 
-    preconnectOrigins(ORIGINS);
+    preloadScript(recaptchaScript);
+    preloadScript(script);
 
     await loadScript('https://www.google.com/recaptcha/api.js', { async: true });
     await loadScript(script, { async: true });
