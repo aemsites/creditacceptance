@@ -61,18 +61,19 @@ export default function decorate(block) {
   block.replaceChildren(formComponent);
 
   if (document.readyState === 'complete') {
-    loadScripts();
+    loadDelayedScripts();
   } else {
     window.addEventListener('load', loadDelayedScripts);
-    // Add loading animation
-    const loadingAnimation = document.createElement('div');
-    loadingAnimation.className = 'loading-animation';
-    block.appendChild(loadingAnimation);
-
-    setTimeout(() => {
-      loadingAnimation.remove();
-    }, DELAY);
   }
+
+  // Add loading animation
+  const loadingAnimation = document.createElement('div');
+  loadingAnimation.className = 'loading-animation';
+  block.appendChild(loadingAnimation);
+
+  setTimeout(() => {
+    loadingAnimation.remove();
+  }, DELAY);
 
   formComponent.addEventListener('successData', () => {
     window.location.href = '/dealers/join-our-network/confirmation-thank-you';
