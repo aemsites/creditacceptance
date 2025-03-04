@@ -8,6 +8,7 @@ const icons = {
 
 // media query match that indicates mobile/tablet width
 const isDesktopMQ = window.matchMedia('(min-width: 960px)');
+const touchDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
 function detectDeviceType() {
   const hasTouchscreen = 'maxTouchPoints' in navigator && navigator.maxTouchPoints > 0;
@@ -31,6 +32,7 @@ const deviceType = detectDeviceType();
 
 // eslint-disable-next-line no-console
 console.log('deviceType:', deviceType, 'isDesktopMQ:', isDesktopMQ.matches);
+console.log('touchDevice:', touchDevice, 'navigator.userAgent:', navigator.userAgent);
 
 function createRipple(event) {
   const button = event.currentTarget;
