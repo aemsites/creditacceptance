@@ -10,51 +10,69 @@ function preloadScript(src) {
 }
 
 export default function decorate(block) {
-  (async () => {
-    const recaptchaScript = 'https://www.google.com/recaptcha/api.js';
-    let script = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js';
-    if (isProductionEnvironment()) {
-      script = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
-      window.jonEnv = 'prod';
-    } else {
-      window.jonEnv = 'test';
-    }
+  const loadHeavyScripts = async () => {
+    try {
+      const recaptchaScript = 'https://www.google.com/recaptcha/api.js';
+      let widgetScript = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js';
+      if (isProductionEnvironment()) {
+        widgetScript = 'https://wwwbucket-join-network.static.creditacceptance.com/join-our-network-widget.js';
+        window.jonEnv = 'prod';
+      } else {
+        window.jonEnv = 'test';
+      }
 
-    preloadScript(recaptchaScript);
-    preloadScript(script);
+      preloadScript(recaptchaScript);
+      preloadScript(widgetScript);
 
-    await loadScript('https://www.google.com/recaptcha/api.js', { async: true });
-    await loadScript(script, { async: true });
+      await loadScript(recaptchaScript, { async: true });
+      await loadScript(widgetScript, { async: true });
 
-    const webContentJson = {};
-    const rows = block.querySelectorAll('div > div');
-    rows.forEach((row) => {
-      const cells = row.querySelectorAll('div > p');
-      if (cells.length === 2) {
-        const key = cells[0]?.textContent?.trim();
-        const value = cells[1]?.textContent?.trim();
-        if (key === 'script') {
-          script = value;
-        } else if (key && value) {
-          webContentJson[key] = value;
+      const webContentJson = {};
+      const rows = block.querySelectorAll('div > div');
+      rows.forEach((row) => {
+        const cells = row.querySelectorAll('div > p');
+        if (cells.length === 2) {
+          const key = cells[0]?.textContent?.trim();
+          const value = cells[1]?.textContent?.trim();
+          // If a new widget script is provided in the content, override it.
+          if (key === 'script') {
+            widgetScript = value;
+          } else if (key && value) {
+            webContentJson[key] = value;
+          }
         }
+      });
+
+      block.innerHTML = '';
+      block.style.minHeight = '1000px';
+      block.style.position = 'relative';
+
+      const formComponent = document.createElement('join-our-network-form');
+      formComponent.webContentJson = webContentJson;
+      block.replaceChildren(formComponent);
+
+      formComponent.addEventListener('successData', () => {
+        window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+      });
+    } catch (error) {
+      console.error('Error in decorate:', error);
+    }
+  };
+
+  // fallback
+  if (!('IntersectionObserver' in window)) {
+    loadHeavyScripts();
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries, observerInstance) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        loadHeavyScripts();
+        observerInstance.disconnect();
       }
     });
-
-    block.innerHTML = '';
-    // Set block minimum height and relative positioning
-    block.style.minHeight = '1000px';
-    block.style.position = 'relative';
-
-    const formComponent = document.createElement('join-our-network-form');
-    formComponent.webContentJson = webContentJson;
-    block.replaceChildren(formComponent);
-
-    formComponent.addEventListener('successData', () => {
-      window.location.href = '/dealers/join-our-network/confirmation-thank-you';
-    });
-  })().catch((error) => {
-    // Handle errors here, e.g., log them or notify the user
-    console.error('Error in decorate:', error);
   });
+
+  observer.observe(block);
 }
