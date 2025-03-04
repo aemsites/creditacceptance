@@ -21,7 +21,7 @@ function loadScript(src, options) {
 }
 
 export default function decorate(block) {
-  const loadHeavyScripts = async () => {
+  const loadHeavyScripts = () => {
     try {
       const recaptchaScript = 'https://www.google.com/recaptcha/api.js';
       let widgetScript = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js';
@@ -35,10 +35,8 @@ export default function decorate(block) {
       preloadScript(recaptchaScript);
       preloadScript(widgetScript);
 
-      setTimeout(() => {
-        loadScript(recaptchaScript, { async: true })
-          .then(() => loadScript(widgetScript, { async: true }));
-      }, 3000);
+      loadScript(recaptchaScript, { async: true })
+        .then(() => loadScript(widgetScript, { async: true }));
 
       const webContentJson = {};
       const rows = block.querySelectorAll('div > div');
