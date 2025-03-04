@@ -398,8 +398,9 @@ function loadDataLayer() {
   window.adobeDataLayer?.push(i);
 }
 
-async function waitForSectionImages(section) {
-  const lcpImages = section.querySelectorAll('img');
+async function waitForSectionImages(section, multiple = false) {
+  if (!section) return;
+  const lcpImages = multiple ? section.querySelectorAll('img') : [section.querySelector('img')];
   await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
     if (!img.complete) {
       img.setAttribute('loading', 'eager');
@@ -423,10 +424,8 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    if (document.querySelector('body.home-page')) {
-      if (main.querySelector('.section.marquee-container')) {
-        await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
-      }
+    if (main.querySelector('.section.marquee-container')) {
+      await loadSection(main.querySelector('.section.marquee-container'), (section) => waitForSectionImages(section, true));
     } else {
       await loadSection(main.querySelector('.section'), waitForSectionImages);
     }
