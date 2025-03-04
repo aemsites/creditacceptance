@@ -7,7 +7,7 @@ const ORIGINS = [
   'https://s3.us-east-2.amazonaws.com',
 ];
 
-const DELAY = 1000; // ms
+const DELAY = 10; // ms
 
 function preconnectOrigins(orgins) {
   orgins.forEach((origin) => {
@@ -26,19 +26,10 @@ export default function decorate(block) {
 
   preconnectOrigins(ORIGINS);
 
-  if (document.readyState === 'complete') {
-    setTimeout(() => {
-      loadScript('https://www.google.com/recaptcha/api.js', { async: true })
-        .then(() => loadScript(script, { async: true }));
-    }, DELAY);
-  } else {
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        loadScript('https://www.google.com/recaptcha/api.js', { async: true })
-          .then(() => loadScript(script, { async: true }));
-      }, DELAY);
-    });
-  }
+  setTimeout(() => {
+    loadScript('https://www.google.com/recaptcha/api.js', { async: true })
+      .then(() => loadScript(script, { async: true }));
+  }, DELAY);
 
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
@@ -65,14 +56,14 @@ export default function decorate(block) {
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
 
-  // Add loading animation
-  const loadingAnimation = document.createElement('div');
-  loadingAnimation.className = 'loading-animation';
-  block.appendChild(loadingAnimation);
+  // // Add loading animation
+  // const loadingAnimation = document.createElement('div');
+  // loadingAnimation.className = 'loading-animation';
+  // block.appendChild(loadingAnimation);
 
-  setTimeout(() => {
-    loadingAnimation.remove();
-  }, DELAY);
+  // setTimeout(() => {
+  //   loadingAnimation.remove();
+  // }, DELAY);
 
   formComponent.addEventListener('successData', () => {
     window.location.href = '/dealers/join-our-network/confirmation-thank-you';
