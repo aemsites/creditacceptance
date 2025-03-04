@@ -29,6 +29,9 @@ function detectDeviceType() {
 
 const deviceType = detectDeviceType();
 
+// eslint-disable-next-line no-console
+console.log('deviceType:', deviceType, 'isDesktopMQ:', isDesktopMQ.matches);
+
 function createRipple(event) {
   const button = event.currentTarget;
 
@@ -63,20 +66,19 @@ function decorateMainMenu(section) {
     if (!list) return;
     const listLinks = list.querySelectorAll('li');
     details.append(list);
-
     /* toggle on mouseover on mouse-based/desktop OR hybrid devices/desktop */
     if ((deviceType === 'mouse-based' && isDesktopMQ.matches)
       || (deviceType === 'hybrid' && isDesktopMQ.matches)) {
-      details.addEventListener('mouseover', () => {
+      details.addEventListener('pointerenter', () => {
         details.setAttribute('open', '');
       });
-      details.addEventListener('mouseout', () => {
+      details.addEventListener('pointerleave', () => {
         details.removeAttribute('open');
       });
-      summaryTag.addEventListener('mousedown', createRipple);
+      summaryTag.addEventListener('pointerdown', createRipple);
       if (listLinks.length) {
         listLinks.forEach((l) => {
-          l.addEventListener('mousedown', createRipple);
+          l.addEventListener('pointerdown', createRipple);
         });
       }
     }
