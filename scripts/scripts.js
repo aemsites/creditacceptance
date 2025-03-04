@@ -402,7 +402,7 @@ async function waitForSectionImages(section, multiple = false) {
   if (!section) return;
   const lcpImages = multiple ? section.querySelectorAll('img') : [section.querySelector('img')];
   await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
-    if (!img.complete) {
+    if (img && !img.complete) {
       img.setAttribute('loading', 'eager');
       img.addEventListener('load', resolve, { once: true });
       img.addEventListener('error', resolve, { once: true });
