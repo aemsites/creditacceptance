@@ -224,11 +224,6 @@
      flex-direction: column;
  }
 
- .cards.resources>ul>li h3 {
-     padding: 48px 0;
-     font-size: 32px;
- }
-
  .cards.resources>ul>li .card-wrapper {
      padding: 1rem 1.5rem;
      background: var(--very-light-gray);
@@ -323,7 +318,16 @@
      flex-shrink: 0;
  }
 
+ .cards.resources>ul>li .card-intro {
+    padding: 48px 0;
+    font-size: 32px;
+}
+
+ .cards.resources.center .cards-card-body h2,
+ .cards.resources.center .cards-card-body h3,
  .cards.resources.center .cards-card-body h4,
+ .cards.resources.center .cards-card-body h5,
+ .cards.resources.center .cards-card-body h6,
  .cards.resources.center .cards-card-body p:not(.button-container) {
      text-align: left;
  }
