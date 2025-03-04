@@ -122,7 +122,7 @@ function decorateFragment(block, fragment) {
 
 /* Handle click outside of nav on mobile and detail on desktop */
 document.addEventListener('click', (event) => {
-  if (!isDesktop.matches) {
+  if (!isDesktop) {
     const mainNav = document.querySelector('#nav');
     // toggle mobile menu if clicked outside of nav
     if (mainNav && !mainNav.contains(event.target)) {
@@ -142,7 +142,7 @@ document.addEventListener('click', (event) => {
 
 function toggleView() {
   const navBrand = document.querySelector('.nav-brand');
-  if (isDesktop.matches) {
+  if (isDesktop) {
     navBrand.setAttribute('data-nav-expanded', 'false');
   } else {
     const hamburger = document.querySelector('.btn-ham');
