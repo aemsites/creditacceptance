@@ -26,6 +26,10 @@ export default function decorate(block) {
 
   preconnectOrigins(ORIGINS);
 
+  setTimeout(() => {
+    loadScript('https://www.google.com/recaptcha/api.js', { async: true })
+      .then(() => loadScript(script, { async: true }));
+  }, DELAY);
 
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
@@ -58,15 +62,7 @@ export default function decorate(block) {
   block.appendChild(loadingAnimation);
 
   setTimeout(() => {
-    loadScript('https://www.google.com/recaptcha/api.js', { async: true })
-      .then(() => loadScript(script, { async: true }))
-      .then(() => {
-        loadingAnimation.remove();
-      })
-      .catch((error) => {
-        console.error('Error loading script:', error);
-        loadingAnimation.remove();
-      });
+    loadingAnimation.remove();
   }, DELAY);
 
   formComponent.addEventListener('successData', () => {
