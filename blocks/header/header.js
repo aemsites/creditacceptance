@@ -2,8 +2,8 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
-// media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 960px)');
+const isDesktop = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
@@ -43,9 +43,8 @@ function decorateMainMenu(section) {
     if (!list) return;
     const listLinks = list.querySelectorAll('li');
     details.append(list);
-
     /* toggle on mouseover in desktop */
-    if (isDesktop.matches && !isTouchDevice) {
+    if (isDesktop && !isTouchDevice) {
       details.addEventListener('mouseover', () => {
         details.setAttribute('open', '');
       });
