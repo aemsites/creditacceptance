@@ -24,8 +24,10 @@ export default function decorate(block) {
       preloadScript(recaptchaScript);
       preloadScript(widgetScript);
 
-      await loadScript(recaptchaScript, { async: true });
-      await loadScript(widgetScript, { async: true });
+      setTimeout(() => {
+        loadScript(recaptchaScript, { async: true })
+          .then(() => loadScript(widgetScript, { async: true }));
+      }, 10);
 
       const webContentJson = {};
       const rows = block.querySelectorAll('div > div');
