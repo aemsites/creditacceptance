@@ -65,7 +65,7 @@ export default async function init(block) {
     const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
     const linkWrapper = createTag('p', null, secondaryLink);
 
-    const secondCol = createTag('div', null, [heading, descriptionElement, linkWrapper]);
+    const secondCol = createTag('div', { class: 'card-body-inner-wrapper' }, [heading, descriptionElement, linkWrapper]);
 
     const date = getMetadata('date', doc);
     if (date && dateAllowed) {

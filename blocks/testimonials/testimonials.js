@@ -74,7 +74,7 @@ async function decorateCards(block, { reviews, url, ctaLabel }) {
     const addressWithNewLine = address?.replace(/\n/g, '<br>');
     const addressElement = createTag('p', { class: 'card-person-address' }, addressWithNewLine);
 
-    const secondCol = createTag('div', null, [reviewElement, nameElement, addressElement]);
+    const secondCol = createTag('div', { class: 'card-body-inner-wrapper' }, [reviewElement, nameElement, addressElement]);
     secondCol.classList.add('url-none');
 
     if (url !== 'false') {

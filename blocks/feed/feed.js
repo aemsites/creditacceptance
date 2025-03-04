@@ -123,7 +123,7 @@ async function buildCards(block) {
     const secondaryLink = createTag('em', { class: 'button-container' }, link);
     const linkWrapper = createTag('p', null, secondaryLink);
 
-    const secondCol = createTag('div', null, [heading, description, linkWrapper]);
+    const secondCol = createTag('div', { class: 'card-body-inner-wrapper' }, [heading, description, linkWrapper]);
 
     if (dateAllowed) {
       const date = item.date ?? item.lastModified;
