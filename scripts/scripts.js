@@ -423,8 +423,12 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    if (main.querySelector('.section.marquee-container')) {
-      await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
+    if (document.querySelector('body.home-page')) {
+      if (main.querySelector('.section.marquee-container')) {
+        await loadSection(main.querySelector('.section.marquee-container'), waitForSectionImages);
+      }
+    } else {
+      await loadSection(main.querySelector('.section'), waitForSectionImages);
     }
   }
 
