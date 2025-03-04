@@ -2,11 +2,32 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
-const isDesktop = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-
 const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
+
+// media query match that indicates mobile/tablet width
+const isDesktopMQ = window.matchMedia('(min-width: 960px)');
+
+function detectDeviceType() {
+  const hasTouchscreen = 'maxTouchPoints' in navigator && navigator.maxTouchPoints > 0;
+  const hasMouse = window.matchMedia('(pointer: fine)').matches;
+
+  let deviceType = '';
+
+  if (hasTouchscreen && hasMouse) {
+    deviceType = 'hybrid';
+  } else if (hasTouchscreen) {
+    deviceType = 'touchscreen';
+  } else if (hasMouse) {
+    deviceType = 'mouse-based';
+  } else {
+    deviceType = 'unknown';
+  }
+  return deviceType;
+}
+
+const deviceType = detectDeviceType();
 
 function createRipple(event) {
   const button = event.currentTarget;
@@ -42,8 +63,10 @@ function decorateMainMenu(section) {
     if (!list) return;
     const listLinks = list.querySelectorAll('li');
     details.append(list);
-    /* toggle on mouseover in desktop */
-    if (isDesktop) {
+
+    /* toggle on mouseover on mouse-based/desktop OR hybrid devices/desktop */
+    if ((deviceType === 'mouse-based' && isDesktopMQ.matches)
+      || (deviceType === 'hybrid' && isDesktopMQ.matches)) {
       details.addEventListener('mouseover', () => {
         details.setAttribute('open', '');
       });
@@ -122,7 +145,7 @@ function decorateFragment(block, fragment) {
 
 /* Handle click outside of nav on mobile and detail on desktop */
 document.addEventListener('click', (event) => {
-  if (!isDesktop) {
+  if (!isDesktopMQ.matches) {
     const mainNav = document.querySelector('#nav');
     // toggle mobile menu if clicked outside of nav
     if (mainNav && !mainNav.contains(event.target)) {
@@ -142,7 +165,7 @@ document.addEventListener('click', (event) => {
 
 function toggleView() {
   const navBrand = document.querySelector('.nav-brand');
-  if (isDesktop) {
+  if (isDesktopMQ.matches) {
     navBrand.setAttribute('data-nav-expanded', 'false');
   } else {
     const hamburger = document.querySelector('.btn-ham');
