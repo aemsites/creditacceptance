@@ -1,4 +1,4 @@
-import { loadScript } from '../../scripts/aem.js';
+// import { loadScript } from '../../scripts/aem.js';
 import { isProductionEnvironment } from '../../libs/utils/utils.js';
 
 function preloadScript(src) {
@@ -7,6 +7,17 @@ function preloadScript(src) {
   link.as = 'script';
   link.href = src;
   document.head.appendChild(link);
+}
+
+function loadScript(src, options) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    Object.assign(script, options);
+    document.body.appendChild(script);
+  });
 }
 
 export default function decorate(block) {
