@@ -7,7 +7,6 @@ const isDesktop = !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Min
 const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 function createRipple(event) {
   const button = event.currentTarget;
@@ -44,7 +43,7 @@ function decorateMainMenu(section) {
     const listLinks = list.querySelectorAll('li');
     details.append(list);
     /* toggle on mouseover in desktop */
-    if (isDesktop && !isTouchDevice) {
+    if (isDesktop) {
       details.addEventListener('mouseover', () => {
         details.setAttribute('open', '');
       });
