@@ -7,7 +7,7 @@ const ORIGINS = [
   'https://s3.us-east-2.amazonaws.com',
 ];
 
-const DELAY = 1000; // ms
+const DELAY = 3000; // ms
 
 function preconnectOrigins(orgins) {
   orgins.forEach((origin) => {
