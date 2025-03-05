@@ -70,7 +70,6 @@ export function addStyles(path) {
   return link;
 }
 
-
 const envMapRegex = {
   test: [/^wwwtest(?:\..*)?\.creditacceptance\.com$/, /^test--.*.aem.(live|page)$/],
   qa: [/^wwwqa(?:\..+)?\.creditacceptance\.com$/, /^qa--.*.aem.(live|page)$/],
