@@ -71,7 +71,7 @@ function decorateMainMenu(section) {
     /* toggle on mouseover on mouse-based/desktop OR hybrid devices/desktop */
     if ((deviceType === 'mouse-based' && isDesktopMQ.matches)
       || (deviceType === 'hybrid' && isDesktopMQ.matches)
-      || (deviceType === 'touchscreen' && !touchDevice)) {
+      || (deviceType === 'touchscreen' && !touchDevice && isDesktopMQ.matches)) {
       details.addEventListener('pointerenter', () => {
         details.setAttribute('open', '');
       });
