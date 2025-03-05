@@ -649,6 +649,14 @@ header {
   :root {  --container-width: 540px; }
 }
 
+/* Reverse order of grids in mobile view */
+@media (width <= 576px) {
+  .grid-section.col-mobile-reverse {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
 @media screen and (width >= 768px) {
     :root { --container-width: 720px; }
 }
