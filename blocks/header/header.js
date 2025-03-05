@@ -2,12 +2,33 @@ import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
-// media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 960px)');
 const icons = {
   user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
 };
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+// media query match that indicates mobile/tablet width
+const isDesktopMQ = window.matchMedia('(min-width: 960px)');
+const touchDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+function detectDeviceType() {
+  const hasTouchscreen = 'maxTouchPoints' in navigator && navigator.maxTouchPoints > 0;
+  const hasMouse = window.matchMedia('(pointer: fine)').matches;
+
+  let deviceType = '';
+
+  if (hasTouchscreen && hasMouse) {
+    deviceType = 'hybrid';
+  } else if (hasTouchscreen) {
+    deviceType = 'touchscreen';
+  } else if (hasMouse) {
+    deviceType = 'mouse-based';
+  } else {
+    deviceType = 'unknown';
+  }
+  return deviceType;
+}
+
+const deviceType = detectDeviceType();
 
 function createRipple(event) {
   const button = event.currentTarget;
@@ -43,19 +64,20 @@ function decorateMainMenu(section) {
     if (!list) return;
     const listLinks = list.querySelectorAll('li');
     details.append(list);
-
-    /* toggle on mouseover in desktop */
-    if (isDesktop.matches && !isTouchDevice) {
-      details.addEventListener('mouseover', () => {
+    /* toggle on mouseover on mouse-based/desktop OR hybrid devices/desktop */
+    if ((deviceType === 'mouse-based' && isDesktopMQ.matches)
+      || (deviceType === 'hybrid' && isDesktopMQ.matches)
+      || (deviceType === 'touchscreen' && !touchDevice && isDesktopMQ.matches)) {
+      details.addEventListener('pointerenter', () => {
         details.setAttribute('open', '');
       });
-      details.addEventListener('mouseout', () => {
+      details.addEventListener('pointerleave', () => {
         details.removeAttribute('open');
       });
-      summaryTag.addEventListener('mousedown', createRipple);
+      summaryTag.addEventListener('pointerdown', createRipple);
       if (listLinks.length) {
         listLinks.forEach((l) => {
-          l.addEventListener('mousedown', createRipple);
+          l.addEventListener('pointerdown', createRipple);
         });
       }
     }
@@ -124,7 +146,7 @@ function decorateFragment(block, fragment) {
 
 /* Handle click outside of nav on mobile and detail on desktop */
 document.addEventListener('click', (event) => {
-  if (!isDesktop.matches) {
+  if (!isDesktopMQ.matches) {
     const mainNav = document.querySelector('#nav');
     // toggle mobile menu if clicked outside of nav
     if (mainNav && !mainNav.contains(event.target)) {
@@ -144,7 +166,7 @@ document.addEventListener('click', (event) => {
 
 function toggleView() {
   const navBrand = document.querySelector('.nav-brand');
-  if (isDesktop.matches) {
+  if (isDesktopMQ.matches) {
     navBrand.setAttribute('data-nav-expanded', 'false');
   } else {
     const hamburger = document.querySelector('.btn-ham');

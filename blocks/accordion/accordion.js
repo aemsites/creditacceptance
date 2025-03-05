@@ -123,18 +123,21 @@ async function decorateFragmentBody(block) {
   });
 }
 
-function addEventListener(block) {
-  const existingListener = document.querySelector('.accordion-listener');
+function addEventListener() {
+  const existingListener = document.body.querySelector('.accordion-listener');
   if (!existingListener) {
     window.addEventListener('hashchange', () => expandAccordionItem());
-    block.classList.add('accordion-listener');
+    document.body.querySelector('.section:has(.accordion)')?.classList.add('accordion-listener');
   }
 }
 
 export default async function init(block) {
   if (block.classList.contains('faqs')) {
     await decorateFAQs(block);
-    addEventListener(block);
+
+    // should also check on first load
+    expandAccordionItem();
+    addEventListener();
     return;
   }
 
@@ -142,5 +145,6 @@ export default async function init(block) {
     await decorateFragmentBody(block);
   }
   decorate(block);
-  addEventListener(block);
+  expandAccordionItem();
+  addEventListener();
 }
