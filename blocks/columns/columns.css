@@ -365,7 +365,7 @@
 }
 
 @media screen and (width < 576px) {
-  .columns.col-mobile-reverse > div {
+  .columns.col-mobile-reverse > div, .columns.column-reverse-mobile > div {
     flex-direction: column-reverse;
   }
 }

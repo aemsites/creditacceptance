@@ -650,8 +650,8 @@ header {
 }
 
 /* Reverse order of grids in mobile view */
-@media (width <= 576px) {
-  .grid-section.col-mobile-reverse {
+@media (width < 960px) {
+  .grid-section.column-reverse-mobile {
     display: flex;
     flex-direction: column-reverse;
   }
