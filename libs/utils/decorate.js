@@ -57,6 +57,7 @@ export function decorateButtons(el) {
   });
   // remove wrapping tags and add button-container class to parent p
   el.querySelectorAll('p > strong, p > em').forEach((btn) => {
+    if (!btn.querySelector('a')) return;
     const parentP = btn.parentElement;
     btn.querySelectorAll('a').forEach((a) => parentP.appendChild(a));
     btn.remove();
