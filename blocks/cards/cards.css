@@ -289,11 +289,7 @@
     text-align: center;
  }
 
- .cards.resources .cards-card-body .button-container {
-    margin-top: auto;
- }
-
- .cards.resources .cards-card-body ul {
+  .cards.resources .cards-card-body ul {
     padding-left: 2rem;
     list-style: disc;
  }
