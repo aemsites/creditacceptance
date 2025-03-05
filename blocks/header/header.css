@@ -303,6 +303,7 @@ header .nav-brand {
   header .nav-brand {
     text-align: unset;
     flex-basis: 160px;
+    margin-inline-end: 1rem;
   }
 
   header .nav-main .default-content-wrapper,

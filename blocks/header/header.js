@@ -30,10 +30,6 @@ function detectDeviceType() {
 
 const deviceType = detectDeviceType();
 
-// eslint-disable-next-line no-console
-console.log('deviceType:', deviceType, 'isDesktopMQ:', isDesktopMQ.matches);
-console.log('touchDevice:', touchDevice, 'navigator.userAgent', navigator.userAgent);
-
 function createRipple(event) {
   const button = event.currentTarget;
 
