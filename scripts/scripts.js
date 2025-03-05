@@ -6,7 +6,6 @@ import {
   decorateSections,
   decorateBlocks,
   decorateTemplateAndTheme,
-  loadSection,
   loadSections,
   decorateBlock,
   loadCSS,
@@ -398,19 +397,19 @@ function loadDataLayer() {
   window.adobeDataLayer?.push(i);
 }
 
-async function waitForSectionImages(section, multiple = false) {
-  if (!section) return;
-  const lcpImages = multiple ? section.querySelectorAll('img') : [section.querySelector('img')];
-  await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
-    if (img && !img.complete) {
-      img.setAttribute('loading', 'eager');
-      img.addEventListener('load', resolve, { once: true });
-      img.addEventListener('error', resolve, { once: true });
-    } else {
-      resolve();
-    }
-  })));
-}
+// async function waitForSectionImages(section, multiple = false) {
+//   if (!section) return;
+//   const lcpImages = multiple ? section.querySelectorAll('img') : [section.querySelector('img')];
+//   await Promise.all([...lcpImages].map((img) => new Promise((resolve) => {
+//     if (img && !img.complete) {
+//       img.setAttribute('loading', 'eager');
+//       img.addEventListener('load', resolve, { once: true });
+//       img.addEventListener('error', resolve, { once: true });
+//     } else {
+//       resolve();
+//     }
+//   })));
+// }
 
 /**
  * Loads everything needed to get to LCP.
@@ -424,11 +423,6 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    if (main.querySelector('.section.marquee-container')) {
-      await loadSection(main.querySelector('.section.marquee-container'), (section) => waitForSectionImages(section, true));
-    } else {
-      await loadSection(main.querySelector('.section'), waitForSectionImages);
-    }
   }
 
   try {
