@@ -1,13 +1,12 @@
 // Common Utils
 
-import ffetch from '../../scripts/ffetch.js';
-
 let palettePromise;
 function fetchPalette() {
   if (!palettePromise) {
     palettePromise = new Promise((resolve, reject) => {
       (async () => {
         try {
+          const { default: ffetch } = await import('../../scripts/ffetch.js');
           const paletteJson = await ffetch('/tools/taxonomy.json').sheet('palette').all();
           resolve(paletteJson);
         } catch (e) {
