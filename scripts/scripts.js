@@ -412,6 +412,21 @@ async function waitForSectionImages(section, multiple = false) {
   })));
 }
 
+const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
+const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
+
+function loadAdobeLaunch() {
+  const tag = document.createElement('script');
+  tag.type = 'text/javascript';
+  tag.async = true;
+  if (isProductionEnvironment()) {
+    tag.src = PROD_LAUNCH_SCRIPT;
+  } else {
+    tag.src = DEV_LAUNCH_SCRIPT;
+  }
+  document.querySelector('head').append(tag);
+}
+
 /**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
@@ -430,6 +445,9 @@ async function loadEager(doc) {
       await loadSection(main.querySelector('.section'), waitForSectionImages);
     }
   }
+  if (window.location.hostname !== 'localhost') {
+    loadAdobeLaunch();
+  }
 
   try {
     /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
@@ -439,21 +457,6 @@ async function loadEager(doc) {
   } catch (e) {
     // do nothing
   }
-}
-
-const DEV_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-b238893bfd09-staging.min.js';
-const PROD_LAUNCH_SCRIPT = 'https://assets.adobedtm.com/ad9123205592/67641f4a9897/launch-fc986eef9273.min.js';
-
-function loadAdobeLaunch() {
-  const tag = document.createElement('script');
-  tag.type = 'text/javascript';
-  tag.async = true;
-  if (isProductionEnvironment()) {
-    tag.src = PROD_LAUNCH_SCRIPT;
-  } else {
-    tag.src = DEV_LAUNCH_SCRIPT;
-  }
-  document.querySelector('head').append(tag);
 }
 
 /**
@@ -475,9 +478,6 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
-  if (window.location.hostname !== 'localhost') {
-    loadAdobeLaunch();
-  }
 }
 
 /**
