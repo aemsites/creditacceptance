@@ -490,6 +490,25 @@ function loadDelayed() {
   // load anything that can be postponed to the latest here
 }
 
+const eagerLoad = (img) => {
+  img?.setAttribute('loading', 'eager');
+  img?.setAttribute('fetchpriority', 'high');
+};
+
+(async function loadLCPImage() {
+  let div = document.querySelector('body > main > div:nth-child(1) > div');
+
+  if (div?.classList.contains('quick-links')) {
+    div = document.querySelector('body > main > div:nth-child(2) > div');
+  }
+
+  if (div?.classList.contains('marquee')) {
+    div.querySelectorAll('img').forEach(eagerLoad);
+  } else {
+    eagerLoad(document.querySelector('img'));
+  }
+}());
+
 async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
