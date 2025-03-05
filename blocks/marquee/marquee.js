@@ -1,6 +1,6 @@
 import { createTag } from '../../libs/utils/utils.js';
 import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
-import { loadCSS } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadCSS } from '../../scripts/aem.js';
 
 function isDarkColor(colors, colorStr) {
   const colorObject = colors.find((c) => c['brand-name'] === colorStr);
@@ -76,12 +76,24 @@ function initAnimatedMarquee(block) {
   }, '8000');
 }
 
+function decoratePictures(el) {
+  const pictures = el.querySelectorAll('picture');
+  pictures.forEach((picture) => {
+    const img = picture.querySelector('img');
+    if (!img) return;
+    const optimizedPicture = createOptimizedPicture(img.src, img.alt);
+    console.log('picture', picture, 'optimizedPicture', optimizedPicture);
+    picture.replaceWith(optimizedPicture);
+  });
+}
+
 export default function decorate(block) {
   const children = block.querySelectorAll(':scope > div');
   const foreground = children[children.length - 1];
   const background = children.length > 1 ? children[0] : null;
   if (background) {
     decorateBlockBg(block, background, { useHandleFocalpoint: true });
+    decoratePictures(background);
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
