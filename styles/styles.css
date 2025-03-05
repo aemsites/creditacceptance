@@ -408,6 +408,10 @@ button.secondary:hover {
 }
 
 /* Buttons Container */
+.center .button-container {
+  justify-content: center;
+}
+
 .button-container {
   display: flex;
   flex-flow: row wrap;
