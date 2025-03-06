@@ -186,6 +186,8 @@
 .columns .button-container > p:last-child { margin-top: 0; }
 
 .columns.big-numbered-list ol {
+  --li-padding-top: 45px;
+
   margin-inline-start: 0;
   padding-inline-start: 0;
   position: relative;
@@ -193,16 +195,16 @@
   &::before {
     content: '';
     position: absolute;
-    height: calc(100% - 45px);
+    height: calc(100% - var(--li-padding-top) - var(--li-padding-top) - 44px);
     left: 48px;
-    top: 25px;
+    top: calc(var(--li-padding-top) + 20px);
     display: block;
     border-left: 5px dotted var(--ca-tangerine-500);
   }
 }
 
 .columns.big-numbered-list ol li {
-  padding: 45px 0 45px 120px;
+  padding: var(--li-padding-top) 0 var(--li-padding-top) 120px;
   position: relative;
 
   &::before {
