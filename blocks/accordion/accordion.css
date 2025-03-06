@@ -1,4 +1,4 @@
-.accordion-container > .accordion-wrapper+.default-content-wrapper:not(:has(> .divider)) {
+.accordion-container > .default-content-wrapper ~ .default-content-wrapper:not(:has(> .divider)) {
     margin-block: 84px 0;
 }
 
