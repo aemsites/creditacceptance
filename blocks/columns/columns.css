@@ -347,20 +347,15 @@
         display: none;
     }
 
-    .columns.big-icons > div {
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      grid-template-rows: auto auto;
-      gap: 0 1.5rem;
+    .columns.big-icons .copy:first-of-type > :is(p:not(.icon-elm), h4),
+    .columns.big-icons .copy:has(.icon-elm) + .copy > :is(p:not(.icon-elm), h4) {
+        margin-inline-start: 80px;
     }
-  
-    .columns.big-icons > div:first-of-type {
-      grid-row: span 2;
-      align-self: center;
-    }
-  
-    .columns.big-icons > div:not(:first-of-type) {
-      margin-top: 0;
+
+    .columns.big-icons .copy .icon-elm  span.icon{
+        position: absolute;
+        left: 0;
+        top: 0;
     }
 }
 
