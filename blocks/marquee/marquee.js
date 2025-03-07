@@ -8,16 +8,22 @@ function isDarkColor(colors, colorStr) {
   return isDarkHexColor(colorObject['color-value']);
 }
 
+function setTitleBorderWidth(heading, border) {
+  const headerWidth = heading.getBoundingClientRect().width;
+  border.style.width = `${headerWidth}px`;
+}
+
 function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');
   if (!heading) return;
   const intro = heading.previousElementSibling;
   if (!intro) return;
   intro.classList.add('intro');
+  heading.classList.add('heading');
   const [text, color] = intro.textContent.trim().split('{');
   intro.innerHTML = '';
   const label = createTag('span', null, text.trim());
-  const border = createTag('div');
+  const border = createTag('div', { class: 'border' });
   intro.appendChild(label);
   intro.appendChild(border);
   if (color) {
@@ -36,6 +42,14 @@ function decorateIntro(el) {
       });
     }
   }
+  // Auto-toggle every 8 seconds
+  setTimeout(() => {
+    setTitleBorderWidth(heading, border);
+  }, '100');
+
+  window.addEventListener('resize', () => {
+    setTitleBorderWidth(heading, border);
+  });
 }
 
 function addCoins(el) {
