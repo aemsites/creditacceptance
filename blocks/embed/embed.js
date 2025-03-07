@@ -5,7 +5,7 @@
  */
 
 import { loadScript, readBlockConfig } from '../../scripts/aem.js';
-import { isProductionEnvironment } from '../../libs/utils/utils.js';
+import { getEnv } from '../../libs/utils/utils.js';
 
 const getDefaultEmbed = (url, height) => {
   const divHeight = height ? `${height}px` : '100%';
@@ -166,7 +166,8 @@ export default async function decorate(block) {
   const meta = readBlockConfig(block);
   let link = block.querySelector('a')?.href;
   if (meta && meta.test && meta.prod) {
-    if (isProductionEnvironment()) link = meta.prod;
+    if (getEnv() === 'prod') link = meta.prod;
+    else if (getEnv() === 'qa') link = meta.qa;
     else link = meta.test;
   }
   const url = new URL(link.replace(/%5C%5C_/, '_'));

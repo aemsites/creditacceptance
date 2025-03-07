@@ -70,6 +70,49 @@ export function addStyles(path) {
   return link;
 }
 
+const envMapRegex = {
+  test: [/^wwwtest(?:\..*)?\.creditacceptance\.com$/, /^test--.*.aem.(live|page)$/],
+  qa: [/^wwwqa(?:\..+)?\.creditacceptance\.com$/, /^qa--.*.aem.(live|page)$/],
+  prod: [/^www(?:\..*)?\.creditacceptance\.com$/, /^main--.*.aem.(live|page)$/],
+};
+
+export function getEnv(_host) {
+  const host = _host || window.location.host;
+  const foundEnv = Object.entries(envMapRegex)
+    // eslint-disable-next-line no-unused-vars
+    .find(([_, regexes]) => regexes.some((regex) => new RegExp(regex, 'g').test(host)));
+  if (foundEnv) {
+    const [env] = foundEnv;
+    return env;
+  }
+  return 'test';
+}
+
 export function isProductionEnvironment() {
-  return (/main--.*\.aem\.live$/.test(window.location.host) || window.location.host.endsWith('creditacceptance.com'));
+  return getEnv() === 'prod';
+}
+
+let envConfigsPromise;
+function fetchEnvConfigs() {
+  if (!envConfigsPromise) {
+    envConfigsPromise = new Promise((resolve, reject) => {
+      (async () => {
+        try {
+          const envConfigs = await ffetch('/env-configs.json').all();
+          resolve(envConfigs);
+        } catch (e) {
+          reject(e);
+        }
+      })();
+    });
+  }
+  return envConfigsPromise;
+}
+
+export async function getEnvConfig(configType, { env } = { env: getEnv() }) {
+  const envConfigs = await fetchEnvConfigs();
+  if (!envConfigs || envConfigs.length === 0) return undefined;
+
+  const item = envConfigs.find((config) => config.type === configType);
+  return item?.[env];
 }

@@ -8,15 +8,12 @@ footer .footer>div {
     padding: 0 12px 12px;
 }
 
-footer .footer .accordion-container {
-    padding-top: 0;
+footer .footer .accordion-container,
+footer .footer .default-content-wrapper {
+    padding-block: 0;
 }
 
 footer .footer .accordion-wrapper {
-    margin-top: 0;
-}
-
-footer .footer .accordion-container .default-content-wrapper {
     margin-top: 0;
 }
 
@@ -33,6 +30,7 @@ footer .footer p {
 }
 
 .footer .default-content-wrapper ul li {
+    margin: 0;
     padding-inline: 12px;
     list-style-type: none;
     font-size: 12px;
@@ -120,6 +118,7 @@ footer .accordion.sitemap details summary .accordion-item-minus {
 
 .footer .accordion.sitemap .accordion-item-body ul li {
     list-style-type: none;
+    margin: 0;
     padding-block-end: 8px;
 }
 
