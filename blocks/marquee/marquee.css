@@ -59,6 +59,20 @@ main > .section-outer > .section.marquee-container {
 
 .marquee.height-auto  .foreground {  min-height: unset; }
 
+.marquee.height-image {
+    .background {
+        position: relative;
+    }
+
+    .foreground {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        right: 0;
+    }
+}
+
 .marquee .foreground > div {
     padding: 2em 1em;
 }
