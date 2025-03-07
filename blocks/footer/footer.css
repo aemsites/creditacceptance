@@ -40,10 +40,6 @@ footer .footer p {
     width: 100%;
 }
 
-.footer .default-content-wrapper ul li:not(:last-child) {
-    border-right: 1px solid #1b1b1b;
-}
-
 .footer .default-content-wrapper p,
 .footer .default-content-wrapper ul li a {
     font-size: 12px;
@@ -140,5 +136,9 @@ footer .accordion.sitemap details summary .accordion-item-minus {
 
     footer .footer .accordion.sitemap {
         padding-inline: 72px;
+    }
+
+    .footer .default-content-wrapper ul li:not(:last-child) {
+        border-right: 1px solid #1b1b1b;
     }
 }
