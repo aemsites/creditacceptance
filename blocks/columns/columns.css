@@ -344,11 +344,13 @@
 
 
 /* mobile-tablet only */
-@media screen and (width <= 959px) {
+@media screen and (width < 960px) {
     .columns.media-hidden-mobile .media-count-1 {
         display: none;
     }
-
+  
+    .columns .media { margin-bottom: 1.5rem; }
+  
     .columns.big-icons .copy:first-of-type > :is(p:not(.icon-elm), h4),
     .columns.big-icons .copy:has(.icon-elm) + .copy > :is(p:not(.icon-elm), h4) {
         margin-inline-start: 80px;

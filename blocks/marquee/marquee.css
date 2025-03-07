@@ -63,6 +63,8 @@ main > .section-outer > .section.marquee-container {
     padding: 2em 1em;
 }
 
+.marquee .heading { display: inline; }
+
 .marquee p.intro {
     color: black;
     margin-bottom: 1rem;
@@ -79,7 +81,7 @@ main > .section-outer > .section.marquee-container {
     padding: .5rem .5rem .25rem;
 }
 
-.marquee p.intro div {
+.marquee p.intro .border {
     height: 2px;
     background: var(--very-light-gray);
     position: absolute;
