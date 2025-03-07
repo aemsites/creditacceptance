@@ -28,7 +28,7 @@ export default function pushCalculatorDataLayer(block, fieldId) {
     length_of_loan: block.querySelector('#length-of-loan').value,
     event_type: 'cac-calculator-event',
     field_label: getFieldLabel(block, fieldId),
-    event: 'cac_calculator_event',
+    event: 'cac-calculator-event',
   };
 
   if (isMonthly) {
