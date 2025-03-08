@@ -59,6 +59,8 @@ main > .section-outer > .section.marquee-container {
 
 .marquee.height-auto  .foreground {  min-height: unset; }
 
+.marquee.height-big .foreground { min-height: 700px; }
+
 .marquee .foreground > div {
     padding: 2em 1em;
 }
