@@ -11,6 +11,8 @@
 .columns.gap-2 > div { gap: 0 2rem; }
 .columns.gap-3 > div { gap: 0 3rem; }
 .columns.gap-4 > div { gap: 0 4rem; }
+.columns.gap-5 > div { gap: 0 5rem; }
+.columns.gap-6 > div { gap: 0 6rem; }
 
 .columns img {
   width: 100%;
@@ -83,8 +85,6 @@
   gap: 0;
   counter-reset: ca-step-counter;
 }
-
-.columns.divided-list > div {  gap: 0 3rem; }
 
 .columns.stats > div > div {
   position: relative;
@@ -322,7 +322,6 @@
     }
 
     .divider-thin-blue-dot {
-        margin: 1rem 0 1rem 40px;
         width: auto;
     }
 }

@@ -110,6 +110,11 @@ main > .section-outer > .section.marquee-container {
     width: 75%
 }
 
+.marquee.max-width-90 .foreground > div {
+    max-width: 90%;
+    width: 90%
+}
+
 .marquee.max-width-100 .foreground > div {
     max-width: 100%;
     width: 100%
@@ -138,12 +143,17 @@ main > .section-outer > .section.marquee-container {
         align-items: center;
     }
 
-    .marquee .foreground > div {
+    .marquee .foreground > div,
+    .marquee.max-width-50-desktop .foreground > div {
         max-width: 50%;
     }
-    
+
     .marquee.max-width-75-desktop .foreground > div {
         max-width: 75%;
+    }
+    
+    .marquee.max-width-90-desktop .foreground > div {
+        max-width: 90%;
     }
     
     .marquee.max-width-100-desktop .foreground > div {

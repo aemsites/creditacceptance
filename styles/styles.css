@@ -583,6 +583,8 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   &.gap-2 { gap: 2rem; }
   &.gap-3 { gap: 3rem; }
   &.gap-4 { gap: 4rem; }
+  &.gap-5 { gap: 5rem; }
+  &.gap-6 { gap: 6rem; }
 }
 
 .section.grid-section > .default-content-wrapper {
