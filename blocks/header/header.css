@@ -304,8 +304,6 @@ header .nav-brand {
     flex-direction: row;
     height: var(--header-height);
   }
-  
-  header .logo-only nav { flex-direction: column; }
 
   header .nav-brand {
     text-align: unset;
