@@ -109,8 +109,8 @@ export default function decorate(block) {
   const foreground = children[children.length - 1];
   const background = children.length > 1 ? children[0] : null;
   if (background) {
-    decorateBlockBg(block, background, { useHandleFocalpoint: true });
     decoratePictures(background);
+    decorateBlockBg(block, background, { useHandleFocalpoint: true });
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
