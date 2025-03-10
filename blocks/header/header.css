@@ -286,10 +286,16 @@ header .nav-brand {
   }
 }
 
-/* nav variant with logo */
-.header.logo-only .btn-mobile.btn-user,
-.header.logo-only .btn-mobile.btn-ham {
-  display: none;
+/* nav variant with logo only */
+.header.logo-only {
+    .nav-brand .default-content-wrapper p {
+        justify-content: start;
+    }
+
+    .btn-mobile.btn-user,
+    .btn-mobile.btn-ham {
+        display: none;
+    }
 }
 
 @media (width >= 960px) {
@@ -297,9 +303,9 @@ header .nav-brand {
   header nav {
     flex-direction: row;
     height: var(--header-height);
-    padding-top: 0.25rem;
-    padding-bottom: 0;
   }
+  
+  header .logo-only nav { flex-direction: column; }
 
   header .nav-brand {
     text-align: unset;
