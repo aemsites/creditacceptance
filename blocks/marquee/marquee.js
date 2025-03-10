@@ -10,7 +10,7 @@ function isDarkColor(colors, colorStr) {
 
 function setTitleBorderWidth(heading, border) {
   const headerWidth = heading.getBoundingClientRect().width;
-  border.style.width = `${headerWidth}px`;
+  if (headerWidth > 0) border.style.width = `${headerWidth}px`;
 }
 
 function decorateIntro(el) {
@@ -42,10 +42,12 @@ function decorateIntro(el) {
       });
     }
   }
-  // Auto-toggle every 8 seconds
-  setTimeout(() => {
-    setTitleBorderWidth(heading, border);
-  }, '100');
+
+  document.addEventListener('fontsLoaded', () => {
+    setTimeout(() => {
+      setTitleBorderWidth(heading, border);
+    }, '200');
+  });
 
   window.addEventListener('resize', () => {
     setTitleBorderWidth(heading, border);
