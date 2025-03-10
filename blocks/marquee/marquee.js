@@ -82,7 +82,7 @@ function decoratePictures(el) {
     const img = picture.querySelector('img');
     if (!img) return;
     const isMobilePic = picture.closest('div').classList.contains('mobile-only');
-    const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '2000' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '450' }];
+    const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
     const optimizedPicture = createOptimizedPicture(img.src, img.alt, true, breakpoints);
     picture.replaceWith(optimizedPicture);
   });
