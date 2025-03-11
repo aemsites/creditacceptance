@@ -76,27 +76,28 @@ function decoratePictures(cell) {
 export default function decorate(block) {
   const isAnimated = block.classList.contains('animation') && !block.classList.contains('animation-none');
   const ul = createTag('ul');
+  const resourcesType = block.classList.contains('resources');
   [...block.children].forEach((row) => {
     const li = createTag('li');
     if (isAnimated) li.classList.add('animation-scale');
     const cardWrapper = createTag('div', { class: 'card-wrapper' });
+    let cardIntro = null;
     while (row.firstElementChild) cardWrapper.append(row.firstElementChild);
-    let heading = null;
     [...cardWrapper.children].forEach((div) => {
       if (div.querySelector('picture')) {
         div.className = 'cards-card-image';
         decoratePictures(div);
       } else {
         div.className = 'cards-card-body';
-        const h3 = div.querySelector('h3');
-        if (h3) {
-          heading = h3;
-          div.removeChild(h3);
-        }
-
-        const cardTitle = div.querySelector('h4, h5, h6');
-        cardTitle?.classList.add('card-title');
-
+        const cardheaders = div.querySelectorAll('h2, h3, h4, h5, h6');
+        cardheaders.forEach((header, i) => {
+          if (cardheaders.length > 1 && i === 0 && resourcesType) {
+            cardIntro = header;
+            cardIntro.classList.add('card-intro');
+          } else {
+            header?.classList.add('card-title');
+          }
+        });
         const paragraphs = div.querySelectorAll('p');
         decorateDate(paragraphs);
 
@@ -111,7 +112,7 @@ export default function decorate(block) {
         icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
-    if (heading) li.append(heading);
+    if (cardIntro) li.append(cardIntro);
     li.append(cardWrapper);
     ul.append(li);
   });

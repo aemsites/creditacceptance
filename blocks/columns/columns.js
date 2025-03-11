@@ -71,12 +71,22 @@ function decorateColumnsCalculation(block) {
   });
 }
 
-function decorateColIconList(col) {
-  const colHeader = col.querySelector('h1, h2, h3, h4, h5, h6');
-  const colHeaderIcon = colHeader?.querySelector('.icon');
-  if (!colHeader && !colHeaderIcon) return;
-  const colContentWrapper = createTag('ul', { class: 'col-icon-list' }, [...col.children]);
-  col.append(colContentWrapper);
+function decorateColIconGroup(col) {
+  const colIcons = col.querySelectorAll('.icon');
+  if (!colIcons) return;
+  colIcons.forEach((icon) => {
+    const parent = icon.parentElement;
+    if (parent) {
+      const parentTagName = parent.tagName.toLowerCase();
+      if (parentTagName === 'p' || parentTagName === 'h1' || parentTagName === 'h2' || parentTagName === 'h3' || parentTagName === 'h4' || parentTagName === 'h5' || parentTagName === 'h6') {
+        parent.classList.add('icon-elm');
+      }
+    }
+  });
+}
+
+function applyStatsClasses(block) {
+  block.classList.add('stats');
 }
 
 export default function decorate(block) {
@@ -101,11 +111,12 @@ export default function decorate(block) {
       } else {
         col.classList.add('copy');
       }
-      decorateColIconList(col);
+      decorateColIconGroup(col);
     });
   });
   // flex basis
   decorateFlexRows(block);
   if (block.classList.contains('media-unbound')) applyMediaHeight(block);
   if (block.classList.contains('calculation')) decorateColumnsCalculation(block);
+  if ([...block.classList].some((cls) => cls.startsWith('stats-'))) applyStatsClasses(block);
 }

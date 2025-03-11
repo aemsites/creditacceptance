@@ -51,7 +51,7 @@
 /* fallback font for Acceptance Bold (normal - 400) */
 @font-face {
   font-family: acceptance-bold-fallback;
-  size-adjust: 101.1%;
+  size-adjust: 107.1%;
   src: local("Arial");
 }
 

@@ -63,7 +63,7 @@ export default function init(block) {
     const cells = row.querySelectorAll(':scope > div');
     Array.from(cells).forEach((cell, j) => {
       if (!columns[j]) columns[j] = [];
-      columns[j][i] = cell.textContent;
+      columns[j][i] = cell;
     });
   });
 
@@ -78,11 +78,6 @@ export default function init(block) {
       const cellEl = createTag('div', { class: 'cell' }, cell);
       if (j === 0) {
         cellEl.classList.add('header');
-        if (cellEl.textContent.includes('{') && cellEl.textContent.includes('}')) {
-          const color = cellEl.textContent.match(/\{(.*?)\}/)[1];
-          cellEl.textContent = cellEl.textContent.replace(/\{(.*?)\}/, '');
-          upperCol.style.setProperty('--column-color', color.startsWith('#') ? color : `var(--${color})`);
-        }
       }
 
       if (!cellEl.textContent) {

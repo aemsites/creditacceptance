@@ -1,4 +1,4 @@
-.accordion-container > .accordion-wrapper+.default-content-wrapper:not(:has(> .divider)) {
+.accordion-container > .default-content-wrapper ~ .default-content-wrapper:not(:has(> .divider)) {
     margin-block: 84px 0;
 }
 
@@ -96,6 +96,11 @@
 
 .accordion.arrow details[open] summary::after {
     transform: translateY(-50%) rotate(135deg);
+}
+
+
+.accordion.arrow details summary span.icon {
+    vertical-align: baseline;
 }
 
 .accordion details .accordion-item-body {

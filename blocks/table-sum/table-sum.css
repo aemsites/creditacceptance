@@ -38,6 +38,10 @@
     width: 100%;
 }
 
+.table-sum .cell p {
+    margin: 0;
+}
+
 .table-sum .upper .cell {
     height: 50px;
     border-bottom: 1px dotted #D9D9D9;

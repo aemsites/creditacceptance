@@ -43,24 +43,25 @@ export function decorateButtons(el) {
   if (buttons.length === 0) return;
   const buttonTypeMap = { STRONG: 'primary', EM: 'secondary', A: 'link' };
   buttons.forEach((button) => {
-    let target = button;
     const parent = button.parentElement;
     const buttonType = buttonTypeMap[parent.nodeName] || 'primary';
-    if (button.nodeName === 'STRONG') {
-      target = parent;
-    } else {
-      parent.insertAdjacentElement('afterend', button);
-      parent.remove();
-    }
-    target.classList.add('button', buttonType);
-    const customClasses = target.textContent && [...target.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
+    button.classList.add('button', buttonType);
+
+    const customClasses = button.textContent && [...button.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
     if (customClasses) {
       customClasses.forEach((match) => {
-        target.textContent = target.textContent.replace(match[0], '');
-        target.classList.add(match[1]);
+        button.textContent = button.textContent.replace(match[0], '');
+        button.classList.add(match[1]);
       });
     }
-    button.parentElement?.classList.add('button-container');
+  });
+  // remove wrapping tags and add button-container class to parent p
+  el.querySelectorAll('p > strong, p > em').forEach((btn) => {
+    if (!btn.querySelector('a')) return;
+    const parentP = btn.parentElement;
+    btn.querySelectorAll('a').forEach((a) => parentP.appendChild(a));
+    btn.remove();
+    parentP.classList.add('button-container');
   });
 }
 
@@ -133,7 +134,8 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
 export function decorateGridSection(section, meta) {
   section.classList.add('grid-section');
   const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
-
+  let rowCount = 0;
+  let autoGrid = false;
   Array.from(section.querySelectorAll('.section > div'))
     .filter((row) => {
       const firstCol = row.querySelector(':scope > div');
@@ -144,7 +146,14 @@ export function decorateGridSection(section, meta) {
       if (gridValues[i]) {
         row.classList.add(gridValues[i]);
       }
+      // if single span-auto row, add span-auto class to all rows
+      if (gridValues[0] === 'span-auto' && gridValues.length === 1) {
+        row.classList.add('span-auto');
+        autoGrid = true;
+      }
+      rowCount += 1;
     });
+  if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
 }
 
 export function decorateGridSectionGroups(section, meta) {
@@ -162,7 +171,9 @@ export function decorateGridSectionGroups(section, meta) {
       currentDiv.append(child);
     }
   });
-  const gridValues = meta.split(',');
+  const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
+  let rowCount = 0;
+  let autoGrid = false;
   section.classList.add('grid-section');
   const gridRows = [...sectionRows];
   gridRows.forEach((row, i) => {
@@ -173,11 +184,17 @@ export function decorateGridSectionGroups(section, meta) {
         child.replaceWith(...child.childNodes);
       }
     });
-    const spanVal = gridValues[i].trim();
-    if (spanVal) row.classList.add(spanVal.toLowerCase());
+    if (gridValues[i]) row.classList.add(gridValues[i]);
+    // if single span-auto row, add span-auto class to all rows
+    if (gridValues[0] === 'span-auto' && gridValues.length === 1) {
+      row.classList.add('span-auto');
+      autoGrid = true;
+    }
+    rowCount += 1;
   });
 
   section.append(...gridRows);
+  if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
 }
 
 function updateActiveSlide(steps, pagination) {
@@ -205,7 +222,7 @@ export function initSlider(block, slides, container = null) {
   slides.forEach((slide, i) => {
     slide.id = `slide-${i}`;
     slide.classList.add('slide');
-    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}` });
+    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}`, 'aria-label': `Slide ${i + 1}` }, null);
     pagination.append(dot);
 
     // scroll into view on click

@@ -15,7 +15,10 @@ indices:
       - '**/images/**'
       - '**/icons/**'
       - '**/fragments/**'
+      - '/index/**'
+      - '**/modals/**'
       - '**/test/**'
+      - /tools/**'
       - /nav
       - /footer
     target: /index/query-index.json

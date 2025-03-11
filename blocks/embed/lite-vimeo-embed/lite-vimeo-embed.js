@@ -60,10 +60,10 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
         // if one of the super parent has class .showcase-video, add the title and description
         const showcase = this.closest('.showcase-video');
         if (showcase) {
-          const h5 = document.createElement('h5');
-          h5.textContent = data.title;
-          h5.classList.add('video-title');
-          this.parentElement.append(h5);
+          const h3 = document.createElement('h3');
+          h3.textContent = data.title;
+          h3.classList.add('video-title');
+          this.parentElement.append(h3);
           const p = document.createElement('p');
           p.textContent = data.description;
           p.classList.add('video-description');

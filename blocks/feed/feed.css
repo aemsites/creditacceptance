@@ -68,17 +68,6 @@
     height: 100%;
 }
 
-.feed-wrapper .card-wrapper .cards-card-image .one-image-available img {
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-}
-
-@media screen and (width >= 576px) and (width <= 991px) {
-    .feed-wrapper .card-wrapper .cards-card-image .one-image-available img {
-        aspect-ratio: 4 / 1;
-    }
-} 
-
 .feed-wrapper .card-wrapper .card-title {
     display: -webkit-box;
     height: 38px;
