@@ -261,8 +261,13 @@
      flex-wrap: wrap;
  }
 
+ .cards.resources > ul.slider-container { 
+    flex-wrap: unset;
+ }
+
  .cards.resources.three-up>ul {
-	display: block;
+	display: flex;
+    flex-flow: column;
  }
 
  .cards.resources>ul>li {
@@ -382,7 +387,7 @@
 
  @media (width >=992px) {
 	.cards.resources.three-up>ul {
-		display: flex;
+        flex-flow: row;
 	}
 	
      .cards.resources:not(.three-up)>ul>li {
