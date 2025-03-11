@@ -13,7 +13,13 @@ function setTitleBorderWidth(heading, border) {
   if (headerWidth > 0) border.style.width = `${headerWidth}px`;
 }
 
-function decorateIntro(el) {
+async function asyncFontsLoaded(heading, border) {
+  document.addEventListener('fontsLoaded', () => {
+    setTitleBorderWidth(heading, border);
+  });
+}
+
+async function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');
   if (!heading) return;
   const intro = heading.previousElementSibling;
@@ -43,11 +49,7 @@ function decorateIntro(el) {
     }
   }
 
-  document.addEventListener('fontsLoaded', () => {
-    setTimeout(() => {
-      setTitleBorderWidth(heading, border);
-    }, '200');
-  });
+  await asyncFontsLoaded(heading, border);
 
   window.addEventListener('resize', () => {
     setTitleBorderWidth(heading, border);
