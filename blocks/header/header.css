@@ -288,6 +288,8 @@ header .nav-brand {
 
 /* nav variant with logo only */
 .header.logo-only {
+    nav { flex-direction: column; }
+
     .nav-brand .default-content-wrapper p {
         justify-content: start;
     }
@@ -322,6 +324,9 @@ header .nav-brand {
   header .nav-main .default-content-wrapper {
     gap: 0;
   }
+
+  
+  .header.logo-only .nav-brand .default-content-wrapper p { justify-content: center; }
 
   /* nav brand */
   .nav-brand a {
