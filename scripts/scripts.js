@@ -439,11 +439,11 @@ async function loadEager(doc) {
   if (main) {
     decorateMain(main, templateModule);
     document.body.classList.add('appear');
-    if (main.querySelector('.section.marquee-container')) {
-      await loadSection(main.querySelector('.section.marquee-container'), (section) => waitForSectionImages(section, true));
-    } else {
-      await loadSection(main.querySelector('.section'), waitForSectionImages);
-    }
+    // if (main.querySelector('.section.marquee-container')) {
+    //   await loadSection(main.querySelector('.section.marquee-container'), (section) => waitForSectionImages(section, true));
+    // } else {
+    //   await loadSection(main.querySelector('.section'), waitForSectionImages);
+    // }
   }
   if (window.location.hostname !== 'localhost') {
     loadAdobeLaunch();
@@ -489,6 +489,24 @@ function loadDelayed() {
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
 }
+
+const eagerLoad = (img) => {
+  img?.setAttribute('loading', 'eager');
+  img?.setAttribute('fetchpriority', 'high');
+};
+
+(async function loadLCPImage() {
+  let div = document.querySelector('body > main > div:nth-child(1) > div');
+  if (div?.classList.contains('quick-links')) {
+    div = document.querySelector('body > main > div:nth-child(2) > div');
+  }
+
+  if (div?.classList.contains('marquee')) {
+    div.querySelectorAll('img').forEach(eagerLoad);
+  } else {
+    eagerLoad(document.querySelector('img'));
+  }
+}());
 
 async function loadPage() {
   await loadEager(document);
