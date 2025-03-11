@@ -11,6 +11,10 @@ main > .section-outer > .section.marquee-container {
 
 .marquee {
     position: relative;
+
+    --mq-height-s: 470px;
+    --mq-height-m: 550px;
+    --mq-height-l: 700px;   
 }
 
 .marquee, 
@@ -52,16 +56,14 @@ main > .section-outer > .section.marquee-container {
 .marquee .foreground {
     padding: 0;
     display: flex;
-    min-height: 470px;
+    min-height: var(--mq-height-s);
 }
 
 .marquee.vertical-center .foreground {  align-items: center; }
 
 .marquee.height-auto  .foreground {  min-height: unset; }
 
-.marquee .foreground > div {
-    padding: 2em 1em;
-}
+.marquee .foreground > div { padding: 2em 1em; }
 
 .marquee .heading { display: inline; }
 
@@ -160,7 +162,14 @@ main > .section-outer > .section.marquee-container {
         max-width: 100%;
     }
 
+
+    .marquee.height-medium .foreground { min-height: var(--mq-height-m); }
+
+    .marquee.height-large .foreground { min-height: var(--mq-height-l); }
+
     .marquee .action-area {
         gap: 1rem;
     }
+
+
 }

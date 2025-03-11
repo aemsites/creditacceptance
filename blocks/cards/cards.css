@@ -324,7 +324,7 @@
      mask-repeat: no-repeat;
  }
 
- .cards.resources.three-up .cards-card-body .icon-masked {
+ .cards.resources.three-up:not(.big-icons) .cards-card-body .icon-masked {
 	max-height: 52px;
  }
 
