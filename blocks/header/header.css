@@ -288,10 +288,8 @@ header .nav-brand {
 
 /* nav variant with logo only */
 .header.logo-only {
-    nav { flex-direction: column; }
-
     .nav-brand .default-content-wrapper p {
-        justify-content: start;
+        justify-content: center;
     }
 
     .btn-mobile.btn-user,
@@ -306,6 +304,16 @@ header .nav-brand {
     flex-direction: row;
     height: var(--header-height);
   }
+  
+  .header.logo-only nav { 
+    flex-direction: column; 
+
+    .nav-brand .default-content-wrapper p {
+      justify-content: start;
+    }  
+  }
+
+  .header.logo-only 
 
   header .nav-brand {
     text-align: unset;
@@ -324,9 +332,6 @@ header .nav-brand {
   header .nav-main .default-content-wrapper {
     gap: 0;
   }
-
-  
-  .header.logo-only .nav-brand .default-content-wrapper p { justify-content: center; }
 
   /* nav brand */
   .nav-brand a {
