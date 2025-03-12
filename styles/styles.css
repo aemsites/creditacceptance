@@ -613,6 +613,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 
 .divider-thin-blue-dot {
   border: 1px dotted var(--credit-violet);
+  margin: 1rem 0;
 }
 
 header {

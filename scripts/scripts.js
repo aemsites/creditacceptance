@@ -27,6 +27,7 @@ async function loadFonts() {
   } catch (e) {
     // do nothing
   }
+  document.dispatchEvent(new CustomEvent('fontsLoaded'));
 }
 
 /**

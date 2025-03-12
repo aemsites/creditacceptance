@@ -87,6 +87,11 @@ export default function decorate(block) {
       if (div.querySelector('picture')) {
         div.className = 'cards-card-image';
         decoratePictures(div);
+      } else if (div.querySelector('.icon img') && div.children.length === 1) {
+        div.className = 'cards-card-icon';
+        const icon = div.querySelector('.icon img');
+        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
+        icon.parentNode.parentNode.replaceWith(maskedDiv);
       } else {
         div.className = 'cards-card-body';
         const cardheaders = div.querySelectorAll('h2, h3, h4, h5, h6');
@@ -105,11 +110,6 @@ export default function decorate(block) {
         if (link) {
           div.classList.add('ellipsed');
         }
-      }
-      const icon = div.querySelector('.icon img');
-      if (icon && div.children.length === 1) {
-        const maskedDiv = createTag('div', { class: 'icon-masked', style: `mask-image :url(${icon.src})` });
-        icon.parentNode.parentNode.replaceWith(maskedDiv);
       }
     });
     if (cardIntro) li.append(cardIntro);

@@ -289,7 +289,7 @@ header .nav-brand {
 /* nav variant with logo only */
 .header.logo-only {
     .nav-brand .default-content-wrapper p {
-        justify-content: start;
+        justify-content: center;
     }
 
     .btn-mobile.btn-user,
@@ -305,7 +305,13 @@ header .nav-brand {
     height: var(--header-height);
   }
   
-  header .logo-only nav { flex-direction: column; }
+  .header.logo-only nav { 
+    flex-direction: column; 
+
+    .nav-brand .default-content-wrapper p {
+      justify-content: start;
+    }  
+  }
 
   header .nav-brand {
     text-align: unset;

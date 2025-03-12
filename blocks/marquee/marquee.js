@@ -10,10 +10,16 @@ function isDarkColor(colors, colorStr) {
 
 function setTitleBorderWidth(heading, border) {
   const headerWidth = heading.getBoundingClientRect().width;
-  border.style.width = `${headerWidth}px`;
+  if (headerWidth > 0) border.style.width = `${headerWidth}px`;
 }
 
-function decorateIntro(el) {
+async function asyncFontsLoaded(heading, border) {
+  document.addEventListener('fontsLoaded', () => {
+    setTitleBorderWidth(heading, border);
+  });
+}
+
+async function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');
   if (!heading) return;
   const intro = heading.previousElementSibling;
@@ -42,10 +48,8 @@ function decorateIntro(el) {
       });
     }
   }
-  // Auto-toggle every 8 seconds
-  setTimeout(() => {
-    setTitleBorderWidth(heading, border);
-  }, '100');
+
+  await asyncFontsLoaded(heading, border);
 
   window.addEventListener('resize', () => {
     setTitleBorderWidth(heading, border);
@@ -107,8 +111,8 @@ export default function decorate(block) {
   const foreground = children[children.length - 1];
   const background = children.length > 1 ? children[0] : null;
   if (background) {
-    decorateBlockBg(block, background, { useHandleFocalpoint: true });
     decoratePictures(background);
+    decorateBlockBg(block, background, { useHandleFocalpoint: true });
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
