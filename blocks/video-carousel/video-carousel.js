@@ -105,7 +105,7 @@ export default async function decorate(block) {
   if (videoId) {
     // scroll page to this block
     setTimeout(() => {
-      block.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      block.closest('.section').scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     }, 500);
     const slideIndex = Array.from(carouselSlides).findIndex((slide) => {
       const a = slide.querySelector('a');
