@@ -57,6 +57,7 @@
 
   /* fonts */
   --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;
+  --body-demi-bold: 'Visby DemiBold', visby-demibold-fallback, sans-serif;
   --heading-font-family: 'Acceptance Bold', acceptance-bold-fallback, sans-serif;
   --ff-acceptance-demi-bold: 'Acceptance DemiBold', acceptance-demi-bold-fallback, sans-serif;
   --ff-acceptance-extra-bold: 'Acceptance ExtraBold', acceptance-extrabold-fallback, sans-serif;
@@ -145,33 +146,38 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-family: var(--heading-font-family);
   font-size: var(--heading-font-size-xxl);
   line-height: 1.1;
 }
 
-h2 { 
-  font-family: var(--heading-font-family);
+h2 {
   font-size: var(--heading-font-size-xl);
 }
 
-h3 { 
+h3 {
   font-family: var(--ff-acceptance-medium);
   font-size: var(--heading-font-size-l);
+  font-weight: 400;
+
+  b, strong {
+    font-family: var(--ff-acceptance-demi-bold);
+    font-weight: 400;
+  }
 }
 
-h4 { 
+h4 {
   font-size: var(--heading-font-size-m);
 }
 
-h5 { 
+h5 {
   color: var(--credit-indigo);
   font-family: var(--ff-acceptance-regular);
   font-size: var(--heading-font-size-s);
+  font-weight: 400;
   margin-bottom: 12px;
 }
 
-h6 { 
+h6 {
   font-size: var(--heading-font-size-xs); 
 }
 
@@ -180,6 +186,7 @@ ul, ol {
 }
 
 b, strong {
+  font-family: var(--body-demi-bold);
   font-weight: 700;
 }
 
