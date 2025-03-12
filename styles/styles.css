@@ -619,7 +619,6 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 .disclaimer {
   font-family: inherit;
   font-size: 12px;
-  color: var(--text-color);
 }
 
 header {
