@@ -143,6 +143,10 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   margin-bottom: 0.75rem;
   margin-top: 0;
+
+  b, strong {
+    font-family: var(--heading-font-family);
+  }
 }
 
 h1 {
@@ -175,6 +179,10 @@ h5 {
   font-size: var(--heading-font-size-s);
   font-weight: 400;
   margin-bottom: 12px;
+
+  b, strong {
+    font-family: var(--ff-acceptance-demi-bold);
+  }
 }
 
 h6 {
