@@ -3,7 +3,7 @@ import { loadFragment } from '../fragment/fragment.js';
 import { createTag } from '../../libs/utils/utils.js';
 
 const icons = {
-  user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
+  user: '/icons/user.svg',
 };
 
 // media query match that indicates mobile/tablet width
@@ -190,8 +190,7 @@ export default async function decorate(block) {
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
   const fragment = await loadFragment(navPath);
   decorateFragment(block, fragment);
-
-  if (block.querySelector('.nav-quick-links.nav-section')?.childNodes?.length === 0) {
+  if (!block.querySelector('.nav-quick-links.nav-section')) {
     block.classList.add('logo-only');
   }
 }

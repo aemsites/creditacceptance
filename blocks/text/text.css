@@ -32,6 +32,21 @@
     padding: 0;
 }
 
+/* variants */
+.text-block.icon-margin .foreground {
+    margin-left: 2.5rem;
+
+    p { position: relative }
+
+    span.icon {
+        position: absolute;
+        left: -2.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-inline-end: 0;
+    }
+}
+
 /* inner-spacing */
 .text-block.inner-spacing-1 .foreground { padding: 1rem; }
 .text-block.inner-spacing-2 .foreground { padding: 2rem; }

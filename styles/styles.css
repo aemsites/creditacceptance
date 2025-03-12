@@ -408,6 +408,10 @@ button.secondary:hover {
 }
 
 /* Buttons Container */
+.center .button-container {
+  justify-content: center;
+}
+
 .button-container {
   display: flex;
   flex-flow: row wrap;
@@ -579,6 +583,8 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   &.gap-2 { gap: 2rem; }
   &.gap-3 { gap: 3rem; }
   &.gap-4 { gap: 4rem; }
+  &.gap-5 { gap: 5rem; }
+  &.gap-6 { gap: 6rem; }
 }
 
 .section.grid-section > .default-content-wrapper {
@@ -607,6 +613,7 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 
 .divider-thin-blue-dot {
   border: 1px dotted var(--credit-violet);
+  margin: 1rem 0;
 }
 
 header {

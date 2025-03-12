@@ -11,6 +11,8 @@
 .columns.gap-2 > div { gap: 0 2rem; }
 .columns.gap-3 > div { gap: 0 3rem; }
 .columns.gap-4 > div { gap: 0 4rem; }
+.columns.gap-5 > div { gap: 0 5rem; }
+.columns.gap-6 > div { gap: 0 6rem; }
 
 .columns img {
   width: 100%;
@@ -83,8 +85,6 @@
   gap: 0;
   counter-reset: ca-step-counter;
 }
-
-.columns.divided-list > div {  gap: 0 3rem; }
 
 .columns.stats > div > div {
   position: relative;
@@ -186,6 +186,8 @@
 .columns .button-container > p:last-child { margin-top: 0; }
 
 .columns.big-numbered-list ol {
+  --li-padding-top: 45px;
+
   margin-inline-start: 0;
   padding-inline-start: 0;
   position: relative;
@@ -193,16 +195,16 @@
   &::before {
     content: '';
     position: absolute;
-    height: calc(100% - 45px);
+    height: calc(100% - var(--li-padding-top) - var(--li-padding-top) - 44px);
     left: 48px;
-    top: 25px;
+    top: calc(var(--li-padding-top) + 20px);
     display: block;
     border-left: 5px dotted var(--ca-tangerine-500);
   }
 }
 
 .columns.big-numbered-list ol li {
-  padding: 45px 0 45px 120px;
+  padding: var(--li-padding-top) 0 var(--li-padding-top) 120px;
   position: relative;
 
   &::before {
@@ -320,7 +322,6 @@
     }
 
     .divider-thin-blue-dot {
-        margin: 1rem 0 1rem 40px;
         width: auto;
     }
 }
@@ -342,25 +343,22 @@
 
 
 /* mobile-tablet only */
-@media screen and (width <= 959px) {
+@media screen and (width < 960px) {
     .columns.media-hidden-mobile .media-count-1 {
         display: none;
     }
+  
+    .columns .media { margin-bottom: 1.5rem; }
+  
+    .columns.big-icons .copy:first-of-type > :is(p:not(.icon-elm), h4),
+    .columns.big-icons .copy:has(.icon-elm) + .copy > :is(p:not(.icon-elm), h4) {
+        margin-inline-start: 80px;
+    }
 
-    .columns.big-icons > div {
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      grid-template-rows: auto auto;
-      gap: 0 1.5rem;
-    }
-  
-    .columns.big-icons > div:first-of-type {
-      grid-row: span 2;
-      align-self: center;
-    }
-  
-    .columns.big-icons > div:not(:first-of-type) {
-      margin-top: 0;
+    .columns.big-icons .copy .icon-elm  span.icon{
+        position: absolute;
+        left: 0;
+        top: 0;
     }
 }
 

@@ -1,6 +1,6 @@
 import { createTag } from '../../libs/utils/utils.js';
 import { decorateBlockBg, isDarkHexColor } from '../../libs/utils/decorate.js';
-import { loadCSS } from '../../scripts/aem.js';
+import { createOptimizedPicture, loadCSS } from '../../scripts/aem.js';
 
 function isDarkColor(colors, colorStr) {
   const colorObject = colors.find((c) => c['brand-name'] === colorStr);
@@ -8,16 +8,28 @@ function isDarkColor(colors, colorStr) {
   return isDarkHexColor(colorObject['color-value']);
 }
 
-function decorateIntro(el) {
+function setTitleBorderWidth(heading, border) {
+  const headerWidth = heading.getBoundingClientRect().width;
+  if (headerWidth > 0) border.style.width = `${headerWidth}px`;
+}
+
+async function asyncFontsLoaded(heading, border) {
+  document.addEventListener('fontsLoaded', () => {
+    setTitleBorderWidth(heading, border);
+  });
+}
+
+async function decorateIntro(el) {
   const heading = el.querySelector('h1, h2, h3, h4, h5, h6');
   if (!heading) return;
   const intro = heading.previousElementSibling;
   if (!intro) return;
   intro.classList.add('intro');
+  heading.classList.add('heading');
   const [text, color] = intro.textContent.trim().split('{');
   intro.innerHTML = '';
   const label = createTag('span', null, text.trim());
-  const border = createTag('div');
+  const border = createTag('div', { class: 'border' });
   intro.appendChild(label);
   intro.appendChild(border);
   if (color) {
@@ -36,6 +48,12 @@ function decorateIntro(el) {
       });
     }
   }
+
+  await asyncFontsLoaded(heading, border);
+
+  window.addEventListener('resize', () => {
+    setTitleBorderWidth(heading, border);
+  });
 }
 
 function addCoins(el) {
@@ -76,11 +94,24 @@ function initAnimatedMarquee(block) {
   }, '8000');
 }
 
+function decoratePictures(el) {
+  const pictures = el.querySelectorAll('picture');
+  pictures.forEach((picture) => {
+    const img = picture.querySelector('img');
+    if (!img) return;
+    const isMobilePic = picture.closest('div').classList.contains('mobile-only');
+    const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
+    const optimizedPicture = createOptimizedPicture(img.src, img.alt, true, breakpoints);
+    picture.replaceWith(optimizedPicture);
+  });
+}
+
 export default function decorate(block) {
   const children = block.querySelectorAll(':scope > div');
   const foreground = children[children.length - 1];
   const background = children.length > 1 ? children[0] : null;
   if (background) {
+    decoratePictures(background);
     decorateBlockBg(block, background, { useHandleFocalpoint: true });
   }
   foreground.classList.add('foreground', 'container');

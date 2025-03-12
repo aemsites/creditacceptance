@@ -10,10 +10,11 @@ header {
     height: var(--header-height);
     
     nav {
-      padding: 0.5rem 1rem;
+      padding: 0 1rem;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       z-index: 2;
       position: relative;
       background-color: var(--light-gray);
@@ -285,10 +286,16 @@ header .nav-brand {
   }
 }
 
-/* nav variant with logo */
-.header.logo-only .btn-mobile.btn-user,
-.header.logo-only .btn-mobile.btn-ham {
-  display: none;
+/* nav variant with logo only */
+.header.logo-only {
+    .nav-brand .default-content-wrapper p {
+        justify-content: center;
+    }
+
+    .btn-mobile.btn-user,
+    .btn-mobile.btn-ham {
+        display: none;
+    }
 }
 
 @media (width >= 960px) {
@@ -296,8 +303,14 @@ header .nav-brand {
   header nav {
     flex-direction: row;
     height: var(--header-height);
-    padding-top: 0.25rem;
-    padding-bottom: 0;
+  }
+  
+  .header.logo-only nav { 
+    flex-direction: column; 
+
+    .nav-brand .default-content-wrapper p {
+      justify-content: start;
+    }  
   }
 
   header .nav-brand {
@@ -341,7 +354,7 @@ header .nav-brand {
           position: absolute;
           top: 100%;
           left: 0;
-          background: white;
+          background: #f8f9fa;
           margin: 0;
           padding: 0 0 1rem;
           border-radius: 0 0 4px 4px;
@@ -349,7 +362,6 @@ header .nav-brand {
           
           li {
             min-width: 270px;
-            background: var(--menu-bg);
             margin: 0;
             padding: 0 1rem;
 
