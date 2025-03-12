@@ -257,6 +257,8 @@ function buildPageDivider(main) {
         el.innerText = '';
         el.classList.add('divider-thin-blue-dot');
       }
+    } else {
+      el.classList.add('disclaimer');
     }
   });
 }
