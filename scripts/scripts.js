@@ -481,14 +481,6 @@ async function loadLazy(doc) {
   await loadPalette();
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
-
-  if (window.location.hostname !== 'localhost') {
-    if (isProductionEnvironment()) {
-      enableGoogleTagManagerProd();
-    } else {
-      enableGoogleTagManagerDev();
-    }
-  }
 }
 
 /**
