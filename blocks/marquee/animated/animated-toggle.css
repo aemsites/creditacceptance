@@ -2,7 +2,7 @@
     background: white;
     overflow: hidden;
 
-    .view-1 { display: block; color: var(--ca-tangerine-400);}
+    .view-1 { display: inline; color: var(--ca-tangerine-400);}
     .view-2 { display: none; color: white; }
 
     p.intro {
@@ -25,7 +25,7 @@
 .animated-toggle.toggled {
     background: var(--ca-tangerine-400);
     .view-1 { display: none; }
-    .view-2 { display: block; }
+    .view-2 { display: inline; }
 
     p.intro {
         color: black;
