@@ -7,7 +7,7 @@
 
     p.intro {
         color: white;
-        span, div {
+        span, .border {
             background: var(--ca-tangerine-700);
         }
     }
@@ -29,7 +29,7 @@
 
     p.intro {
         color: black;
-        span, div { background: white; }
+        span, .border { background: white; }
     }
 }
 
