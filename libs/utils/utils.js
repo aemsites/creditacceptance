@@ -116,3 +116,20 @@ export async function getEnvConfig(configType, { env } = { env: getEnv() }) {
   const item = envConfigs.find((config) => config.type === configType);
   return item?.[env];
 }
+
+/**
+ * Returns the relative path from a given path.
+ * If the path is a URL, it extracts the pathname.
+ * @param {string} path - The path to get the relative path from.
+ * @returns {string} - The relative path.
+ */
+export function getRelativePath(path) {
+  let relPath = path;
+  try {
+    const url = new URL(path);
+    relPath = url.pathname + url.search;
+  } catch (error) {
+    // do nothing
+  }
+  return relPath;
+}

@@ -26,7 +26,6 @@ main > .section-outer > .section.image-text-overlay-container {
   /* mobile-only */
   @media screen and (width <= 959px) {
     .card {
-      min-height: 450px;
       padding: 1rem;
       margin: 1rem;
       border-radius: 11px;

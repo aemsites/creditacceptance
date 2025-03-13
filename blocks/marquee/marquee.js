@@ -71,7 +71,7 @@ function addCoins(el) {
 function initAnimatedMarquee(block) {
   const headings = block.querySelectorAll('h1, h2, h3, h4, h5, h6');
   headings.forEach((heading, i) => {
-    heading.classList.add(`view-${i + 1}`);
+    heading.classList.add(`view-${i + 1}`, 'heading');
   });
   const foreground = block.querySelector('.foreground');
   foreground.children[0].classList.add('toggle-copy');
@@ -84,7 +84,13 @@ function initAnimatedMarquee(block) {
   foreground.append(toggleAria);
   addCoins(foreground);
 
-  const toggleClass = () => { block.classList.toggle('toggled', input.checked); };
+  const toggleClass = () => {
+    block.classList.toggle('toggled', input.checked);
+    const heads = block.querySelectorAll('.heading');
+    const border = block.querySelector('.border');
+    const activeHeading = input.checked ? heads[1] : heads[0];
+    setTitleBorderWidth(activeHeading, border);
+  };
   input.addEventListener('change', toggleClass);
 
   // Auto-toggle every 8 seconds

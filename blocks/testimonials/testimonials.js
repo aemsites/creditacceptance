@@ -6,7 +6,7 @@ import {
   loadBlock,
   loadCSS,
 } from '../../scripts/aem.js';
-import { createTag } from '../../libs/utils/utils.js';
+import { createTag, getRelativePath } from '../../libs/utils/utils.js';
 import { decorateButtons, initSlider } from '../../libs/utils/decorate.js';
 
 const isDesktop = window.matchMedia('(min-width: 960px)');
@@ -78,7 +78,7 @@ async function decorateCards(block, { reviews, url, ctaLabel }) {
     secondCol.classList.add('url-none');
 
     if (url !== 'false') {
-      const linkElement = createTag('a', { href: rowUrl || url }, ctaLabel);
+      const linkElement = createTag('a', { href: getRelativePath(rowUrl || url) }, ctaLabel);
       const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
       const linkWrapper = createTag('p', null, secondaryLink);
 
