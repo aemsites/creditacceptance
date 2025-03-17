@@ -1,18 +1,27 @@
 footer {
-  background-color: var(--background-color);
-  font-size: var(--body-font-size-xs);
+    background-color: var(--background-color);
+    font-size: var(--body-font-size-xs);
 }
 
-footer .footer > div {
-  margin: auto;
-  padding: 40px 12px 12px;
+footer .footer>div {
+    margin: auto;
+    padding: 0 12px 12px;
+}
+
+footer .footer .accordion-container,
+footer .footer .default-content-wrapper {
+    padding-block: 0;
+}
+
+footer .footer .accordion-wrapper {
+    margin-top: 0;
 }
 
 footer .footer p {
-  margin: 0;
+    margin: 0;
 }
 
-.footer .default-content-wrapper ul{
+.footer .default-content-wrapper ul {
     display: flex;
     flex-wrap: wrap;
     padding: 0;
@@ -21,6 +30,7 @@ footer .footer p {
 }
 
 .footer .default-content-wrapper ul li {
+    margin: 0;
     padding-inline: 12px;
     list-style-type: none;
     font-size: 12px;
@@ -30,11 +40,7 @@ footer .footer p {
     width: 100%;
 }
 
-.footer .default-content-wrapper ul li:not(:last-child){
-        border-right: 1px solid #1b1b1b;
-}
-
-.footer .default-content-wrapper p ,
+.footer .default-content-wrapper p,
 .footer .default-content-wrapper ul li a {
     font-size: 12px;
     font-weight: 500;
@@ -108,6 +114,7 @@ footer .accordion.sitemap details summary .accordion-item-minus {
 
 .footer .accordion.sitemap .accordion-item-body ul li {
     list-style-type: none;
+    margin: 0;
     padding-block-end: 8px;
 }
 
@@ -116,19 +123,22 @@ footer .accordion.sitemap details summary .accordion-item-minus {
     color: #1b1b1b;
 }
 
-@media screen and (width >= 768px) {
+@media screen and (width >=768px) {
     .footer .default-content-wrapper ul li {
         width: auto;
-    } 
+    }
 }
 
-@media (width >= 992px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
-  }
-
+@media (width >=992px) {
+    footer .footer>div {
+        padding: 0 32px 24px;
+    }
 
     footer .footer .accordion.sitemap {
         padding-inline: 72px;
+    }
+
+    .footer .default-content-wrapper ul li:not(:last-child) {
+        border-right: 1px solid #1b1b1b;
     }
 }

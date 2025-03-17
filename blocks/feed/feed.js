@@ -3,15 +3,19 @@ import {
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
 import { formatCardLocaleDate } from './feed-helper.js';
+import { getTaxonomyCategory } from '../../scripts/taxonomy.js';
 
 let queryIndexEndpoint;
 let pager = 1;
 let limit = 7;
 let feedItems = [];
+let ctaLabel = 'Read >';
+let pagerLabel = 'Load More';
 
+let categoryType;
 let selectedCategory;
 const categoryMap = {};
-let categories = [];
+const categories = [];
 
 let featuredCard = 2;
 let dateAllowed = true;
@@ -21,12 +25,36 @@ async function fetchData() {
   if (!response.ok) return;
   const data = await response.json();
 
+  // used for ordering
+  categories.forEach((category) => {
+    if (!categoryMap[category]) {
+      categoryMap[category] = [];
+    }
+  });
+
   data.data.forEach((dataItem) => {
     if (dataItem.category) {
-      if (!categoryMap[dataItem.category]) {
-        categoryMap[dataItem.category] = [];
+      // multiple categories
+      if (dataItem.category.includes(',')) {
+        const splitCategories = dataItem.category.split(',');
+        splitCategories.forEach((category) => {
+          if (categoryMap[category.trim()]) {
+            categoryMap[category.trim()].push(dataItem);
+          }
+        });
+        return;
       }
-      categoryMap[dataItem.category].push(dataItem);
+
+      if (categoryMap[dataItem.category]) {
+        categoryMap[dataItem.category].push(dataItem);
+      }
+    }
+  });
+
+  // remove empty categories
+  Object.keys(categoryMap).forEach((category) => {
+    if (categoryMap[category].length === 0) {
+      delete categoryMap[category];
     }
   });
 }
@@ -59,21 +87,43 @@ async function buildCards(block) {
   const cardBlock = [];
 
   feedItems.forEach((item, index) => {
-    const imageElement = createOptimizedPicture(item.mobileImage, item.imageAlt);
-    const tabletImageElement = createOptimizedPicture(item.tabletImage, item.imageAlt);
-    imageElement.className = 'card-image-all';
-    tabletImageElement.className = 'card-image-tablet';
+    function getValidSource(...sources) {
+      return sources.find((src) => src && src !== '0');
+    }
 
-    const firstCol = createTag('div', null, [imageElement, tabletImageElement]);
+    function chooseImage(sources) {
+      const validSource = getValidSource(...sources);
+      return validSource ? createOptimizedPicture(validSource, item.imageAlt) : null;
+    }
 
-    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.title}</strong>`);
+    const validSources = [item.image, item.mobileImage, item.tabletImage].filter((src) => src && src !== '0');
+
+    const countMap = {
+      1: 'one',
+      2: 'two',
+      3: 'three',
+    };
+    const imagesCount = validSources.length;
+    const countClass = countMap[imagesCount] ?? 'one';
+
+    const desktopImageElement = chooseImage([item.image, item.mobileImage, item.tabletImage]);
+    const imageElement = chooseImage([item.mobileImage, item.image, item.tabletImage]);
+    const tabletImageElement = chooseImage([item.tabletImage, item.mobileImage, item.image]);
+
+    const firstCol = createTag(
+      'div',
+      { class: `${countClass}-image-available` },
+      [imageElement, tabletImageElement, desktopImageElement],
+    );
+
+    const heading = createTag('p', { class: 'card-title' }, `<strong>${item.heading}</strong>`);
     const description = createTag('p', { class: 'card-description' }, item.description);
 
-    const link = createTag('a', { href: item.path }, 'Read >');
+    const link = createTag('a', { href: item.path }, ctaLabel);
     const secondaryLink = createTag('em', { class: 'button-container' }, link);
     const linkWrapper = createTag('p', null, secondaryLink);
 
-    const secondCol = createTag('div', null, [heading, description, linkWrapper]);
+    const secondCol = createTag('div', { class: 'card-body-inner-wrapper' }, [heading, description, linkWrapper]);
 
     if (dateAllowed) {
       const date = item.date ?? item.lastModified;
@@ -97,7 +147,7 @@ async function buildCards(block) {
 }
 
 function buildPager(block) {
-  const loadMoreButton = createTag('button', { class: 'load-more' }, 'Load More');
+  const loadMoreButton = createTag('button', { class: 'load-more' }, pagerLabel);
   loadMoreButton.addEventListener('click', async () => {
     await loadMoreFeedItems(block);
     await buildCards(block);
@@ -106,12 +156,20 @@ function buildPager(block) {
   block.insertAdjacentElement('afterend', loadMoreButtonWrapper);
 }
 
-async function buildCategory(block) {
-  categories = Object.keys(categoryMap);
+async function setCategories() {
+  const taxCategory = await getTaxonomyCategory(categoryType);
+  Object.keys(taxCategory).forEach((key) => {
+    if (typeof taxCategory[key] === 'object') {
+      categories.push(key);
+    }
+  });
 
   [selectedCategory] = categories;
+}
 
-  const listItems = categories.map((category) => {
+async function buildCategory(block) {
+  const orderedCategories = Object.keys(categoryMap);
+  const listItems = orderedCategories.map((category) => {
     const button = createTag('button', { class: 'feed-tab' }, category);
     const listItem = createTag('li', { class: 'feed-tab-item', role: 'tab' }, button);
     button.addEventListener('click', async () => {
@@ -133,7 +191,7 @@ async function buildCategory(block) {
   listItems[0].classList.add('active');
   const ul = createTag('ul', { class: 'feed-tabs-list-desktop', role: 'tablist' }, listItems);
 
-  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, categories.map((category) => {
+  const select = createTag('select', { class: 'feed-tabs-select-mobile' }, orderedCategories.map((category) => {
     const option = createTag('option', { value: category }, category);
     return option;
   }));
@@ -156,29 +214,44 @@ async function buildCategory(block) {
 export default async function init(block) {
   const { children } = block;
   Array.from(children).forEach((child) => {
-    const key = child.children[0].textContent?.toLowerCase();
-    const value = child.children[1].textContent?.toLowerCase();
+    const key = child.children[0].textContent?.toLowerCase().replace(/\s/g, '-');
+    let value;
 
     switch (key) {
       case 'path':
+        value = child.children[1].textContent;
         queryIndexEndpoint = new URL(value)?.pathname;
         break;
+      case 'category-type':
+        value = child.children[1].textContent;
+        categoryType = value;
+        break;
       case 'limit':
+        value = child.children[1].textContent;
         limit = parseInt(value, 10);
         break;
       case 'featured-card':
+        value = child.children[1].textContent;
         featuredCard = parseInt(value, 10);
         break;
       case 'date':
+        value = child.children[1].textContent.toLowerCase();
         dateAllowed = value === 'true' || value === 'yes';
+        break;
+      case 'cta-label':
+        ctaLabel = child.children[1].textContent.trim();
+        break;
+      case 'pager-label':
+        pagerLabel = child.children[1].textContent.trim();
         break;
       default:
         break;
     }
   });
 
-  if (!queryIndexEndpoint) return;
+  if (!queryIndexEndpoint || !categoryType) return;
 
+  await setCategories();
   await fetchData();
   await buildCategory(block);
   updateFeedItems(block);

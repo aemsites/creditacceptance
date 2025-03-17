@@ -7,15 +7,18 @@ header {
   --menu-accent-orange: #ffb800;
 
     background-color: var(--light-gray);
-
+    height: var(--header-height);
+    
     nav {
-      padding: 0.5rem 1rem;
+      padding: 0 1rem;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       z-index: 2;
       position: relative;
       background-color: var(--light-gray);
+      min-height: var(--header-height);
     }
     p { margin: 0; }
 
@@ -283,18 +286,37 @@ header .nav-brand {
   }
 }
 
+/* nav variant with logo only */
+.header.logo-only {
+    .nav-brand .default-content-wrapper p {
+        justify-content: center;
+    }
+
+    .btn-mobile.btn-user,
+    .btn-mobile.btn-ham {
+        display: none;
+    }
+}
+
 @media (width >= 960px) {
   /* brand */
   header nav {
     flex-direction: row;
-    height: var(--nav-height);
-    padding-top: 0;
-    padding-bottom: 0;
+    height: var(--header-height);
+  }
+  
+  .header.logo-only nav { 
+    flex-direction: column; 
+
+    .nav-brand .default-content-wrapper p {
+      justify-content: start;
+    }  
   }
 
   header .nav-brand {
     text-align: unset;
     flex-basis: 160px;
+    margin-inline-end: 1rem;
   }
 
   header .nav-main .default-content-wrapper,
@@ -332,7 +354,7 @@ header .nav-brand {
           position: absolute;
           top: 100%;
           left: 0;
-          background: white;
+          background: #f8f9fa;
           margin: 0;
           padding: 0 0 1rem;
           border-radius: 0 0 4px 4px;
@@ -340,7 +362,6 @@ header .nav-brand {
           
           li {
             min-width: 270px;
-            background: var(--menu-bg);
             margin: 0;
             padding: 0 1rem;
 
@@ -375,17 +396,16 @@ header .nav-brand {
       display: block;
     }
 
-
     details > summary::before {
       right: 1.5rem;
-      margin-top: -4px;
+      margin-top: -6px;
       left: auto;
-      content: '\2304';
-      font-size: 1.2rem;
+      content: url('../../icons/arrow-down.svg');
+      width: 12px;
     }
     
     details[open] > summary::before {
-      content: "\2304";
+      content: url('../../icons/arrow-down.svg');
     }
   }
   
@@ -420,6 +440,13 @@ header .nav-brand {
   .nav-quick-links[aria-expanded='true'] {
     display: none;
   }
+}
+
+@media screen and (width >= 992px) {
+    header nav {
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 @keyframes ripple {

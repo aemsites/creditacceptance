@@ -1,9 +1,15 @@
 import ffetch from '../../scripts/ffetch.js';
 import {
-  buildBlock, createOptimizedPicture, decorateIcons, loadBlock,
+  buildBlock,
+  createOptimizedPicture,
+  decorateIcons,
+  loadBlock,
+  loadCSS,
 } from '../../scripts/aem.js';
-import { createTag } from '../../libs/utils/utils.js';
-import { decorateButtons } from '../../libs/utils/decorate.js';
+import { createTag, getRelativePath } from '../../libs/utils/utils.js';
+import { decorateButtons, initSlider } from '../../libs/utils/decorate.js';
+
+const isDesktop = window.matchMedia('(min-width: 960px)');
 
 function getKeyValuePairs(block) {
   const { children } = block;
@@ -11,10 +17,10 @@ function getKeyValuePairs(block) {
   const people = [];
   let limit = 3;
   let url;
+  let ctaLabel = 'More >';
 
   Array.from(children).forEach((child) => {
-    const key = child.children[0].textContent?.toLowerCase();
-
+    const key = child.children[0].textContent?.toLowerCase().replace(/\s/g, '-');
     let value;
     switch (key) {
       case 'path':
@@ -36,17 +42,21 @@ function getKeyValuePairs(block) {
         limit = parseInt(value, 10);
         break;
 
+      case 'cta-label':
+        ctaLabel = child.children[1].textContent?.trim();
+        break;
+
       default:
         break;
     }
   });
 
   return {
-    link, people, limit, url,
+    link, people, limit, url, ctaLabel,
   };
 }
 
-async function decorateCards(block, { reviews, url }) {
+async function decorateCards(block, { reviews, url, ctaLabel }) {
   const cardBlock = [];
 
   reviews.forEach((item, index) => {
@@ -55,19 +65,20 @@ async function decorateCards(block, { reviews, url }) {
     } = item;
 
     const imageElement = createOptimizedPicture(image, name);
-    imageElement.classList.add('card-image-person');
 
     const firstCol = createTag('div', null, [imageElement]);
 
     const reviewElement = createTag('p', { class: 'card-description' }, review);
     const nameElement = createTag('p', { class: 'card-person-name' }, name);
-    const addressElement = createTag('p', { class: 'card-person-address' }, address);
 
-    const secondCol = createTag('div', null, [reviewElement, nameElement, addressElement]);
+    const addressWithNewLine = address?.replace(/\n/g, '<br>');
+    const addressElement = createTag('p', { class: 'card-person-address' }, addressWithNewLine);
+
+    const secondCol = createTag('div', { class: 'card-body-inner-wrapper' }, [reviewElement, nameElement, addressElement]);
     secondCol.classList.add('url-none');
 
     if (url !== 'false') {
-      const linkElement = createTag('a', { href: rowUrl || url }, 'Read >');
+      const linkElement = createTag('a', { href: getRelativePath(rowUrl || url) }, ctaLabel);
       const secondaryLink = createTag('em', { class: 'button-container' }, linkElement);
       const linkWrapper = createTag('p', null, secondaryLink);
 
@@ -89,11 +100,29 @@ async function decorateCards(block, { reviews, url }) {
 
   block.classList.add(...card.classList);
   block.innerHTML = loadedCard.innerHTML;
+
+  const isSlider = block.classList.contains('slider-mobile');
+  if (isSlider && !isDesktop.matches) {
+    const sliderContainer = block.querySelector('ul');
+    const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
+    initSlider(block, slides, sliderContainer);
+  }
+}
+
+function sortPeople(reviews, people) {
+  if (!people.length) return;
+
+  reviews.sort((a, b) => {
+    const aIndex = people.indexOf(a.name.toLowerCase());
+    const bIndex = people.indexOf(b.name.toLowerCase());
+    return aIndex - bIndex;
+  });
 }
 
 export default async function init(block) {
   const {
-    link, people, limit, url,
+    link, people, limit, url, ctaLabel,
   } = getKeyValuePairs(block);
   const reviews = await ffetch(link.href)
     .filter((row) => {
@@ -106,5 +135,6 @@ export default async function init(block) {
 
   if (!reviews || !reviews.length) return;
 
-  await decorateCards(block, { reviews, url });
+  sortPeople(reviews, people);
+  await decorateCards(block, { reviews, url, ctaLabel });
 }

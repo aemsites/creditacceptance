@@ -1,5 +1,7 @@
 // Shared block decorate functions
 
+import { createTag } from './utils.js';
+
 /**
  * Checks if a hex color value is dark or light
  *
@@ -41,24 +43,25 @@ export function decorateButtons(el) {
   if (buttons.length === 0) return;
   const buttonTypeMap = { STRONG: 'primary', EM: 'secondary', A: 'link' };
   buttons.forEach((button) => {
-    let target = button;
     const parent = button.parentElement;
     const buttonType = buttonTypeMap[parent.nodeName] || 'primary';
-    if (button.nodeName === 'STRONG') {
-      target = parent;
-    } else {
-      parent.insertAdjacentElement('afterend', button);
-      parent.remove();
-    }
-    target.classList.add('button', buttonType);
-    const customClasses = target.textContent && [...target.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
+    button.classList.add('button', buttonType);
+
+    const customClasses = button.textContent && [...button.textContent.matchAll(/#_button-([a-zA-Z-]+)/g)];
     if (customClasses) {
       customClasses.forEach((match) => {
-        target.textContent = target.textContent.replace(match[0], '');
-        target.classList.add(match[1]);
+        button.textContent = button.textContent.replace(match[0], '');
+        button.classList.add(match[1]);
       });
     }
-    button.parentElement?.classList.add('button-container');
+  });
+  // remove wrapping tags and add button-container class to parent p
+  el.querySelectorAll('p > strong, p > em').forEach((btn) => {
+    if (!btn.querySelector('a')) return;
+    const parentP = btn.parentElement;
+    btn.querySelectorAll('a').forEach((a) => parentP.appendChild(a));
+    btn.remove();
+    parentP.classList.add('button-container');
   });
 }
 
@@ -119,4 +122,122 @@ export async function decorateBlockBg(block, node, { useHandleFocalpoint = false
     block.style.background = node.textContent;
     node.remove();
   }
+}
+
+/**
+ * Decorates a section element with grid classes based on metadata.
+ *
+ * @param {HTMLElement} section - The section element to be decorated.
+ * @param {string} meta - A comma-separated string of class names to
+ * be applied to the section's rows.
+ */
+export function decorateGridSection(section, meta) {
+  section.classList.add('grid-section');
+  const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
+  let rowCount = 0;
+  let autoGrid = false;
+  Array.from(section.querySelectorAll('.section > div'))
+    .filter((row) => {
+      const firstCol = row.querySelector(':scope > div');
+      if (firstCol && firstCol.classList.contains('library-metadata')) row.classList.add('span-12');
+      return !firstCol?.classList.contains('section-metadata') && !firstCol?.classList.contains('library-metadata');
+    })
+    .forEach((row, i) => {
+      if (gridValues[i]) {
+        row.classList.add(gridValues[i]);
+      }
+      // if single span-auto row, add span-auto class to all rows
+      if (gridValues[0] === 'span-auto' && gridValues.length === 1) {
+        row.classList.add('span-auto');
+        autoGrid = true;
+      }
+      rowCount += 1;
+    });
+  if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
+}
+
+export function decorateGridSectionGroups(section, meta) {
+  const sectionRows = [];
+  let currentDiv = document.createElement('div');
+  sectionRows.push(currentDiv);
+
+  [...section.children].forEach((child) => {
+    if (child.querySelector('.section-metadata')) return;
+    if (child.querySelector('.separator')) {
+      currentDiv = document.createElement('div');
+      sectionRows.push(currentDiv);
+      child.remove();
+    } else {
+      currentDiv.append(child);
+    }
+  });
+  const gridValues = meta.split(',').map((val) => val.trim().toLowerCase());
+  let rowCount = 0;
+  let autoGrid = false;
+  section.classList.add('grid-section');
+  const gridRows = [...sectionRows];
+  gridRows.forEach((row, i) => {
+    // for each direct child of the row, unwrap it if it doesn't have a class
+    const rowChildren = [...row.children];
+    rowChildren.forEach((child) => {
+      if (child.classList.length === 0) {
+        child.replaceWith(...child.childNodes);
+      }
+    });
+    if (gridValues[i]) row.classList.add(gridValues[i]);
+    // if single span-auto row, add span-auto class to all rows
+    if (gridValues[0] === 'span-auto' && gridValues.length === 1) {
+      row.classList.add('span-auto');
+      autoGrid = true;
+    }
+    rowCount += 1;
+  });
+
+  section.append(...gridRows);
+  if (autoGrid) { section.classList.add(`grid-template-columns-${rowCount}-auto`); }
+}
+
+function updateActiveSlide(steps, pagination) {
+  const dots = pagination.querySelectorAll('button');
+  function handleIntersection(entries) {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const visibleStep = entry.target;
+        const index = Array.from(steps).indexOf(visibleStep);
+        dots.forEach((dot) => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+      }
+    });
+  }
+  // Create observer with 50% visibility threshold
+  const observer = new IntersectionObserver(handleIntersection, { threshold: 0.5 });
+  steps.forEach((step) => observer.observe(step)); // Start observing each step
+}
+
+export function initSlider(block, slides, container = null) {
+  if (!slides) return;
+  const slideContainer = container || block;
+  slideContainer.classList.add('slider-container');
+  const pagination = createTag('div', { class: 'pagination' }, null);
+  slides.forEach((slide, i) => {
+    slide.id = `slide-${i}`;
+    slide.classList.add('slide');
+    const dot = createTag('button', { type: 'button', class: `dot dot-slide-${i}`, 'aria-label': `Slide ${i + 1}` }, null);
+    pagination.append(dot);
+
+    // scroll into view on click
+    slide.addEventListener('click', () => {
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    dot.addEventListener('click', (event) => {
+      event.preventDefault();
+      slide.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  });
+  const { blockName } = block.dataset;
+  const outerSection = block.closest(`.${blockName}-wrapper`);
+  outerSection.classList.add('slider-wrapper');
+  outerSection.append(pagination);
+  updateActiveSlide(slides, pagination);
 }

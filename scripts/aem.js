@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isImagePath } from '../libs/utils/decorate.js';
+import { isImagePath, decorateGridSection, decorateGridSectionGroups } from '../libs/utils/decorate.js';
 
 /* eslint-env browser */
 function sampleRUM(checkpoint, data) {
@@ -445,7 +445,7 @@ function decorateIcon(span, prefix = '', alt = '') {
   const img = document.createElement('img');
   img.dataset.iconName = iconName;
   img.src = `${window.hlx.codeBasePath}${prefix}/icons/${iconName}.svg`;
-  img.alt = alt;
+  img.alt = alt || iconName;
   img.loading = 'lazy';
   span.append(img);
 }
@@ -505,8 +505,9 @@ function decorateSections(main) {
         } else if (key === 'background') {
           const urlIsImg = isImagePath(meta[key]);
           if (urlIsImg) {
-            const style = `background-image: url(${meta[key]}); background-repeat: no-repeat; background-size: cover;`;
-            sectionOuter.style = style;
+            sectionOuter.style.backgroundImage = `url(${meta[key]})`;
+            sectionOuter.style.backgroundRepeat = 'no-repeat';
+            sectionOuter.style.backgroundSize = 'cover';
           } else {
             let colorStr = meta[key];
             const isBrandColor = meta[key].startsWith('ca-');
@@ -517,6 +518,14 @@ function decorateSections(main) {
           }
         } else {
           sectionOuter.dataset[toCamelCase(key)] = meta[key].toLowerCase().trim().replaceAll(' ', '-');
+          if (key === 'id') sectionOuter.id = meta[key];
+        }
+        if (key === 'grid') {
+          if (section.querySelector('.separator')) {
+            decorateGridSectionGroups(section, meta.grid);
+          } else {
+            decorateGridSection(section, meta.grid);
+          }
         }
       });
       sectionMeta.parentNode.remove();
@@ -601,6 +610,7 @@ async function loadBlock(block) {
   if (status !== 'loading' && status !== 'loaded') {
     block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
+    if (blockName === 'default-content-wrapper' || blockName === 'separator') return block;
     try {
       const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
@@ -702,7 +712,7 @@ async function waitForFirstImage(section) {
  */
 
 async function loadSection(section, loadCallback) {
-  const status = section.dataset.sectionStatus;
+  const status = section.dataset?.sectionStatus;
   if (!status || status === 'initialized') {
     section.dataset.sectionStatus = 'loading';
     const blocks = [...section.querySelectorAll('div.block')];

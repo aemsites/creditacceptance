@@ -1,15 +1,14 @@
 import { loadScript } from '../../scripts/aem.js';
+import { getEnvConfig, getEnv } from '../../libs/utils/utils.js';
 
 export default async function decorate(block) {
-  const SCRIPT_URL = 'https://s3.us-east-2.amazonaws.com/wwwbucket-join-network.teststatic.creditacceptance.com/join-our-network-widget.js ';
-  if (window.location.host.endsWith('main--creditacceptance--aemsites.aem.live') || window.location.host.endsWith('creditacceptance.com')) {
-    window.jonEnv = 'prod';
-  } else {
-    window.jonEnv = 'test';
-  }
+  let jonWidgetScript = await getEnvConfig('jon-widget');
+  const recaptchaScript = await getEnvConfig('recaptcha-google');
+
+  window.jonEnv = getEnv();
+
   const webContentJson = {};
   const rows = block.querySelectorAll('div > div');
-  let script = SCRIPT_URL;
 
   rows.forEach((row) => {
     const cells = row.querySelectorAll('div > p');
@@ -17,7 +16,7 @@ export default async function decorate(block) {
       const key = cells[0]?.textContent?.trim();
       const value = cells[1]?.textContent?.trim();
       if (key === 'script') {
-        script = value;
+        jonWidgetScript = value;
       } else if (key && value) {
         webContentJson[key] = value;
       }
@@ -33,8 +32,8 @@ export default async function decorate(block) {
   const loadingAnimation = document.createElement('div');
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
-  await loadScript('https://www.google.com/recaptcha/api.js', { async: true });
-  await loadScript(script, { async: true });
+  await loadScript(recaptchaScript, { async: true });
+  await loadScript(jonWidgetScript, { async: true });
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);

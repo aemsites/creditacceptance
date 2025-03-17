@@ -4,7 +4,6 @@
 
 .feed-tabs-wrapper .feed-tabs {
     position: relative;
-
 }
 
 .feed-tabs-wrapper .feed-tabs-select-mobile {
@@ -35,27 +34,27 @@
     justify-content: center;
     gap: 0.5rem;
     padding: 0;
+    margin-bottom: 0;
 }
 
 .feed-tabs-wrapper .feed-tabs-list-desktop li {
     list-style: none;
     margin: 0;
-    flex: 1 1 0;
 }
 
 
 .feed-tabs-wrapper .feed-tabs-list-desktop button {
     padding: 0.5rem 1.5rem;
     background: var(--secondary-brown);
-    border: none;
+    border: 1px solid var(--bs-border-color);
+    border-width: 1px 1px 0;
     min-height: 37px;
     width: 100%;
+    text-wrap: wrap;
 }
 
 .feed-tabs-wrapper .feed-tabs-list-desktop li.active button {
     background: var(--pure-white);
-    border-right: 1px solid var(--bs-border-color);
-    border-left: 1px solid var(--bs-border-color);
 }
 
 /* feed start */
@@ -67,19 +66,11 @@
     height: 100%;
 }
 
-.feed-wrapper .card-wrapper .card-image-tablet {
-    display: none;
-}
-
-.feed-wrapper .card-wrapper .card-image-tablet img {
-    aspect-ratio: unset;
-}
-
 .feed-wrapper .card-wrapper .card-title {
     display: -webkit-box;
-    height: 34px;
+    height: 38px;
     font-size: 16px;
-    line-height: 1.1;
+    line-height: 1.2;
     font-family: var(--ff-acceptance-regular);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -117,15 +108,6 @@
     color: var(--btn-secondary-border);
 }
 
-@media screen and (width >= 576px) {
-    .feed-wrapper .card-wrapper .card-image-tablet {
-        display: block;
-    }
-
-    .feed-wrapper .card-wrapper .card-image-all {
-        display: none;
-    } 
-}
 
 @media (width >=992px) {
     .section-outer.feed-tabs {
@@ -133,8 +115,7 @@
     }
 
     .section-outer.feed-tabs .feed-tabs-wrapper {
-        padding: 0 12rem;
-        max-width: unset;
+        padding-bottom: 0;
     }
 
     .feed-tabs-wrapper .feed-tabs::after {
@@ -156,10 +137,6 @@
 
     .feed-wrapper .card-wrapper .card-image-all {
         display: block;
-    }
-
-    .feed-wrapper .card-wrapper .card-image-tablet {
-        display: none;
     }
 
     .feed-wrapper .feed.cards > ul {
@@ -184,6 +161,10 @@
         height: 100%;
     }
 
+    .feed-wrapper .feed.cards .featured-card .cards-card-image img {
+        aspect-ratio: 4 / 1;
+    }
+
     .feed-wrapper .feed.cards .featured-card .cards-card-body {
         padding: 16px 24px;
         height: 50%;
@@ -202,10 +183,6 @@
 
     .feed-wrapper .feed.cards .featured-card .card-image-all {
         display: none;
-    } 
-
-    .feed-wrapper .feed.cards .featured-card .card-image-tablet {
-        display: block;
     } 
 
     .feed-wrapper .feed.cards .featured-card .ellipsed .card-description {
