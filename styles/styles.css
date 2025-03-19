@@ -595,8 +595,10 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   }
   
   &.gap-0 { gap: 0; }
-  &.gap-2 { gap: 2rem; }
-  &.gap-3 { gap: 3rem; }
+  &.gap-2,
+  &.gap-m { gap: 2rem; }
+  &.gap-3,
+  &.gap-l { gap: 3rem; }
   &.gap-4 { gap: 4rem; }
   &.gap-5 { gap: 5rem; }
   &.gap-6 { gap: 6rem; }
@@ -745,12 +747,18 @@ header {
         &.grid-template-columns-10-auto { grid-template-columns: repeat(10, auto); }
         &.grid-template-columns-11-auto { grid-template-columns: repeat(11, auto); }
         &.grid-template-columns-12-auto { grid-template-columns: repeat(12, auto); }
+
+
     }
     
 }
 
 @media screen and (width >= 1200px) {
     :root { --container-width: 1140px; }
+    .grid-section {
+        &.gap-m { gap: 5rem; }
+        &.gap-l { gap: 6rem; }
+    }   
 }
 
 @media screen and (width >= 1400px) {
