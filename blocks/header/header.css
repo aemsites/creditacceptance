@@ -380,7 +380,7 @@ header .nav-brand {
 
     .detail-0 ul {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, minmax(max-content, 1fr));
       grid-gap: 0 1rem;
     }
     
