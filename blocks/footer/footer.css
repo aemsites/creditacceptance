@@ -146,7 +146,7 @@ footer .accordion.sitemap details summary .accordion-item-minus {
     }
 }
 
-/* overside global styles for mobile only */
+/* override global styles for mobile only */
 @media (width < 768px) {
     footer .section-outer > .section,
     footer .footer .default-content-wrapper {
