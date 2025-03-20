@@ -241,25 +241,32 @@ function buildPageDivider(main) {
     const parent = el.parentElement;
     if (parent.parentElement.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
       parent.parentElement.replaceWith(el);
-    } else if (parent.tagName === 'P') {
+    } else if (parent.tagName === 'P' || parent.tagName === 'PRE') {
       parent.replaceWith(el);
     }
     const alt = el.innerText.trim();
     const lower = alt.toLowerCase();
-    if (lower.startsWith('divider')) {
-      if (lower === 'divider' || lower.includes('element')) {
-        el.innerText = '';
-        el.classList.add('divider');
-      }
-      if (lower === 'divider-thin-dark') {
-        el.innerText = '';
-        el.classList.add('divider-thin-dark');
-      }
-      if (lower === 'divider-thin-blue-dot') {
-        el.innerText = '';
-        el.classList.add('divider-thin-blue-dot');
-      }
+    if (lower === 'divider') {
+      el.innerText = '';
+      el.classList.add('divider');
+    }
+    if (lower === 'divider-thin-dark') {
+      el.innerText = '';
+      el.classList.add('divider-thin-dark');
+    }
+    if (lower === 'divider-thin-blue-dot') {
+      el.innerText = '';
+      el.classList.add('divider-thin-blue-dot');
     } else {
+      let textContent = el.textContent.trim();
+      if (textContent.toLowerCase().includes('divider-thin-dark')) {
+        textContent = textContent.replace(/divider-thin-dark/gi, '<span class="divider divider-thin-dark"></span>');
+      } else if (textContent.toLowerCase().includes('divider-thin-blue-dot')) {
+        textContent = textContent.replace(/divider-thin-blue-dot/gi, '<span class="divider divider-thin-blue-dot"></span>');
+      } else if (textContent.toLowerCase().includes('divider')) {
+        textContent = textContent.replace(/divider/gi, '<span class="divider"></span>');
+      }
+      el.innerHTML = textContent;
       el.classList.add('disclaimer');
     }
   });

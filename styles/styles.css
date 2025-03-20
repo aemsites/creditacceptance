@@ -444,7 +444,7 @@ button.secondary:hover {
 }
 
 .section > .default-content-wrapper {
-  padding: 1.5rem 1rem;
+  padding: 0 1rem;
 
   h2:not(:first-of-type), h3, h4 {
     margin-top: 3rem;
@@ -635,6 +635,11 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 .disclaimer {
   font-family: inherit;
   font-size: 12px;
+  
+  p {
+    font-size: inherit !important;
+    margin: 0;
+  }
 }
 
 header {
