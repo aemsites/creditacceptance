@@ -36,7 +36,7 @@
 .text-block.icon-margin .foreground {
     margin-left: 2.5rem;
 
-    p { position: relative }
+    p, h2, h3, h4, h5, h6 { position: relative }
 
     span.icon {
         position: absolute;
