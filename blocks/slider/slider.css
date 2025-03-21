@@ -13,7 +13,7 @@
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    padding: 2rem 2rem 4rem;
+    padding: 2rem 1rem 4rem;
 
     &::-webkit-scrollbar {
       width: 0;
@@ -31,7 +31,7 @@
     .slide {
       scroll-snap-align: center;
       flex-shrink: 0;
-      width: 80%;
+      width: 90%;
     }
   }
 
