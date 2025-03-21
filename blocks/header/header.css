@@ -390,8 +390,8 @@ header .nav-brand {
     }
     
     .column-1 {  
-        border-bottom: none; 
-        margin-bottom: 0;
+        border-bottom: none !important; 
+        margin-bottom: 0 !important;
     }
 
     summary:hover,
