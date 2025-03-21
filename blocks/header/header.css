@@ -203,6 +203,11 @@ header .nav-brand {
       width: 100%;
       padding: 0.5rem 0;
     }
+
+    .column-1 {  
+        border-bottom: 1px dotted var(--menu-accent-gray); 
+        margin-bottom: 1rem;
+    }
   }
 
   details summary:hover {
@@ -375,6 +380,11 @@ header .nav-brand {
           li:hover {
             background: var(--menu-bg-hover);
           }
+        }
+        
+        .column-1 {  
+          border-bottom: none; 
+          margin-bottom: 0;
         }
     }
 
