@@ -381,6 +381,11 @@ header .nav-brand {
             background: var(--menu-bg-hover);
           }
         }
+        
+        .column-1 {  
+          border-bottom: none; 
+          margin-bottom: 0;
+        }
     }
 
     .detail-0 ul {
@@ -389,11 +394,6 @@ header .nav-brand {
       grid-gap: 0 1rem;
     }
     
-    .column-1 {  
-        border-bottom: none !important; 
-        margin-bottom: 0 !important;
-    }
-
     summary:hover,
     details[open] summary {
       background: var(--menu-bg-hover);
