@@ -132,19 +132,22 @@
  }
 
 /* mobile-only */
-@media screen and (width <= 959px) {
-    .cards > ul {
-        &.slider-container {
-            display: flex;
-            gap: 0 !important;
-            padding: 0 2rem 4rem;
-
-            > li > .card-wrapper {
-                margin: 1rem;
-            }
-        }
+@media screen and (width <=959px) {
+    .cards.slider-mobile .slider-container {
+        display: flex;
+        gap: 0;
+        padding: 0 1rem 4rem;
+        
     }
-   
+
+    .cards.slider-mobile .slider-container li:not(:first-child) .card-wrapper {
+        margin: 0 0 0 1.5rem;
+    }
+
+    .cards.slider-mobile .slider-container .slide {
+        width: 90%;
+    }
+
 }
 
  /* Ups Variant */
