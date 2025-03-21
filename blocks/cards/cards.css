@@ -151,11 +151,11 @@
     }
 
     .cards.three-up > ul {
-        grid-template-columns: repeat(3, minmax(257px, 1fr));
+        grid-template-columns: repeat(3, minmax(230px, 1fr));
     }
 
     .cards.four-up > ul {
-        grid-template-columns: repeat(4, minmax(257px, 1fr));
+        grid-template-columns: repeat(4, minmax(200px, 1fr));
     }
 }
 
