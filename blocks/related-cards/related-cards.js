@@ -1,9 +1,11 @@
 import {
-  buildBlock, decorateIcons, getMetadata, loadBlock,
+  buildBlock, decorateIcons, getMetadata, loadBlock, loadCSS,
 } from '../../scripts/aem.js';
 import { createTag } from '../../libs/utils/utils.js';
-import { decorateButtons } from '../../libs/utils/decorate.js';
+import { decorateButtons, initSlider } from '../../libs/utils/decorate.js';
 import { createOptimizedPicture } from '../../scripts/scripts.js';
+
+const isDesktop = window.matchMedia('(min-width: 960px)');
 
 function getKeyValuePairs(block) {
   const { children } = block;
@@ -90,7 +92,17 @@ export default async function init(block) {
   decorateIcons(card);
 
   card.classList.add('rounded', 'block', 'animation', 'three-up');
+  card.classList.add(...block.classList);
   const loadedCard = await loadBlock(card);
+
   block.innerHTML = loadedCard.innerHTML;
   block.classList.add(...loadedCard.classList);
+
+  const isSlider = block.classList.contains('slider-mobile');
+  if (isSlider && !isDesktop.matches) {
+    const sliderContainer = block.querySelector('ul');
+    const slides = sliderContainer.querySelectorAll(':scope > li');
+    loadCSS(`${window.hlx.codeBasePath}/blocks/slider/slider.css`);
+    initSlider(block, slides, sliderContainer);
+  }
 }
