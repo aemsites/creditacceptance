@@ -1,9 +1,9 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { createTag } from '../../libs/utils/utils.js';
+import { createTag, getEnvConfig } from '../../libs/utils/utils.js';
 
 const icons = {
-  user: 'https://main--creditacceptance--aemsites.aem.page/icons/user.svg',
+  user: '/icons/user.svg',
 };
 
 // media query match that indicates mobile/tablet width
@@ -101,6 +101,11 @@ function formatHeaderElements(fragments) {
       });
       const userBtn = createTag('a', { class: 'btn-mobile btn-user', href: 'https://customer.creditacceptance.com/login', target: '_blank' }, userIcon);
       contentWrapper.prepend(userBtn);
+      (async function setEnvConfigUrl() {
+        const loginUrl = await getEnvConfig('customer-portal-login');
+        if (!loginUrl) return;
+        userBtn.href = loginUrl;
+      }());
       const hamAttr = {
         class: 'btn-mobile btn-ham',
         'aria-label': 'Toggle Main Menu',

@@ -103,6 +103,10 @@ export default async function decorate(block) {
   const urlParams = new URLSearchParams(window.location.search);
   const videoId = urlParams.get('videoId');
   if (videoId) {
+    // scroll page to this block
+    setTimeout(() => {
+      block.closest('.section').scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }, 500);
     const slideIndex = Array.from(carouselSlides).findIndex((slide) => {
       const a = slide.querySelector('a');
       return a.href.includes(videoId);

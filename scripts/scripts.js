@@ -13,9 +13,11 @@ import {
 } from './aem.js';
 
 import { decorateButtons } from '../libs/utils/decorate.js';
-import { loadPalette, createTag, isProductionEnvironment } from '../libs/utils/utils.js';
+import {
+  loadPalette, createTag, isProductionEnvironment, getEnvConfig,
+} from '../libs/utils/utils.js';
 
-export const PRODUCTION_DOMAINS = ['www.creditacceptance.com'];
+export const PRODUCTION_DOMAINS = ['www.creditacceptance.com', 'testeds.creditacceptance.com', 'qaeds.creditacceptance.com', 'wwwqa.creditacceptance.com', 'wwwtest.creditacceptance.com'];
 
 /**
  * load fonts.css and set a session storage flag
@@ -27,6 +29,7 @@ async function loadFonts() {
   } catch (e) {
     // do nothing
   }
+  document.dispatchEvent(new CustomEvent('fontsLoaded'));
 }
 
 /**
@@ -188,7 +191,7 @@ export function checkDomain(url) {
   let result = domainCheckCache[urlToCheck.hostname];
   if (!result) {
     const isProd = PRODUCTION_DOMAINS.some((host) => urlToCheck.hostname.includes(host));
-    const isHlx = ['hlx.page', 'hlx.live', 'aem.page', 'aem.live'].some((host) => urlToCheck.hostname.includes(host));
+    const isHlx = ['hlx.page', 'hlx.live', 'aem.page', 'aem.live', '.workers.'].some((host) => urlToCheck.hostname.includes(host));
     const isLocal = urlToCheck.hostname.includes('localhost');
     const isPreview = isLocal || urlToCheck.hostname.includes('hlx.page') || urlToCheck.hostname.includes('aem.page');
     const isKnown = isProd || isHlx || isLocal;
@@ -238,24 +241,33 @@ function buildPageDivider(main) {
     const parent = el.parentElement;
     if (parent.parentElement.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
       parent.parentElement.replaceWith(el);
-    } else if (parent.tagName === 'P') {
+    } else if (parent.tagName === 'P' || parent.tagName === 'PRE') {
       parent.replaceWith(el);
     }
     const alt = el.innerText.trim();
     const lower = alt.toLowerCase();
-    if (lower.startsWith('divider')) {
-      if (lower === 'divider' || lower.includes('element')) {
-        el.innerText = '';
-        el.classList.add('divider');
+    if (lower === 'divider') {
+      el.innerText = '';
+      el.classList.add('divider');
+    }
+    if (lower === 'divider-thin-dark') {
+      el.innerText = '';
+      el.classList.add('divider-thin-dark');
+    }
+    if (lower === 'divider-thin-blue-dot') {
+      el.innerText = '';
+      el.classList.add('divider-thin-blue-dot');
+    } else {
+      let textContent = el.textContent.trim();
+      if (textContent.toLowerCase().includes('divider-thin-dark')) {
+        textContent = textContent.replace(/divider-thin-dark/gi, '<span class="divider divider-thin-dark"></span>');
+      } else if (textContent.toLowerCase().includes('divider-thin-blue-dot')) {
+        textContent = textContent.replace(/divider-thin-blue-dot/gi, '<span class="divider divider-thin-blue-dot"></span>');
+      } else if (textContent.toLowerCase().includes('divider')) {
+        textContent = textContent.replace(/divider/gi, '<span class="divider"></span>');
       }
-      if (lower === 'divider-thin-dark') {
-        el.innerText = '';
-        el.classList.add('divider-thin-dark');
-      }
-      if (lower === 'divider-thin-blue-dot') {
-        el.innerText = '';
-        el.classList.add('divider-thin-blue-dot');
-      }
+      el.innerHTML = textContent;
+      el.classList.add('disclaimer');
     }
   });
 }
@@ -279,11 +291,35 @@ export function buildFragmentBlocks(main) {
 }
 
 /**
+ * Sets the configuration for links that have config in their text coming from env-configs.json.
+ * The configuration values are expected to be in the format `#_config:<type>`.
+ * @param {HTMLElement} el - The element containing the links to be configured.
+ */
+export function setLinksConfig(el) {
+  const anchors = el.querySelectorAll('a');
+  if (anchors.length === 0) return;
+  anchors.forEach((anchor) => {
+    const envConfigs = anchor.textContent && [...anchor.textContent.matchAll(/#_config:([a-zA-Z-]+)/g)];
+    if (envConfigs) {
+      envConfigs.forEach((match) => {
+        anchor.textContent = anchor.textContent.replace(match[0], '');
+        (async function setEnvConfigUrl() {
+          const url = await getEnvConfig(match[1]);
+          if (!url) return;
+          anchor.href = url;
+        }());
+      });
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
+  setLinksConfig(main);
   decorateButtons(main);
   decorateIcons(main);
   decorateSections(main);
@@ -486,7 +522,7 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  window.setTimeout(() => import('./delayed.js'), 3500);
   // load anything that can be postponed to the latest here
 }
 

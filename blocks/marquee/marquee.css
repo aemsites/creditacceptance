@@ -12,7 +12,8 @@ main > .section-outer > .section.marquee-container {
 .marquee {
     position: relative;
 
-    --mq-height-s: 470px;
+    --mq-height-s-dt: 470px;
+    --mq-height-s-mob: 500px;
     --mq-height-m: 550px;
     --mq-height-l: 700px;   
 }
@@ -56,7 +57,7 @@ main > .section-outer > .section.marquee-container {
 .marquee .foreground {
     padding: 0;
     display: flex;
-    min-height: var(--mq-height-s);
+    min-height: var(--mq-height-s-mob);
 }
 
 .marquee.vertical-center .foreground {  align-items: center; }
@@ -129,12 +130,15 @@ main > .section-outer > .section.marquee-container {
 /* mobile-only */
 @media screen and (width < 960px) {
   .marquee h1 {
-    font-size: 46px;
     line-height: 42px;
   }
 }
 
 @media screen and (width >= 576px) {
+    .marquee .foreground { 
+        min-height: var(--mq-height-s-dt);
+    }
+
     .marquee .foreground > div {
         padding: 2em 0;
     }

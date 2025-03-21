@@ -57,6 +57,7 @@
 
   /* fonts */
   --body-font-family: 'Visby Regular', visby-regular-fallback, sans-serif;
+  --body-demi-bold: 'Visby DemiBold', visby-demibold-fallback, sans-serif;
   --heading-font-family: 'Acceptance Bold', acceptance-bold-fallback, sans-serif;
   --ff-acceptance-demi-bold: 'Acceptance DemiBold', acceptance-demi-bold-fallback, sans-serif;
   --ff-acceptance-extra-bold: 'Acceptance ExtraBold', acceptance-extrabold-fallback, sans-serif;
@@ -142,36 +143,49 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   margin-bottom: 0.75rem;
   margin-top: 0;
+
+  b, strong {
+    font-family: var(--heading-font-family);
+  }
 }
 
 h1 {
-  font-family: var(--heading-font-family);
   font-size: var(--heading-font-size-xxl);
   line-height: 1.1;
 }
 
-h2 { 
-  font-family: var(--heading-font-family);
+h2 {
   font-size: var(--heading-font-size-xl);
 }
 
-h3 { 
+h3 {
   font-family: var(--ff-acceptance-medium);
   font-size: var(--heading-font-size-l);
+  font-weight: 400;
+
+  b, strong {
+    font-family: var(--ff-acceptance-demi-bold);
+    font-weight: 400;
+  }
 }
 
-h4 { 
+h4 {
   font-size: var(--heading-font-size-m);
 }
 
-h5 { 
+h5 {
   color: var(--credit-indigo);
   font-family: var(--ff-acceptance-regular);
   font-size: var(--heading-font-size-s);
+  font-weight: 400;
   margin-bottom: 12px;
+
+  b, strong {
+    font-family: var(--ff-acceptance-demi-bold);
+  }
 }
 
-h6 { 
+h6 {
   font-size: var(--heading-font-size-xs); 
 }
 
@@ -180,6 +194,7 @@ ul, ol {
 }
 
 b, strong {
+  font-family: var(--body-demi-bold);
   font-weight: 700;
 }
 
@@ -429,7 +444,7 @@ button.secondary:hover {
 }
 
 .section > .default-content-wrapper {
-  padding: 1.5rem 1rem;
+  padding: 0 1rem;
 
   h2:not(:first-of-type), h3, h4 {
     margin-top: 3rem;
@@ -580,11 +595,12 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
   }
   
   &.gap-0 { gap: 0; }
-  &.gap-2 { gap: 2rem; }
-  &.gap-3 { gap: 3rem; }
+  &.gap-2, &.gap-m { gap: 2rem; }
+  &.gap-3, &.gap-l { gap: 3rem; }
   &.gap-4 { gap: 4rem; }
   &.gap-5 { gap: 5rem; }
   &.gap-6 { gap: 6rem; }
+  &.row-gap-0 { row-gap: 0;}
 }
 
 .section.grid-section > .default-content-wrapper {
@@ -613,6 +629,17 @@ main > .section-outer:has(.section.strong-bottom-shadow) {
 
 .divider-thin-blue-dot {
   border: 1px dotted var(--credit-violet);
+  margin: 1rem 0;
+}
+
+.disclaimer {
+  font-family: inherit;
+  font-size: 12px;
+  
+  p {
+    font-size: inherit !important;
+    margin: 0;
+  }
 }
 
 header {
@@ -660,6 +687,10 @@ header {
   .grid-section.column-reverse-mobile {
     display: flex;
     flex-direction: column-reverse;
+  }
+
+  h1 {
+    font-size: 46px;
   }
 }
 
@@ -725,6 +756,11 @@ header {
 
 @media screen and (width >= 1200px) {
     :root { --container-width: 1140px; }
+    
+    .grid-section {
+        &.gap-m { gap: 5rem; }
+        &.gap-l { gap: 6rem; }
+    }   
 }
 
 @media screen and (width >= 1400px) {
