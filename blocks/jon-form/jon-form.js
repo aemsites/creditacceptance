@@ -8,11 +8,11 @@ export default async function decorate(block) {
   window.jonEnv = getEnv();
 
   const webContentJson = {};
-  const rows = block.querySelectorAll('div > div');
+  const rows = block?.querySelectorAll('div > div');
 
-  rows.forEach((row) => {
-    const cells = row.querySelectorAll('div > p');
-    if (cells.length === 2) {
+  rows?.forEach((row) => {
+    const cells = row?.querySelectorAll('div > p');
+    if (cells?.length === 2) {
       const key = cells[0]?.textContent?.trim();
       const value = cells[1]?.textContent?.trim();
       if (key === 'script') {
@@ -23,6 +23,8 @@ export default async function decorate(block) {
     }
   });
 
+  if (!block) return;
+
   block.innerHTML = '';
   // Set block width and height to 1000px
   block.style.minHeight = '1000px';
@@ -32,12 +34,22 @@ export default async function decorate(block) {
   const loadingAnimation = document.createElement('div');
   loadingAnimation.className = 'loading-animation';
   block.appendChild(loadingAnimation);
-  await loadScript(recaptchaScript, { async: true });
-  await loadScript(jonWidgetScript, { async: true });
+
+  if (recaptchaScript) {
+    await loadScript(recaptchaScript, { async: true });
+  }
+  if (jonWidgetScript) {
+    await loadScript(jonWidgetScript, { async: true });
+  }
+
   const formComponent = document.createElement('join-our-network-form');
   formComponent.webContentJson = webContentJson;
   block.replaceChildren(formComponent);
-  formComponent.addEventListener('successData', () => {
-    window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+
+  formComponent.addEventListener('successData', (e) => {
+    if (e?.detail) {
+      localStorage.setItem('jon-representative', JSON.stringify(e.detail));
+      window.location.href = '/dealers/join-our-network/confirmation-thank-you';
+    }
   });
 }
