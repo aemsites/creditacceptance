@@ -239,7 +239,7 @@ function buildPageDivider(main) {
   const allPageDivider = main.querySelectorAll('code');
   allPageDivider.forEach((el) => {
     const parent = el.parentElement;
-    if (parent.parentElement.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
+    if (parent?.parentElement?.classList.contains('default-content-wrapper') && parent.parentElement.childElementCount === 1) {
       parent.parentElement.replaceWith(el);
     } else if (parent.tagName === 'P' || parent.tagName === 'PRE') {
       parent.replaceWith(el);
