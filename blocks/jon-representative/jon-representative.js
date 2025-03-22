@@ -36,15 +36,19 @@ export default async function initialize(block) {
     } catch (error) {
       console.error('Error parsing jon-representative data from localStorage:', error);
     }
+    const columnsEl = block.querySelector('.columns');
+    if (!columnsEl) return;
+    const columns = buildBlock('columns', columnsEl);
+    columns.dataset.blockName = 'columns';
+    const loadedColumns = await loadBlock(columns);
+    block.innerHTML = loadedColumns.innerHTML;
+    const heading = document.createElement('h4');
+    heading.id = 'your-credit-acceptance-representative';
+    heading.textContent = 'Your Credit Acceptance representative:';
+    block.prepend(heading);
+
+    decorate(block.querySelector('.columns'));
+
+    decorateIcons(block);
   }
-  const columnsEl = block.querySelector('.columns');
-  if (!columnsEl) return;
-  const columns = buildBlock('columns', columnsEl);
-  columns.dataset.blockName = 'columns';
-  const loadedColumns = await loadBlock(columns);
-  block.innerHTML = loadedColumns.innerHTML;
-
-  decorate(block.querySelector('.columns'));
-
-  decorateIcons(block);
 }
