@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
-import { loadCSS, decorateIcons, buildBlock, loadBlock } from '../../scripts/aem.js';
+import {
+  loadCSS, decorateIcons, buildBlock, loadBlock,
+} from '../../scripts/aem.js';
 import decorate from '../columns/columns.js';
 
 export default async function initialize(block) {
