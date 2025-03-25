@@ -24,6 +24,7 @@
 
 .testimonials .card-description {
     display: -webkit-box;
+    min-height: 100px;
     max-height: 130px;
     overflow: hidden;
     text-overflow: ellipsis;

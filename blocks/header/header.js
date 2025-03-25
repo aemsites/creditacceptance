@@ -53,6 +53,24 @@ function createRipple(event) {
   button.prepend(circle);
 }
 
+function groupListColumns(list) {
+  const items = Array.from(list.children);
+  const columns = [
+    createTag('div', { class: 'column-1' }),
+    createTag('div', { class: 'column-2' }),
+  ];
+  list.append(...columns);
+  let currentColumnIndex = 0;
+  items.forEach((item) => {
+    if (item.textContent.trim() === '---') {
+      currentColumnIndex += 1;
+      item.remove();
+    } else {
+      columns[currentColumnIndex].appendChild(item); // Append to the current column
+    }
+  });
+}
+
 function decorateMainMenu(section) {
   const navHeaders = section?.querySelectorAll('h3');
   if (!navHeaders) return;
@@ -64,6 +82,7 @@ function decorateMainMenu(section) {
     if (!list) return;
     const listLinks = list.querySelectorAll('li');
     details.append(list);
+    groupListColumns(list);
     /* toggle on mouseover on mouse-based/desktop OR hybrid devices/desktop */
     if ((deviceType === 'mouse-based' && isDesktopMQ.matches)
       || (deviceType === 'hybrid' && isDesktopMQ.matches)
