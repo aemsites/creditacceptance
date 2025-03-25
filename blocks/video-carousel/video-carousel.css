@@ -34,8 +34,12 @@
 }
 
 @media screen and (width < 960px) {
-    .video-carousel .embed h5, .video-carousel .embed p {
-       display: none;
+    .video-carousel .embed h2, 
+    .video-carousel .embed h3, 
+    .video-carousel .embed h4, 
+    .video-carousel .embed h5, 
+    .video-carousel .embed p {
+        display: none;
     }
 
     .video-carousel .embed > div {
