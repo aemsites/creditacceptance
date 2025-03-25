@@ -40,6 +40,7 @@
 }
 
 .accordion.arrow details summary {
+    display: block;
     padding-right: 46px;
     color: #0d5d73;
 }
@@ -99,10 +100,6 @@
 
 .accordion.arrow details[open] summary::after {
     transform: translateY(-50%) rotate(135deg);
-}
-
-.accordion.arrow details summary {
-    display: block;
 }
 
 .accordion.arrow details summary span.icon {
