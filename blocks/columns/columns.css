@@ -398,11 +398,10 @@
 
   .columns.media-unbound .media-count-1 {
     position: relative;
-
+    
     picture {
       position: absolute;
-      width: 50vw;
-      height: 100%;
+      width: calc(50vw - ((100vw - var(--container-width)) / 6));
       overflow: visible;
     }
 
