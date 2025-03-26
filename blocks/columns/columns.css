@@ -13,6 +13,10 @@
 .columns.gap-4 > div { gap: 0 4rem; }
 .columns.gap-5 > div { gap: 0 5rem; }
 .columns.gap-6 > div { gap: 0 6rem; }
+.columns.row-gap-1 > div { row-gap: 1rem; }
+.columns.row-gap-2 > div { row-gap: 2rem; }
+.columns.row-gap-3 > div { row-gap: 3rem; }
+.columns.row-gap-4 > div { row-gap: 4rem; }
 
 .columns img {
   width: 100%;
