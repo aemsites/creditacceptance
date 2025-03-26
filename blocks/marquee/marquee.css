@@ -15,7 +15,7 @@ main > .section-outer > .section.marquee-container {
     --mq-height-s-dt: 470px;
     --mq-height-s-mob: 500px;
     --mq-height-m: 550px;
-    --mq-height-l: 700px;   
+    --mq-height-l: 700px;
 }
 
 .marquee, 
@@ -34,6 +34,7 @@ main > .section-outer > .section.marquee-container {
     z-index: -1;
     height: 100%;
     width: 100%;
+    background: var(--ca-tangerine-400);
 }
 
 .marquee .background picture {
