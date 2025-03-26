@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 0 1.5rem;
+
+  --unbound-width: calc(100% + ((100vw - var(--container-width)) / 2));
 }
 
 .columns.columns-2-cols > div { gap: 0 3rem; }
@@ -404,14 +406,15 @@
 
     picture {
       position: absolute;
-      width: calc(100% + ((100vw - var(--container-width)) / 2));
+      width: 50vw;
+      width: var(--unbound-width);
       height: 100%;
       overflow: visible;
     }
 
     img {
-      object-fit: contain;
-      object-position: top left;
+      object-fit: cover;
+      object-position: bottom left;
       width: 100%;
       height: 100%;
       border-radius: 8px 0 0;
@@ -423,7 +426,7 @@
   }
 
   .columns.media-unbound .media-left img {
-    object-position: top right;
+    object-position: bottom right;
     border-radius: 0 8px;
   }
 
@@ -461,11 +464,4 @@
   .columns.calculation .separator {
     display: none;
   }
-}
-
-@media  screen and (width >= 1440px) {
-    .columns.media-unbound .media-count-1 img {
-        object-fit: cover;
-    }
-    
 }
