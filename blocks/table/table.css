@@ -32,10 +32,6 @@
     border-bottom: 1px solid #dadada;
 }
 
-.table.dotted table tbody tr {
-    border-bottom: 1px dotted #dadada;
-}
-
 .table table th {
     font-weight: 700;
 }
