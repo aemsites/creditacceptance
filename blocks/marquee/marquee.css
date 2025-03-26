@@ -16,6 +16,7 @@ main > .section-outer > .section.marquee-container {
     --mq-height-s-mob: 500px;
     --mq-height-m: 550px;
     --mq-height-l: 700px;
+    background: var(--ca-tangerine-400);
 }
 
 .marquee, 
@@ -31,10 +32,9 @@ main > .section-outer > .section.marquee-container {
 /* background */
 .marquee .background {
     position: absolute;
-    z-index: -1;
+    z-index: 0;
     height: 100%;
     width: 100%;
-    background: var(--ca-tangerine-400);
 }
 
 .marquee .background picture {
@@ -59,6 +59,8 @@ main > .section-outer > .section.marquee-container {
     padding: 0;
     display: flex;
     min-height: var(--mq-height-s-mob);
+    z-index: 1;
+    position: relative;
 }
 
 .marquee.vertical-center .foreground {  align-items: center; }
