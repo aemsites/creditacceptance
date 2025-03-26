@@ -55,6 +55,11 @@
     margin-top: 0.25em;
 }
 
+/* no header variant */
+.table.no-header table tbody tr {
+    border-top: 1px solid #dadada;
+}
+
 /* striped variant */
 .table.striped tbody tr:nth-child(odd) {
     background-color: var(--light-color);
