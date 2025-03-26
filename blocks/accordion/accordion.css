@@ -40,8 +40,11 @@
 }
 
 .accordion.arrow details summary {
+    display: block;
     padding-right: 46px;
     color: #0d5d73;
+    
+    p { color: var(--text-color); }
 }
 
 .accordion details summary .accordion-item-plus,
@@ -101,9 +104,13 @@
     transform: translateY(-50%) rotate(135deg);
 }
 
-
 .accordion.arrow details summary span.icon {
     vertical-align: baseline;
+}
+
+.accordion.arrow details summary p > span.icon {
+    vertical-align: top;
+    height: 1.25rem;
 }
 
 .accordion details .accordion-item-body {
