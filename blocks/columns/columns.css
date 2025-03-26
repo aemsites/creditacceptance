@@ -406,7 +406,6 @@
 
     picture {
       position: absolute;
-      width: 50vw;
       width: var(--unbound-width);
       height: 100%;
       overflow: visible;
@@ -428,6 +427,15 @@
   .columns.media-unbound .media-left img {
     object-position: bottom right;
     border-radius: 0 8px;
+  }
+
+  .columns.media-unbound.media-contain img {
+    object-fit: contain;
+    object-position: top left;
+  }
+
+  .columns.media-unbound.media-contain .media-left img {
+    object-position: top right;
   }
 
   .columns.stats > div {
