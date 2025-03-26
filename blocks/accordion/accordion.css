@@ -43,6 +43,8 @@
     display: block;
     padding-right: 46px;
     color: #0d5d73;
+    
+    p { color: var(--text-color); }
 }
 
 .accordion details summary .accordion-item-plus,
