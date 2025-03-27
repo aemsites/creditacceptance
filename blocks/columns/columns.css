@@ -352,6 +352,10 @@
     .columns.media-hidden-mobile .media-count-1 {
         display: none;
     }
+
+    .columns.button-center-mobile .button-container{
+      justify-content: center;
+    }
   
     .columns .media { margin-bottom: 1.5rem; }
   
