@@ -69,6 +69,10 @@
     border-bottom: 1px var(--border-style) var(--border-color);
 }
 
+.table.border-styled.no-header table tr:first-of-type td {
+    border-top: none;
+}
+
 
 /* no header variant */
 .table.no-header table tbody tr {
