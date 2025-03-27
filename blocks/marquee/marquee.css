@@ -135,10 +135,6 @@ main > .section-outer > .section.marquee-container {
 }
 
 @media screen and (width >= 576px) {
-    .marquee .foreground { 
-        min-height: var(--mq-height-s-dt);
-    }
-
     .marquee .foreground > div {
         padding: 2em 0;
     }
@@ -147,6 +143,7 @@ main > .section-outer > .section.marquee-container {
 @media screen and (width >= 960px) {
     .marquee .foreground { 
         align-items: center;
+        min-height: var(--mq-height-s-dt);
     }
 
     .marquee .foreground > div,
