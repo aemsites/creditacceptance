@@ -1,4 +1,7 @@
 .table {
+    --border-style: solid;
+    --border-color: var(--medium-gray);
+
     width: 100%;
     margin-block: 0.75rem;
     overflow-x: auto;
@@ -24,12 +27,12 @@
 }
 
 .table table thead tr {
-    border-top: 2px solid #dadada;
-    border-bottom: 2px solid #dadada;
+    border-top: 2px var(--border-style) var(--border-color);
+    border-bottom: 2px var(--border-style) var(--border-color);
 }
 
 .table table tbody tr {
-    border-bottom: 1px solid #dadada;
+    border-bottom: 1px var(--border-style) var(--border-color);
 }
 
 .table table th {
@@ -51,18 +54,44 @@
     margin-top: 0.25em;
 }
 
+/* bordered styled */
+.table.border-styled table {
+    border-spacing: 1.5px;
+    border-collapse: separate;
+}
+
+.table.border-styled table th,
+.table.border-styled table td {
+    border-top: 1px var(--border-style) var(--border-color);
+}
+
+.table.border-styled table tr:last-child td {
+    border-bottom: 1px var(--border-style) var(--border-color);
+}
+
+
 /* no header variant */
 .table.no-header table tbody tr {
-    border-top: 1px solid #dadada;
+    border-top: 1px var(--border-style) var(--border-color);
 }
 
 /* striped variant */
+.table.striped table {
+    border-collapse: collapse;
+}
+
 .table.striped tbody tr:nth-child(odd) {
     background-color: var(--light-color);
 }
 
 /* bordered variant */
-.table.bordered table th,
-.table.bordered table td {
-    border: 1px solid #dadada;
+.table.bordered table {
+    border-collapse: collapse;
 }
+
+.table.bordered table th,
+/* stylelint-disable-next-line no-descending-specificity */
+.table.bordered table td {
+    border: 1px var(--border-style) var(--border-color);
+}
+
