@@ -113,6 +113,7 @@ function handleSelectFieldChange(id, value, block) {
   let state = block.querySelector('#us-states').value;
   let creditScore = block.querySelector('#credit-score').value;
   let interestRate = block.querySelector('#interest-rate').value;
+  let loanTerm = block.querySelector('#length-of-loan').value;
 
   switch (id) {
     case 'type-of-auto':
@@ -127,11 +128,14 @@ function handleSelectFieldChange(id, value, block) {
     default:
       break;
   }
-  const object = usStatesData.find((obj) => obj.value === state);
-  interestRate = object[`credit-score-${typeOfVehicle}-${creditScore}`];
-  const interestRateElement = block.querySelector('#interest-rate');
-  interestRateElement.value = Percentage.format(interestRate / 100);
-  interestRateElement.setAttribute('value', Percentage.format(interestRate / 100));
+
+  if (id !== loanTerm) {
+    const object = usStatesData.find((obj) => obj.value === state);
+    interestRate = object[`credit-score-${typeOfVehicle}-${creditScore}`];
+    const interestRateElement = block.querySelector('#interest-rate');
+    interestRateElement.value = Percentage.format(interestRate / 100);
+    interestRateElement.setAttribute('value', Percentage.format(interestRate / 100));
+  }
 
   calculate(block);
   pushCalculatorDataLayer(block, id);
@@ -162,6 +166,11 @@ function addTextFieldEventListeners({ inputElement, block }) {
       }
       inputElement.setAttribute('value', Percentage.format(value / 100));
       inputElement.value = Percentage.format(value / 100);
+
+      // set credit score to range-6 value
+      const creditScoreElement = block.querySelector('#credit-score');
+      creditScoreElement.value = 'range-6';
+      creditScoreElement.setAttribute('value', 'range-6');
     } else {
       const value = Number(inputElement.value.replace('$', '').replace(',', ''));
       if (Number.isNaN(value)) {
