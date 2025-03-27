@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 0 1.5rem;
+
+  --unbound-width: calc(100% + ((100vw - var(--container-width)) / 2));
 }
 
 .columns.columns-2-cols > div { gap: 0 3rem; }
@@ -404,7 +406,7 @@
 
     picture {
       position: absolute;
-      width: 50vw;
+      width: var(--unbound-width);
       height: 100%;
       overflow: visible;
     }
@@ -425,6 +427,15 @@
   .columns.media-unbound .media-left img {
     object-position: bottom right;
     border-radius: 0 8px;
+  }
+
+  .columns.media-unbound.media-contain img {
+    object-fit: contain;
+    object-position: top left;
+  }
+
+  .columns.media-unbound.media-contain .media-left img {
+    object-position: top right;
   }
 
   .columns.stats > div {
