@@ -468,6 +468,7 @@ function loadAdobeLaunch() {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
+  loadHeader(doc.querySelector('header'));
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   const templateModule = await loadTemplate();
@@ -508,7 +509,6 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
   await loadPalette();

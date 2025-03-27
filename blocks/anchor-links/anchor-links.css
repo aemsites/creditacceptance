@@ -23,7 +23,7 @@
         &::after {
             content: '';
             position: absolute;
-            border: 1px dotted var(--ca-aqua);
+            border-right: 1px dotted var(--ca-aqua);
             height: 100%;
             right: -16px;
             top: 0;

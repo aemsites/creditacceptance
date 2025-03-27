@@ -52,7 +52,7 @@ export default async function init(block) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    const title = getMetadata('og:title', doc);
+    const title = doc.querySelector('h1') ? doc.querySelector('h1').textContent : getMetadata('og:title', doc);
     const description = getMetadata('og:description', doc);
     const image = getMetadata('mobileimage', doc) || getMetadata('og:image', doc);
     const imageAlt = getMetadata('og:image:alt', doc) || title;
