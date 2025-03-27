@@ -39,6 +39,5 @@
     main > .section-outer > .section.testimonials-container:has(.slider-wrapper) {
         max-width: 100%;
         padding: 0;
-        margin: 0;
     }
 }
