@@ -48,7 +48,7 @@ export default async function decorate(block) {
 
   formComponent.addEventListener('successData', (e) => {
     if (e?.detail) {
-      sessionStorage.setItem('jon-representative', JSON.stringify(e.detail));
+      localStorage.setItem('jon-representative', JSON.stringify(e.detail));
       window.location.href = '/dealers/join-our-network/confirmation-thank-you';
     }
   });

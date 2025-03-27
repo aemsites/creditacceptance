@@ -35,6 +35,7 @@ function setBorderColor(cls, block) {
     row.style.borderTopColor = colorProperty;
     row.style.borderBottomColor = colorProperty;
   });
+  block.style.setProperty('--border-color', colorProperty);
 }
 
 export default async function decorate(block) {
@@ -60,5 +61,14 @@ export default async function decorate(block) {
   block.append(table);
 
   const borderColorClass = [...block.classList].find((cls) => cls.startsWith('border-color-'));
-  if (borderColorClass) setBorderColor(borderColorClass, block);
+  if (borderColorClass) {
+    setBorderColor(borderColorClass, block);
+  }
+
+  const borderStyleClass = [...block.classList].find((cls) => cls.startsWith('border-style-'));
+  if (borderStyleClass) {
+    const style = borderStyleClass.replace('border-style-', '');
+    block.style.setProperty('--border-style', style);
+    block.classList.add('border-styled');
+  }
 }
