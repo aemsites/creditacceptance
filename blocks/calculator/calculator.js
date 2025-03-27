@@ -109,11 +109,14 @@ function calculate(block) {
 function handleSelectFieldChange(id, value, block) {
   if (block.classList.contains('has-error')) return;
 
+  // values
   let typeOfVehicle = block.querySelector('#type-of-auto').value;
   let state = block.querySelector('#us-states').value;
   let creditScore = block.querySelector('#credit-score').value;
   let interestRate = block.querySelector('#interest-rate').value;
-  let loanTerm = block.querySelector('#length-of-loan').value;
+
+  // ids
+  const loanTermId = 'length-of-loan';
 
   switch (id) {
     case 'type-of-auto':
@@ -129,7 +132,7 @@ function handleSelectFieldChange(id, value, block) {
       break;
   }
 
-  if (id !== loanTerm) {
+  if (id !== loanTermId) {
     const object = usStatesData.find((obj) => obj.value === state);
     interestRate = object[`credit-score-${typeOfVehicle}-${creditScore}`];
     const interestRateElement = block.querySelector('#interest-rate');
