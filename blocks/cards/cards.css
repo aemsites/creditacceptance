@@ -21,7 +21,6 @@
      margin: 0;
      padding: 0;
      display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(257px, 1fr));
      gap: var(--gap-lg);
  }
 
@@ -146,6 +145,10 @@
 
  /* Ups Variant */
 @media (width >=992px) {
+    .cards>ul {
+        grid-template-columns: repeat(auto-fit, minmax(257px, 1fr));
+    }
+
     .cards.two-up > ul{
         grid-template-columns: repeat(2, minmax(257px, 1fr));
     }
