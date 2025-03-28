@@ -484,7 +484,7 @@
 @media screen and (width <= 959px) {
     main > .section-outer > .section.cards-container:has(.slider-wrapper) {
         max-width: 100%;
-        padding: 0;
+        padding: 1.5rem 0;
         margin: 0;
     }
 }
