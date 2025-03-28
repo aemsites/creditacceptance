@@ -99,9 +99,9 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     // https://stackoverflow.com/q/64959723/89484
     if (this.videoId.includes('?')) {
       const [videoId, queryString] = this.videoId.split('?');
-      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1`;
+      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1&playsinline=1`;
     } else {
-      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
+      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1&playsinline=1`;
     }
     this.append(iframeEl);
 
