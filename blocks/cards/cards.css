@@ -135,7 +135,7 @@
     .cards.slider-mobile .slider-container {
         display: flex;
         gap: 0;
-        padding: 0 1rem 6rem;
+        padding: 2rem 1rem 6rem;
     }
 
     .cards.slider-mobile .slider-container li:not(:first-child) .card-wrapper {
@@ -294,7 +294,6 @@
  }
 
  .cards.resources>ul>li {
-     width: 100%;
      display: flex;
      flex-direction: column;
  }
@@ -484,7 +483,7 @@
 @media screen and (width <= 959px) {
     main > .section-outer > .section.cards-container:has(.slider-wrapper) {
         max-width: 100%;
-        padding: 0;
+        padding: 1.5rem 0;
         margin: 0;
     }
 }
