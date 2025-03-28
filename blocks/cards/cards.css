@@ -135,7 +135,7 @@
     .cards.slider-mobile .slider-container {
         display: flex;
         gap: 0;
-        padding: 0 1rem 6rem;
+        padding: 2rem 1rem 6rem;
     }
 
     .cards.slider-mobile .slider-container li:not(:first-child) .card-wrapper {
