@@ -77,9 +77,9 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     });
 
     // Once the user clicks, add the real iframe and drop our play button
-    setTimeout(() => {
-      this.addIframe();
-    }, 0);
+    // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
+    //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
+    this.addEventListener('pointerdown', this.addIframe);
   }
 
   addIframe() {
