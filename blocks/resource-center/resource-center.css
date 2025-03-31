@@ -29,7 +29,6 @@
 .resource-center>div .embed.block {
     margin-top: 0.8em;
     margin-bottom: 0.8em;
-    min-height: 240px;
 }
 
 .resource-center ul {
@@ -79,7 +78,7 @@
 
 @media (width >=900px) {
     .resource-center>div {
-        align-items: center;
+        align-items: flex-start;
         flex-direction: unset;
         gap: 24px;
     }
