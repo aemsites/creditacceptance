@@ -237,6 +237,7 @@ export function initSlider(block, slides, container = null) {
   });
   const { blockName } = block.dataset;
   const outerSection = block.closest(`.${blockName}-wrapper`);
+  if (!outerSection) return;
   outerSection.classList.add('slider-wrapper');
   outerSection.append(pagination);
   updateActiveSlide(slides, pagination);
