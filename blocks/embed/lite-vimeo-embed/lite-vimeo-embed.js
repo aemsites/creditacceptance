@@ -82,6 +82,11 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     this.addEventListener('pointerdown', this.addIframe);
   }
 
+  isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
   addIframe() {
     if (this.classList.contains('ltv-activated')) return;
     this.classList.add('ltv-activated');
@@ -102,6 +107,10 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
       iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1&playsinline=1`;
     } else {
       iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1&playsinline=1`;
+    }
+    // If iOS, add the muted attribute to the iframe
+    if (this.isIOS()) {
+      iframeEl.setAttribute('muted', 'true');
     }
     this.append(iframeEl);
     const player = new Vimeo.Player(iframeEl);
