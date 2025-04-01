@@ -114,6 +114,7 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
       vimeoUrl += '&muted=1';
       iframeEl.setAttribute('muted', '1');
     }
+    iframeEl.src = vimeoUrl;
     this.append(iframeEl);
     const player = new Vimeo.Player(iframeEl);
     player.on('loaded', () => {
