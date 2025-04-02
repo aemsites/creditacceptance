@@ -50,7 +50,7 @@ export default async function decorate(block) {
     if (e?.detail) {
       localStorage.setItem('jon-representative', JSON.stringify(e.detail));
       const form = block.querySelector('form');
-      form.reset();
+      if (form) form.reset();
       window.location.href = '/dealers/join-our-network/confirmation-thank-you';
     }
   });
