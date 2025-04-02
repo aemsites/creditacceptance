@@ -259,8 +259,6 @@ button {
 h1, h2, h3, h4, h5, h6 {
   > .icon:first-child { 
     vertical-align: text-top;
-
-    img { margin-top: 5px; }
   }
 }
 
@@ -709,6 +707,12 @@ header {
 
 /* TODO: This MQ is unconventional */
 @media screen and (width >= 960px) {
+    h1, h2, h3, h4, h5, h6 {
+      > .icon:first-child { 
+        img { margin-top: 5px; }
+      }
+    }
+
     .block .background .mobile-only,
     .block .background .tablet-only {
         display: none;
@@ -756,6 +760,12 @@ header {
 }
 
 @media screen and (width >= 1200px) {
+    h1, h2, h3, h4, h5, h6 {
+      > .icon:first-child { 
+        img { margin-top: 0; }
+      }
+    }
+
     :root { --container-width: 1140px; }
     
     .grid-section {
