@@ -313,7 +313,7 @@
 
 
 .columns .copy:has(.icon-elm) {
-    p, h2, h3, h4, h5, h6 {
+    p.icon-elm, h2.icon-elm, h3.icon-elm, h4.icon-elm, h5.icon-elm, h6.icon-elm {
         padding-inline-start: 40px;
         position: relative;
         
@@ -332,7 +332,7 @@
 }
 
 .columns.big-icons .copy:has(.icon-elm) {
-    p, h2, h3, h4, h5, h6 {
+    p.icon-elm, h2.icon-elm, h3.icon-elm, h4.icon-elm, h5.icon-elm, h6.icon-elm {
         padding-inline-start: unset;
         
         .icon {
