@@ -439,9 +439,11 @@
         object-fit: contain;
         object-position: top left;
     }
+
     .media-left img {
         object-position: top right;
     }
+    
     .media-count-1  picture {
         height: auto;
     }

@@ -34,6 +34,7 @@ export default async function initialize(block) {
         `;
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error parsing jon-representative data from localStorage:', error);
     }
     const columnsEl = block.querySelector('.columns');
