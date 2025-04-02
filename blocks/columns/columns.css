@@ -433,13 +433,17 @@
     border-radius: 0 8px;
   }
 
-  .columns.media-unbound.media-contain img {
-    object-fit: contain;
-    object-position: top left;
-  }
-
-  .columns.media-unbound.media-contain .media-left img {
-    object-position: top right;
+  .columns.media-unbound.media-contain {
+    img {
+        object-fit: contain;
+        object-position: top left;
+    }
+    .media-left img {
+        object-position: top right;
+    }
+    .media-count-1  picture {
+        height: auto;
+    }
   }
 
   .columns.stats > div {
