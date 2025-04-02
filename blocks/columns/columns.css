@@ -364,10 +364,14 @@
         margin-inline-start: 80px;
     }
 
-    .columns.big-icons .copy .icon-elm  span.icon{
-        position: absolute;
-        left: 0;
-        top: 0;
+    .columns.big-icons .copy:has(.icon-elm) {
+      p, h2.icon-elm, h3.icon-elm, h4, h5, h6 {
+            span.icon {
+              position: absolute;
+              left: 0;
+              top: 0;
+          }
+        } 
     }
 }
 
