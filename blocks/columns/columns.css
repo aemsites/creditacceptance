@@ -32,7 +32,8 @@
   order: 0;
 }
 
-.columns.vertical-center .copy {
+.columns.vertical-center .copy,
+.columns.vertical-center .media-copy {
   align-content: center;
 }
 
