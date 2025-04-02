@@ -32,7 +32,8 @@
   order: 0;
 }
 
-.columns.vertical-center .copy {
+.columns.vertical-center .copy,
+.columns.vertical-center .media-copy {
   align-content: center;
 }
 
@@ -437,13 +438,19 @@
     border-radius: 0 8px;
   }
 
-  .columns.media-unbound.media-contain img {
-    object-fit: contain;
-    object-position: top left;
-  }
+  .columns.media-unbound.media-contain {
+    img {
+        object-fit: contain;
+        object-position: top left;
+    }
 
-  .columns.media-unbound.media-contain .media-left img {
-    object-position: top right;
+    .media-left img {
+        object-position: top right;
+    }
+    
+    .media-count-1  picture {
+        height: auto;
+    }
   }
 
   .columns.stats > div {
