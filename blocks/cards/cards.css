@@ -296,6 +296,7 @@
  .cards.resources>ul>li {
      display: flex;
      flex-direction: column;
+     width: 100%;
  }
 
  .cards.resources>ul>li .card-wrapper {
