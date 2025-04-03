@@ -98,7 +98,7 @@ function decorateMainMenu(section) {
         listLinks.forEach((l) => {
           l.addEventListener('pointerdown', (event) => {
             createRipple(event);
-            l.querySelector('a').click();
+            l.querySelector('a')?.click();
           });
         });
       }
