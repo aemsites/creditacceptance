@@ -28,6 +28,7 @@ function getMediaHeightValue(el, fromAttribute = false) {
 function applyMediaHeight(block, fromAttribute = false) {
   const heightValue = getMediaHeightValue(block, fromAttribute);
   const media = block.querySelector('.media');
+  if (!media) return;
   const isDesktop = window.matchMedia('(min-width: 960px)').matches;
   if (heightValue && isDesktop) {
     media.style.setProperty('height', `${heightValue}px`);
@@ -44,7 +45,9 @@ function applyMediaHeightAfterScaling(block) {
 
   const observer = new ResizeObserver(() => {
     observer.disconnect();
-    applyMediaHeight(block, false);
+    setTimeout(() => {
+      applyMediaHeight(block, false);
+    }, 0);
   });
 
   if (media.complete) {
@@ -56,12 +59,25 @@ function applyMediaHeightAfterScaling(block) {
   }
 }
 
-// Call applyMediaHeight for all elements with the media-unbound class on initial load
-window.addEventListener('resize', () => {
+function initializeMediaHeights() {
   const mediaUnbound = document.querySelectorAll('.media-unbound');
   const mediaUnboundContain = document.querySelectorAll('.media-unbound.media-contain');
-  mediaUnbound?.forEach((block) => { applyMediaHeight(block, true); });
-  mediaUnboundContain?.forEach((block) => { applyMediaHeight(block, false); });
+  setTimeout(() => {
+    mediaUnbound?.forEach((block) => {
+      if (block) applyMediaHeight(block, true);
+    });
+    mediaUnboundContain?.forEach((block) => {
+      if (block) applyMediaHeight(block, false);
+    });
+  }, 0);
+}
+
+// Call applyMediaHeight for all elements with the media-unbound class on initial load
+window.addEventListener('resize', initializeMediaHeights);
+
+// Initialize media heights immediately
+requestAnimationFrame(() => {
+  initializeMediaHeights();
 });
 
 // Check for columns with CTA icons
