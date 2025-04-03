@@ -76,11 +76,9 @@ function initializeMediaHeights() {
 window.addEventListener('resize', initializeMediaHeights);
 
 // Initialize media heights immediately
-if (document.readyState === 'loading') {
-  window.addEventListener('load', initializeMediaHeights);
-} else {
+requestAnimationFrame(() => {
   initializeMediaHeights();
-}
+});
 
 // Check for columns with CTA icons
 function isIconsCol(col) {
