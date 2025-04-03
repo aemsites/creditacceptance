@@ -20,6 +20,7 @@ indices:
       - '**/test/**'
       - /tools/**'
       - /nav
+      - /nav-logo-only
       - /footer
     target: /index/query-index.json
     properties:
