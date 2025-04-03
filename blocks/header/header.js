@@ -96,7 +96,10 @@ function decorateMainMenu(section) {
       summaryTag.addEventListener('pointerdown', createRipple);
       if (listLinks.length) {
         listLinks.forEach((l) => {
-          l.addEventListener('pointerdown', createRipple);
+          l.addEventListener('pointerdown', (event) => {
+            createRipple(event);
+            l.querySelector('a').click();
+          });
         });
       }
     }
