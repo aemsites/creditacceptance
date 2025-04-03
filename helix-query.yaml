@@ -44,6 +44,9 @@ indices:
       category:
         select: head > meta[name="category"]
         value: attribute(el, "content")
+      robots:
+        select: head > meta[name="robots"]
+        value: attribute(el, "content")
   consumer-blogs:
     include:
       - /car-buyers/express-lane/**
