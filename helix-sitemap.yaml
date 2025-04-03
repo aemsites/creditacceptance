@@ -1,5 +1,6 @@
 sitemaps:
   pages:
-    source: /index/query-index.json
+    origin: https://www.creditacceptance.com
+    source: /index/query-index.json?sheet=sitemap-urls
     destination: /sitemap.xml
     lastmod: YYYY-MM-DD
