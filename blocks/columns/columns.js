@@ -16,27 +16,68 @@ function decorateFlexRows(block) {
   });
 }
 
-function getMediaHeightValue(e) {
-  const match = [...e.classList].find((cls) => cls.startsWith('media-height-'))?.match(/^media-height-(\d+)$/);
-  return match ? parseInt(match[1], 10) : null;
+function getMediaHeightValue(el, fromAttribute = false) {
+  if (fromAttribute) {
+    const match = [...el.classList].find((cls) => cls.startsWith('media-height-'))?.match(/^media-height-(\d+)$/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+  const media = el.querySelector('.media-count-1 img');
+  return media?.height || null;
 }
 
-function applyMediaHeight(block) {
-  const heightValue = getMediaHeightValue(block);
-  if (!heightValue) return;
+function applyMediaHeight(block, fromAttribute = false) {
+  const heightValue = getMediaHeightValue(block, fromAttribute);
   const media = block.querySelector('.media');
-  const isDesktop = window.matchMedia('(min-width: 960px)');
-  if (isDesktop.matches) {
+  if (!media) return;
+  const isDesktop = window.matchMedia('(min-width: 960px)').matches;
+  if (heightValue && isDesktop) {
     media.style.setProperty('height', `${heightValue}px`);
   } else {
     media.style.removeProperty('height');
   }
 }
 
+function applyMediaHeightAfterScaling(block) {
+  const media = block.querySelector('.media-count-1 img');
+  const mediaContainer = block.querySelector('.media');
+
+  if (!media || !mediaContainer) return;
+
+  const observer = new ResizeObserver(() => {
+    observer.disconnect();
+    setTimeout(() => {
+      applyMediaHeight(block, false);
+    }, 0);
+  });
+
+  if (media.complete) {
+    observer.observe(mediaContainer);
+  } else {
+    media.onload = () => {
+      observer.observe(mediaContainer);
+    };
+  }
+}
+
+function initializeMediaHeights() {
+  const mediaUnbound = document.querySelectorAll('.media-unbound');
+  const mediaUnboundContain = document.querySelectorAll('.media-unbound.media-contain');
+  setTimeout(() => {
+    mediaUnbound?.forEach((block) => {
+      if (block) applyMediaHeight(block, true);
+    });
+    mediaUnboundContain?.forEach((block) => {
+      if (block) applyMediaHeight(block, false);
+    });
+  }, 0);
+}
+
 // Call applyMediaHeight for all elements with the media-unbound class on initial load
-window.addEventListener('resize', () => {
-  const mediaUnboundBlocks = document.querySelectorAll('.media-unbound');
-  mediaUnboundBlocks.forEach((block) => { applyMediaHeight(block); });
+window.addEventListener('resize', initializeMediaHeights);
+
+// Initialize media heights immediately
+requestAnimationFrame(() => {
+  initializeMediaHeights();
 });
 
 // Check for columns with CTA icons
@@ -116,7 +157,7 @@ export default function decorate(block) {
   });
   // flex basis
   decorateFlexRows(block);
-  if (block.classList.contains('media-unbound')) applyMediaHeight(block);
   if (block.classList.contains('calculation')) decorateColumnsCalculation(block);
   if ([...block.classList].some((cls) => cls.startsWith('stats-'))) applyStatsClasses(block);
+  if (block.classList.contains('media-unbound')) applyMediaHeightAfterScaling(block);
 }

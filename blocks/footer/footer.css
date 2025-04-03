@@ -126,10 +126,6 @@ footer .accordion.sitemap details summary .accordion-item-minus {
     .footer .default-content-wrapper ul li {
         width: auto;
     }
-
-    .footer .default-content-wrapper .footer-images-container {
-        gap: 3rem;
-    }
 }
 
 @media (width >=992px) {

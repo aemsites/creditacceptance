@@ -39,7 +39,7 @@ main > .section-outer > .section.image-text-overlay-container {
     }
 
     .image-text-overlay .card:not(:first-child) {
-        margin-inline-start: 1.5rem;
+        margin-inline: 1.5rem;
     }
 
     .image-text-overlay.media-hidden-mobile .image {

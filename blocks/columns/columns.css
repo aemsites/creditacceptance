@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 0 1.5rem;
+
+  --unbound-width: calc(100% + ((100vw - var(--container-width)) / 2));
 }
 
 .columns.columns-2-cols > div { gap: 0 3rem; }
@@ -30,7 +32,8 @@
   order: 0;
 }
 
-.columns.vertical-center .copy {
+.columns.vertical-center .copy,
+.columns.vertical-center .media-copy {
   align-content: center;
 }
 
@@ -311,7 +314,7 @@
 
 
 .columns .copy:has(.icon-elm) {
-    p, h2, h3, h4, h5, h6 {
+    p, h2.icon-elm, h3.icon-elm, h4, h5, h6 {
         padding-inline-start: 40px;
         position: relative;
         
@@ -330,7 +333,7 @@
 }
 
 .columns.big-icons .copy:has(.icon-elm) {
-    p, h2, h3, h4, h5, h6 {
+    p, h2.icon-elm, h3.icon-elm, h4, h5, h6 {
         padding-inline-start: unset;
         
         .icon {
@@ -350,6 +353,10 @@
     .columns.media-hidden-mobile .media-count-1 {
         display: none;
     }
+
+    .columns.button-center-mobile .button-container{
+      justify-content: center;
+    }
   
     .columns .media { margin-bottom: 1.5rem; }
   
@@ -358,10 +365,14 @@
         margin-inline-start: 80px;
     }
 
-    .columns.big-icons .copy .icon-elm  span.icon{
-        position: absolute;
-        left: 0;
-        top: 0;
+    .columns.big-icons .copy:has(.icon-elm) {
+      p, h2.icon-elm, h3.icon-elm, h4, h5, h6 {
+            span.icon {
+              position: absolute;
+              left: 0;
+              top: 0;
+          }
+        } 
     }
 }
 
@@ -404,7 +415,7 @@
 
     picture {
       position: absolute;
-      width: 50vw;
+      width: var(--unbound-width);
       height: 100%;
       overflow: visible;
     }
@@ -425,6 +436,21 @@
   .columns.media-unbound .media-left img {
     object-position: bottom right;
     border-radius: 0 8px;
+  }
+
+  .columns.media-unbound.media-contain {
+    img {
+        object-fit: contain;
+        object-position: top left;
+    }
+
+    .media-left img {
+        object-position: top right;
+    }
+    
+    .media-count-1  picture {
+        height: auto;
+    }
   }
 
   .columns.stats > div {

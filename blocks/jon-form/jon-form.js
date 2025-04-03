@@ -49,6 +49,8 @@ export default async function decorate(block) {
   formComponent.addEventListener('successData', (e) => {
     if (e?.detail) {
       localStorage.setItem('jon-representative', JSON.stringify(e.detail));
+      const form = block.querySelector('form');
+      if (form) form.reset();
       window.location.href = '/dealers/join-our-network/confirmation-thank-you';
     }
   });

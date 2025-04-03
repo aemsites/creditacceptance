@@ -79,7 +79,12 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     // Once the user clicks, add the real iframe and drop our play button
     // TODO: In the future we could be like amp-youtube and silently swap in the iframe during idle time
     //   We'd want to only do this for in-viewport or near-viewport ones: https://github.com/ampproject/amphtml/pull/5003
-    this.addEventListener('click', this.addIframe);
+    this.addEventListener('pointerdown', this.addIframe);
+  }
+
+  isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   }
 
   addIframe() {
@@ -97,16 +102,27 @@ class LiteVimeo extends (globalThis.HTMLElement ?? class {}) {
     iframeEl.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
     // AFAIK, the encoding here isn't necessary for XSS, but we'll do it only because this is a URL
     // https://stackoverflow.com/q/64959723/89484
+    let vimeoUrl;
     if (this.videoId.includes('?')) {
       const [videoId, queryString] = this.videoId.split('?');
-      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1`;
+      vimeoUrl = `https://player.vimeo.com/video/${encodeURIComponent(videoId)}?${queryString}&autoplay=1&playsinline=1`;
     } else {
-      iframeEl.src = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1`;
+      vimeoUrl = `https://player.vimeo.com/video/${encodeURIComponent(this.videoId)}?autoplay=1&playsinline=1`;
     }
+    // If iOS, add the muted attribute to the iframe
+    if (this.isIOS()) {
+      vimeoUrl += '&muted=1';
+      iframeEl.setAttribute('muted', '1');
+    }
+    iframeEl.src = vimeoUrl;
     this.append(iframeEl);
-
-    // Set focus for a11y
-    iframeEl.addEventListener('load', iframeEl.focus, { once: true });
+    const player = new Vimeo.Player(iframeEl);
+    player.on('loaded', () => {
+      player.play().catch(error => {
+        console.error('Playback error: ', error.name);
+      });
+      iframeEl.focus();
+    });
   }
 }
 

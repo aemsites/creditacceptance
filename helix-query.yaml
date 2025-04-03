@@ -20,6 +20,7 @@ indices:
       - '**/test/**'
       - /tools/**'
       - /nav
+      - /nav-logo-only
       - /footer
     target: /index/query-index.json
     properties:
@@ -43,6 +44,9 @@ indices:
         value: attribute(el, "content")
       category:
         select: head > meta[name="category"]
+        value: attribute(el, "content")
+      robots:
+        select: head > meta[name="robots"]
         value: attribute(el, "content")
   consumer-blogs:
     include:

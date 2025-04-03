@@ -56,7 +56,7 @@ export function decorateButtons(el) {
     }
   });
   // remove wrapping tags and add button-container class to parent p
-  el.querySelectorAll('p > strong, p > em').forEach((btn) => {
+  el.querySelectorAll('p > strong, p > em, div > strong, div > em').forEach((btn) => {
     if (!btn.querySelector('a')) return;
     const parentP = btn.parentElement;
     btn.querySelectorAll('a').forEach((a) => parentP.appendChild(a));
@@ -237,6 +237,7 @@ export function initSlider(block, slides, container = null) {
   });
   const { blockName } = block.dataset;
   const outerSection = block.closest(`.${blockName}-wrapper`);
+  if (!outerSection) return;
   outerSection.classList.add('slider-wrapper');
   outerSection.append(pagination);
   updateActiveSlide(slides, pagination);

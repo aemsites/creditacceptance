@@ -21,7 +21,6 @@
      margin: 0;
      padding: 0;
      display: grid;
-     grid-template-columns: repeat(auto-fit, minmax(257px, 1fr));
      gap: var(--gap-lg);
  }
 
@@ -136,7 +135,7 @@
     .cards.slider-mobile .slider-container {
         display: flex;
         gap: 0;
-        padding: 0 1rem 6rem;
+        padding: 2rem 1rem 6rem;
     }
 
     .cards.slider-mobile .slider-container li:not(:first-child) .card-wrapper {
@@ -146,6 +145,10 @@
 
  /* Ups Variant */
 @media (width >=992px) {
+    .cards>ul {
+        grid-template-columns: repeat(auto-fit, minmax(257px, 1fr));
+    }
+
     .cards.two-up > ul{
         grid-template-columns: repeat(2, minmax(257px, 1fr));
     }
@@ -291,9 +294,9 @@
  }
 
  .cards.resources>ul>li {
-     width: 100%;
      display: flex;
      flex-direction: column;
+     width: 100%;
  }
 
  .cards.resources>ul>li .card-wrapper {
@@ -481,7 +484,7 @@
 @media screen and (width <= 959px) {
     main > .section-outer > .section.cards-container:has(.slider-wrapper) {
         max-width: 100%;
-        padding: 0;
+        padding: 1.5rem 0;
         margin: 0;
     }
 }
