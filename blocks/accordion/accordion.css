@@ -12,14 +12,11 @@
     background-color: var(--very-light-gray);
 }
 
-.accordion details+details {
-    margin-top: 24px;
-}
-
 .accordion.arrow details{
     border: none;
     border-bottom: 1px solid #0003;
     background: none;
+    padding: 10px 0;
 }
 
 .accordion details p {
