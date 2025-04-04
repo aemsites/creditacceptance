@@ -19,7 +19,6 @@
 .accordion.arrow details{
     border: none;
     border-bottom: 1px solid #0003;
-    margin-block: 20px;
     background: none;
 }
 
