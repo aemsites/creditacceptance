@@ -18,9 +18,11 @@
 
 .accordion.arrow details{
     border: none;
+    border-radius: 0;
     border-bottom: 1px solid #0003;
-    margin-block: 20px;
     background: none;
+    padding: 10px 0;
+    margin-top: 0;
 }
 
 .accordion details p {
