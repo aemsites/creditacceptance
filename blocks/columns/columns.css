@@ -352,7 +352,7 @@
 @media screen and (width < 960px) {
     .section.columns-container:has(.columns.media-unbound),
     .section.columns-container:has(.columns.steps) {
-          .text.block, .default-content-wrapper{
+          .text.block {
             h1, h2 {
               margin: 0 auto;
               padding: 1.5rem 1rem;
