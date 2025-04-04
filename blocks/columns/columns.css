@@ -350,6 +350,14 @@
 
 /* mobile-tablet only */
 @media screen and (width < 960px) {
+    .section.columns-container:has(.columns.media-unbound),
+    .section.columns-container:has(.columns.steps) {
+        h1, h2 {
+          margin: 0 auto;
+          padding: 1.5rem 1rem;
+        }
+    }
+
     .columns.media-hidden-mobile .media-count-1 {
         display: none;
     }
