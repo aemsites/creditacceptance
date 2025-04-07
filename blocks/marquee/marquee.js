@@ -106,27 +106,13 @@ function decoratePictures(el) {
     const img = picture.querySelector('img');
     if (!img) return;
     const isMobilePic = picture.closest('div').classList.contains('mobile-only');
-
-    // Define breakpoints with explicit dimensions
-    const breakpoints = isMobilePic
-      ? [
-        { media: '(min-width: 600px)', width: '600', height: '338' }, // 16:9 ratio
-        { width: '450', height: '253' }, // 16:9 ratio
-      ]
-      : [
-        { media: '(min-width: 600px)', width: '2000', height: '1125' }, // 16:9 ratio
-        { width: '750', height: '422' }, // 16:9 ratio
-      ];
-
-    // Create optimized picture with eager loading
+    const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
     const optimizedPicture = createOptimizedPicture(img.src, img.alt, true, breakpoints);
-
     // Add fetchpriority hint for the largest image
     const largeImage = optimizedPicture.querySelector('img');
     if (largeImage) {
       largeImage.fetchPriority = 'high';
     }
-
     picture.replaceWith(optimizedPicture);
   });
 }
