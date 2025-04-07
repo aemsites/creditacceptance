@@ -61,15 +61,12 @@ function applyMediaHeightAfterScaling(block) {
 
 function initializeMediaHeights() {
   const mediaUnbound = document.querySelectorAll('.media-unbound');
-  const mediaUnboundContain = document.querySelectorAll('.media-unbound.media-contain');
   setTimeout(() => {
     mediaUnbound?.forEach((block) => {
-      if (block) applyMediaHeight(block, true);
+      const isMediaContain = block.classList.contains('media-contain');
+      if (block) applyMediaHeight(block, !isMediaContain);
     });
-    mediaUnboundContain?.forEach((block) => {
-      if (block) applyMediaHeight(block, false);
-    });
-  }, 0);
+  }, 100);
 }
 
 // Call applyMediaHeight for all elements with the media-unbound class on initial load
