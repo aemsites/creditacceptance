@@ -66,7 +66,7 @@ function initializeMediaHeights() {
       const isMediaContain = block.classList.contains('media-contain');
       if (block) applyMediaHeight(block, !isMediaContain);
     });
-  }, 100);
+  }, 0);
 }
 
 // Call applyMediaHeight for all elements with the media-unbound class on initial load
