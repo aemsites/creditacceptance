@@ -35,7 +35,6 @@ export async function loadFragment(path) {
 
       decorateMain(main);
       await loadSections(main);
-      debugger;
       return main;
     }
   }
