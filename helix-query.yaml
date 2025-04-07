@@ -21,6 +21,7 @@ indices:
       - /tools/**'
       - /nav
       - /nav-logo-only
+      - /footer-without-accordion
       - /footer
     target: /index/query-index.json
     properties:
