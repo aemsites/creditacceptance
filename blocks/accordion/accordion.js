@@ -51,6 +51,10 @@ function rearrangeSectionContents(section) {
         nextElement = nextElement.nextElementSibling;
       }
       child.previousElementSibling?.append(...contents);
+
+      if (child.children.length === 0) {
+        child.remove();
+      }
     }
   });
 }
