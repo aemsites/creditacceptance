@@ -16,67 +16,6 @@ function decorateFlexRows(block) {
   });
 }
 
-function getMediaHeightValue(el, fromAttribute = false) {
-  if (fromAttribute) {
-    const match = [...el.classList].find((cls) => cls.startsWith('media-height-'))?.match(/^media-height-(\d+)$/);
-    return match ? parseInt(match[1], 10) : null;
-  }
-  const media = el.querySelector('.media-count-1 img');
-  return media?.height || null;
-}
-
-function applyMediaHeight(block, fromAttribute = false) {
-  const heightValue = getMediaHeightValue(block, fromAttribute);
-  const media = block.querySelector('.media');
-  if (!media) return;
-  const isDesktop = window.matchMedia('(min-width: 960px)').matches;
-  if (heightValue && isDesktop) {
-    media.style.setProperty('height', `${heightValue}px`);
-  } else {
-    media.style.removeProperty('height');
-  }
-}
-
-function applyMediaHeightAfterScaling(block) {
-  const media = block.querySelector('.media-count-1 img');
-  const mediaContainer = block.querySelector('.media');
-
-  if (!media || !mediaContainer) return;
-
-  const observer = new ResizeObserver(() => {
-    observer.disconnect();
-    setTimeout(() => {
-      applyMediaHeight(block, false);
-    }, 0);
-  });
-
-  if (media.complete) {
-    observer.observe(mediaContainer);
-  } else {
-    media.onload = () => {
-      observer.observe(mediaContainer);
-    };
-  }
-}
-
-function initializeMediaHeights() {
-  const mediaUnbound = document.querySelectorAll('.media-unbound');
-  setTimeout(() => {
-    mediaUnbound?.forEach((block) => {
-      const isMediaContain = block.classList.contains('media-contain');
-      if (block) applyMediaHeight(block, !isMediaContain);
-    });
-  }, 0);
-}
-
-// Call applyMediaHeight for all elements with the media-unbound class on initial load
-window.addEventListener('resize', initializeMediaHeights);
-
-// Initialize media heights immediately
-requestAnimationFrame(() => {
-  initializeMediaHeights();
-});
-
 // Check for columns with CTA icons
 function isIconsCol(col) {
   let parent;
@@ -127,6 +66,64 @@ function applyStatsClasses(block) {
   block.classList.add('stats');
 }
 
+function getMediaHeightValue(el, fromAttribute = false) {
+  if (fromAttribute) {
+    const match = [...el.classList].find((cls) => cls.startsWith('media-height-'))?.match(/^media-height-(\d+)$/);
+    return match ? parseInt(match[1], 10) : null;
+  }
+  const mediaImg = el.querySelector('.media-count-1 img');
+  return mediaImg?.height || null;
+}
+
+function setMediaHeight(mediaContainer, height) {
+  if (height !== null && window.matchMedia('(min-width: 960px)').matches) {
+    mediaContainer.style.setProperty('height', `${height}px`);
+  } else {
+    mediaContainer.style.removeProperty('height');
+  }
+}
+
+function handleMediaBlock(block) {
+  const mediaImg = block.querySelector('.media-count-1 img');
+  const mediaContainer = block.querySelector('.media');
+  const isMediaContain = block.classList.contains('media-contain');
+  const useAttributeHeight = !isMediaContain; // Only use attribute height if NOT media-contain
+
+  if (!mediaImg || !mediaContainer) return;
+
+  const initialHeight = getMediaHeightValue(block, useAttributeHeight);
+  setMediaHeight(mediaContainer, initialHeight);
+
+  const observer = new ResizeObserver(() => {
+    observer.disconnect();
+    const resizedHeight = getMediaHeightValue(block); // Get natural image height after resize
+    setMediaHeight(mediaContainer, resizedHeight);
+  });
+
+  if (mediaImg.complete) {
+    observer.observe(mediaContainer);
+  } else {
+    mediaImg.onload = () => {
+      observer.observe(mediaContainer);
+    };
+  }
+}
+
+function initializeMediaHeights() {
+  const mediaUnbound = document.querySelectorAll('.media-unbound');
+  mediaUnbound.forEach(handleMediaBlock);
+}
+
+// Initialize media heights after the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(initializeMediaHeights);
+});
+
+// Apply height again on resize (consider debouncing/throttling for performance)
+window.addEventListener('resize', () => {
+  requestAnimationFrame(initializeMediaHeights); // Re-apply on resize
+});
+
 export default function decorate(block) {
   const rows = [...block.children];
   // setup media columns
@@ -156,5 +153,5 @@ export default function decorate(block) {
   decorateFlexRows(block);
   if (block.classList.contains('calculation')) decorateColumnsCalculation(block);
   if ([...block.classList].some((cls) => cls.startsWith('stats-'))) applyStatsClasses(block);
-  if (block.classList.contains('media-unbound')) applyMediaHeightAfterScaling(block);
+  if (block.classList.contains('media-unbound')) handleMediaBlock(block);
 }
