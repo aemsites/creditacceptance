@@ -481,7 +481,6 @@ async function loadEager(doc) {
       await loadSection(main.querySelector('.section'), waitForSectionImages);
     }
   }
-  loadHeader(doc.querySelector('header'));
   if (window.location.hostname !== 'localhost') {
     loadAdobeLaunch();
   }
@@ -501,6 +500,7 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
+  loadHeader(doc.querySelector('header'));
   autolinkModals(doc);
   const main = doc.querySelector('main');
   await loadSections(main);
