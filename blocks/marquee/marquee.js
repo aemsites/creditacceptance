@@ -108,10 +108,6 @@ function decoratePictures(el) {
     const isMobilePic = picture.closest('div').classList.contains('mobile-only');
     const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
     const optimizedPicture = createOptimizedPicture(img.src, img.alt, true, breakpoints);
-    const largeImage = optimizedPicture.querySelector('img');
-    if (largeImage) {
-      largeImage.fetchPriority = 'high';
-    }
     picture.replaceWith(optimizedPicture);
   });
 }
