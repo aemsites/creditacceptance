@@ -468,7 +468,6 @@ function loadAdobeLaunch() {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  loadHeader(doc.querySelector('header'));
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   const templateModule = await loadTemplate();
@@ -501,6 +500,7 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
+  loadHeader(doc.querySelector('header'));
   autolinkModals(doc);
   const main = doc.querySelector('main');
   await loadSections(main);
