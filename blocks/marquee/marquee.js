@@ -102,12 +102,42 @@ function initAnimatedMarquee(block) {
 
 function decoratePictures(el) {
   const pictures = el.querySelectorAll('picture');
+  const screenWidth = window.innerWidth;
+
   pictures.forEach((picture) => {
     const img = picture.querySelector('img');
     if (!img) return;
+
+    // Determine if this is a mobile, tablet, or desktop image
     const isMobilePic = picture.closest('div').classList.contains('mobile-only');
-    const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
+    const isTabletPic = picture.closest('div').classList.contains('tablet-only');
+    const isDesktopPic = picture.closest('div').classList.contains('desktop-only');
+
+    // Set appropriate breakpoints based on image type
+    let breakpoints;
+    if (isMobilePic) {
+      breakpoints = [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }];
+    } else if (isTabletPic) {
+      breakpoints = [{ media: '(min-width: 960px)', width: '960' }, { width: '576' }];
+    } else if (isDesktopPic) {
+      breakpoints = [{ media: '(min-width: 960px)', width: '2000' }, { width: '960' }];
+    } else {
+      // Default breakpoints for non-specific images
+      breakpoints = [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
+    }
+
     const optimizedPicture = createOptimizedPicture(img.src, img.alt, true, breakpoints);
+
+    // Set loading attribute based on screen width and image type
+    const optimizedImg = optimizedPicture.querySelector('img');
+    if (optimizedImg) {
+      const shouldLoadEagerly = (isMobilePic && screenWidth < 576)
+        || (isTabletPic && screenWidth >= 576 && screenWidth < 960)
+        || (isDesktopPic && screenWidth >= 960);
+
+      optimizedImg.setAttribute('loading', shouldLoadEagerly ? 'eager' : 'lazy');
+    }
+
     picture.replaceWith(optimizedPicture);
   });
 }
@@ -117,8 +147,8 @@ export default function decorate(block) {
   const foreground = children[children.length - 1];
   const background = children.length > 1 ? children[0] : null;
   if (background) {
-    decoratePictures(background);
     decorateBlockBg(block, background, { useHandleFocalpoint: true });
+    decoratePictures(background);
   }
   foreground.classList.add('foreground', 'container');
   decorateIntro(foreground);
