@@ -113,7 +113,18 @@ function decoratePictures(el) {
     const isTabletPic = picture.closest('div').classList.contains('tablet-only');
     const isDesktopPic = picture.closest('div').classList.contains('desktop-only');
 
-    const breakpoints = isMobilePic ? [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }] : [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
+    // Set appropriate breakpoints based on image type
+    let breakpoints;
+    if (isMobilePic) {
+      breakpoints = [{ media: '(min-width: 600px)', width: '600' }, { width: '450' }];
+    } else if (isTabletPic) {
+      breakpoints = [{ media: '(min-width: 960px)', width: '960' }, { width: '576' }];
+    } else if (isDesktopPic) {
+      breakpoints = [{ media: '(min-width: 960px)', width: '2000' }, { width: '960' }];
+    } else {
+      // Default breakpoints for non-specific images
+      breakpoints = [{ media: '(min-width: 600px)', width: '2000' }, { width: '750' }];
+    }
 
     const optimizedPicture = createOptimizedPicture(img.src, img.alt, true, breakpoints);
 
