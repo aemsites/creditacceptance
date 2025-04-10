@@ -421,7 +421,7 @@ button.secondary:hover {
 }
 
 /* Buttons Container */
-.center .button-container {
+.center .button-container, .button-center .button-container {
   justify-content: center;
 }
 
@@ -764,4 +764,16 @@ header {
 
 @media screen and (width >= 1400px) {
     :root { --container-width: 1320px; }
+}
+
+@media screen and (width < 960px) {
+  .button-center-mobile .button-container{
+    justify-content: center;
+  }
+}
+
+@media screen and (width >= 960px) {
+  .button-center-desktop .button-container{
+    justify-content: center;
+  }
 }
