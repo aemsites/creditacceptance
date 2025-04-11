@@ -42,6 +42,7 @@
     border: 1px solid var(--btn-primary-bg);
     background-color: var(--btn-primary-bg);
     padding: 8px 24px;
+    color: var(--pure-black);
 }
 
 @media (width >= 992px) {
