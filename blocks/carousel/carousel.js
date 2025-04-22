@@ -186,10 +186,10 @@ export default async function decorate(block) {
     observeElementSize(block, () => {
       step = slides[0].getBoundingClientRect().width;
       slidesWrapper.style.left = `${-block.dataset.activeSlide * step}px`;
-      const slideImage = slides[0].querySelector('.carousel-slide-image');
+      const slideContent = slides[0].querySelector('.carousel-slide-image');
       const buttons = block.querySelector('.carousel-navigation-buttons');
       const buttonHeight = buttons.getBoundingClientRect().height / 2;
-      buttons.style.top = `${(slideImage.getBoundingClientRect().height / 2) - buttonHeight}px`;
+      buttons.style.top = `${(slideContent.getBoundingClientRect().height / 2) - buttonHeight}px`;
     });
   }
 }
