@@ -105,11 +105,26 @@
   transition: background-color 0.2s;
 }
 
+.carousel .carousel-navigation-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+  height: 100%;
+  pointer-events: none;
+}
+
 .carousel .carousel-navigation-buttons button {
   width: 30px;
   height: 34px;
   border: none;
   background: none;
+  pointer-events: auto;
 }
 
 .carousel .carousel-navigation-buttons button:disabled {
@@ -120,16 +135,6 @@
 .carousel .carousel-slide-indicator button:hover,
 .carousel .carousel-slide-indicator button:focus-visible {
   background-color: #000;
-}
-
-.carousel .carousel-navigation-buttons {
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 1;
 }
 
 .carousel[data-slides-per-view="2"] .carousel-slide {
