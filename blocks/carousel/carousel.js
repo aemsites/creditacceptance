@@ -93,8 +93,8 @@ function createSlide(row, slideIndex, cId) {
   slide.dataset.slideIndex = slideIndex;
   slide.setAttribute('id', `carousel-${cId}-slide-${slideIndex}`);
   slide.classList.add('carousel-slide');
-  row.querySelectorAll(':scope > div').forEach((column, colIdx) => {
-    column.classList.add(`carousel-slide-${colIdx === 0 ? 'image' : 'content'}`);
+  row.querySelectorAll(':scope > div').forEach((column) => {
+    column.classList.add(`carousel-slide-${column.querySelector('picture') ? 'image' : 'content'}`);
     slide.append(column);
   });
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
@@ -186,7 +186,8 @@ export default async function decorate(block) {
     observeElementSize(block, () => {
       step = slides[0].getBoundingClientRect().width;
       slidesWrapper.style.left = `${-block.dataset.activeSlide * step}px`;
-      const slideContent = slides[0].querySelector('.carousel-slide-image');
+      const slideContent = slides[0].querySelector('.carousel-slide-image') ? slides[0].querySelector('.carousel-slide-image').querySelector('picture') : slides[0].querySelector('.carousel-slide-content');
+      if (!slideContent) return;
       const buttons = block.querySelector('.carousel-navigation-buttons');
       const buttonHeight = buttons.getBoundingClientRect().height / 2;
       buttons.style.top = `${(slideContent.getBoundingClientRect().height / 2) - buttonHeight}px`;
